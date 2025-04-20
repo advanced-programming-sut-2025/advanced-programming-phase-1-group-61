@@ -14,7 +14,18 @@ public class App {
 
     public void saveApp(){
         Gson gson = new Gson();
+    }
 
+    public static void setLoggedInUser(User user){
+        loggedInUser = user;
+    }
+
+    public static User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public static List<User> getAllUsers() {
+        return allUsers;
     }
 
     public static void setCurrentMenu(Menu menu) {
