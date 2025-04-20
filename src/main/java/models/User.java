@@ -10,6 +10,7 @@ public class User {
     private String password;
     private Gender gender;
     private ArrayList<Game> allGames=new ArrayList<>();
+    private ArrayList<Question> allQuestions=new ArrayList<>();
     public User(String username, String email, String password, String gender) {
         this.username = username;
         this.email = email;
@@ -25,4 +26,20 @@ public class User {
         }
         return null;
     }
+    public void addQuestion(Question question) {
+        allQuestions.add(question);
+    }
+    public String getUsername() {
+        return username;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public String getPassword() {
+        return password;
+    }
+    public Gender getGender() {
+        return gender;
+    }
+
 }

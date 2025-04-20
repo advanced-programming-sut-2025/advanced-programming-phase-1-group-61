@@ -3,10 +3,10 @@ package models.enums;
 public enum Gender {
     Male, Female;
     public static Gender getGender(String gender) {
-        return switch (gender){
-            case "Male" -> Male;
-            case "Female" -> Female;
-            default -> null;
-        };
+        switch (gender.toLowerCase()){
+            case "male": return Male;
+            case "female": return Female;
+            default: return null;
+        }
     }
 }

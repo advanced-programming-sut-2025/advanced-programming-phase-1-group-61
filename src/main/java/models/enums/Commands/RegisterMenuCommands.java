@@ -4,8 +4,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum RegisterMenuCommands {
-    Register("^register -u (?<username>.*) -p (?<password>.*) (?<password_confirm>.*) -n (?<nickname>.*) -e" +
-            " (?<email>.* -g (?<gender>.*)$");
+    Register("^register -u (?<username>.*) -p (?<password>.*) (?<passwordConfirm>.*) -n (?<nickname>.*) -e" +
+            " (?<email>.*) -g (?<gender>.*)$"),
+    pickQuestion("^pick question\\s+-q\\s+(?<questionNumber>\\d*)\\s+" +
+            "-a\\s+(?<answer>.*) -c\\s+(?<answerConfirm>.*)$");
     private String regex;
     RegisterMenuCommands(String regex) {
         this.regex = regex;
@@ -20,23 +22,15 @@ public enum RegisterMenuCommands {
         return pattern.matcher(username).matches();
     }
     public static boolean checkEmail(String email) {
-        String regex="^[a-zA-Z0-9]+([a-zA-Z0-9]*[.-_]+[a-zA-Z0-9])*@[a-zA-Z0-9][a-zA-Z0-9-.]*$";
+        String regex= "^[a-zA-Z\\d\\.](?:[A-Za-z\\d]*\\.)?[A-Za-z\\d]*@[a-z]+\\.com";
         Pattern pattern = Pattern.compile(regex);
-        if(!pattern.matcher(email).matches()) return false;
-        String username=email.split("@")[0];
-        for(int i=0;i<email.length();i++){
-            if(i!=email.length()-1 && email.charAt(i)=='.' && email.charAt(i+1)=='.') return false;
+        Matcher matcher = pattern.matcher(email);
+        if(!matcher.matches()) return false;
+        int count=0;
+        for(char c:email.toCharArray()){
+            if(c=='.') count++;
         }
-        String domain=email.split("@")[1];
-        int dotCount=0;
-        for(char c:username.toCharArray()){
-            if(c=='.') dotCount++;
-        }
-        if(dotCount==0) return false;
-        String[] parts=domain.split("\\.");
-        String related=parts[parts.length-1];
-        if(related.length()<2) return false;
-        return true;
+        return count <= 2;
     }
     public static boolean checkPasswordSmallLetter(String password) {
         for(char c:password.toCharArray()){
