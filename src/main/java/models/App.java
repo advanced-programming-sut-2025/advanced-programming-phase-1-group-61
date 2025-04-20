@@ -1,0 +1,30 @@
+package models;
+
+import com.google.gson.Gson;
+import models.enums.Menu;
+import java.util.ArrayList;
+import java.util.List;
+
+public class App {
+
+    private static User loggedInUser;
+    private static Menu currentMenu = Menu.MAIN_MENU;
+    private static  List<User> allUsers = new ArrayList<>();
+    private ArrayList<Game> allGames = new ArrayList<>();
+
+    public void saveApp(){
+        Gson gson = new Gson();
+
+    }
+
+    public static void setCurrentMenu(Menu menu) {
+        currentMenu = menu;
+    }
+    public static void addUserToList(User user){
+        allUsers.add(user);
+    }
+    public static Menu getCurrentMenu() {
+        return currentMenu;
+    }
+
+}
