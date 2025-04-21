@@ -2,6 +2,7 @@ package views;
 
 import controllers.RegisterMenuController;
 import models.App;
+import models.Result;
 import models.enums.Commands.RegisterMenuCommands;
 import models.enums.Menu;
 
@@ -11,23 +12,23 @@ import java.util.regex.Matcher;
 public class RegisterMenu implements AppMenu{
     @Override
     public void check(Scanner scanner) {
-        while(true){
-            String input=scanner.nextLine();
-            if(input.equals("back")) break;
-            Matcher Register= RegisterMenuCommands.getMatcher(input,RegisterMenuCommands.Register);
-            if(Register.matches()){
-                if(!RegisterMenuController.register(Register)){
-                    String password=Register.group("password");
-                    String confirmPassword=Register.group("password_confirm");
-                    while(!password.equals(confirmPassword)){
-                        System.out.println("confirm password is incorrect! please reEnter it!");
-                        confirmPassword=scanner.nextLine();
-                    }
-                }
-            }
-            else{
-                System.out.println("Invalid input");
-            }
+
+        String input=scanner.nextLine().trim();
+
+        Matcher Register= RegisterMenuCommands.Register.getMatcher(input);
+        Matcher goToLogInMenu = RegisterMenuCommands.GO_TO_LOGIN_MENU.getMatcher(input);
+        Matcher showCurrentMenu = RegisterMenuCommands.SHOW_CURRENT_MENU.getMatcher(input);
+
+        if(Register != null){
+            Result result = RegisterMenuController.register(Register);
+            System.out.println(result.message());
+        } else if (input != null) {
+            App.setCurrentMenu(Menu.LOGIN_MENU);
+        } else if (showCurrentMenu != null) {
+            System.out.println("you are in register menu");
+        } else{
+            System.out.println("Invalid input");
         }
+
     }
 }

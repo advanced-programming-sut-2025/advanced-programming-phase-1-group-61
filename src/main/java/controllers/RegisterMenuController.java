@@ -1,50 +1,48 @@
 package controllers;
 
+import models.App;
+import models.Result;
 import models.User;
 import models.enums.Commands.RegisterMenuCommands;
 
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RegisterMenuController {
-    public static boolean register(Matcher register){
+    public static Result register(Matcher register){
         String username=register.group("username");
         String password=register.group("password");
-        String confirmPassword=register.group("password_confirm");
+        String confirmPassword=register.group("passwordConfirm");
         String nickname=register.group("nickname");
         String email=register.group("email");
         String gender=register.group("gender");
         User user=User.getUserByUsername(username);
         if(user!=null){
-            System.out.println("Username already exists");
+            return new Result(false , "Username already exists");
         }
-        if(!RegisterMenuCommands.checkUsername(username)){
-            System.out.println("username format is invalid!");
-            return false;
+        if(username.length() > 8){
+            return new Result(false , "username format is invalid!");
         }
-        if(!RegisterMenuCommands.checkEmail(email)){
-            System.out.println("email format is invalid!");
-            return false;
+        if(!Pattern.matches(RegisterMenuCommands.EMAIL_PATTERN.getPattern(), email)){
+            return new Result(false , "email format is invalid!");
         }
         if(password.length()<8){
-            System.out.println("password is too short!");
-            return false;
+            return new Result(false , "password is too short!");
         }
-        if(RegisterMenuCommands.checkPasswordSmallLetter(password)){
-            System.out.println("password does not contain small letter!");
-            return false;
+
+        if(!Pattern.matches(RegisterMenuCommands.PASSWORD_PATTERN.getPattern(), password)){
+            return new Result(false , "password has invalid format");
         }
-        if(RegisterMenuCommands.checkPasswordCapitalLetter(password)){
-            System.out.println("password does not contain capital letter!");
-            return false;
+
+        if(!password.equals(confirmPassword)){
+            return new Result(false , "repeated password is wrong");
         }
-        if(RegisterMenuCommands.checkPasswordNumber(password)){
-            System.out.println("password does not contain number!");
-            return false;
+
+        if(!gender.equals("male") && !gender.equals("female")){
+            return new Result(false , "you cant choose "+gender+" as your gender!\n(male\\female)");
         }
-        if(RegisterMenuCommands.checkPasswordUniqueLetter(password)){
-            System.out.println("password does not contain unique letter!");
-            return false;
-        }
-        return true;
+
+        App.addUserToList(new User(username , email , password ,gender));
+        return new Result(true , username+" successfully registered!");
     }
 }
