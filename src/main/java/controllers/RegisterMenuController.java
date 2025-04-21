@@ -4,6 +4,7 @@ import models.App;
 import models.Result;
 import models.User;
 import models.enums.Commands.RegisterMenuCommands;
+import models.enums.Gender;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,7 +39,9 @@ public class RegisterMenuController {
             return new Result(false , "repeated password is wrong");
         }
 
-        if(!gender.equals("male") && !gender.equals("female")){
+        Gender gender1 = Gender.getGender(gender);
+
+        if(gender1==null){
             return new Result(false , "you cant choose "+gender+" as your gender!\n(male\\female)");
         }
 
