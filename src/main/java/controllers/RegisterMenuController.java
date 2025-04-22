@@ -22,6 +22,9 @@ public class RegisterMenuController {
             return new Result(false , "Username already exists");
         }
         if(username.length() > 8){
+            return new Result(false , "username too long");
+        }
+        if(!Pattern.matches(RegisterMenuCommands.USERNAME_PATTERN.getPattern(),username)){
             return new Result(false , "username format is invalid!");
         }
         if(!Pattern.matches(RegisterMenuCommands.EMAIL_PATTERN.getPattern(), email)){
@@ -45,7 +48,7 @@ public class RegisterMenuController {
             return new Result(false , "you cant choose "+gender+" as your gender!\n(male\\female)");
         }
 
-        App.addUserToList(new User(username , email , password ,gender));
+        App.addUserToList(new User(username , email , password ,gender,nickname));
         return new Result(true , username+" successfully registered!");
     }
 }

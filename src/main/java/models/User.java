@@ -9,9 +9,11 @@ public class User {
     private String email;
     private String password;
     private Gender gender;
+    private String nickName;
     private ArrayList<Game> allGames=new ArrayList<>();
     private ArrayList<Question> allQuestions=new ArrayList<>();
-    public User(String username, String email, String password, String gender) {
+    public User(String username, String email, String password, String gender,String nickName) {
+        this.nickName = nickName;
         this.username = username;
         this.email = email;
         this.password = password;
