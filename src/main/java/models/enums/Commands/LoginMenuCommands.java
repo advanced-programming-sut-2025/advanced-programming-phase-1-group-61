@@ -4,13 +4,26 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum LoginMenuCommands {
-    Login("^login -u (?<username>.*) -p (?<password>.*)( --stay-logged-in)?$");
-    private String regex;
-    LoginMenuCommands(String regex) {
-        this.regex = regex;
+    LOGIN("^login\\s+-u\\s+(?<username>.*)\\s+-p\\s+(?<password>.*)( -stay-logged-in)?$"),
+    GO_BACK("^menu\\s+enter\\s+registermenu$");
+
+
+
+    private String pattern;
+    LoginMenuCommands(String pattern) {
+        this.pattern = pattern;
     }
-    public static Matcher getMatcher(String input,LoginMenuCommands command) {
-        Pattern pattern = Pattern.compile(command.regex);
-        return pattern.matcher(input);
+
+    public String getPattern() {
+        return pattern;
+    }
+
+    public Matcher getMatcher(String input) {
+        Matcher matcher = Pattern.compile(this.pattern).matcher(input);
+        return matcher.matches() ? matcher : null;
+    }
+
+    public String extractGroup(Matcher matcher, String groupName) {
+        return (matcher != null && matcher.group(groupName) != null) ? matcher.group(groupName) : null;
     }
 }

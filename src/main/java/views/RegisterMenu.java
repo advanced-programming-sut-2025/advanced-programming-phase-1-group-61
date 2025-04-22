@@ -16,13 +16,13 @@ public class RegisterMenu implements AppMenu{
         String input=scanner.nextLine().trim();
 
         Matcher Register= RegisterMenuCommands.Register.getMatcher(input);
-        Matcher goToLogInMenu = RegisterMenuCommands.GO_TO_LOGIN_MENU.getMatcher(input);
+        Matcher goToLogInMenu = RegisterMenuCommands.GO_TO_LOGIN_MENU.getMatcher(input.toLowerCase());
         Matcher showCurrentMenu = RegisterMenuCommands.SHOW_CURRENT_MENU.getMatcher(input);
 
         if(Register != null){
             Result result = RegisterMenuController.register(Register);
             System.out.println(result.message());
-        } else if (input != null) {
+        } else if (goToLogInMenu != null) {
             App.setCurrentMenu(Menu.LOGIN_MENU);
         } else if (showCurrentMenu != null) {
             System.out.println("you are in register menu");
