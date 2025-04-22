@@ -8,7 +8,7 @@ import java.util.List;
 public class App {
 
     private static User loggedInUser;
-    private static Menu currentMenu = Menu.MAIN_MENU;
+    private static Menu currentMenu = Menu.REGISTER_MENU;
     private static  List<User> allUsers = new ArrayList<>();
     private ArrayList<Game> allGames = new ArrayList<>();
 
