@@ -5,11 +5,11 @@ import java.util.regex.Pattern;
 
 public enum RegisterMenuCommands {
     PASSWORD_PATTERN("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{6,12}$"),
-    USERNAME_PATTERN("^[a-zA-Z][a-zA-Z\\-]*$"),
+    USERNAME_PATTERN("^[a-zA-Z][a-zA-Z\\-?><,\"';:\\/|][}{+=\\)\\(*&^%$#!]*$"),
     EMAIL_PATTERN("^[A-Za-z\\d\\.](?:[A-Za-z\\d]*\\.)?[A-Za-z\\d]*@[a-z]+\\.com$"),
     Register("^register\\s+-u\\s+(?<username>.*)\\s+-p\\s+(?<password>.*)\\s+(?<passwordConfirm>.*)\\s+-n\\s+(?<nickname>.*)\\s+-e\\s+" +
-            "(?<email>.*) -g (?<gender>.*)$"),
-    GO_TO_LOGIN_MENU("^menu\\s+enter\\s+$"),
+            "(?<email>.*)\\s+-g\\s+(?<gender>.*)$"),
+    GO_TO_LOGIN_MENU("^menu\\s+enter\\s+loginmenu$"),
     SHOW_CURRENT_MENU("^show\\s+current\\s+menu$");
 
 

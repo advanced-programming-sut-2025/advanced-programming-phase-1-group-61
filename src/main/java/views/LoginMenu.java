@@ -1,22 +1,30 @@
 package views;
 
+import controllers.LoginMenuController;
+import models.Result;
 import models.enums.Commands.LoginMenuCommands;
+import models.enums.Commands.RegisterMenuCommands;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class LoginMenu implements AppMenu{
+    LoginMenuController controller = new LoginMenuController();
+
     @Override
     public void check(Scanner scanner) {
-        while(true){
-            String input = scanner.nextLine();
-            Matcher login= LoginMenuCommands.getMatcher(input,LoginMenuCommands.Login);
-            if(login.matches()){
 
-            }
-            else {
+            String input = scanner.nextLine();
+            Matcher login= LoginMenuCommands.LOGIN.getMatcher(input);
+            Matcher showCurrentMenu = RegisterMenuCommands.SHOW_CURRENT_MENU.getMatcher(input);
+            if(login != null){
+                Result result = controller.login(login);
+                System.out.println(result.message());
+            } else if (showCurrentMenu != null) {
+                System.out.println("you are in login menu");
+            } else {
                 System.out.println("invalid input");
             }
-        }
+
     }
 }
