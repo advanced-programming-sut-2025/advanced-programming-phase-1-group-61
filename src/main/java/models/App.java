@@ -2,6 +2,9 @@ package models;
 
 import com.google.gson.Gson;
 import models.enums.Menu;
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,8 +15,13 @@ public class App {
     private static  List<User> allUsers = new ArrayList<>();
     private ArrayList<Game> allGames = new ArrayList<>();
 
-    public void saveApp(){
+    public static void saveApp() throws IOException {
         Gson gson = new Gson();
+        FileWriter fileWriter = new FileWriter("users.json");
+
+            gson.toJson(allUsers , fileWriter);
+
+        fileWriter.close();
     }
 
     public static void setLoggedInUser(User user){

@@ -6,6 +6,7 @@ import models.Result;
 import models.enums.Commands.RegisterMenuCommands;
 import models.enums.Menu;
 
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -18,6 +19,7 @@ public class RegisterMenu implements AppMenu{
         Matcher Register= RegisterMenuCommands.Register.getMatcher(input);
         Matcher goToLogInMenu = RegisterMenuCommands.GO_TO_LOGIN_MENU.getMatcher(input.toLowerCase());
         Matcher showCurrentMenu = RegisterMenuCommands.SHOW_CURRENT_MENU.getMatcher(input);
+        Matcher leaveGame = RegisterMenuCommands.LEAVE_GAME.getMatcher(input);
 
         if(Register != null){
             Result result = RegisterMenuController.register(Register);
@@ -26,6 +28,13 @@ public class RegisterMenu implements AppMenu{
             App.setCurrentMenu(Menu.LOGIN_MENU);
         } else if (showCurrentMenu != null) {
             System.out.println("you are in register menu");
+        } else if (leaveGame != null) {
+           try {
+               App.saveApp();
+           } catch (IOException e) {
+               System.out.println("ridi");
+           }
+            App.setCurrentMenu(Menu.EXIT_MENU);
         } else{
             System.out.println("Invalid input");
         }
