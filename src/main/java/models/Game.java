@@ -11,7 +11,7 @@ public class Game {
     private int id;
     private Map map;
     private List<Character> allCharacters;
-    Thread gameThread ;
+    private transient Thread gameThread ;
     private final int FPS = 60;
     private Date date;
     public Game(Map map, List<Character> characters){
