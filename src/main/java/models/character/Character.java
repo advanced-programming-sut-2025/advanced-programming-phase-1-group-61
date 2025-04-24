@@ -9,7 +9,7 @@ import models.tool.Tool;
 import java.util.ArrayList;
 
 public class Character {
-    private User user;
+    private int userId;
     private Inventory inventory;
     private int energy;
     private int x;
@@ -18,8 +18,8 @@ public class Character {
     private Tool currentTool;
     private ArrayList<Animal> animals=new ArrayList<>();
     private ArrayList<Recipe> recipes=new ArrayList<>();
-    public Character(User user){
-        this.user=user;
+    public Character(int userId){
+        this.userId=userId;
         currentTool=null;
     }
     public void setTool(Tool newTool){

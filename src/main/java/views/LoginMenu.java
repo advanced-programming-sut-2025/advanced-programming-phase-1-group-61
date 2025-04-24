@@ -1,9 +1,11 @@
 package views;
 
 import controllers.LoginMenuController;
+import models.App;
 import models.Result;
 import models.enums.Commands.LoginMenuCommands;
 import models.enums.Commands.RegisterMenuCommands;
+import models.enums.Menu;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -20,6 +22,9 @@ public class LoginMenu implements AppMenu{
             if(login != null){
                 Result result = controller.login(login);
                 System.out.println(result.message());
+                if(result.isSuccessful()){
+                    App.setCurrentMenu(Menu.MAIN_MENU);
+                }
             } else if (showCurrentMenu != null) {
                 System.out.println("you are in login menu");
             } else {

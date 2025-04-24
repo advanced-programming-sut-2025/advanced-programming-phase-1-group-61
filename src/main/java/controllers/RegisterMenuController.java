@@ -2,10 +2,12 @@ package controllers;
 
 import models.App;
 import models.Result;
+import models.SHA256;
 import models.User;
 import models.enums.Commands.RegisterMenuCommands;
 import models.enums.Gender;
 
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,7 +50,15 @@ public class RegisterMenuController {
             return new Result(false , "you cant choose "+gender+" as your gender!\n(male\\female)");
         }
 
-        App.addUserToList(new User(username , email , password ,gender,nickname));
+        App.addUserToList(new User(username , email , SHA256.toSHA256(password) ,gender,nickname));
         return new Result(true , username+" successfully registered!");
+    }
+    public static Result exitGame(){
+        try {
+            App.saveApp();
+        } catch (IOException e) {
+            return new Result(false , "failed to save App :)");
+        }
+        return new Result(true , "App saved successfully(hopefully)");
     }
 }

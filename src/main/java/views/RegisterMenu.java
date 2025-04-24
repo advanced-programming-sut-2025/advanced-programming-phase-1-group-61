@@ -29,11 +29,8 @@ public class RegisterMenu implements AppMenu{
         } else if (showCurrentMenu != null) {
             System.out.println("you are in register menu");
         } else if (leaveGame != null) {
-           try {
-               App.saveApp();
-           } catch (IOException e) {
-               System.out.println("ridi");
-           }
+           Result result = RegisterMenuController.exitGame();
+            System.out.println(result.message());
             App.setCurrentMenu(Menu.EXIT_MENU);
         } else{
             System.out.println("Invalid input");

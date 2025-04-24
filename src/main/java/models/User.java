@@ -5,12 +5,13 @@ import models.enums.Gender;
 import java.util.ArrayList;
 
 public class User {
+    private static int numberOfUsers = 0;
     private String username;
+    private int id;
     private String email;
     private String password;
     private Gender gender;
     private String nickName;
-    private ArrayList<Game> allGames=new ArrayList<>();
     private ArrayList<Question> allQuestions=new ArrayList<>();
     public User(String username, String email, String password, String gender,String nickName) {
         this.nickName = nickName;
@@ -18,7 +19,9 @@ public class User {
         this.email = email;
         this.password = password;
         this.gender = Gender.getGender(gender);
-        App.addUserToList(this);
+        numberOfUsers++;
+        this.id = numberOfUsers;
+
     }
     public static User getUserByUsername(String username) {
         for(User user:App.getAllUsers()){
@@ -43,5 +46,7 @@ public class User {
     public Gender getGender() {
         return gender;
     }
-
+    public String getNickName() {
+        return nickName;
+    }
 }
