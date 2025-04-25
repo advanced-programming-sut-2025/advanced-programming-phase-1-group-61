@@ -13,7 +13,7 @@ public enum NpcInfo {
 
 
     private List<String> dialogues ;
-   private List<Request> quests ;
+    private List<Request> quests ;
 
     NpcInfo(List<String> dialogues , List<Request> quests) {
         this.dialogues = dialogues;

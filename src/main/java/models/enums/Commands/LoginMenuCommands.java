@@ -7,8 +7,6 @@ public enum LoginMenuCommands {
     LOGIN("^login\\s+-u\\s+(?<username>.*)\\s+-p\\s+(?<password>.+?)(?<stayLoggedIn> -stay-logged-in)?$"),
     GO_BACK("^menu\\s+enter\\s+registermenu$");
 
-
-
     private String pattern;
     LoginMenuCommands(String pattern) {
         this.pattern = pattern;

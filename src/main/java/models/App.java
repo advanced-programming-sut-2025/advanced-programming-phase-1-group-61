@@ -23,10 +23,7 @@ public class App {
     public static void saveApp() throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         FileWriter fileWriter = new FileWriter("users.json");
-
-
-            gson.toJson(allUsers , fileWriter);
-
+        gson.toJson(allUsers , fileWriter);
         fileWriter.close();
         FileWriter fileWriter1 = new FileWriter("games.json");
         gson.toJson(allGames , fileWriter1);
