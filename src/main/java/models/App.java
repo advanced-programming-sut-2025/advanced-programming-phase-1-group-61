@@ -16,6 +16,7 @@ import java.util.List;
 public class App {
 
     private static User loggedInUser;
+    private static User registeredUser;
     private static Menu currentMenu = Menu.REGISTER_MENU;
     private static  List<User> allUsers = new ArrayList<>();
     private static ArrayList<Game> allGames = new ArrayList<>();
@@ -89,6 +90,13 @@ public class App {
 
     public static User getLoggedInUser() {
         return loggedInUser;
+    }
+
+    public static void setRegisteredUser(User user){
+        registeredUser = user;
+    }
+    public static User getRegisteredUser() {
+        return registeredUser;
     }
 
     public static List<User> getAllUsers() {

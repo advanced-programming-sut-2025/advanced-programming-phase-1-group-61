@@ -4,8 +4,10 @@ import models.App;
 import models.Result;
 import models.SHA256;
 import models.User;
+import models.character.Question;
 import models.enums.Commands.RegisterMenuCommands;
 import models.enums.Gender;
+import models.enums.SecurityQuestion;
 
 import java.io.IOException;
 import java.security.SecureRandom;
@@ -62,9 +64,11 @@ public class RegisterMenuController {
         if(gender1==null){
             return new Result(false , "you cant choose "+gender+" as your gender!\n(male\\female)");
         }
-
-        App.addUserToList(new User(username , email , SHA256.toSHA256(password) ,gender,nickname));
-        return new Result(true , username+" successfully registered!");
+        User newUser=new User(username , email , SHA256.toSHA256(password) ,gender,nickname);
+        App.addUserToList(newUser);
+        App.setRegisteredUser(newUser);
+        String securityQuestions=SecurityQuestion.getQuestions();
+        return new Result(true , username+" successfully registered!"+securityQuestions);
     }
     public static Result registerWithRandomPassword(Matcher register){
         String username=register.group("username").trim();
@@ -85,8 +89,29 @@ public class RegisterMenuController {
         if(!Pattern.matches(RegisterMenuCommands.EMAIL_PATTERN.getPattern(), email)){
             return new Result(false , "email format is invalid!");
         }
-        App.addUserToList(new User(username , email , SHA256.toSHA256(password) ,gender,nickname));
-        return new Result(true , "your password is: "+password+"!\n successfully registered!");
+        User newUser=new User(username , email , SHA256.toSHA256(password) ,gender,nickname);
+        App.addUserToList(newUser);
+        App.setRegisteredUser(newUser);
+        String securityQuestions=SecurityQuestion.getQuestions();
+        return new Result(true , "your password is: "+password+"!\n successfully registered!"+securityQuestions);
+    }
+    public static Result pickQuestion(Matcher matcher,User user){
+        String answer=matcher.group("answer").trim();
+        String answerConfirm=matcher.group("answerConfirm").trim();
+        int questionNumber;
+        try{
+            questionNumber=Integer.parseInt(matcher.group("questionNumber").trim());
+        }catch (Exception e){
+            return new Result(false , "please enter a valid number");
+        }
+        if(!answerConfirm.equals(answer))
+            return new Result(false , "answers do not match");
+        try{
+            user.setQuestion(new Question(SecurityQuestion.getSecurityQuestion(questionNumber),answer));
+        }catch (Exception e){
+            return new Result(false,"the question you picked does not exist!");
+        }
+        return new Result(true,"");
     }
     public static Result exitGame(){
         try {

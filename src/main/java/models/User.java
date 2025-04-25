@@ -1,5 +1,6 @@
 package models;
 
+import models.character.Question;
 import models.enums.Gender;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class User {
     private String password;
     private Gender gender;
     private String nickName;
-    private ArrayList<Question> allQuestions=new ArrayList<>();
+    private Question question;
     public User(String username, String email, String password, String gender,String nickName) {
         this.nickName = nickName;
         this.username = username;
@@ -21,7 +22,12 @@ public class User {
         this.gender = Gender.getGender(gender);
         numberOfUsers++;
         this.id = numberOfUsers;
-
+    }
+    public void setQuestion(Question question) {
+        this.question=question;
+    }
+    public Question getQuestion() {
+        return question;
     }
     public static User getUserByUsername(String username) {
         for(User user:App.getAllUsers()){
@@ -30,9 +36,6 @@ public class User {
             }
         }
         return null;
-    }
-    public void addQuestion(Question question) {
-        allQuestions.add(question);
     }
     public String getUsername() {
         return username;
@@ -49,4 +52,5 @@ public class User {
     public String getNickName() {
         return nickName;
     }
+
 }
