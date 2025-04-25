@@ -8,17 +8,19 @@ import models.enums.Commands.RegisterMenuCommands;
 import models.enums.Gender;
 
 import java.io.IOException;
+import java.security.SecureRandom;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegisterMenuController {
     public static Result register(Matcher register){
-        String username=register.group("username");
-        String password=register.group("password");
-        String confirmPassword=register.group("passwordConfirm");
-        String nickname=register.group("nickname");
-        String email=register.group("email");
-        String gender=register.group("gender");
+        String username=register.group("username").trim();
+        String password=register.group("password").trim();
+        String confirmPassword=register.group("passwordConfirm").trim();
+        String nickname=register.group("nickname").trim();
+        String email=register.group("email").trim();
+        String gender=register.group("gender").trim();
         User user=User.getUserByUsername(username);
         if(user!=null){
             return new Result(false , "Username already exists");
@@ -35,7 +37,18 @@ public class RegisterMenuController {
         if(password.length()<8){
             return new Result(false , "password is too short!");
         }
-
+        if(!checkPasswordLowerCaseLetter(password)){
+            return new Result(false , "password does not contain lowercase letters!");
+        }
+        if(!checkPasswordUpperCaseLetter(password)){
+            return new Result(false , "password does not contain uppercase letters!");
+        }
+        if(!checkPasswordDigit(password)){
+            return new Result(false , "password does not contain any numbers!");
+        }
+        if(!checkPasswordUniqueLetters(password)){
+            return new Result(false , "password does not contain unique letters!");
+        }
         if(!Pattern.matches(RegisterMenuCommands.PASSWORD_PATTERN.getPattern(), password)){
             return new Result(false , "password has invalid format");
         }
@@ -53,6 +66,28 @@ public class RegisterMenuController {
         App.addUserToList(new User(username , email , SHA256.toSHA256(password) ,gender,nickname));
         return new Result(true , username+" successfully registered!");
     }
+    public static Result registerWithRandomPassword(Matcher register){
+        String username=register.group("username").trim();
+        String password=generatePassword();
+        String nickname=register.group("nickname").trim();
+        String email=register.group("email").trim();
+        String gender=register.group("gender").trim();
+        User user=User.getUserByUsername(username);
+        if(user!=null) {
+            return new Result(false, "Username already exists");
+        }
+        if(username.length() > 8){
+            return new Result(false , "username too long");
+        }
+        if(!Pattern.matches(RegisterMenuCommands.USERNAME_PATTERN.getPattern(),username)){
+            return new Result(false , "username format is invalid!");
+        }
+        if(!Pattern.matches(RegisterMenuCommands.EMAIL_PATTERN.getPattern(), email)){
+            return new Result(false , "email format is invalid!");
+        }
+        App.addUserToList(new User(username , email , SHA256.toSHA256(password) ,gender,nickname));
+        return new Result(true , "your password is: "+password+"!\n successfully registered!");
+    }
     public static Result exitGame(){
         try {
             App.saveApp();
@@ -60,5 +95,33 @@ public class RegisterMenuController {
             return new Result(false , "failed to save App :)");
         }
         return new Result(true , "App saved successfully(hopefully)");
+    }
+    public static boolean checkPasswordLowerCaseLetter(String password){
+        return password.matches("^.*[a-z].*$");
+    }
+    public static boolean checkPasswordUpperCaseLetter(String password){
+        return password.matches("^.*[A-Z].*$");
+    }
+    public static boolean checkPasswordDigit(String password){
+        return password.matches("^.*[0-9].*$");
+    }
+    public static boolean checkPasswordUniqueLetters(String password){
+        return password.matches("^.*[()!@#$%^&*?<>\\[\\]/+=}{].*$");
+    }
+    public static String generatePassword(){
+        final String UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        final String LOWER = "abcdefghijklmnopqrstuvwxyz";
+        final String DIGITS = "0123456789";
+        final String SPECIAL = "!@#$%^&*()-_=+[]{}|;:,.<>?";
+        String all=UPPER+LOWER+DIGITS+SPECIAL;
+        Random rand = new Random();
+        int length=rand.nextInt(5)+8;
+        SecureRandom random=new SecureRandom();
+        StringBuilder password=new StringBuilder(length);
+        for(int i=0;i<length;i++){
+            int index=random.nextInt(all.length());
+            password.append(all.charAt(index));
+        }
+        return password.toString();
     }
 }
