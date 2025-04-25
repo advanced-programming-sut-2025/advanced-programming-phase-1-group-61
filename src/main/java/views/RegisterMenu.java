@@ -19,9 +19,14 @@ public class RegisterMenu implements AppMenu{
             Matcher goToLogInMenu = RegisterMenuCommands.GO_TO_LOGIN_MENU.getMatcher(input.toLowerCase());
             Matcher showCurrentMenu = RegisterMenuCommands.SHOW_CURRENT_MENU.getMatcher(input);
             Matcher leaveGame = RegisterMenuCommands.LEAVE_GAME.getMatcher(input);
+            Matcher RegisterWithRandomPassword=RegisterMenuCommands.RegisterWithRandomPass.getMatcher(input);
 
             if (Register != null) {
                 Result result = RegisterMenuController.register(Register);
+                System.out.println(result.message());
+            }
+            else if(RegisterWithRandomPassword!=null){
+                Result result = RegisterMenuController.registerWithRandomPassword(RegisterWithRandomPassword);
                 System.out.println(result.message());
             } else if (goToLogInMenu != null) {
                 System.out.println("Redirecting to LoginMenu...");

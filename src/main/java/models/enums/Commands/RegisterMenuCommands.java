@@ -9,6 +9,7 @@ public enum RegisterMenuCommands {
     EMAIL_PATTERN("^[A-Za-z\\d\\.](?:[A-Za-z\\d]*\\.)?[A-Za-z\\d]*@[a-z]+\\.com$"),
     Register("^register\\s+-u\\s+(?<username>.*)\\s+-p\\s+(?<password>.*)\\s+(?<passwordConfirm>.*)\\s+-n\\s+(?<nickname>.*)\\s+-e\\s+" +
             "(?<email>.*)\\s+-g\\s+(?<gender>.*)$"),
+    RegisterWithRandomPass("^register\\s+-u\\s+(?<username>.*) -rp\\s+-n (?<nickname>.*) -e (?<email>.*) -g (?<gender>.*)$"),
     GO_TO_LOGIN_MENU("^menu\\s+enter\\s+loginmenu$"),
     SHOW_CURRENT_MENU("^show\\s+current\\s+menu$"),
     LEAVE_GAME("^exit$");
