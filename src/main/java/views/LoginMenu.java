@@ -15,7 +15,6 @@ public class LoginMenu implements AppMenu{
 
     @Override
     public void check(Scanner scanner) {
-
             String input = scanner.nextLine();
             Matcher login= LoginMenuCommands.LOGIN.getMatcher(input);
             Matcher showCurrentMenu = RegisterMenuCommands.SHOW_CURRENT_MENU.getMatcher(input);
