@@ -20,7 +20,7 @@ public class RegisterMenu implements AppMenu{
             Matcher showCurrentMenu = RegisterMenuCommands.SHOW_CURRENT_MENU.getMatcher(input);
             Matcher leaveGame = RegisterMenuCommands.LEAVE_GAME.getMatcher(input);
             Matcher RegisterWithRandomPassword=RegisterMenuCommands.RegisterWithRandomPass.getMatcher(input);
-
+            Matcher pickQuestion=RegisterMenuCommands.PICK_QUESTION.getMatcher(input);
             if (Register != null) {
                 Result result = RegisterMenuController.register(Register);
                 System.out.println(result.message());
@@ -28,7 +28,12 @@ public class RegisterMenu implements AppMenu{
             else if(RegisterWithRandomPassword!=null){
                 Result result = RegisterMenuController.registerWithRandomPassword(RegisterWithRandomPassword);
                 System.out.println(result.message());
-            } else if (goToLogInMenu != null) {
+            }
+            else if(pickQuestion!=null){
+                Result result=RegisterMenuController.pickQuestion(pickQuestion,App.getRegisteredUser());
+                System.out.println(result.message());
+            }
+            else if (goToLogInMenu != null) {
                 System.out.println("Redirecting to LoginMenu...");
                 App.setCurrentMenu(Menu.LOGIN_MENU);
             } else if (showCurrentMenu != null) {
@@ -40,6 +45,5 @@ public class RegisterMenu implements AppMenu{
             } else {
                 System.out.println("Invalid input");
             }
-
     }
 }
