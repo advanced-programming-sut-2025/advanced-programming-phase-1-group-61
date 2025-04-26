@@ -12,6 +12,7 @@ public class User {
     private String password;
     private Gender gender;
     private String nickName;
+    private int gamesPlayed=0;
     private ArrayList<Question> allQuestions=new ArrayList<>();
     public User(String username, String email, String password, String gender,String nickName) {
         this.nickName = nickName;
@@ -19,8 +20,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.gender = Gender.getGender(gender);
-        numberOfUsers++;
-        this.id = numberOfUsers;
+        this.id = ++numberOfUsers;
 
     }
     public static User getUserByUsername(String username) {
@@ -48,5 +48,23 @@ public class User {
     }
     public String getNickName() {
         return nickName;
+    }
+    public int getGamesPlayed() {
+        return gamesPlayed;
+    }
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+    public void updateGamesPlayed() {
+        gamesPlayed++;
     }
 }
