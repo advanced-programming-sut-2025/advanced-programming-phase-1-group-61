@@ -8,12 +8,18 @@ public class Tile {
     private int y;
     private TileType type;
     private Resource resource;
+    private boolean collisionOn;
 
     public Tile(int x, int y, TileType type, Resource resource) {
         this.x = x;
         this.y = y;
         this.type = type;
         this.resource = resource;
+        this.collisionOn = type.isCollisionOn();
+    }
+
+    public boolean isCollisionOn() {
+        return collisionOn;
     }
 
     public TileType getType() {
