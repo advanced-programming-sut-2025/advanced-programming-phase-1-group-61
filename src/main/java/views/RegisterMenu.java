@@ -30,7 +30,8 @@ public class RegisterMenu implements AppMenu{
                 System.out.println(result.message());
             }
             else if(pickQuestion!=null){
-
+                Result result=RegisterMenuController.pickQuestion(pickQuestion,App.getRegisteredUser());
+                System.out.println(result.message());
             }
             else if (goToLogInMenu != null) {
                 System.out.println("Redirecting to LoginMenu...");
@@ -44,6 +45,5 @@ public class RegisterMenu implements AppMenu{
             } else {
                 System.out.println("Invalid input");
             }
-
     }
 }
