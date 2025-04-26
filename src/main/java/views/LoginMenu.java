@@ -18,6 +18,8 @@ public class LoginMenu implements AppMenu{
             String input = scanner.nextLine();
             Matcher login= LoginMenuCommands.LOGIN.getMatcher(input);
             Matcher showCurrentMenu = RegisterMenuCommands.SHOW_CURRENT_MENU.getMatcher(input);
+            Matcher goToRegisterMenu = LoginMenuCommands.GO_BACK.getMatcher(input);
+
             if(login != null){
                 Result result = controller.login(login);
                 System.out.println(result.message());
@@ -26,6 +28,9 @@ public class LoginMenu implements AppMenu{
                 }
             } else if (showCurrentMenu != null) {
                 System.out.println("you are in login menu");
+            } else if (goToRegisterMenu != null) {
+                App.setCurrentMenu(Menu.REGISTER_MENU);
+                System.out.println("you are now in register menu");
             } else {
                 System.out.println("invalid input");
             }
