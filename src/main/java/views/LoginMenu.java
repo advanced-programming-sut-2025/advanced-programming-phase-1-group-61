@@ -30,6 +30,7 @@ public class LoginMenu implements AppMenu{
                 System.out.println("you are in login menu");
             } else if (goToRegisterMenu != null) {
                 App.setCurrentMenu(Menu.REGISTER_MENU);
+                System.out.println("you are now in register menu");
             } else {
                 System.out.println("invalid input");
             }
