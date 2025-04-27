@@ -10,16 +10,19 @@ import java.util.regex.Matcher;
 public class GameMenu implements AppMenu{
     @Override
     public void check(Scanner scanner) {
-       String input = scanner.nextLine();
+        String input = scanner.nextLine();
         Matcher start = GameMenuCommands.START_GAME.getMatcher(input);
         Matcher showCurrentMenu = RegisterMenuCommands.SHOW_CURRENT_MENU.getMatcher(input);
-
+        Matcher equipTool=GameMenuCommands.EQUIP_TOOL.getMatcher(input);
 
         if(start!= null){
             StringBuilder city = MapBuilder.buildFullMap(1,2,1,2);
             System.out.println(city);
         } else if (showCurrentMenu != null) {
             System.out.println("you are in game");
+        }
+        else if (equipTool != null) {
+
         } else {
             System.out.println("invalid command");
         }
