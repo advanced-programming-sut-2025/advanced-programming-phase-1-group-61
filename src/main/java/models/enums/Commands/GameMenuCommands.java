@@ -8,7 +8,9 @@ public enum GameMenuCommands {
     CHOOSE_MAP("^game\\s+map\\s+(?<number>\\d+)$"),
     EQUIP_TOOL("^tools\\s+equip (?<name>.*)$"),
     SHOW_CURRENT_TOOL("^tools\\s+show\\s+current$"),
-    TOOLS_SHOW_AVAILABLE("^tools\\s+show\\s+available$"),;
+    TOOLS_SHOW_AVAILABLE("^tools\\s+show\\s+available$"),
+    TOOLS_UPGRADE("^tools\\s+upgrade (?<name>.*)$"),
+    TOOLS_USE("^tools\\s+use\\s+-d (?<direction>.*)$");
 
     private String pattern;
     GameMenuCommands(String pattern) {

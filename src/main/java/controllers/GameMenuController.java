@@ -33,4 +33,14 @@ public class GameMenuController {
         Backpack backpack=character.getBackpack();
         return new Result(true,"you have ("+backpack.getAllTools()+") in your backpack!");
     }
+    public static Result upgradeTool(Matcher matcher, Character character) {
+        String name=matcher.group("name").trim();
+        Tool tool=Tool.fromString(name);
+        if(tool==null){
+            return new Result(false,"Invalid tool!");
+        }
+        //other errors will be implemented later
+        character.upgradeTool(tool);
+        return new Result(true,name+" has been upgraded!");
+    }
 }

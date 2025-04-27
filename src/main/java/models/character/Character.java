@@ -33,6 +33,9 @@ public class Character {
     public Backpack getBackpack() {
         return backpack;
     }
+    public void upgradeTool(Tool desiredTool){
+
+    }
     public void faint(){
         //TODO
 
