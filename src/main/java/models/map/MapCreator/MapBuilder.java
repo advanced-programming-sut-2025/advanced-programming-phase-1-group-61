@@ -32,15 +32,16 @@ public class MapBuilder {
 
 
         buildCity(fullMap , fullWidth,fullHeight);
-
-        Tile[][] tiles = new Tile[fullHeight][fullWidth];
+        Tile[][] tiles = new Tile[fullHeight+1][fullWidth+1];
         int i =0, j =0;
         for (String[] strings : fullMap) {
             for (String string : strings) {
+                System.out.println(string);
                 tiles[j][i] = new Tile(i, j, TileType.getTypeByNumber(Integer.parseInt(string.trim())), null);
-                j++;
+                i++;
             }
-            i++;
+            i=0;
+            j++;
         }
 
 
