@@ -4,13 +4,22 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum MainMenuCommands {
-    ChangeMenu("menu enter (?<menu>.*)");
-    private String regex;
-    MainMenuCommands(String regex) {
-        this.regex = regex;
+    ChangeMenu("^menu\\s+enter\\s+(?<menu>\\S+)$"),
+    LOG_OUT("^logout$");
+    private String pattern;
+    MainMenuCommands(String pattern) {
+        this.pattern = pattern;
     }
-    public static Matcher getMatcher(String input,MainMenuCommands command) {
-        Pattern pattern = Pattern.compile(command.regex);
-        return pattern.matcher(input);
+    public String getPattern() {
+        return pattern;
+    }
+
+    public Matcher getMatcher(String input) {
+        Matcher matcher = Pattern.compile(this.pattern).matcher(input);
+        return matcher.matches() ? matcher : null;
+    }
+
+    public String extractGroup(Matcher matcher, String groupName) {
+        return (matcher != null && matcher.group(groupName) != null) ? matcher.group(groupName) : null;
     }
 }

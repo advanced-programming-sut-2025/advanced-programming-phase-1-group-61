@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 public class LoginMenuController {
     public Result login(Matcher login){
         String username=login.group("username");
-        String password=login.group("password");
+        String password=login.group("password").trim();
         String stayLoggedIn = login.group("stayLoggedIn");
         User user=User.getUserByUsername(username);
         if(user==null){
