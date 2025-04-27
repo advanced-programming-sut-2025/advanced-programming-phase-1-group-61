@@ -2,6 +2,7 @@ package views;
 
 import models.enums.Commands.GameMenuCommands;
 import models.enums.Commands.RegisterMenuCommands;
+import models.map.Map;
 import models.map.MapCreator.MapBuilder;
 
 import java.util.Scanner;
@@ -36,11 +37,8 @@ public class GameMenu implements AppMenu{
                 }
             }while (i<4);
 
-
-
-
-            StringBuilder city = MapBuilder.buildFullMap(mapNumber[0], mapNumber[1],mapNumber[2],mapNumber[3]);
-            System.out.println(city);
+            Map map = MapBuilder.buildFullMap(mapNumber[0], mapNumber[1],mapNumber[2],mapNumber[3]);
+            System.out.println("map created successfully.");
         } else if (showCurrentMenu != null) {
             System.out.println("you are in game");
         } else {

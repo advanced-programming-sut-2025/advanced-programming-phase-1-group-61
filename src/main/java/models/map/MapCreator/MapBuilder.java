@@ -1,5 +1,12 @@
 package models.map.MapCreator;
 
+import models.Game;
+import models.enums.TileType;
+import models.enums.WeatherState;
+import models.map.Map;
+import models.map.Tile;
+import models.map.Weather;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -10,7 +17,7 @@ public class MapBuilder {
     private static int cityWidth = 7;
     private static int cityHeight = 7;
 
-    public static StringBuilder buildFullMap(int player1Farm , int player2Farm , int player3Farm , int player4Farm) {
+    public static Map buildFullMap(int player1Farm , int player2Farm , int player3Farm , int player4Farm) {
 
         int fullWidth = FARM_WIDTH * 2 + cityWidth;
         int fullHeight = FARM_HEIGHT * 2 + cityHeight;
@@ -26,15 +33,18 @@ public class MapBuilder {
 
         buildCity(fullMap , fullWidth,fullHeight);
 
-        StringBuilder mapText = new StringBuilder();
-        for (String[] row : fullMap) {
-            for (String cell : row) {
-                mapText.append(cell).append(" ");
+        Tile[][] tiles = new Tile[fullHeight][fullWidth];
+        int i =0, j =0;
+        for (String[] strings : fullMap) {
+            for (String string : strings) {
+                tiles[j][i] = new Tile(i, j, TileType.getTypeByNumber(Integer.parseInt(string.trim())), null);
+                j++;
             }
-            mapText.append("\n");
+            i++;
         }
 
-        return mapText;
+
+        return new Map(tiles , new Weather(WeatherState.Sunny));
     }
 
     private static void placeFarm(String[][] fullMap, String[][] farm, int offsetY, int offsetX) {
