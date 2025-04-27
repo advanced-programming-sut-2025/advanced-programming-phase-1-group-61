@@ -31,7 +31,7 @@ public class App {
         fileWriter1.close();
     }
     public static void loadApp() {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         File userFile = new File("users.json");
         File gameFile = new File("games.json");
         File loggedInUser = new File("loggedInUser.json");
