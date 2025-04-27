@@ -20,6 +20,20 @@ public class App {
     private static Menu currentMenu = Menu.REGISTER_MENU;
     private static  List<User> allUsers = new ArrayList<>();
     private static ArrayList<Game> allGames = new ArrayList<>();
+    private static int currentGameId;
+
+
+    public static Game getCurrentGame(){
+        for (Game game : allGames) {
+            if(game.getId() == currentGameId){
+                return game;
+            }
+        }
+        return null;
+    }
+    public static void setCurrentGame(int id ){
+        currentGameId = id;
+    }
 
     public static void saveApp() throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -87,22 +101,18 @@ public class App {
     public static void setLoggedInUser(User user){
         loggedInUser = user;
     }
-
     public static User getLoggedInUser() {
         return loggedInUser;
     }
-
     public static void setRegisteredUser(User user){
         registeredUser = user;
     }
     public static User getRegisteredUser() {
         return registeredUser;
     }
-
     public static List<User> getAllUsers() {
         return allUsers;
     }
-
     public static void setCurrentMenu(Menu menu) {
         currentMenu = menu;
     }

@@ -22,7 +22,6 @@ public class Game {
     }
 
 
-
     public void startGameThread(){
         gameThread = new Thread(String.valueOf(id));
         gameThread.start();
@@ -56,5 +55,9 @@ public class Game {
     }
     private void update(){
 
+    }
+
+    public int getId() {
+        return id;
     }
 }
