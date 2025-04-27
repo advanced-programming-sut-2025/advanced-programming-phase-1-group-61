@@ -10,7 +10,6 @@ public enum GameMenuCommands {
 
 
 
-
     private String pattern;
     GameMenuCommands(String pattern) {
         this.pattern = pattern;
