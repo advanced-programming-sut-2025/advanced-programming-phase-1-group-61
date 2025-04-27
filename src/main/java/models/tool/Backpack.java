@@ -19,4 +19,12 @@ public class Backpack{
         }
         return false;
     }
+    public String getAllTools(){
+        StringBuilder builder=new StringBuilder();
+        for(int i=0;i<tools.size();i++){
+            if(i!=tools.size()-1) builder.append(tools.get(i).getType().toString()).append(", ");
+            else builder.append(tools.get(i).getType().toString());
+        }
+        return builder.toString();
+    }
 }

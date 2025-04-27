@@ -27,8 +27,14 @@ public class Character {
     public void setTool(Tool newTool){
         currentTool=newTool;
     }
+    public Tool getCurrentTool(){
+        return currentTool;
+    }
     public Backpack getBackpack() {
         return backpack;
+    }
+    public void upgradeTool(Tool desiredTool){
+
     }
     public void faint(){
         //TODO
