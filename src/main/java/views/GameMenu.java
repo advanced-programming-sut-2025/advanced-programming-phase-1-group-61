@@ -1,10 +1,14 @@
 package views;
 
+import models.Game;
+import models.character.Character;
 import models.enums.Commands.GameMenuCommands;
 import models.enums.Commands.RegisterMenuCommands;
 import models.map.Map;
 import models.map.MapCreator.MapBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
