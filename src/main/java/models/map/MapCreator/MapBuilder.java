@@ -96,7 +96,7 @@ public class MapBuilder {
         File lowerCity ;
         Scanner lowerCityScanner;
         try {
-         lowerCity = new File("models/map/MapCreator/lowerCity.txt");
+         lowerCity = new File("src/main/java/models/map/MapCreator/lowerCity.txt");
          lowerCityScanner = new Scanner(lowerCity);
             int row = (height/2) + 4;
             while (lowerCityScanner.hasNextLine() && row<height){
