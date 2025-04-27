@@ -24,12 +24,12 @@ public class GameMenu implements AppMenu{
         if(start!= null){
 
             List<String> usernames = new ArrayList<>();
-                for (int i = 1; i <= 3; i++) {
-                    String user = start.group(i);
-                    if (user != null) {
-                        usernames.add(user);
-                    }
+            for (int i = 1; i <= 3; i++) {
+                String user = start.group(i);
+                if (user != null) {
+                    usernames.add(user);
                 }
+            }
             System.out.println(usernames);
 
             int[] mapNumber = new int[4];
