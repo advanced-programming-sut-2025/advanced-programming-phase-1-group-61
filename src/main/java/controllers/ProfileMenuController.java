@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Result;
+import models.SHA256;
 import models.User;
 import models.enums.Commands.RegisterMenuCommands;
 
@@ -51,7 +52,7 @@ public class ProfileMenuController {
         if(newPassword.equals(oldPassword)){
             return new Result(false,"new password must be different!");
         }
-        if(!currentUser.getPassword().equals(oldPassword)){
+        if(!currentUser.getPassword().equals(SHA256.toSHA256(oldPassword))){
             return new Result(false,"old password is wrong!");
         }
         if(newPassword.length()<8){
@@ -72,7 +73,7 @@ public class ProfileMenuController {
         if(!Pattern.matches(RegisterMenuCommands.PASSWORD_PATTERN.getPattern(),newPassword)){
             return new Result(false,"password format is wrong!");
         }
-        currentUser.setPassword(newPassword);
+        currentUser.setPassword(SHA256.toSHA256(newPassword));
         return new Result(true,"password has been changed!");
     }
     public static Result userInfo(User currentUser){
