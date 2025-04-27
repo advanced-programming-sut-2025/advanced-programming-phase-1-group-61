@@ -22,10 +22,12 @@ public class GameMenu implements AppMenu{
 
 
         if(start!= null){
+
+
             int[] mapNumber = new int[4];
             int i = 0;
             do{
-                System.out.println("choosing map for player number "+i+1);
+                System.out.println("choosing map for player number "+(i+1));
                 String mapChoosing = scanner.nextLine();
                 Matcher chooseMap = GameMenuCommands.CHOOSE_MAP.getMatcher(mapChoosing);
                 if(chooseMap != null){
