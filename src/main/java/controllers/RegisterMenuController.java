@@ -1,9 +1,6 @@
 package controllers;
 
-import models.App;
-import models.Result;
-import models.SHA256;
-import models.User;
+import models.*;
 import models.character.Question;
 import models.enums.Commands.RegisterMenuCommands;
 import models.enums.Gender;
@@ -11,6 +8,9 @@ import models.enums.SecurityQuestion;
 
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -138,15 +138,28 @@ public class RegisterMenuController {
         final String LOWER = "abcdefghijklmnopqrstuvwxyz";
         final String DIGITS = "0123456789";
         final String SPECIAL = "!@#$%^&*()-_=+[]{}|;:,.<>?";
-        String all=UPPER+LOWER+DIGITS+SPECIAL;
-        Random rand = new Random();
-        int length=rand.nextInt(5)+8;
-        SecureRandom random=new SecureRandom();
-        StringBuilder password=new StringBuilder(length);
-        for(int i=0;i<length;i++){
-            int index=random.nextInt(all.length());
-            password.append(all.charAt(index));
+        final String ALL = UPPER + LOWER + DIGITS + SPECIAL;
+
+        int length = RandomNumber.getRandomNumberWithBoundaries(8, 13);
+
+        List<Character> passwordChars = new ArrayList<>();
+
+        passwordChars.add(UPPER.charAt(RandomNumber.getRandomNumberWithBoundaries(0, UPPER.length())));
+        passwordChars.add(LOWER.charAt(RandomNumber.getRandomNumberWithBoundaries(0, LOWER.length())));
+        passwordChars.add(DIGITS.charAt(RandomNumber.getRandomNumberWithBoundaries(0, DIGITS.length())));
+        passwordChars.add(SPECIAL.charAt(RandomNumber.getRandomNumberWithBoundaries(0, SPECIAL.length())));
+
+        for (int i = 4; i < length; i++) {
+            passwordChars.add(ALL.charAt(RandomNumber.getRandomNumberWithBoundaries(0, ALL.length())));
         }
+
+        Collections.shuffle(passwordChars);
+
+        StringBuilder password = new StringBuilder();
+        for (char c : passwordChars) {
+            password.append(c);
+        }
+
         return password.toString();
     }
 }
