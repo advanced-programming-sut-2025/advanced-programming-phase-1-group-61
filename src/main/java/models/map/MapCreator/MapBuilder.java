@@ -36,7 +36,6 @@ public class MapBuilder {
         int i =0, j =0;
         for (String[] strings : fullMap) {
             for (String string : strings) {
-                System.out.println(string);
                 tiles[j][i] = new Tile(i, j, TileType.getTypeByNumber(Integer.parseInt(string.trim())), null);
                 i++;
             }
