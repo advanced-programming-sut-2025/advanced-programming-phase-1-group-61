@@ -4,57 +4,69 @@ import models.character.Character;
 import models.date.Date;
 import models.map.Map;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class Game {
-    private static int idCounter=1;
+public class Game implements Runnable {
+
+
     private int id;
     private Map map;
     private List<Character> allCharacters;
-    private transient Thread gameThread ;
+    private transient Thread gameThread;
     private final int FPS = 60;
     private Date date;
-    public Game(Map map, List<models.character.Character> characters){
-        id=idCounter++;
+    private volatile boolean running = false;
+
+    public Game(Map map, List<Character> characters) {
+        id = App.getAllGames().size()+1;
         this.map = map;
         this.allCharacters = characters;
         this.date = new Date();
     }
 
-
-    public void startGameThread(){
-        gameThread = new Thread(String.valueOf(id));
-        gameThread.start();
+    public void startGameThread() {
+        if (gameThread == null || !running) {
+            running = true;
+            gameThread = new Thread(this, "GameThread-" + id);
+            gameThread.start();
+        }
     }
 
-    public void run(){
-        double drawInterval = 1000000000 /FPS;
+    public void stopGameThread() {
+        running = false;
+        try {
+            if (gameThread != null) {
+                gameThread.join();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void run() {
+        double drawInterval = 1000000000.0 / FPS;
         double nextDrawTime = System.nanoTime() + drawInterval;
 
-        while (gameThread != null){
-            // game loop here
-
-
+        while (running) {
             update();
-
 
             try {
                 double remainingTime = nextDrawTime - System.nanoTime();
                 remainingTime = remainingTime / 1000000;
-                if(remainingTime < 0 ){
+                if (remainingTime < 0) {
                     remainingTime = 0;
                 }
                 Thread.sleep((long) remainingTime);
 
                 nextDrawTime += drawInterval;
-
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
     }
-    private void update(){
+
+    private void update() {
 
     }
 
