@@ -1,37 +1,46 @@
 package controllers;
 
-import models.Game;
 import models.Result;
 import models.User;
 import models.character.Character;
-import models.enums.Commands.RegisterMenuCommands;
-import models.map.Map;
-import models.map.MapCreator.MapBuilder;
+import models.tool.Backpack;
+import models.tool.Tool;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 
 public class GameMenuController {
-    public Result startGame(List<String> usernames,int[] mapNumbers){
-        List<User> userList =new ArrayList<>();
-        for (String username : usernames) {
-            userList.add(User.getUserByUsername(username));
+    public static Result equipTool(Matcher matcher, Character character) {
+        String name=matcher.group("name").trim();
+        Tool tool=Tool.fromString(name);
+        if(tool==null){
+            return new Result(false, "Invalid tool!");
         }
-       Map map = MapBuilder.buildFullMap(mapNumbers[0],mapNumbers[1],mapNumbers[2],mapNumbers[3]);
-        List<Character> characterList = new ArrayList<>();
-        for (User user : userList) {
-            characterList.add(new Character(user.getId()));
+        Backpack backpack=character.getBackpack();
+        if(!backpack.checkToolInBackPack(tool)){
+            return new Result(false,"you don't have the tool in your backpack!");
         }
-        Game game = new Game(map , characterList);
-        return new Result(true , "game started successfully");
+        character.setTool(tool);
+        return new Result(true,name+" has been equipped!");
     }
-    public Result userListIsValid(List<String> usernames){
-        for (String username : usernames) {
-            if(User.getUserByUsername(username)==null){
-                return new Result(false , username+"is not valid username");
-            }
+    public static Result showCurrentTool(Character character) {
+        Tool tool=character.getCurrentTool();
+        if(tool==null){
+            return new Result(false,"the thing you have in your hand is not a tool!");
         }
-        return new Result(true , "all players are available");
+        return new Result(true,tool.getType().toString());
+    }
+    public static Result showAvailableTools(Character character) {
+        Backpack backpack=character.getBackpack();
+        return new Result(true,"you have ("+backpack.getAllTools()+") in your backpack!");
+    }
+    public static Result upgradeTool(Matcher matcher, Character character) {
+        String name=matcher.group("name").trim();
+        Tool tool=Tool.fromString(name);
+        if(tool==null){
+            return new Result(false,"Invalid tool!");
+        }
+        //other errors will be implemented later
+        character.upgradeTool(tool);
+        return new Result(true,name+" has been upgraded!");
     }
 }

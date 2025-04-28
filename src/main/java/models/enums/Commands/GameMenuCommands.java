@@ -6,9 +6,11 @@ import java.util.regex.Pattern;
 public enum GameMenuCommands {
     START_GAME("^game\\s+new\\s+-u(?:\\s+(\\S+))?(?:\\s+(\\S+))?(?:\\s+(\\S+))?$"),
     CHOOSE_MAP("^game\\s+map\\s+(?<number>\\d+)$"),
-    EQUIP_TOOL("^tools\\s+equip (?<name>.*)$");
-
-
+    EQUIP_TOOL("^tools\\s+equip (?<name>.*)$"),
+    SHOW_CURRENT_TOOL("^tools\\s+show\\s+current$"),
+    TOOLS_SHOW_AVAILABLE("^tools\\s+show\\s+available$"),
+    TOOLS_UPGRADE("^tools\\s+upgrade (?<name>.*)$"),
+    TOOLS_USE("^tools\\s+use\\s+-d (?<direction>.*)$");
 
     private String pattern;
     GameMenuCommands(String pattern) {
