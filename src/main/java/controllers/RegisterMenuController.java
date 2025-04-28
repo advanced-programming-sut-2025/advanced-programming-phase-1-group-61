@@ -93,7 +93,7 @@ public class RegisterMenuController {
         App.addUserToList(newUser);
         App.setRegisteredUser(newUser);
         String securityQuestions=SecurityQuestion.getQuestions();
-        return new Result(true , "your password is: "+password+"!\n successfully registered!"+securityQuestions);
+        return new Result(true , "your password is: "+password+"!\nsuccessfully registered!"+securityQuestions);
     }
     public static Result pickQuestion(Matcher matcher,User user){
         String answer=matcher.group("answer").trim();
