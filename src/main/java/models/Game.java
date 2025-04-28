@@ -1,5 +1,6 @@
 package models;
 
+import models.character.Character;
 import models.date.Date;
 import models.map.Map;
 
@@ -14,7 +15,7 @@ public class Game {
     private transient Thread gameThread ;
     private final int FPS = 60;
     private Date date;
-    public Game(Map map, List<Character> characters){
+    public Game(Map map, List<models.character.Character> characters){
         id=idCounter++;
         this.map = map;
         this.allCharacters = characters;
