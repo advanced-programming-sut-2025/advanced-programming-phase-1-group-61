@@ -3,10 +3,11 @@ package models;
 import java.util.Random;
 
 public class RandomNumber {
-    private static final Random random = new Random();
+    private static Random random = new Random();
 
-    public static int getRandomNumberWithBoundaries(int origin , int bound) {
-        return random.nextInt(origin, bound);
+
+    public static int getRandomNumberWithBoundaries(int origin, int bound) {
+        return random.nextInt(bound - origin) + origin;
     }
 
     public static int getRandomNumber() {

@@ -39,7 +39,7 @@ public class GameMenu implements AppMenu{
             if(userValidation.isSuccessful()){
                 int[] mapNumber = new int[4];
                 int i = 0;
-                do{
+                while (i<usernames.size()){
                     System.out.println("choosing map for "+usernames.get(i));
                     String mapChoosing = scanner.nextLine();
                     Matcher chooseMap = GameMenuCommands.CHOOSE_MAP.getMatcher(mapChoosing);
@@ -54,7 +54,7 @@ public class GameMenu implements AppMenu{
                     }else {
                         System.out.println("you have to choose map using command: game map <number>");
                     }
-                }while (i<usernames.size());
+                }
 
                 while (i < 4){
                     mapNumber[i] = RandomNumber.getRandomNumberWithBoundaries(1,3);
