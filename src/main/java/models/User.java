@@ -38,6 +38,11 @@ public class User {
         }
         return null;
     }
+
+    public int getId() {
+        return id;
+    }
+
     public String getUsername() {
         return username;
     }
