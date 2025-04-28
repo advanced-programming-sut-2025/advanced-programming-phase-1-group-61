@@ -38,6 +38,10 @@ public class App {
         allGames.add(game);
     }
 
+    public static ArrayList<Game> getAllGames() {
+        return allGames;
+    }
+
     public static void saveApp() throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         FileWriter fileWriter = new FileWriter("users.json");

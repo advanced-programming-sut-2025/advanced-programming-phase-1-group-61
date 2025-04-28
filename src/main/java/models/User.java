@@ -21,7 +21,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.gender = Gender.getGender(gender);
-        numberOfUsers++;
+        numberOfUsers = App.getAllUsers().size();
         this.id = numberOfUsers;
     }
     public void setQuestion(Question question) {
