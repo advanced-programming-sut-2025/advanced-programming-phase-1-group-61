@@ -1,15 +1,18 @@
 package views;
 
 import controllers.GameMenuController;
+import models.App;
 import models.Game;
 import models.RandomNumber;
 import models.Result;
 import models.character.Character;
 import models.enums.Commands.GameMenuCommands;
 import models.enums.Commands.RegisterMenuCommands;
+import models.enums.Menu;
 import models.map.Map;
 import models.map.MapCreator.MapBuilder;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -23,6 +26,7 @@ public class GameMenu implements AppMenu{
         Matcher start = GameMenuCommands.START_GAME.getMatcher(input);
         Matcher showCurrentMenu = RegisterMenuCommands.SHOW_CURRENT_MENU.getMatcher(input);
         Matcher equipTool=GameMenuCommands.EQUIP_TOOL.getMatcher(input);
+        Matcher exitGame = RegisterMenuCommands.LEAVE_GAME.getMatcher(input);
 
 
         if(start!= null){
@@ -71,6 +75,14 @@ public class GameMenu implements AppMenu{
         }
         else if (equipTool != null) {
 
+        } else if (exitGame != null) {
+
+           try {
+               App.saveApp();
+           } catch (IOException e) {
+               System.out.println("failed to save app");
+           }
+           App.setCurrentMenu(Menu.EXIT_MENU);
         } else {
             System.out.println("invalid command");
         }
