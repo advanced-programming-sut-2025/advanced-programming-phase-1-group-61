@@ -34,6 +34,9 @@ public class App {
     public static void setCurrentGame(int id ){
         currentGameId = id;
     }
+    public static void addGame(Game game){
+        allGames.add(game);
+    }
 
     public static void saveApp() throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

@@ -1,5 +1,6 @@
 package controllers;
 
+import models.App;
 import models.Game;
 import models.Result;
 import models.User;
@@ -59,6 +60,8 @@ public class GameMenuController {
             characterList.add(new Character(user.getId()));
         }
         Game game = new Game(map , characterList);
+        App.addGame(game);
+        App.setCurrentGame(game.getId());
         return new Result(true , "game started successfully");
     }
     public Result userListIsValid(List<String> usernames){
