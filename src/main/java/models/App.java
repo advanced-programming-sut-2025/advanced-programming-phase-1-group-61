@@ -77,8 +77,9 @@ public class App {
         }
         if(!gameFile.exists()){
             allGames = new ArrayList<>();
-            return;
         }
+
+        //TODO
 
         try {
             FileReader fileReader = new FileReader(userFile);

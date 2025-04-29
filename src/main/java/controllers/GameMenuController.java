@@ -51,7 +51,7 @@ public class GameMenuController {
     }
     public Result startGame(List<String> usernames,int[] mapNumbers){
         List<User> userList =new ArrayList<>();
-        userList.add(App.getLoggedInUser());
+
         for (String username : usernames) {
             userList.add(User.getUserByUsername(username));
         }
