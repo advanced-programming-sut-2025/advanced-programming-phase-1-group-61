@@ -105,13 +105,13 @@ public class App {
 
             if(loggedInUser.exists()){
                 FileReader loggedInUserFileReader = new FileReader(loggedInUser);
-                Type loggedInUserType = new TypeToken<User>() {}.getType();
-                User user = gson.fromJson(loggedInUserFileReader , loggedInUserType);
-                if(user != null){
-                App.setLoggedInUser(user.getId());
+                Type loggedInUserType = new TypeToken<Integer>() {}.getType();
+                int user = gson.fromJson(loggedInUserFileReader , loggedInUserType);
+                if(user != -1 || user != 0){
+                App.setLoggedInUser(user);
                 App.setCurrentMenu(Menu.MAIN_MENU);
                 }
-                System.out.println("welcome back "+user.getNickName());
+                System.out.println("welcome back "+App.getLoggedInUser().getUsername());
             }
         } catch (IOException e) {
             e.printStackTrace();
