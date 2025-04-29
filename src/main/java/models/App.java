@@ -41,6 +41,14 @@ public class App {
     public static ArrayList<Game> getAllGames() {
         return allGames;
     }
+    public static Game getGameByID(int id){
+        for (Game game : allGames) {
+            if(game.getId()==id){
+                return game;
+            }
+        }
+        return null;
+    }
 
     public static void saveApp() throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
