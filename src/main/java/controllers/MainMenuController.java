@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 
 public class MainMenuController {
     public Result logout(){
-        App.setLoggedInUser(null);
+        App.setLoggedInUser(-1);
         return new Result(true , "successfully logged out");
     }
 }

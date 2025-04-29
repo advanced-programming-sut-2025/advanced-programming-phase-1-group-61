@@ -25,6 +25,8 @@ public class MainMenu implements AppMenu{
                String name= changeMenu.group("menu");
                if(name.equals("game")){
                    App.setCurrentMenu(Menu.GAME_MENU);
+               } else if (name.equals("profile")) {
+                   App.setCurrentMenu(Menu.PROFILE_MENU);
                }
             } else if (showCurrentMenu != null) {
                 System.out.println("you are in main menu");

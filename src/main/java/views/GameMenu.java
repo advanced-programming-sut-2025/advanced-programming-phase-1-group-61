@@ -23,7 +23,7 @@ public class GameMenu implements AppMenu{
    private boolean inGame = false;
     @Override
     public void check(Scanner scanner) {
-        String input = scanner.nextLine();
+        String input = scanner.nextLine().trim();
         Matcher start = GameMenuCommands.START_GAME.getMatcher(input);
         Matcher showCurrentMenu = RegisterMenuCommands.SHOW_CURRENT_MENU.getMatcher(input);
         Matcher equipTool=GameMenuCommands.EQUIP_TOOL.getMatcher(input);
