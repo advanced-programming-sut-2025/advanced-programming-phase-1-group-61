@@ -1,6 +1,7 @@
 package controllers;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import models.*;
 
 import java.io.FileWriter;
@@ -26,7 +27,7 @@ public class LoginMenuController {
                 return new Result(false , "failed to keep you logged in");
             }
         }
-        App.setLoggedInUser(user);
+        App.setLoggedInUser(user.getId());
         return new Result(true , username + " logged in");
     }
 
@@ -34,7 +35,7 @@ public class LoginMenuController {
 
     private void saveLoggedInUser(User user) throws IOException {
         FileWriter fileWriter = new FileWriter("loggedInUser.json");
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         gson.toJson(user , fileWriter);
         fileWriter.close();
 

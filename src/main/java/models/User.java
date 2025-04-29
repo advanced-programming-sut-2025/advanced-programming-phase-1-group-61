@@ -22,7 +22,7 @@ public class User {
         this.password = password;
         this.gender = Gender.getGender(gender);
         numberOfUsers = App.getAllUsers().size();
-        this.id = numberOfUsers;
+        this.id = numberOfUsers+1;
         this.gameId = 0;
     }
     public void setQuestion(Question question) {
