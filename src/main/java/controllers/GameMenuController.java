@@ -60,6 +60,9 @@ public class GameMenuController {
             characterList.add(new Character(user.getId()));
         }
         Game game = new Game(map , characterList);
+        for (User user : userList) {
+            user.setGameId(game.getId());
+        }
         App.addGame(game);
         App.setCurrentGame(game.getId());
         return new Result(true , "game started successfully");
@@ -71,5 +74,18 @@ public class GameMenuController {
             }
         }
         return new Result(true , "all players are available");
+    }
+    public Result loadGame(){
+        User user = App.getLoggedInUser();
+        if(user.getGameId()==0){
+            return new Result(false , "you have to make a new game first");
+        }
+        Game game = App.getGameByID(user.getGameId());
+        if(game==null){
+            return new Result(false , "failed to load game");
+        }
+        App.setCurrentGame(user.getGameId());
+
+        return null;
     }
 }
