@@ -29,6 +29,8 @@ public class GameMenu implements AppMenu{
         Matcher equipTool=GameMenuCommands.EQUIP_TOOL.getMatcher(input);
         Matcher exitGame = RegisterMenuCommands.LEAVE_GAME.getMatcher(input);
         Matcher loadGame = GameMenuCommands.LOAD_GAME.getMatcher(input);
+        Matcher changePlayerTurn = GameMenuCommands.NEXT_TURN.getMatcher(input);
+
 
         if(!inGame){
             if (showCurrentMenu != null){
@@ -95,7 +97,10 @@ public class GameMenu implements AppMenu{
             }
             if (equipTool != null){
 
-            }else if (exitGame != null){
+            } else if (changePlayerTurn != null) {
+                Result result = controller.changeTurn();
+                System.out.println(result.message());
+            } else if (exitGame != null){
                 try {
                     App.saveApp();
                 } catch (IOException e) {

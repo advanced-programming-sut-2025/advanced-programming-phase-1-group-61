@@ -89,4 +89,9 @@ public class GameMenuController {
 
         return new Result(true , "game loaded successfully");
     }
+    public Result changeTurn(){
+        Game game = App.getCurrentGame();
+        String string =  game.changeTurn();
+        return new Result(true , string);
+    }
 }

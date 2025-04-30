@@ -15,7 +15,7 @@ public class Date {
     }
     public void increaseTime(int increase){
         hour+=increase;
-        if(hour>24){
+        if(hour>=24){
             changeDay();
             hour = 0;
         }
