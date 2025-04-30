@@ -11,7 +11,9 @@ public enum GameMenuCommands {
     TOOLS_SHOW_AVAILABLE("^tools\\s+show\\s+available$"),
     TOOLS_UPGRADE("^tools\\s+upgrade\\s+(?<name>.*)$"),
     TOOLS_USE("^tools\\s+use\\s+-d\\s+(?<direction>.*)$"),
-    LOAD_GAME("^load\\s+game$");
+    LOAD_GAME("^load\\s+game$"),
+    NEXT_TURN("^next\\s+turn$");
+
 
     private String pattern;
     GameMenuCommands(String pattern) {

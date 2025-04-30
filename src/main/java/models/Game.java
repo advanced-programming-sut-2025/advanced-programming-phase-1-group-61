@@ -12,6 +12,7 @@ public class Game implements Runnable {
     private int id;
     private Map map;
     private List<Character> allCharacters;
+    private int currentCharacter;
     private transient Thread gameThread;
     private final int FPS = 60;
     private Date date;
@@ -72,5 +73,22 @@ public class Game implements Runnable {
 
     public int getId() {
         return id;
+    }
+
+    public Character getCurrentCharacter() {
+        return allCharacters.get(currentCharacter);
+    }
+
+    public String changeTurn() {
+        int turn = currentCharacter+1;
+        this.currentCharacter = turn % allCharacters.size();
+        StringBuilder message =  new StringBuilder(User.getUSerById(allCharacters.get(currentCharacter).getUserId()).getNickName());
+
+        if(turn == allCharacters.size()){
+            message.append("\n");
+            message.append("time increased");
+            date.increaseTime(1);
+        }
+        return message.toString();
     }
 }

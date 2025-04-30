@@ -39,7 +39,14 @@ public class User {
         }
         return null;
     }
-
+    public static User getUSerById(int id){
+        for (User user : App.getAllUsers()) {
+            if(user.getId() == id){
+                return user;
+            }
+        }
+        return null;
+    }
 
     public int getGameId() {
         return gameId;
