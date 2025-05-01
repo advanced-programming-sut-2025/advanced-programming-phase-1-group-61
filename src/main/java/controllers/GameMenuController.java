@@ -5,6 +5,8 @@ import models.Game;
 import models.Result;
 import models.User;
 import models.character.Character;
+import models.enums.DaysOfTheWeek;
+import models.enums.Season;
 import models.map.Map;
 import models.map.MapCreator.MapBuilder;
 import models.tool.Backpack;
@@ -93,5 +95,32 @@ public class GameMenuController {
         Game game = App.getCurrentGame();
         String string =  game.changeTurn();
         return new Result(true , string);
+    }
+    public Result showHour(){
+        Game game = App.getCurrentGame();
+        int hour = game.getDate().getHour();
+        return new Result(true , "hour: "+hour);
+    }
+    public Result showDate(){
+        Game game = App.getCurrentGame();
+        int dayCount = game.getDate().getDayCounter();
+        DaysOfTheWeek day = game.getDate().getDay();
+        Season season = game.getDate().getSeason();
+        return new Result(true , "season: "+season.getDisplayName() + " day: "+day.getDisplayName()
+        +" (day count: "+dayCount+" )");
+    }
+    public Result showDateAndTime(){
+        Game game = App.getCurrentGame();
+        int dayCount = game.getDate().getDayCounter();
+        DaysOfTheWeek day = game.getDate().getDay();
+        Season season = game.getDate().getSeason();
+        int hour = game.getDate().getHour();
+        return new Result(true, "season :"+season.getDisplayName()+"\nday: "+day.getDisplayName()
+        +"\nday counter: "+dayCount+"\nhour: "+hour);
+    }
+    public Result showWeekDay(){
+        Game game = App.getCurrentGame();
+        DaysOfTheWeek day = game.getDate().getDay();
+        return new Result(true , day.getDisplayName());
     }
 }
