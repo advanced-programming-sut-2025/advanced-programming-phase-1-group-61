@@ -37,7 +37,8 @@ public class GameMenu implements AppMenu{
             }
             if(start!= null){
                 List<String> usernames = new ArrayList<>();
-
+                Result res=controller.startGameErrors(usernames);
+                if(!res.isSuccessful()) System.out.println(res.message());
                 usernames.add(App.getLoggedInUser().getUsername());
                 for (int i = 1; i <= 3; i++) {
                     String user = start.group(i);
