@@ -96,15 +96,25 @@ public class GameMenu implements AppMenu{
             Matcher exitGame = RegisterMenuCommands.LEAVE_GAME.getMatcher(input);
             Matcher changePlayerTurn = GameMenuCommands.NEXT_TURN.getMatcher(input);
             Matcher showHour = GameMenuCommands.SHOW_HOUR.getMatcher(input);
+            Matcher showDate = GameMenuCommands.SHOW_DATE.getMatcher(input);
+            Matcher showDateAndTime = GameMenuCommands.SHOW_DATE_AND_TIME.getMatcher(input);
+            Matcher showWeekDay = GameMenuCommands.SHOW_WEEKDAY.getMatcher(input);
 
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
             } else if (showHour != null) {
                 Result result = controller.showHour();
-            }
-            if (equipTool != null){
-
+                System.out.println(result.message());
+            } else if (showDate != null) {
+                Result result = controller.showDate();
+                System.out.println(result.message());
+            } else if (showDateAndTime != null) {
+                Result result = controller.showDateAndTime();
+                System.out.println(result.message());
+            } else if (showWeekDay != null) {
+                Result result = controller.showWeekDay();
+                System.out.println(result.message());
             } else if (changePlayerTurn != null) {
                 Result result = controller.changeTurn();
                 System.out.println(result.message());
@@ -115,6 +125,8 @@ public class GameMenu implements AppMenu{
                     System.out.println("failed to save app");
                 }
                 App.setCurrentMenu(Menu.EXIT_MENU);
+            } else if (equipTool != null){
+                //TODO
             }
             else{
                 System.out.println("invalid command");
