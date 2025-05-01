@@ -24,15 +24,14 @@ public class GameMenu implements AppMenu{
     @Override
     public void check(Scanner scanner) {
         String input = scanner.nextLine().trim();
-        Matcher start = GameMenuCommands.START_GAME.getMatcher(input);
+
         Matcher showCurrentMenu = RegisterMenuCommands.SHOW_CURRENT_MENU.getMatcher(input);
-        Matcher equipTool=GameMenuCommands.EQUIP_TOOL.getMatcher(input);
-        Matcher exitGame = RegisterMenuCommands.LEAVE_GAME.getMatcher(input);
-        Matcher loadGame = GameMenuCommands.LOAD_GAME.getMatcher(input);
-        Matcher changePlayerTurn = GameMenuCommands.NEXT_TURN.getMatcher(input);
+
 
 
         if(!inGame){
+            Matcher start = GameMenuCommands.START_GAME.getMatcher(input);
+            Matcher loadGame = GameMenuCommands.LOAD_GAME.getMatcher(input);
             if (showCurrentMenu != null){
                 System.out.println("you are in game menu start a game to enter game");
             }
@@ -91,9 +90,18 @@ public class GameMenu implements AppMenu{
             else{
                 System.out.println("invalid command");
             }
-        }else {
+        }
+        else {
+            Matcher equipTool=GameMenuCommands.EQUIP_TOOL.getMatcher(input);
+            Matcher exitGame = RegisterMenuCommands.LEAVE_GAME.getMatcher(input);
+            Matcher changePlayerTurn = GameMenuCommands.NEXT_TURN.getMatcher(input);
+            Matcher showHour = GameMenuCommands.SHOW_HOUR.getMatcher(input);
+
+
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
+            } else if (showHour != null) {
+                Result result = controller.showHour();
             }
             if (equipTool != null){
 

@@ -91,4 +91,8 @@ public class Game implements Runnable {
         }
         return message.toString();
     }
+
+    public Date getDate() {
+        return date;
+    }
 }

@@ -12,7 +12,11 @@ public enum GameMenuCommands {
     TOOLS_UPGRADE("^tools\\s+upgrade\\s+(?<name>.*)$"),
     TOOLS_USE("^tools\\s+use\\s+-d\\s+(?<direction>.*)$"),
     LOAD_GAME("^load\\s+game$"),
-    NEXT_TURN("^next\\s+turn$");
+    NEXT_TURN("^next\\s+turn$"),
+    SHOW_HOUR("^time$"),
+    SHOW_DATE("^date$"),
+    SHOW_DATE_AND_TIME("^$datetime"),
+    SHOW_WEEKDAY("^day\\s+of\\s+the\\s+week$");
 
 
     private String pattern;

@@ -56,6 +56,9 @@ public class Date {
         }
     }
 
+    public int getDayCounter() {
+        return dayCounter;
+    }
 
     public void changeSeason(Season newSeason){
         this.season=newSeason;
