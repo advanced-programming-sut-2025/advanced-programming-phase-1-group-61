@@ -54,6 +54,12 @@ public class GameMenuController {
     public Result startGame(List<String> usernames,int[] mapNumbers){
         List<User> userList =new ArrayList<>();
 
+        if(usernames.isEmpty()){
+            return new Result(false , "uou need at least one other player");
+        }
+
+        // start game errors
+
         for (String username : usernames) {
             userList.add(User.getUserByUsername(username));
         }
