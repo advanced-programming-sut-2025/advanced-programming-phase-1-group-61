@@ -99,6 +99,8 @@ public class GameMenu implements AppMenu{
             Matcher showDate = GameMenuCommands.SHOW_DATE.getMatcher(input);
             Matcher showDateAndTime = GameMenuCommands.SHOW_DATE_AND_TIME.getMatcher(input);
             Matcher showWeekDay = GameMenuCommands.SHOW_WEEKDAY.getMatcher(input);
+            Matcher cheatHour = GameMenuCommands.CHEAT_HOUR.getMatcher(input);
+
 
 
             if (showCurrentMenu != null){
@@ -118,17 +120,19 @@ public class GameMenu implements AppMenu{
             } else if (changePlayerTurn != null) {
                 Result result = controller.changeTurn();
                 System.out.println(result.message());
-            } else if (exitGame != null){
+            } else if (cheatHour != null) {
+                Result result = controller.cheatHour(cheatHour);
+                System.out.println(result.message());
+            } else if(equipTool != null){
+                //TODO
+            }else if(exitGame != null){
                 try {
                     App.saveApp();
                 } catch (IOException e) {
                     System.out.println("failed to save app");
                 }
                 App.setCurrentMenu(Menu.EXIT_MENU);
-            } else if (equipTool != null){
-                //TODO
-            }
-            else{
+            }else{
                 System.out.println("invalid command");
             }
         }

@@ -129,4 +129,13 @@ public class GameMenuController {
         DaysOfTheWeek day = game.getDate().getDay();
         return new Result(true , day.getDisplayName());
     }
+    public Result cheatHour(Matcher matcher){
+        int amount = Integer.parseInt(matcher.group("hour"));
+        if(amount<=0){
+            return new Result(false , "number has to be positive");
+        }
+        Game game = App.getCurrentGame();
+        game.getDate().increaseTime(amount);
+        return new Result(true , amount+" went by.");
+    }
 }
