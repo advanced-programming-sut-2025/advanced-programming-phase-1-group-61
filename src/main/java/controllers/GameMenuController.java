@@ -54,6 +54,12 @@ public class GameMenuController {
     public Result startGame(List<String> usernames,int[] mapNumbers){
         List<User> userList =new ArrayList<>();
 
+        if(usernames.isEmpty()){
+            return new Result(false , "uou need at least one other player");
+        }
+
+        // start game errors
+
         for (String username : usernames) {
             userList.add(User.getUserByUsername(username));
         }
@@ -122,5 +128,14 @@ public class GameMenuController {
         Game game = App.getCurrentGame();
         DaysOfTheWeek day = game.getDate().getDay();
         return new Result(true , day.getDisplayName());
+    }
+    public Result cheatHour(Matcher matcher){
+        int amount = Integer.parseInt(matcher.group("hour"));
+        if(amount<=0){
+            return new Result(false , "number has to be positive");
+        }
+        Game game = App.getCurrentGame();
+        game.getDate().increaseTime(amount);
+        return new Result(true , amount+" went by.");
     }
 }
