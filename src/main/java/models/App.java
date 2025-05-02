@@ -15,7 +15,7 @@ import java.util.List;
 
 public class App {
 
-    private static User loggedInUser;
+    private static int loggedInUser;
     private static User registeredUser;
     private static Menu currentMenu = Menu.REGISTER_MENU;
     private static  List<User> allUsers = new ArrayList<>();
@@ -41,6 +41,14 @@ public class App {
     public static ArrayList<Game> getAllGames() {
         return allGames;
     }
+    public static Game getGameByID(int id){
+        for (Game game : allGames) {
+            if(game.getId()==id){
+                return game;
+            }
+        }
+        return null;
+    }
 
     public static void saveApp() throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -50,6 +58,12 @@ public class App {
         FileWriter fileWriter1 = new FileWriter("games.json");
         gson.toJson(allGames , fileWriter1);
         fileWriter1.close();
+        File loggedInUserFile = new File("loggedInUser.json");
+        if(loggedInUserFile.exists()){
+            FileWriter fileWriter2 = new FileWriter(loggedInUserFile.getName());
+            gson.toJson(loggedInUser, fileWriter2);
+            fileWriter2.close();
+        }
     }
     public static void loadApp() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -63,8 +77,9 @@ public class App {
         }
         if(!gameFile.exists()){
             allGames = new ArrayList<>();
-            return;
         }
+
+        //TODO
 
         try {
             FileReader fileReader = new FileReader(userFile);
@@ -91,13 +106,13 @@ public class App {
 
             if(loggedInUser.exists()){
                 FileReader loggedInUserFileReader = new FileReader(loggedInUser);
-                Type loggedInUserType = new TypeToken<User>() {}.getType();
-                User user = gson.fromJson(loggedInUserFileReader , loggedInUserType);
-                if(user != null){
+                Type loggedInUserType = new TypeToken<Integer>() {}.getType();
+                int user = gson.fromJson(loggedInUserFileReader , loggedInUserType);
+                if(user != -1 || user != 0){
                 App.setLoggedInUser(user);
                 App.setCurrentMenu(Menu.MAIN_MENU);
                 }
-                System.out.println("welcome back "+user.getNickName());
+                System.out.println("welcome back "+App.getLoggedInUser().getUsername());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -105,11 +120,16 @@ public class App {
             allUsers = new ArrayList<>();
         }
     }
-    public static void setLoggedInUser(User user){
+    public static void setLoggedInUser(int user){
         loggedInUser = user;
     }
     public static User getLoggedInUser() {
-        return loggedInUser;
+        for (User user : allUsers) {
+            if(user.getId() == loggedInUser){
+                return user;
+            }
+        }
+        return null;
     }
     public static void setRegisteredUser(User user){
         registeredUser = user;

@@ -15,7 +15,7 @@ public class Date {
     }
     public void increaseTime(int increase){
         hour+=increase;
-        if(hour>24){
+        if(hour>=24){
             changeDay();
             hour = 0;
         }
@@ -56,6 +56,9 @@ public class Date {
         }
     }
 
+    public int getDayCounter() {
+        return dayCounter;
+    }
 
     public void changeSeason(Season newSeason){
         this.season=newSeason;

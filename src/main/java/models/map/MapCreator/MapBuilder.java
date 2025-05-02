@@ -32,7 +32,7 @@ public class MapBuilder {
 
 
         buildCity(fullMap , fullWidth,fullHeight);
-        Tile[][] tiles = new Tile[fullHeight+1][fullWidth+1];
+        Tile[][] tiles = new Tile[fullHeight][fullWidth];
         int i =0, j =0;
         for (String[] strings : fullMap) {
             for (String string : strings) {

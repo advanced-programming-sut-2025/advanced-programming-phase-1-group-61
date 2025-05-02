@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class User {
     private static int numberOfUsers = 0;
     private String username;
-    private int id;
+    private int id,gameId;
     private String email;
     private String password;
     private Gender gender;
@@ -22,7 +22,8 @@ public class User {
         this.password = password;
         this.gender = Gender.getGender(gender);
         numberOfUsers = App.getAllUsers().size();
-        this.id = numberOfUsers;
+        this.id = numberOfUsers+1;
+        this.gameId = 0;
     }
     public void setQuestion(Question question) {
         this.question=question;
@@ -38,11 +39,25 @@ public class User {
         }
         return null;
     }
+    public static User getUSerById(int id){
+        for (User user : App.getAllUsers()) {
+            if(user.getId() == id){
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public int getGameId() {
+        return gameId;
+    }
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
+    }
 
     public int getId() {
         return id;
     }
-
     public String getUsername() {
         return username;
     }

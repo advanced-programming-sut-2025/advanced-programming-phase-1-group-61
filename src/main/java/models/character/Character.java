@@ -49,4 +49,8 @@ public class Character {
     public void artisanUse(){}
     public void craft(){}
     public void cook(){}
+
+    public int getUserId() {
+        return userId;
+    }
 }

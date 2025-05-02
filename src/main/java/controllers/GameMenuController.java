@@ -5,6 +5,8 @@ import models.Game;
 import models.Result;
 import models.User;
 import models.character.Character;
+import models.enums.DaysOfTheWeek;
+import models.enums.Season;
 import models.map.Map;
 import models.map.MapCreator.MapBuilder;
 import models.tool.Backpack;
@@ -51,6 +53,13 @@ public class GameMenuController {
     }
     public Result startGame(List<String> usernames,int[] mapNumbers){
         List<User> userList =new ArrayList<>();
+
+        if(usernames.isEmpty()){
+            return new Result(false , "uou need at least one other player");
+        }
+
+        // start game errors
+
         for (String username : usernames) {
             userList.add(User.getUserByUsername(username));
         }
@@ -60,6 +69,9 @@ public class GameMenuController {
             characterList.add(new Character(user.getId()));
         }
         Game game = new Game(map , characterList);
+        for (User user : userList) {
+            user.setGameId(game.getId());
+        }
         App.addGame(game);
         App.setCurrentGame(game.getId());
         return new Result(true , "game started successfully");
@@ -71,5 +83,59 @@ public class GameMenuController {
             }
         }
         return new Result(true , "all players are available");
+    }
+    public Result loadGame(){
+        User user = App.getLoggedInUser();
+        if(user.getGameId()==0){
+            return new Result(false , "you have to make a new game first");
+        }
+        Game game = App.getGameByID(user.getGameId());
+        if(game==null){
+            return new Result(false , "failed to load game");
+        }
+        App.setCurrentGame(user.getGameId());
+
+        return new Result(true , "game loaded successfully");
+    }
+    public Result changeTurn(){
+        Game game = App.getCurrentGame();
+        String string =  game.changeTurn();
+        return new Result(true , string);
+    }
+    public Result showHour(){
+        Game game = App.getCurrentGame();
+        int hour = game.getDate().getHour();
+        return new Result(true , "hour: "+hour);
+    }
+    public Result showDate(){
+        Game game = App.getCurrentGame();
+        int dayCount = game.getDate().getDayCounter();
+        DaysOfTheWeek day = game.getDate().getDay();
+        Season season = game.getDate().getSeason();
+        return new Result(true , "season: "+season.getDisplayName() + " day: "+day.getDisplayName()
+        +" (day count: "+dayCount+" )");
+    }
+    public Result showDateAndTime(){
+        Game game = App.getCurrentGame();
+        int dayCount = game.getDate().getDayCounter();
+        DaysOfTheWeek day = game.getDate().getDay();
+        Season season = game.getDate().getSeason();
+        int hour = game.getDate().getHour();
+        return new Result(true, "season :"+season.getDisplayName()+"\nday: "+day.getDisplayName()
+        +"\nday counter: "+dayCount+"\nhour: "+hour);
+    }
+    public Result showWeekDay(){
+        Game game = App.getCurrentGame();
+        DaysOfTheWeek day = game.getDate().getDay();
+        return new Result(true , day.getDisplayName());
+    }
+    public Result cheatHour(Matcher matcher){
+        int amount = Integer.parseInt(matcher.group("hour"));
+        if(amount<=0){
+            return new Result(false , "number has to be positive");
+        }
+        Game game = App.getCurrentGame();
+        game.getDate().increaseTime(amount);
+        return new Result(true , amount+" went by.");
     }
 }
