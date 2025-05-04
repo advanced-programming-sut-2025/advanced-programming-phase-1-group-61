@@ -101,11 +101,14 @@ public class GameMenu implements AppMenu{
             Matcher showDateAndTime = GameMenuCommands.SHOW_DATE_AND_TIME.getMatcher(input);
             Matcher showWeekDay = GameMenuCommands.SHOW_WEEKDAY.getMatcher(input);
             Matcher cheatHour = GameMenuCommands.CHEAT_HOUR.getMatcher(input);
-
+            Matcher cheatDay = GameMenuCommands.CHEAT_DAY.getMatcher(input);
 
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
+            } else if (cheatDay != null) {
+                Result result = controller.cheatDay(cheatDay);
+                System.out.println(result.message());
             } else if (showHour != null) {
                 Result result = controller.showHour();
                 System.out.println(result.message());

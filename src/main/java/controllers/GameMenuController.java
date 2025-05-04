@@ -148,4 +148,10 @@ public class GameMenuController {
         game.getDate().increaseTime(amount);
         return new Result(true , amount+" went by.");
     }
+    public Result cheatDay(Matcher matcher){
+        int amount = Integer.parseInt(matcher.group("day"));
+        Game game = App.getCurrentGame();
+        game.getDate().changeDay(amount);
+        return new Result(true , amount + "went by.");
+    }
 }

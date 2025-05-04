@@ -15,9 +15,10 @@ public enum GameMenuCommands {
     NEXT_TURN("^next\\s+turn$"),
     SHOW_HOUR("^time$"),
     SHOW_DATE("^date$"),
-    SHOW_DATE_AND_TIME("^$datetime"),
+    SHOW_DATE_AND_TIME("^datetime$"),
     SHOW_WEEKDAY("^day\\s+of\\s+the\\s+week$"),
-    CHEAT_HOUR("^cheat\\s+advance\\s+time\\s+(?<hour>\\d+)h$");
+    CHEAT_HOUR("^cheat\\s+advance\\s+time\\s+(?<hour>\\d+)h$"),
+    CHEAT_DAY("^cheat\\s+advance\\s+date\\s+(?<day>\\d+)d$");
 
 
     private String pattern;

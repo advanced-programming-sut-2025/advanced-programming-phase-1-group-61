@@ -14,12 +14,10 @@ public class Date {
         season=Season.Spring;
     }
     public void increaseTime(int increase){
-        hour+=increase;
-        if(hour>=24){
-            changeDay();
-            hour = 0;
-        }
+            changeDay(hour/24);
+            hour = hour%24;
     }
+
     public void setHour(int time){
         this.hour=time;
     }
@@ -27,8 +25,8 @@ public class Date {
         return hour;
     }
 
-    public void changeDay(){
-        dayCounter++;
+    public void changeDay(int amount){
+        dayCounter = dayCounter + amount;
         if(dayCounter % 7 ==0){
             this.day = DaysOfTheWeek.Sunday;
         } else if (dayCounter % 7 == 1) {
