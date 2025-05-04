@@ -51,8 +51,8 @@ public class GameMenu implements AppMenu{
                         usernames.add(user);
                     }
                 }
-//                Result res=controller.startGameErrors(usernames);
-//                if(!res.isSuccessful()) System.out.println(res.message());
+                Result res=controller.startGameErrors(usernames);
+                if(!res.isSuccessful()) System.out.println(res.message());
 
                 Result userValidation = controller.userListIsValid(usernames);
                 if(userValidation.isSuccessful()){

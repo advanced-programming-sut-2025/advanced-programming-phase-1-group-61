@@ -81,10 +81,10 @@ public class GameMenuController {
     public Result startGameErrors(List<String> usernames){
         StringBuilder names=new StringBuilder();
         for(String username : usernames){
-            User user=User.getUserByUsername(username);
+            User user=User.getUserByUsername(username.trim());
             if(user==null) names.append(username).append(" is invalid!").append("\n");
         }
-        names.deleteCharAt(names.length()-1);
+        if(!names.isEmpty()) names.deleteCharAt(names.length()-1);
         if(!names.isEmpty()) return new Result(false,names.toString());
         return new Result(true,"");
     }
