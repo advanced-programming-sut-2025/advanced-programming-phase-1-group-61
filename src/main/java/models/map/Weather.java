@@ -5,9 +5,11 @@ import models.enums.WeatherState;
 
 public class Weather {
    private WeatherState state;
+   private WeatherState tomarowWeatherState ;
 
     public Weather(WeatherState state ) {
         this.state = state;
+        tomarowWeatherState = state;
     }
 
     public WeatherState getState() {

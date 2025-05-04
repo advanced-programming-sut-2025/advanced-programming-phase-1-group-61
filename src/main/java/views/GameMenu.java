@@ -6,6 +6,7 @@ import models.Game;
 import models.RandomNumber;
 import models.Result;
 import models.character.Character;
+import models.enums.Commands.CheatCodes;
 import models.enums.Commands.GameMenuCommands;
 import models.enums.Commands.RegisterMenuCommands;
 import models.enums.Menu;
@@ -100,8 +101,8 @@ public class GameMenu implements AppMenu{
             Matcher showDate = GameMenuCommands.SHOW_DATE.getMatcher(input);
             Matcher showDateAndTime = GameMenuCommands.SHOW_DATE_AND_TIME.getMatcher(input);
             Matcher showWeekDay = GameMenuCommands.SHOW_WEEKDAY.getMatcher(input);
-            Matcher cheatHour = GameMenuCommands.CHEAT_HOUR.getMatcher(input);
-            Matcher cheatDay = GameMenuCommands.CHEAT_DAY.getMatcher(input);
+            Matcher cheatHour = CheatCodes.CHEAT_ADVANCE_TIME.getMatcher(input);
+            Matcher cheatDay = CheatCodes.CHEAT_ADVANCE_DATE.getMatcher(input);
 
 
             if (showCurrentMenu != null){
