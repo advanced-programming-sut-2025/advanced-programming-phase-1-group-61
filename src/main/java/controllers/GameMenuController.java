@@ -7,8 +7,10 @@ import models.User;
 import models.character.Character;
 import models.enums.DaysOfTheWeek;
 import models.enums.Season;
+import models.enums.WeatherState;
 import models.map.Map;
 import models.map.MapCreator.MapBuilder;
+import models.map.Weather;
 import models.tool.Backpack;
 import models.tool.Tool;
 
@@ -144,8 +146,12 @@ public class GameMenuController {
         if(amount<=0){
             return new Result(false , "number has to be positive");
         }
+
         Game game = App.getCurrentGame();
-        game.getDate().increaseTime(amount);
+        if(amount >= 24){
+            game.getDate().changeDay(amount/24);
+        }
+        game.getDate().increaseTime(amount%24);
         return new Result(true , amount+" went by.");
     }
     public Result cheatDay(Matcher matcher){
@@ -153,5 +159,25 @@ public class GameMenuController {
         Game game = App.getCurrentGame();
         game.getDate().changeDay(amount);
         return new Result(true , amount + "went by.");
+    }
+    public Result cheatThor(Matcher matcher){
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        App.getCurrentGame().getMap().getWeather().lightning(x , y);
+        return new Result(true , "lightning hit at x: "+x + " y: "+y);
+    }
+    public Result foreCastWeather(){
+      WeatherState state = App.getCurrentGame().getMap().getWeather().getTomorrowWeatherState();
+      return new Result(true , "tomorrow we expect : "+state.getDisplayName());
+    }
+    public Result cheatWeatherState(Matcher matcher){
+        String type = matcher.group("type");
+        WeatherState state = WeatherState.fromDisplayName(type);
+        if(state == null){
+            return new Result(false , "you cant set weather as "+type);
+        }
+        Weather weather = App.getCurrentGame().getMap().getWeather();
+        weather.setCheatedWeatherState(state);
+        return new Result(true , "you can expect "+state.getDisplayName()+" tomorrow.");
     }
 }
