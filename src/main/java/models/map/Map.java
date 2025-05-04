@@ -12,4 +12,8 @@ public class Map {
         this.tiles = tiles;
         this.weather = weather;
     }
+
+    public Weather getWeather() {
+        return weather;
+    }
 }

@@ -6,6 +6,7 @@ import models.Game;
 import models.RandomNumber;
 import models.Result;
 import models.character.Character;
+import models.enums.Commands.CheatCodes;
 import models.enums.Commands.GameMenuCommands;
 import models.enums.Commands.RegisterMenuCommands;
 import models.enums.Menu;
@@ -37,15 +38,21 @@ public class GameMenu implements AppMenu{
             }
             if(start!= null){
                 List<String> usernames = new ArrayList<>();
-                Result res=controller.startGameErrors(usernames);
-                if(!res.isSuccessful()) System.out.println(res.message());
                 usernames.add(App.getLoggedInUser().getUsername());
-                for (int i = 1; i <= 3; i++) {
+               String user1 = start.group(1);
+                if(user1 == null){
+                    System.out.println("you need at least one more player to start game");
+                    return;
+                }
+                usernames.add(user1);
+                for (int i = 2; i <= 3; i++) {
                     String user = start.group(i);
                     if (user != null) {
                         usernames.add(user);
                     }
                 }
+//                Result res=controller.startGameErrors(usernames);
+//                if(!res.isSuccessful()) System.out.println(res.message());
 
                 Result userValidation = controller.userListIsValid(usernames);
                 if(userValidation.isSuccessful()){
@@ -100,12 +107,28 @@ public class GameMenu implements AppMenu{
             Matcher showDate = GameMenuCommands.SHOW_DATE.getMatcher(input);
             Matcher showDateAndTime = GameMenuCommands.SHOW_DATE_AND_TIME.getMatcher(input);
             Matcher showWeekDay = GameMenuCommands.SHOW_WEEKDAY.getMatcher(input);
-            Matcher cheatHour = GameMenuCommands.CHEAT_HOUR.getMatcher(input);
-            Matcher cheatDay = GameMenuCommands.CHEAT_DAY.getMatcher(input);
+            Matcher cheatHour = CheatCodes.CHEAT_ADVANCE_TIME.getMatcher(input);
+            Matcher cheatDay = CheatCodes.CHEAT_ADVANCE_DATE.getMatcher(input);
+            Matcher cheatThor = CheatCodes.CHEAT_THOR.getMatcher(input);
+            Matcher showWeather = GameMenuCommands.SHOW_WEATHER.getMatcher(input);
+            Matcher weatherForeCast = GameMenuCommands.FORECAST_WEATHER.getMatcher(input);
+            Matcher cheatWeather = CheatCodes.CHEAT_WEATHER_SET.getMatcher(input);
 
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
+            } else if (cheatWeather != null) {
+                Result result = controller.cheatWeatherState(cheatWeather);
+                System.out.println(result.message());
+            } else if (weatherForeCast != null) {
+                Result result = controller.foreCastWeather();
+                System.out.println(result.message());
+            } else if (showWeather != null) {
+               String state = App.getCurrentGame().getMap().getWeather().getState().getDisplayName();
+                System.out.println("weather is now "+state);
+            } else if (cheatThor != null) {
+                Result result = controller.cheatThor(cheatThor);
+                System.out.println(result.message());
             } else if (cheatDay != null) {
                 Result result = controller.cheatDay(cheatDay);
                 System.out.println(result.message());

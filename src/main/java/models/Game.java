@@ -2,9 +2,13 @@ package models;
 
 import models.character.Character;
 import models.date.Date;
+import models.enums.Season;
+import models.enums.WeatherState;
 import models.map.Map;
+import models.map.Weather;
 
 import java.util.List;
+import java.util.Random;
 
 public class Game implements Runnable {
 
@@ -24,6 +28,15 @@ public class Game implements Runnable {
         this.allCharacters = characters;
         this.date = new Date();
     }
+
+
+    public void changeDayActivities() {
+        handleWeatherBeforeDayChange();
+        date.setHour(9);
+    }
+
+
+
 
     public void startGameThread() {
         if (gameThread == null || !running) {
@@ -76,7 +89,12 @@ public class Game implements Runnable {
     }
 
     public Character getCurrentCharacter() {
-        return allCharacters.get(currentCharacter);
+        for (int i = 0; i < allCharacters.size(); i++) {
+            if(i==currentCharacter){
+                return allCharacters.get(i);
+            }
+        }
+        return null;
     }
 
     public String changeTurn() {
@@ -95,4 +113,23 @@ public class Game implements Runnable {
     public Date getDate() {
         return date;
     }
+
+    public Map getMap() {
+        return map;
+    }
+
+    private void handleWeatherBeforeDayChange() {
+        Weather weather = map.getWeather();
+        weather.changeTomorrowWeatherState();
+        weather.setState(weather.getTomorrowWeatherState());
+
+        if (weather.getState().equals(WeatherState.Storm)) {
+            for (int i = 0; i < 3; i++) {
+                int x = RandomNumber.getRandomNumberWithBoundaries(0, 79);
+                int y = RandomNumber.getRandomNumberWithBoundaries(0, 79);
+                weather.lightning(x, y);
+            }
+        }
+    }
+
 }
