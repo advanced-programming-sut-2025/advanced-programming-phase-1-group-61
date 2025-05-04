@@ -26,7 +26,7 @@ public enum NpcInfo {
     private final List<Item> favorites;
     private final HashMap<Item, Integer> requests;
     private final HashMap<Item, Integer> rewards;
-    private NpcInfo(List<Item> favorites, HashMap<Item, Integer> requests, HashMap<Item, Integer> rewards) {
+    NpcInfo(List<Item> favorites, HashMap<Item, Integer> requests, HashMap<Item, Integer> rewards) {
         this.favorites = favorites;
         this.requests = requests;
         this.rewards = rewards;
