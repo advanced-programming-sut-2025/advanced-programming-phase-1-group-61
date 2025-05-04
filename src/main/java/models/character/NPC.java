@@ -1,5 +1,6 @@
 package models.character;
 
+import models.Item;
 import models.enums.NpcInfo;
 
 import java.util.ArrayList;
@@ -9,13 +10,11 @@ import java.util.List;
 public class NPC {
     private NpcInfo info;
     private HashMap<Character,Integer> friendships=new HashMap<>();
-    private List<Request> requestList = new ArrayList<>();
-    List<String> dialogues = new ArrayList<>();
+    private final HashMap<Item,Integer> requestList;
 
     public NPC(NpcInfo info) {
         this.info = info;
-//        this.requestList = info.getQuests();
-//        this.dialogues = info.getDialogues();
+        this.requestList = info.getRequests();
     }
 
     public void move(){
