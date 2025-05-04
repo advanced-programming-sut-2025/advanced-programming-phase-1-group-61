@@ -40,4 +40,6 @@ public enum NpcInfo {
     public HashMap<Item, Integer> getRewards() {
         return rewards;
     }
+
+
 }

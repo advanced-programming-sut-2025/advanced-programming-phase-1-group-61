@@ -14,8 +14,8 @@ public class NPC {
 
     public NPC(NpcInfo info) {
         this.info = info;
-        this.requestList = info.getQuests();
-        this.dialogues = info.getDialogues();
+//        this.requestList = info.getQuests();
+//        this.dialogues = info.getDialogues();
     }
 
     public void move(){
