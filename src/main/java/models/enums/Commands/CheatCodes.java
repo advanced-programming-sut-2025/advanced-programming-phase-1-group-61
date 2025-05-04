@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 public enum CheatCodes {
     CHEAT_ADVANCE_TIME("^cheat\\s+advance\\s+time\\s+(?<hour>\\d+)h$"),
     CHEAT_ADVANCE_DATE("^cheat\\s+advance\\s+date\\s+(?<day>\\d+)d$"),
-    CHEAT_THOR("^cheat\\s+Thor -l (?<x>\\d+)\\s+(?<y>\\d+))$"),
+    CHEAT_THOR("^cheat\\s+Thor\\s+-l\\s+(?<x>\\d+)\\s+(?<y>\\d+))$"),
     CHEAT_WEATHER_SET("^cheat\\s+weather\\s+set (?<type>.*)$"),
     ENERGY_SET("^energy\\s+set\\s+-v (?<value>.*)$"),
     ENERGY_UNLIMITED("^energy\\s+unlimited$"),

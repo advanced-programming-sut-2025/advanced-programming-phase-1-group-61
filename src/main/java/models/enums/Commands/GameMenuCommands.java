@@ -16,7 +16,9 @@ public enum GameMenuCommands {
     SHOW_HOUR("^time$"),
     SHOW_DATE("^date$"),
     SHOW_DATE_AND_TIME("^datetime$"),
-    SHOW_WEEKDAY("^day\\s+of\\s+the\\s+week$");
+    SHOW_WEEKDAY("^day\\s+of\\s+the\\s+week$"),
+    SHOW_WEATHER("^weather$"),
+    FORECAST_WEATHER("^weather\\s+forecast$");
 
 
     private String pattern;
