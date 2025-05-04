@@ -84,9 +84,9 @@ public class GameMenu implements AppMenu{
                     if(result.isSuccessful()){
                         inGame = true;
                     }
-                }else {
-                    System.out.println(userValidation.message());
-                }
+                }//else {
+//                    System.out.println(userValidation.message());
+//                }
             }
             else if (loadGame != null){
             Result result = controller.loadGame();
