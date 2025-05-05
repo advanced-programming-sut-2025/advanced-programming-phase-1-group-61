@@ -2,6 +2,7 @@ package models;
 
 import models.character.Character;
 import models.date.Date;
+import models.enums.ItemType;
 import models.enums.Season;
 import models.enums.TileType;
 import models.enums.WeatherState;
@@ -137,7 +138,15 @@ public class Game implements Runnable {
         for (Tile[] tiles : map.getTiles()) {
             for (Tile tile : tiles) {
                 if(tile.getType().equals(TileType.grass)){
-                    tile.setResource(new Resource());
+                    if(tile.getResource() == null){
+                        if(date.getSeason().equals(Season.Spring)){
+                            int rand = RandomNumber.getRandomNumber();
+                            switch (rand%100){
+                                case 0: tile.setItem(new Item(ItemType.commonMushroom));
+                                case 1: tile.setItem(new Item(ItemType.daffodil));
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -33,19 +33,33 @@ public class MapBuilder {
 
         buildCity(fullMap , fullWidth,fullHeight);
         Tile[][] tiles = new Tile[fullHeight][fullWidth];
-        int i =0, j =0;
-        for (String[] strings : fullMap) {
-            for (String string : strings) {
-                tiles[j][i] = new Tile(i, j, TileType.getTypeByNumber(string.trim()), null);
-                i++;
+        for (int y = 0; y < fullHeight; y++) {
+            for (int x = 0; x < fullWidth; x++) {
+                TileType tileType = TileType.getTypeByNumber(fullMap[y][x].trim());
+                int ownerId = getOwnerIdForPosition(x, y, FARM_WIDTH, FARM_HEIGHT, cityWidth, cityHeight);
+                tiles[y][x] = new Tile(x, y, tileType, null, ownerId);
             }
-            i=0;
-            j++;
         }
+
+
 
 
         return new Map(tiles , new Weather(WeatherState.Sunny));
     }
+
+    private static int getOwnerIdForPosition(int x, int y, int farmWidth, int farmHeight, int cityWidth, int cityHeight) {
+        if (x < farmWidth && y < farmHeight) {
+            return 0; // Player 1
+        } else if (x >= farmWidth + cityWidth && y < farmHeight) {
+            return 1; // Player 2
+        } else if (x < farmWidth && y >= farmHeight + cityHeight) {
+            return 2; // Player 3
+        } else if (x >= farmWidth + cityWidth && y >= farmHeight + cityHeight) {
+            return 3; // Player 4
+        }
+        return -1; // City
+    }
+
 
     private static void placeFarm(String[][] fullMap, String[][] farm, int offsetY, int offsetX) {
         for (int y = 0; y < farm.length; y++) {

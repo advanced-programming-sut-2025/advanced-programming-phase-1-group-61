@@ -5,10 +5,45 @@ import models.enums.ItemType;
 public class Item {
     private ItemType itemType;
     private int price;
-    private int quantity;
+    private boolean isEdible;
+    private int energy;
 
     public Item(ItemType itemType) {
         this.itemType = itemType;
         this.price = itemType.getPrice();
+        this.isEdible = itemType.isEdible();
+        this.energy = itemType.getEnergy();
+    }
+
+    public ItemType getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(ItemType itemType) {
+        this.itemType = itemType;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public boolean isEdible() {
+        return isEdible;
+    }
+
+    public void setEdible(boolean edible) {
+        isEdible = edible;
+    }
+
+    public int getEnergy() {
+        return energy;
+    }
+
+    public void setEnergy(int energy) {
+        this.energy = energy;
     }
 }
