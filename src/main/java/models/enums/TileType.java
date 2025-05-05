@@ -1,23 +1,26 @@
 package models.enums;
 
 public enum TileType {
-    soil(false,1),
-    water(true,2),
-    grass(false,0),
-    cabinFloor(false , 4),
-    cabinWall(true , 6),
-    stone(false , 5);
+    grass(false,"0"),
+    soil(false,"1"),
+    water(true,"2"),
+    brokenGreenHouse(true , "3"),
+    brokenGreenHouseWall(true , "7"),
+    cabinFloor(false , "4"),
+    cabinWall(true , "6"),
+    stone(false , "5"),
+    door(false , "8");
     private boolean collisionOn;
-    private int typeNum;
+    private String  typeNum;
 
-    TileType(boolean collisionOn,int typeNum) {
+    TileType(boolean collisionOn,String typeNum) {
         this.typeNum = typeNum;
         this.collisionOn = collisionOn;
     }
 
-    public static TileType getTypeByNumber(int typeNum) {
+    public static TileType getTypeByNumber(String typeNum) {
         for (TileType type : TileType.values()) {
-            if (type.getTypeNum() == typeNum) {
+            if(type.getTypeNum().equals(typeNum)){
                 return type;
             }
         }
@@ -25,7 +28,7 @@ public enum TileType {
     }
 
 
-    public int getTypeNum() {
+    public String getTypeNum() {
         return typeNum;
     }
 

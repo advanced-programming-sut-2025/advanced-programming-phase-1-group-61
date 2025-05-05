@@ -8,25 +8,6 @@ public class TileBuilder {
     public static int WIDTH = 36;
     public static int HEIGHT = 20;
 
-//    public static String[][] buildDefaultFarm()  {
-//        String[][] farm = new String[HEIGHT][WIDTH];
-//        for (int y = 0; y < HEIGHT; y++) {
-//            for (int x = 0; x < WIDTH; x++) {
-//                farm[y][x] = "0";
-//            }
-//        }
-//        for (int y = 0; y < 6; y++) {
-//            for (int x = 0; x < 5; x++) {
-//                farm[y][x] = "4";
-//            }
-//        }
-//        for (int y = 16; y < 20; y++) {
-//            for (int x = 7; x < 20; x++) {
-//                farm[y][x] = "5";
-//            }
-//        }
-//        return farm;
-//    }
     public static String[][] buildMap(int mapNumber)  {
             File map;
             Scanner mapScanner;

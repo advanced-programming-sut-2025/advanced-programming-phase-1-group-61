@@ -3,9 +3,12 @@ package models;
 import models.character.Character;
 import models.date.Date;
 import models.enums.Season;
+import models.enums.TileType;
 import models.enums.WeatherState;
 import models.map.Map;
+import models.map.Tile;
 import models.map.Weather;
+import models.resource.Resource;
 
 import java.util.List;
 import java.util.Random;
@@ -34,8 +37,6 @@ public class Game implements Runnable {
         handleWeatherBeforeDayChange();
         date.setHour(9);
     }
-
-
 
 
     public void startGameThread() {
@@ -128,6 +129,16 @@ public class Game implements Runnable {
                 int x = RandomNumber.getRandomNumberWithBoundaries(0, 79);
                 int y = RandomNumber.getRandomNumberWithBoundaries(0, 79);
                 weather.lightning(x, y);
+            }
+        }
+    }
+
+    private void spawnRandomObjectsOnMap(){
+        for (Tile[] tiles : map.getTiles()) {
+            for (Tile tile : tiles) {
+                if(tile.getType().equals(TileType.grass)){
+                    tile.setResource(new Resource());
+                }
             }
         }
     }
