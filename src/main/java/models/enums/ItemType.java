@@ -40,7 +40,20 @@ public enum ItemType {
     salmonBerry(5 , "salmon berry", 25 , true),
     springOnion(8  ,"spring onion" , 13 , true),
     wildHorseradish(50  , "wildHorseradish" , 13 , true),
-    fiddleHead(90 , "fiddle head" ,25 , true);
+    fiddleHead(90 , "fiddle head" ,25 , true),
+    redMushroom(75, "red mushroom", -50, true),
+    spiceBerry(80, "spice berry", 25, true),
+    sweetPea(50, "sweet pea", 0, false),
+    blackberry(25, "blackberry", 25, true),
+    chanterelle(160, "chanterelle", 75, true),
+    hazelnut(40, "hazelnut", 38, true),
+    purpleMushroom(90, "purple mushroom", 30, true),
+    wildPlum(80, "wild plum", 25, true),
+    crocus(60, "crocus", 0, false),
+    crystalFruit(150, "crystal fruit", 63, true),
+    holly(80, "holly", -37, true),
+    snowYam(100, "snow yam", 30, true),
+    winterRoot(70, "winter root", 25, true);
 
 
 
@@ -59,5 +72,17 @@ public enum ItemType {
 
     public int getPrice() {
         return price;
+    }
+
+    public String getDisPlayName() {
+        return disPlayName;
+    }
+
+    public int getEnergy() {
+        return energy;
+    }
+
+    public boolean isEdible() {
+        return isEdible;
     }
 }
