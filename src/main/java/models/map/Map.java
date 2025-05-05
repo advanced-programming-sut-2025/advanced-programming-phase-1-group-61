@@ -16,4 +16,8 @@ public class Map {
     public Weather getWeather() {
         return weather;
     }
+
+    public Tile[][] getTiles() {
+        return tiles;
+    }
 }

@@ -60,7 +60,6 @@ public class GameMenuController {
             return new Result(false , "uou need at least one other player");
         }
 
-        // start game errors
 
         for (String username : usernames) {
             userList.add(User.getUserByUsername(username));
@@ -69,6 +68,11 @@ public class GameMenuController {
         List<Character> characterList = new ArrayList<>();
         for (User user : userList) {
             characterList.add(new Character(user.getId()));
+        }
+        for (User user : userList) {
+            if(user.getGameId() != 0){
+                return new Result(false , user.getUsername()+" is already in another game.");
+            }
         }
         Game game = new Game(map , characterList);
         for (User user : userList) {

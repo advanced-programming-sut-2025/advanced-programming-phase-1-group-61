@@ -36,7 +36,7 @@ public class MapBuilder {
         int i =0, j =0;
         for (String[] strings : fullMap) {
             for (String string : strings) {
-                tiles[j][i] = new Tile(i, j, TileType.getTypeByNumber(Integer.parseInt(string.trim())), null);
+                tiles[j][i] = new Tile(i, j, TileType.getTypeByNumber(string.trim()), null);
                 i++;
             }
             i=0;
@@ -124,31 +124,6 @@ public class MapBuilder {
             System.out.println("lowerCity.txt not found");
             throw new RuntimeException(e);
         }
-//        for (int x = 0; x < width; x++) {
-//            for (int y = 0; y < height/2-3; y++) {
-//               if(fullMap[y][x]==null){
-//                   fullMap[y][x]="1";
-//               }
-//            }
-//        }
-//        for (int x = 0; x < width; x++) {
-//            for (int y = height/2-3; y < height/2+4 ; y++) {
-//                if(fullMap[y][x]==null){
-//                    fullMap[y][x]="9";
-//                }
-//            }
-//        }
-
-//        for (int x = 0; x < width; x++) {
-//            for (int y = height/2+4; y < height; y++) {
-//                if(fullMap[y][x]==null){
-//                    fullMap[y][x] = "3";
-//                }
-//            }
-//        }
-
-
-
         return fullMap;
     }
 }
