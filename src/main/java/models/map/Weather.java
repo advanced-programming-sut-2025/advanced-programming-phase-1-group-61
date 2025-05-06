@@ -35,15 +35,30 @@ public class Weather {
             if(season.equals(Season.Winter)){
                 int randomNumber = RandomNumber.getRandomNumberWithBoundaries(0,2);
                 switch (randomNumber%2){
-                    case 0: tomorrowWeatherState = WeatherState.Sunny;
-                    case 1: tomorrowWeatherState = WeatherState.Snow;
+                    case 0: {
+                        tomorrowWeatherState = WeatherState.Sunny;
+                        break;
+                    }
+                    case 1:{
+                        tomorrowWeatherState = WeatherState.Snow;
+                        break;
+                    }
                 }
             } else{
                 int randomNumber = RandomNumber.getRandomNumberWithBoundaries(0,3);
                 switch (randomNumber%3){
-                    case 0: tomorrowWeatherState = WeatherState.Sunny;
-                    case 1: tomorrowWeatherState = WeatherState.Rain;
-                    case 2: tomorrowWeatherState = WeatherState.Storm;
+                    case 0:{
+                        tomorrowWeatherState = WeatherState.Sunny;
+                        break;
+                    }
+                    case 1:{
+                        tomorrowWeatherState = WeatherState.Rain;
+                        break;
+                    }
+                    case 2: {
+                        tomorrowWeatherState = WeatherState.Storm;
+                        break;
+                    }
                 }
             }
         }else {

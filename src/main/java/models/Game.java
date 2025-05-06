@@ -142,8 +142,14 @@ public class Game implements Runnable {
                         if(date.getSeason().equals(Season.Spring)){
                             int rand = RandomNumber.getRandomNumber();
                             switch (rand%100){
-                                case 0: tile.setItem(new Item(ItemType.commonMushroom));
-                                case 1: tile.setItem(new Item(ItemType.daffodil));
+                                case 0:{
+                                    tile.setItem(new Item(ItemType.commonMushroom));
+                                    break;
+                                }
+                                case 1:{
+                                    tile.setItem(new Item(ItemType.daffodil));
+                                    break;
+                                }
                             }
                         }
                     }
