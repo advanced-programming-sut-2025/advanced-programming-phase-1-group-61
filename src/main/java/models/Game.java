@@ -134,7 +134,7 @@ public class Game implements Runnable {
         }
     }
 
-    private void spawnRandomObjectsOnMap(){
+    private void spawnRandomItemsOnMap(){
         for (Tile[] tiles : map.getTiles()) {
             for (Tile tile : tiles) {
                 if(tile.getType().equals(TileType.grass)){
@@ -169,6 +169,52 @@ public class Game implements Runnable {
                                     tile.setItem(new Item(ItemType.wildHorseradish));
                                     break;
                                 }
+                                case 8:{
+                                    tile.setItem(new Item(ItemType.jazzSeed));
+                                    break;
+                                }
+                                case 9:{
+                                    tile.setItem(new Item(ItemType.carrotSeed));
+                                    break;
+                                }
+                                case 10:{
+                                    tile.setItem(new Item(ItemType.cauliflowerSeed));
+                                    break;
+                                }
+                                case 11:{
+                                    tile.setItem(new Item(ItemType.coffeeBeen));
+                                    break;
+                                }
+                                case 12:{
+                                    tile.setItem(new Item(ItemType.garlicSeed));
+                                    break;
+                                }
+                                case 13:{
+                                    tile.setItem(new Item(ItemType.beanStarter));
+                                    break;
+                                }
+                                case 14:{
+                                    tile.setItem(new Item(ItemType.kaleSeed));
+                                    break;
+                                } case 15:{
+                                    tile.setItem(new Item(ItemType.parsnipSeed));
+                                    break;
+                                } case 16:{
+                                    tile.setItem(new Item(ItemType.potatoSeed));
+                                    break;
+                                } case 17:{
+                                    tile.setItem(new Item(ItemType.rhubarbSeed));
+                                    break;
+                                } case 18:{
+                                    tile.setItem(new Item(ItemType.strawberrySeed));
+                                    break;
+                                } case 19:{
+                                    tile.setItem(new Item(ItemType.tulipBulb));
+                                    break;
+                                } case 20:{
+                                    tile.setItem(new Item(ItemType.riceShoot));
+                                    break;
+                                }
                             }
                         } else if (date.getSeason().equals(Season.Summer)) {
                             switch (rand%100){
@@ -189,9 +235,52 @@ public class Game implements Runnable {
                                 }
                                 case 4:{
                                     tile.setItem(new Item(ItemType.sweetPea));
+                                    break;
+                                } case 5:{
+                                    tile.setItem(new Item(ItemType.blueberrySeed));
+                                    break;
+                                } case 6:{
+                                    tile.setItem(new Item(ItemType.cornSeed));
+                                    break;
+                                } case 7:{
+                                    tile.setItem(new Item(ItemType.hopsStarter));
+                                    break;
+                                } case 8:{
+                                    tile.setItem(new Item(ItemType.pepperSeed));
+                                    break;
+                                } case 9:{
+                                    tile.setItem(new Item(ItemType.melonSeed));
+                                    break;
+                                } case 10:{
+                                    tile.setItem(new Item(ItemType.poppySeed));
+                                    break;
+                                } case 11:{
+                                    tile.setItem(new Item(ItemType.radishSeed));
+                                    break;
+                                } case 12:{
+                                    tile.setItem(new Item(ItemType.redCabbageSeed));
+                                    break;
+                                } case 13:{
+                                    tile.setItem(new Item(ItemType.starfruitSeed));
+                                    break;
+                                } case 14:{
+                                    tile.setItem(new Item(ItemType.spangleSeed));
+                                    break;
+                                } case 15:{
+                                    tile.setItem(new Item(ItemType.summerSquashSeed));
+                                    break;
+                                } case 16:{
+                                    tile.setItem(new Item(ItemType.sunflowerSeed));
+                                    break;
+                                } case 17:{
+                                    tile.setItem(new Item(ItemType.tomatoSeed));
+                                    break;
+                                } case 18:{
+                                    tile.setItem(new Item(ItemType.wheatSeed));
+                                    break;
                                 }
                             }
-                        } else if (date.getSeason().equals(Season.Fall)) {
+                        } else if (date.getSeason().equals(Season.Fall))  {
                             switch (rand%100) {
                                 case 0: {
                                     tile.setItem(new Item(ItemType.blackberry));
@@ -212,6 +301,41 @@ public class Game implements Runnable {
                                 case 4:{
                                     tile.setItem(new Item(ItemType.wildPlum));
                                     break;
+                                } case 5:{
+                                    tile.setItem(new Item(ItemType.amaranthSeed));
+                                    break;
+                                } case 6:{
+                                    tile.setItem(new Item(ItemType.artichokeSeed));
+                                    break;
+                                } case 7:{
+                                    tile.setItem(new Item(ItemType.beetSeed));
+                                    break;
+                                } case 8:{
+                                    tile.setItem(new Item(ItemType.bokChoySeed));
+                                    break;
+                                } case 9:{
+                                    tile.setItem(new Item(ItemType.broccoliSeed));
+                                    break;
+                                } case 10:{
+                                    tile.setItem(new Item(ItemType.cranberrySeed));
+                                    break;
+                                } case 11:{
+                                    tile.setItem(new Item(ItemType.eggplantSeed));
+                                    break;
+                                } case 12:{
+                                    tile.setItem(new Item(ItemType.fairySeed));
+                                    break;
+                                } case 13:{
+                                    tile.setItem(new Item(ItemType.grapeStarter));
+                                    break;
+                                } case 14:{
+                                    tile.setItem(new Item(ItemType.pumpkinSeed));
+                                    break;
+                                } case 15:{
+                                    tile.setItem(new Item(ItemType.yamSeed));
+                                    break;
+                                } case 16:{
+                                    tile.setItem(new Item(ItemType.rareSeed));
                                 }
                             }
                         } else if (date.getSeason().equals(Season.Winter)) {
@@ -235,8 +359,85 @@ public class Game implements Runnable {
                                 case 4:{
                                     tile.setItem(new Item(ItemType.winterRoot));
                                     break;
+                                } case 5:{
+                                    tile.setItem(new Item(ItemType.powdermelonSeed));
+                                    break;
                                 }
                             }
+                        }
+                    }
+                } else if (tile.getType().equals(TileType.stone)) {
+                    if(tile.getResource() == null){
+                    int rand = RandomNumber.getRandomNumber();
+                        switch (rand%100){
+                            case 0:{
+                                tile.setItem(new Item(ItemType.Quartz));
+                                break;
+                            }
+                            case 1:{
+                                tile.setItem(new Item(ItemType.earthCrystal));
+                                break;
+                            }
+                            case 2:{
+                                tile.setItem(new Item(ItemType.frozenTear));
+                                break;
+                            }
+                            case 3:{
+                                tile.setItem(new Item(ItemType.fireQuartz));
+                                break;
+                            }
+                            case 4:{
+                                tile.setItem(new Item(ItemType.emerald));
+                                break;
+                            }
+                            case 5:{
+                                tile.setItem(new Item(ItemType.aquamarine));
+                                break;
+                            }
+                            case 6:{
+                                tile.setItem(new Item(ItemType.ruby));
+                                break;
+                            }
+                            case 7:{
+                                tile.setItem(new Item(ItemType.amethyst));
+                                break;
+                            }
+                            case 8:{
+                                tile.setItem(new Item(ItemType.topaz));
+                                break;
+                            }
+                            case 9:{
+                                tile.setItem(new Item(ItemType.jade));
+                                break;
+                            }
+                            case 10:{
+                                tile.setItem(new Item(ItemType.Diamond));
+                                break;
+                            }
+                            case 11:{
+                                tile.setItem(new Item(ItemType.prismaticShard));
+                                break;
+                            }
+                            case 12:{
+                                tile.setItem(new Item(ItemType.copper));
+                                break;
+                            }
+                            case 13:{
+                                tile.setItem(new Item(ItemType.Iron));
+                                break;
+                            }
+                            case 14:{
+                                tile.setItem(new Item(ItemType.Gold));
+                                break;
+                            }
+                            case 15:{
+                                tile.setItem(new Item(ItemType.iridium));
+                                break;
+                            }
+                            case 16:{
+                                tile.setItem(new Item(ItemType.coal));
+                            }
+
                         }
                     }
                 }
