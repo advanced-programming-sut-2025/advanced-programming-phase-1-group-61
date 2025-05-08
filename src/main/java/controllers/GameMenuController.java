@@ -66,8 +66,12 @@ public class GameMenuController {
         }
         Map map = MapBuilder.buildFullMap(mapNumbers[0],mapNumbers[1],mapNumbers[2],mapNumbers[3]);
         List<Character> characterList = new ArrayList<>();
+        int i = 0;
         for (User user : userList) {
             Character character = new Character(user.getId());
+            character.moveX(map.getXSpawnPoints().get(i));
+            character.moveY(map.getYSpawnPoints().get(i));
+            i++;
             characterList.add(character);
         }
         for (User user : userList) {

@@ -9,6 +9,8 @@ import models.map.Weather;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class MapBuilder {
@@ -33,18 +35,25 @@ public class MapBuilder {
 
         buildCity(fullMap , fullWidth,fullHeight);
         Tile[][] tiles = new Tile[fullHeight][fullWidth];
+        List<Integer> xSpawnPoints = new ArrayList<>();
+        List<Integer> ySpawnPoints = new ArrayList<>();
         for (int y = 0; y < fullHeight; y++) {
             for (int x = 0; x < fullWidth; x++) {
-                TileType tileType = TileType.getTypeByNumber(fullMap[y][x].trim());
+                String mapSymbole = fullMap[y][x].trim().toLowerCase();
+                if(mapSymbole.equals("s")){
+                    ySpawnPoints.add(y);
+                    xSpawnPoints.add(x);
+                    mapSymbole = "4";
+                }
+                TileType tileType = TileType.getTypeByNumber(mapSymbole);
                 int ownerId = getOwnerIdForPosition(x, y, FARM_WIDTH, FARM_HEIGHT, cityWidth, cityHeight);
                 tiles[y][x] = new Tile(x, y, tileType, null, ownerId);
             }
         }
-
-
-
-
-        return new Map(tiles , new Weather(WeatherState.Sunny));
+        Map map = new Map(tiles , new Weather(WeatherState.Sunny));
+        map.setXSpawnPoints(xSpawnPoints);
+        map.setYSpawnPoints(ySpawnPoints);
+        return map;
     }
 
     private static int getOwnerIdForPosition(int x, int y, int farmWidth, int farmHeight, int cityWidth, int cityHeight) {
