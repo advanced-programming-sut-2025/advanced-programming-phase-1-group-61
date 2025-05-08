@@ -113,6 +113,7 @@ public class GameMenu implements AppMenu{
             Matcher showWeather = GameMenuCommands.SHOW_WEATHER.getMatcher(input);
             Matcher weatherForeCast = GameMenuCommands.FORECAST_WEATHER.getMatcher(input);
             Matcher cheatWeather = CheatCodes.CHEAT_WEATHER_SET.getMatcher(input);
+            Matcher walk = GameMenuCommands.WALK.getMatcher(input);
 
 
             if (showCurrentMenu != null){
@@ -150,6 +151,11 @@ public class GameMenu implements AppMenu{
             } else if (cheatHour != null) {
                 Result result = controller.cheatHour(cheatHour);
                 System.out.println(result.message());
+            } else if(walk != null){
+                Result res=controller.energyResult(walk);
+                System.out.println(res.message());
+                String confirmation=scanner.nextLine();
+                controller.walk(confirmation);
             } else if(equipTool != null){
                 //TODO
             }else if(exitGame != null){

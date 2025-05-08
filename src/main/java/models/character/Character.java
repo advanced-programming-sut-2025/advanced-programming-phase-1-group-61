@@ -25,6 +25,7 @@ public class Character {
     private Tool currentTool;
     private ArrayList<Animal> animals=new ArrayList<>();
     private ArrayList<Recipe> recipes=new ArrayList<>();
+    private ArrayList<Cell> lastPath;
     public Character(int userId){
         this.userId=userId;
         currentTool=null;
@@ -84,25 +85,30 @@ public class Character {
         return userId;
     }
 
-    public void moveCharacter(int targetX, int targetY){
+    public void moveCharacter(){
+        for(Cell cell:lastPath){
+            this.setX(cell.getX());
+            this.setY(cell.getY());
+        }
+    }
+
+    public void findPath(int targetX, int targetY){
+        lastPath=new ArrayList<>();
         Map map= App.getCurrentGame().getMap();
         if(map==null) return;
         if(map.getTiles()[targetY][targetX].getType().isCollisionOn()) return;
         Cell targetCell=bfs(targetX,targetY,map);
         if(targetCell==null) return;
-        ArrayList<Cell> cells=new ArrayList<>();
         while(targetCell!=null){
-            cells.add(targetCell);
+            lastPath.add(targetCell);
             targetCell=targetCell.getPreviousCell();
         }
-        Collections.reverse(cells);
-        cells.remove(0); //remove the cell where user stands at the moment
-        int energyNeeded=cells.size()/20;
-        if(energyNeeded>energy) return;
-        for(Cell cell:cells){
-            this.setX(cell.getX());
-            this.setY(cell.getY());
-        }
+        Collections.reverse(lastPath);
+        lastPath.remove(0); //remove the cell where user stands at the moment
+    }
+    public int getNeededEnergy(int targetX, int targetY){
+        findPath(targetX,targetY);
+        return lastPath.size()/20;
     }
     private Cell bfs(int targetX, int targetY,Map map){
         boolean[][] visited=new boolean[map.getHeightSize()][map.getWidthSize()];
