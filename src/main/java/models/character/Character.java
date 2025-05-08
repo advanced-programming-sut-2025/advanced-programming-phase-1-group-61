@@ -36,6 +36,23 @@ public class Character {
     public void upgradeTool(Tool desiredTool){
 
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public void moveX(int x) {
+        this.x += x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void moveY(int y) {
+        this.y += y;
+    }
+
     public void faint(){
         //TODO
 
