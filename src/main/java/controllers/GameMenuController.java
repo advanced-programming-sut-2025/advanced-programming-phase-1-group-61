@@ -69,8 +69,8 @@ public class GameMenuController {
         int i = 0;
         for (User user : userList) {
             Character character = new Character(user.getId());
-            character.moveX(map.getXSpawnPoints().get(i));
-            character.moveY(map.getYSpawnPoints().get(i));
+            character.setX(map.getXSpawnPoints().get(i));
+            character.setY(map.getYSpawnPoints().get(i));
             i++;
             characterList.add(character);
         }
