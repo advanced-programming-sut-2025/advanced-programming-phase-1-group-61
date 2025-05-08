@@ -1,13 +1,18 @@
 package models.character;
 
+import models.App;
 import models.Item;
 import models.User;
 import models.animal.Animal;
 import models.enums.Recipe;
+import models.map.Map;
 import models.tool.Backpack;
 import models.tool.Tool;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Queue;
 
 public class Character {
     private int userId;
@@ -41,16 +46,16 @@ public class Character {
         return x;
     }
 
-    public void moveX(int x) {
-        this.x += x;
-    }
-
     public int getY() {
         return y;
     }
 
-    public void moveY(int y) {
-        this.y += y;
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     public void faint(){
@@ -69,5 +74,57 @@ public class Character {
 
     public int getUserId() {
         return userId;
+    }
+
+    public void moveCharacter(int targetX, int targetY){
+        Map map= App.getCurrentGame().getMap();
+        if(map==null) return;
+        if(map.getTiles()[targetY][targetX].getType().isCollisionOn()) return;
+        Cell targetCell=bfs(targetX,targetY,map);
+        if(targetCell==null) return;
+        ArrayList<Cell> cells=new ArrayList<>();
+        while(targetCell!=null){
+            cells.add(targetCell);
+            targetCell=targetCell.getPreviousCell();
+        }
+        Collections.reverse(cells);
+        cells.remove(0); //remove the cell where user stands at the moment
+        for(Cell cell:cells){
+            cell.setX(cell.getX());
+            cell.setY(cell.getY());
+        }
+    }
+    private Cell bfs(int targetX, int targetY,Map map){
+        boolean[][] visited=new boolean[map.getHeightSize()][map.getWidthSize()];
+        visited[getY()][getX()]=true;
+        Cell cell=new Cell()
+                .setX(targetX)
+                .setY(targetY)
+                .setPreviousCell(null);
+        Queue<Cell> cells=new ArrayDeque<>();
+        cells.add(cell);
+        while(!cells.isEmpty()){
+            Cell lastCell=cells.poll();
+            for(int i=0;i<4;i++){
+                int[] dx={1,0,-1,0};
+                int[] dy={0,1,0,-1};
+                int newX=lastCell.getX()+dx[i];
+                int newY=lastCell.getY()+dy[i];
+                if(newY<0 || newX<0 || newY>=map.getHeightSize() || newX>=map.getWidthSize()) continue;
+                if(map.getTiles()[newY][newX].getType().isCollisionOn() ||
+                        map.getTiles()[newY][newX].getResource()!=null) continue;
+                if(visited[newY][newX]) continue;
+                visited[newY][newX]=true;
+                Cell newCell=new Cell()
+                        .setX(newX)
+                        .setY(newY)
+                        .setPreviousCell(lastCell);
+                cells.add(newCell);
+                if(newX==targetX && newY==targetY){
+                    return newCell;
+                }
+            }
+        }
+        return null;
     }
 }
