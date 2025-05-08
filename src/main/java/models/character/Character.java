@@ -50,6 +50,14 @@ public class Character {
         return y;
     }
 
+    public void moveX(int x){
+        this.x+=x;
+    }
+
+    public void moveY(int y){
+        this.y+=y;
+    }
+
     public void setX(int x) {
         this.x = x;
     }
@@ -89,6 +97,8 @@ public class Character {
         }
         Collections.reverse(cells);
         cells.remove(0); //remove the cell where user stands at the moment
+        int energyNeeded=cells.size()/20;
+        if(energyNeeded>energy) return;
         for(Cell cell:cells){
             this.setX(cell.getX());
             this.setY(cell.getY());
@@ -106,8 +116,8 @@ public class Character {
         while(!cells.isEmpty()){
             Cell lastCell=cells.poll();
             for(int i=0;i<4;i++){
-                int[] dx={1,0,-1,0};
-                int[] dy={0,1,0,-1};
+                int[] dx={1,0,-1,0,1,1,-1,-1};
+                int[] dy={0,1,0,-1,1,-1,1,-1};
                 int newX=lastCell.getX()+dx[i];
                 int newY=lastCell.getY()+dy[i];
                 if(newY<0 || newX<0 || newY>=map.getHeightSize() || newX>=map.getWidthSize()) continue;
