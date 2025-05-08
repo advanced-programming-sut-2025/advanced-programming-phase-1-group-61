@@ -25,6 +25,7 @@ public class Character {
     private Tool currentTool;
     private ArrayList<Animal> animals=new ArrayList<>();
     private ArrayList<Recipe> recipes=new ArrayList<>();
+    private ArrayList<Cell> lastPath;
     public Character(int userId){
         this.userId=userId;
         currentTool=null;
@@ -48,6 +49,14 @@ public class Character {
 
     public int getY() {
         return y;
+    }
+
+    public void moveX(int x){
+        this.x+=x;
+    }
+
+    public void moveY(int y){
+        this.y+=y;
     }
 
     public void setX(int x) {
@@ -76,23 +85,30 @@ public class Character {
         return userId;
     }
 
-    public void moveCharacter(int targetX, int targetY){
+    public void moveCharacter(){
+        for(Cell cell:lastPath){
+            this.setX(cell.getX());
+            this.setY(cell.getY());
+        }
+    }
+
+    public void findPath(int targetX, int targetY){
+        lastPath=new ArrayList<>();
         Map map= App.getCurrentGame().getMap();
         if(map==null) return;
         if(map.getTiles()[targetY][targetX].getType().isCollisionOn()) return;
         Cell targetCell=bfs(targetX,targetY,map);
         if(targetCell==null) return;
-        ArrayList<Cell> cells=new ArrayList<>();
         while(targetCell!=null){
-            cells.add(targetCell);
+            lastPath.add(targetCell);
             targetCell=targetCell.getPreviousCell();
         }
-        Collections.reverse(cells);
-        cells.remove(0); //remove the cell where user stands at the moment
-        for(Cell cell:cells){
-            cell.setX(cell.getX());
-            cell.setY(cell.getY());
-        }
+        Collections.reverse(lastPath);
+        lastPath.remove(0); //remove the cell where user stands at the moment
+    }
+    public int getNeededEnergy(int targetX, int targetY){
+        findPath(targetX,targetY);
+        return lastPath.size()/20;
     }
     private Cell bfs(int targetX, int targetY,Map map){
         boolean[][] visited=new boolean[map.getHeightSize()][map.getWidthSize()];
@@ -106,8 +122,8 @@ public class Character {
         while(!cells.isEmpty()){
             Cell lastCell=cells.poll();
             for(int i=0;i<4;i++){
-                int[] dx={1,0,-1,0};
-                int[] dy={0,1,0,-1};
+                int[] dx={1,0,-1,0,1,1,-1,-1};
+                int[] dy={0,1,0,-1,1,-1,1,-1};
                 int newX=lastCell.getX()+dx[i];
                 int newY=lastCell.getY()+dy[i];
                 if(newY<0 || newX<0 || newY>=map.getHeightSize() || newX>=map.getWidthSize()) continue;

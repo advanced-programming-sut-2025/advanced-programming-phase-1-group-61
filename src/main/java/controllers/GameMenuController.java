@@ -189,4 +189,19 @@ public class GameMenuController {
         weather.setCheatedWeatherState(state);
         return new Result(true , "you can expect "+state.getDisplayName()+" tomorrow.");
     }
+    public Result energyResult(Matcher matcher){
+        Character currentCharacter=App.getCurrentGame().getCurrentCharacter();
+        if(currentCharacter==null){
+            return new Result(false , "no current character");
+        }
+        int x= Integer.parseInt(matcher.group("x"));
+        int y= Integer.parseInt(matcher.group("y"));
+        int neededEnergy=currentCharacter.getNeededEnergy(x,y);
+        return new Result(true , "you have "+neededEnergy+" energies");
+    }
+    public void walk(String confirmation){
+        if(confirmation.equals("yes")){
+            App.getCurrentGame().getCurrentCharacter().moveCharacter();
+        }
+    }
 }
