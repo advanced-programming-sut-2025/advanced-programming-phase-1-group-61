@@ -90,8 +90,8 @@ public class Character {
         Collections.reverse(cells);
         cells.remove(0); //remove the cell where user stands at the moment
         for(Cell cell:cells){
-            cell.setX(cell.getX());
-            cell.setY(cell.getY());
+            this.setX(cell.getX());
+            this.setY(cell.getY());
         }
     }
     private Cell bfs(int targetX, int targetY,Map map){
