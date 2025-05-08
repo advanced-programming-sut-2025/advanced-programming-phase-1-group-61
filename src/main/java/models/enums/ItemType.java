@@ -53,7 +53,8 @@ public enum ItemType {
     crystalFruit(150, "crystal fruit", 63, true),
     holly(80, "holly", -37, true),
     snowYam(100, "snow yam", 30, true),
-    winterRoot(70, "winter root", 25, true);
+    winterRoot(70, "winter root", 25, true),
+    grape(30 , "grape" , 10 , true);
 
 
 

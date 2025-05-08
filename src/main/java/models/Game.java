@@ -139,8 +139,8 @@ public class Game implements Runnable {
             for (Tile tile : tiles) {
                 if(tile.getType().equals(TileType.grass)){
                     if(tile.getResource() == null){
+                        int rand = RandomNumber.getRandomNumber();
                         if(date.getSeason().equals(Season.Spring)){
-                            int rand = RandomNumber.getRandomNumber();
                             switch (rand%100){
                                 case 0:{
                                     tile.setItem(new Item(ItemType.commonMushroom));
@@ -148,6 +148,92 @@ public class Game implements Runnable {
                                 }
                                 case 1:{
                                     tile.setItem(new Item(ItemType.daffodil));
+                                    break;
+                                }
+                                case 2:{
+                                    tile.setItem(new Item(ItemType.dandelion));
+                                    break;
+                                } case 3:{
+                                    tile.setItem(new Item(ItemType.leek));
+                                    break;
+                                } case 4:{
+                                    tile.setItem(new Item(ItemType.moral));
+                                    break;
+                                } case 5:{
+                                    tile.setItem(new Item(ItemType.salmonBerry));
+                                    break;
+                                } case 6:{
+                                    tile.setItem(new Item(ItemType.springOnion));
+                                    break;
+                                } case 7:{
+                                    tile.setItem(new Item(ItemType.wildHorseradish));
+                                    break;
+                                }
+                            }
+                        } else if (date.getSeason().equals(Season.Summer)) {
+                            switch (rand%100){
+                                case 0:{
+                                    tile.setItem(new Item(ItemType.fiddleHead));
+                                    break;
+                                }
+                                case 1:{
+                                    tile.setItem(new Item(ItemType.grape));
+                                    break;
+                                }
+                                case 2:{
+                                    tile.setItem(new Item(ItemType.redMushroom));
+                                    break;
+                                } case 3:{
+                                    tile.setItem(new Item(ItemType.spiceBerry));
+                                    break;
+                                }
+                                case 4:{
+                                    tile.setItem(new Item(ItemType.sweetPea));
+                                }
+                            }
+                        } else if (date.getSeason().equals(Season.Fall)) {
+                            switch (rand%100) {
+                                case 0: {
+                                    tile.setItem(new Item(ItemType.blackberry));
+                                    break;
+                                }
+                                case 1:{
+                                    tile.setItem(new Item(ItemType.chanterelle));
+                                    break;
+                                }
+                                case 2:{
+                                    tile.setItem(new Item(ItemType.hazelnut));
+                                    break;
+                                }
+                                case 3:{
+                                    tile.setItem(new Item(ItemType.purpleMushroom));
+                                    break;
+                                }
+                                case 4:{
+                                    tile.setItem(new Item(ItemType.wildPlum));
+                                    break;
+                                }
+                            }
+                        } else if (date.getSeason().equals(Season.Winter)) {
+                            switch (rand%100){
+                                case 0:{
+                                    tile.setItem(new Item(ItemType.crocus));
+                                    break;
+                                }
+                                case 1:{
+                                    tile.setItem(new Item(ItemType.crystalFruit));
+                                    break;
+                                }
+                                case 2:{
+                                    tile.setItem(new Item(ItemType.holly));
+                                    break;
+                                }
+                                case 3:{
+                                    tile.setItem(new Item(ItemType.snowYam));
+                                    break;
+                                }
+                                case 4:{
+                                    tile.setItem(new Item(ItemType.winterRoot));
                                     break;
                                 }
                             }
