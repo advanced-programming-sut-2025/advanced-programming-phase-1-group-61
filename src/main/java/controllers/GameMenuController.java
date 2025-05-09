@@ -4,12 +4,14 @@ import models.*;
 import models.character.Character;
 import models.enums.DaysOfTheWeek;
 import models.enums.Season;
+import models.enums.TileType;
 import models.enums.WeatherState;
 import models.map.Map;
 import models.map.MapCreator.MapBuilder;
 import models.map.Tile;
 import models.map.Weather;
 import models.character.Inventory;
+import models.resource.Tree;
 import models.tool.Tool;
 
 import java.util.ArrayList;
@@ -287,5 +289,64 @@ public class GameMenuController {
             inventory.removeItem(item, number);
             return new Result(true,"successfully removed "+number+" "+itemName+" from your Inventory!");
         }
+    }
+    public Result helpRead() {
+        return new Result(true, "Tree: T\nOre: O\nForagingItems: I\nCabin Floor: Cf\nCabin wall: Cw\n" +
+                "Water: W\nStone: M\nGrass: G\nGreen House Wall: GW\nGreen House Floor: Gf");
+    }
+
+    public Result printMap(Matcher matcher) {
+        Game game = App.getCurrentGame();
+        Map map = game.getMap();
+
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        int size = Integer.parseInt(matcher.group("size"));
+
+        if (x < 0 || y < 0 || x + size > map.getTiles()[0].length || y + size > map.getTiles().length) {
+            return new Result(false, "Error: Specified coordinates or size are out of map bounds.");
+        }
+
+        StringBuilder colorfulMap = new StringBuilder();
+
+        for (int i = y; i < y + size && i < map.getTiles().length; i++) {
+            for (int j = x; j < x + size && j < map.getTiles()[i].length; j++) {
+                colorfulMap.append(getColoredTile(map.getTiles()[i][j])).append(" ");
+            }
+            colorfulMap.append("\n");
+        }
+
+        return new Result(true, colorfulMap.toString());
+    }
+
+    private String getColoredTile(Tile tile) {
+        final String RESET = "\u001B[0m";
+        final String GREEN = "\u001B[32m";
+        final String BLUE = "\u001B[34m";
+        final String YELLOW = "\u001B[33m";
+        final String GRAY = "\u001B[90m";
+        final String WHITE = "\u001B[37m";
+        final String BROWN = "\u001B[38;5;94m";
+
+
+        if (tile.getType().equals(TileType.grass)){
+            if(tile.getResource() != null){
+                return BROWN+"T "+RESET;
+            }
+            return GREEN + "G " + RESET;
+        }
+        if (tile.getType().equals(TileType.stone)){
+            if(tile.getResource() != null){
+                return WHITE + "S "+RESET;
+            }
+            return GRAY + "M " + RESET;
+        }
+        if (tile.getType().equals(TileType.water)) return BLUE + "W " + RESET;
+        if (tile.getType().equals(TileType.cabinFloor)) return WHITE + "Cf" + RESET;
+        if (tile.getType().equals(TileType.cabinWall)) return YELLOW + "Cw" + RESET;
+        if (tile.getType().equals(TileType.brokenGreenHouse)) return YELLOW + "Gf" + RESET;
+        if (tile.getType().equals(TileType.brokenGreenHouseWall)) return YELLOW + "GW" + RESET;
+
+        return WHITE + "? " + RESET;
     }
 }

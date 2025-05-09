@@ -113,9 +113,19 @@ public class GameMenu implements AppMenu{
             Matcher cheatAddItem = CheatCodes.CHEAT_ADD_ITEM.getMatcher(input);
             Matcher inventoryShow = GameMenuCommands.INVENTORY_SHOW.getMatcher(input);
             Matcher inventoryTrash = GameMenuCommands.INVENTORY_TRASH.getMatcher(input);
+            Matcher helpReadingMap = GameMenuCommands.HelpReadingMap.getMatcher(input);
+            Matcher printMap = GameMenuCommands.PrintMap.getMatcher(input);
+            
+            
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
+            } else if (printMap != null) {
+                Result result = controller.printMap(printMap);
+                System.out.println(result.message());
+            } else if (helpReadingMap != null) {
+                Result result = controller.helpRead();
+                System.out.println(result.message());
             } else if (cheatWeather != null) {
                 Result result = controller.cheatWeatherState(cheatWeather);
                 System.out.println(result.message());
