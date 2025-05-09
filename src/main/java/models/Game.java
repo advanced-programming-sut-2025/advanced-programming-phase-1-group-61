@@ -214,6 +214,27 @@ public class Game implements Runnable {
                                 } case 20:{
                                     tile.setItem(new Item(ItemType.riceShoot));
                                     break;
+                                } case 21:{
+                                    tile.setItem(new Item(ItemType.ancientSeed));
+                                    break;
+                                } case 22:{
+                                    tile.setItem(new Item(ItemType.mixedSeed));
+                                    break;
+                                } case 23:{
+                                    tile.setItem(new Item(ItemType.acorns));
+                                    break;
+                                } case 24:{
+                                    tile.setItem(new Item(ItemType.mapleSeed));
+                                    break;
+                                } case 25:{
+                                    tile.setItem(new Item(ItemType.pineCones));
+                                    break;
+                                } case 26:{
+                                    tile.setItem(new Item(ItemType.mahoganySeed));
+                                    break;
+                                } case 27:{
+                                    tile.setItem(new Item(ItemType.mushroomTreeSeed));
+                                    break;
                                 }
                             }
                         } else if (date.getSeason().equals(Season.Summer)) {
@@ -278,6 +299,27 @@ public class Game implements Runnable {
                                 } case 18:{
                                     tile.setItem(new Item(ItemType.wheatSeed));
                                     break;
+                                } case 19:{
+                                    tile.setItem(new Item(ItemType.ancientSeed));
+                                    break;
+                                } case 20:{
+                                    tile.setItem(new Item(ItemType.mixedSeed));
+                                    break;
+                                } case 21:{
+                                    tile.setItem(new Item(ItemType.acorns));
+                                    break;
+                                } case 22:{
+                                    tile.setItem(new Item(ItemType.mapleSeed));
+                                    break;
+                                } case 23:{
+                                    tile.setItem(new Item(ItemType.pineCones));
+                                    break;
+                                } case 24:{
+                                    tile.setItem(new Item(ItemType.mahoganySeed));
+                                    break;
+                                } case 25:{
+                                    tile.setItem(new Item(ItemType.mushroomTreeSeed));
+                                    break;
                                 }
                             }
                         } else if (date.getSeason().equals(Season.Fall))  {
@@ -336,6 +378,27 @@ public class Game implements Runnable {
                                     break;
                                 } case 16:{
                                     tile.setItem(new Item(ItemType.rareSeed));
+                                } case 17:{
+                                    tile.setItem(new Item(ItemType.ancientSeed));
+                                    break;
+                                } case 18:{
+                                    tile.setItem(new Item(ItemType.mixedSeed));
+                                    break;
+                                } case 19:{
+                                    tile.setItem(new Item(ItemType.acorns));
+                                    break;
+                                } case 20:{
+                                    tile.setItem(new Item(ItemType.mapleSeed));
+                                    break;
+                                } case 21:{
+                                    tile.setItem(new Item(ItemType.pineCones));
+                                    break;
+                                } case 22:{
+                                    tile.setItem(new Item(ItemType.mahoganySeed));
+                                    break;
+                                } case 23:{
+                                    tile.setItem(new Item(ItemType.mushroomTreeSeed));
+                                    break;
                                 }
                             }
                         } else if (date.getSeason().equals(Season.Winter)) {
@@ -361,6 +424,27 @@ public class Game implements Runnable {
                                     break;
                                 } case 5:{
                                     tile.setItem(new Item(ItemType.powdermelonSeed));
+                                    break;
+                                } case 6:{
+                                    tile.setItem(new Item(ItemType.ancientSeed));
+                                    break;
+                                } case 7:{
+                                    tile.setItem(new Item(ItemType.mixedSeed));
+                                    break;
+                                } case 8:{
+                                    tile.setItem(new Item(ItemType.acorns));
+                                    break;
+                                } case 9:{
+                                    tile.setItem(new Item(ItemType.mapleSeed));
+                                    break;
+                                } case 10:{
+                                    tile.setItem(new Item(ItemType.pineCones));
+                                    break;
+                                } case 11:{
+                                    tile.setItem(new Item(ItemType.mahoganySeed));
+                                    break;
+                                } case 12:{
+                                    tile.setItem(new Item(ItemType.mushroomTreeSeed));
                                     break;
                                 }
                             }
