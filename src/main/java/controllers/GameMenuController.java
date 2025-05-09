@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 public class GameMenuController {
+    private int neededEnergy;
     public Result equipTool(Matcher matcher, Character character) {
         String name=matcher.group("name").trim();
         Tool tool=Tool.fromString(name);
@@ -212,7 +213,7 @@ public class GameMenuController {
                 return new Result(false , "you cant enter someone else's farm");
             }
         }
-        int neededEnergy=currentCharacter.getNeededEnergy(x,y);
+        this.neededEnergy=currentCharacter.getNeededEnergy(x,y);
         if(currentCharacter.isUnlimitedEnergy())
             return new Result(false , "you have unlimited energy! do you want to move?(yes/no)");
         return new Result(true , "you need "+neededEnergy+" energy to move\ndo you want to move?(yes/no)");
@@ -220,7 +221,12 @@ public class GameMenuController {
     public Result walk(String confirmation){
         if(confirmation.equals("yes")){
             Character character = App.getCurrentGame().getCurrentCharacter();
+            if(neededEnergy>character.getEnergy()){
+                character.faint();
+                return new Result(false,"character fainted!");
+            }
             character.moveCharacter();
+            character.setEnergy(character.getEnergy()-neededEnergy);
             return new Result(true , "you are now in x:"+character.getX()+" y:"+character.getY());
         }
         return new Result(false , "you did not move");

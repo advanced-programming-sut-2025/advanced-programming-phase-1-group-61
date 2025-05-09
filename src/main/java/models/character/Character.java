@@ -21,10 +21,12 @@ public class Character {
     private ArrayList<Animal> animals=new ArrayList<>();
     private ArrayList<Recipe> recipes=new ArrayList<>();
     private ArrayList<Cell> lastPath;
+    private int money;
     public Character(int userId){
         this.userId=userId;
         currentTool=null;
         this.energy = 200;
+        skill=new Skill();
     }
     public void setTool(Tool newTool){
         currentTool=newTool;
@@ -80,7 +82,7 @@ public class Character {
         return energy;
     }
     public void setEnergy(int energy) {
-        this.energy = energy;
+        this.energy = Math.min(200,energy);
     }
     public boolean isUnlimitedEnergy() {
         return unlimitedEnergy;
@@ -91,7 +93,12 @@ public class Character {
     public int getUserId() {
         return userId;
     }
-
+    public void setMoney(int money) {
+        this.money = money;
+    }
+    public int getMoney() {
+        return money;
+    }
     public void moveCharacter(){
         for(Cell cell:lastPath){
             this.setX(cell.getX());
@@ -115,7 +122,17 @@ public class Character {
     }
     public int getNeededEnergy(int targetX, int targetY){
         findPath(targetX,targetY);
-        return lastPath.size()/20;
+        int numberOfTurns=0;
+        for(int i=0;i<lastPath.size();i++){
+            if(i==lastPath.size()-1) break;
+            Cell cell1=lastPath.get(i);
+            Cell cell2=lastPath.get(i+1);
+            if((cell2.getX()>cell1.getX() && cell2.getY()>cell1.getY()) ||
+            (cell2.getX()>cell1.getX() && cell2.getY()<cell1.getY()) ||
+            (cell1.getX()>cell2.getX() && cell1.getY()>cell2.getY()) ||
+            (cell1.getX()>cell2.getX() && cell1.getY()<cell2.getY())) numberOfTurns++;
+        }
+        return (lastPath.size()+numberOfTurns*10)/20;
     }
     private Cell bfs(int targetX, int targetY,Map map){
         boolean[][] visited=new boolean[map.getHeightSize()][map.getWidthSize()];

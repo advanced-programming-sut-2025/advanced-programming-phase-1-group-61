@@ -1,6 +1,8 @@
 package models.character;
 
 import models.Item;
+import models.enums.BackpackType;
+import models.enums.TrashcanType;
 import models.tool.Tool;
 
 import java.util.ArrayList;
@@ -9,6 +11,8 @@ import java.util.HashMap;
 public class Inventory {
     private final HashMap<Item, Integer> items=new HashMap<>();
     private final ArrayList<Tool> tools=new ArrayList<>();
+    private BackpackType backpackType=BackpackType.PRIMARY;
+    private Trashcan trashcan=new Trashcan();
     public void addItem(Item item,int count){
         for(int i=0;i<items.size();i++){
             Item it=(Item) items.keySet().toArray()[i];
@@ -57,5 +61,17 @@ public class Inventory {
     }
     public int getCountOfItem(Item item){
         return items.get(item);
+    }
+    public BackpackType getBackpackType() {
+        return backpackType;
+    }
+    public void setBackpackType(BackpackType backpackType) {
+        this.backpackType = backpackType;
+    }
+    public Trashcan getTrashcan() {
+        return trashcan;
+    }
+    public void setTrashcan(Trashcan trashcan) {
+        this.trashcan = trashcan;
     }
 }
