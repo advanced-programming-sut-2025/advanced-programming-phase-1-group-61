@@ -23,7 +23,7 @@ public class GameMenuController {
         if(tool==null){
             return new Result(false, "Invalid tool!");
         }
-        Inventory inventory =character.getBackpack();
+        Inventory inventory =character.getInventory();
         if(!inventory.checkToolInBackPack(tool)){
             return new Result(false,"you don't have the tool in your backpack!");
         }
@@ -38,7 +38,7 @@ public class GameMenuController {
         return new Result(true,tool.getType().toString());
     }
     public Result showAvailableTools(Character character) {
-        Inventory inventory =character.getBackpack();
+        Inventory inventory =character.getInventory();
         return new Result(true,"you have ("+ inventory.getAllTools()+") in your backpack!");
     }
     public Result upgradeTool(Matcher matcher, Character character) {
@@ -250,7 +250,36 @@ public class GameMenuController {
         }
         Item item=Item.getItem(itemName);
         if(item==null) return new Result(false , "please enter a valid item!");
-        App.getCurrentGame().getCurrentCharacter().getBackpack().addItem(item,count);
+        App.getCurrentGame().getCurrentCharacter().getInventory().addItem(item,count);
         return new Result(true,count+ " " + itemName +"s added to Inventory!");
+    }
+    public Result inventoryShow(){
+        Inventory inventory=App.getCurrentGame().getCurrentCharacter().getInventory();
+        if(inventory.getItems().isEmpty()) return new Result(false,"you have no items in your inventory!");
+        return new Result(true,inventory.getItemsInfo());
+    }
+    public Result inventoryTrash(Matcher matcher){
+        Inventory inventory=App.getCurrentGame().getCurrentCharacter().getInventory();
+        String itemName = matcher.group("itemName").trim();
+        int number=-1;
+        if(matcher.group("number")!=null){
+            try{
+                number=Integer.parseInt(matcher.group("number"));
+            }catch (Exception e){
+                return new Result(false , "please enter a valid number!");
+            }
+        }
+        Item item=Item.getItem(itemName);
+        if(item==null) return new Result(false , "please enter a valid item!");
+        if(number==-1) {
+            inventory.removeItem(item);
+            return new Result(true,"successfully removed "+itemName+" from your Inventory!");
+        }
+        else {
+            if(number>inventory.getCountOfItem(item))
+                return new Result(false,"you have less items in your inventory!");
+            inventory.removeItem(item, number);
+            return new Result(true,"successfully removed "+number+" "+itemName+" from your Inventory!");
+        }
     }
 }

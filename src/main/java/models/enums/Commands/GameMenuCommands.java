@@ -19,7 +19,9 @@ public enum GameMenuCommands {
     SHOW_WEEKDAY("^day\\s+of\\s+the\\s+week$"),
     SHOW_WEATHER("^weather$"),
     FORECAST_WEATHER("^weather\\s+forecast$"),
-    WALK("^walk\\s+-l\\s+<(?<x>\\d+),(?<y>\\d+)>$");
+    WALK("^walk\\s+-l\\s+<(?<x>\\d+),(?<y>\\d+)>$"),
+    INVENTORY_SHOW("^inventory\\s+show$"),
+    INVENTORY_TRASH("^inventory\\s+trash\\s+-i (?<itemName>.*)( -n (?<number>.*))?$");
 
 
     private String pattern;
