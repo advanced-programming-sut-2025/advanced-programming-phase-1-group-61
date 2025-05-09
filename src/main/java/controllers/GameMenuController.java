@@ -294,7 +294,6 @@ public class GameMenuController {
         return new Result(true, "Tree: T\nOre: O\nForagingItems: I\nCabin Floor: Cf\nCabin wall: Cw\n" +
                 "Water: W\nStone: M\nGrass: G\nGreen House Wall: GW\nGreen House Floor: Gf");
     }
-
     public Result printMap(Matcher matcher) {
         Game game = App.getCurrentGame();
         Map map = game.getMap();
@@ -318,6 +317,10 @@ public class GameMenuController {
 
         return new Result(true, colorfulMap.toString());
     }
+    public Result showEnergy(){
+        return new Result(true , "energy: "+App.getCurrentGame().getCurrentCharacter().getEnergy());
+    }
+
 
     private String getColoredTile(Tile tile) {
         final String RESET = "\u001B[0m";

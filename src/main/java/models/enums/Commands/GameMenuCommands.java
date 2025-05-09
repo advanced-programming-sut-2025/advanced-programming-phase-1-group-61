@@ -23,7 +23,8 @@ public enum GameMenuCommands {
     INVENTORY_SHOW("^inventory\\s+show$"),
     INVENTORY_TRASH("^inventory\\s+trash\\s+-i (?<itemName>.*)( -n (?<number>.*))?$"),
     HelpReadingMap("^help\\s+reading\\s+map$"),
-    PrintMap("^print\\s+map\\s+-l\\s+<(?<x>\\d+),(?<y>\\d+)>\\s+-s\\s+(?<size>\\d+)$");
+    PrintMap("^print\\s+map\\s+-l\\s+<(?<x>\\d+),(?<y>\\d+)>\\s+-s\\s+(?<size>\\d+)$"),
+    showEnergy("^energy\\S+show$");
 
 
     private String pattern;

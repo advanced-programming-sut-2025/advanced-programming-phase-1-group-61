@@ -115,11 +115,15 @@ public class GameMenu implements AppMenu{
             Matcher inventoryTrash = GameMenuCommands.INVENTORY_TRASH.getMatcher(input);
             Matcher helpReadingMap = GameMenuCommands.HelpReadingMap.getMatcher(input);
             Matcher printMap = GameMenuCommands.PrintMap.getMatcher(input);
+            Matcher showEnergy = GameMenuCommands.showEnergy.getMatcher(input);
             
             
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
+            } else if (showEnergy != null) {
+                Result result = controller.showEnergy();
+                System.out.println(result.message());
             } else if (printMap != null) {
                 Result result = controller.printMap(printMap);
                 System.out.println(result.message());
