@@ -12,7 +12,7 @@ public enum RegisterMenuCommands {
     RegisterWithRandomPass("^register\\s+-u\\s+(?<username>.*) -rp\\s+-n (?<nickname>.*) -e (?<email>.*) -g (?<gender>.*)$"),
     GO_TO_LOGIN_MENU("^menu\\s+enter\\s+loginmenu$"),
     SHOW_CURRENT_MENU("^show\\s+current\\s+menu$"),
-    PICK_QUESTION("^$pick\\s+question -q (?<questionNumber>.*) -a (?<answer>.*) -c (?<answerConfirm>.*)$"),
+    PICK_QUESTION("^pick\\s+question -q (?<questionNumber>.*) -a (?<answer>.*) -c (?<answerConfirm>.*)$"),
     LEAVE_GAME("^exit$");
 
 

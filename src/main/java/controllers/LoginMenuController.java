@@ -28,7 +28,7 @@ public class LoginMenuController {
             }
         }
         App.setLoggedInUser(user.getId());
-        return new Result(true , username + " logged in");
+        return new Result(true , username + " logged in! "+"Redirecting to mainMenu..");
     }
 
 
