@@ -113,7 +113,7 @@ public class GameMenu implements AppMenu{
             Matcher cheatWeather = CheatCodes.CHEAT_WEATHER_SET.getMatcher(input);
             Matcher walk = GameMenuCommands.WALK.getMatcher(input);
             Matcher energySet = CheatCodes.ENERGY_SET.getMatcher(input);
-
+            Matcher unlimitedEnergy = CheatCodes.ENERGY_UNLIMITED.getMatcher(input);
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
@@ -153,7 +153,10 @@ public class GameMenu implements AppMenu{
             } else if(energySet != null){
                 Result result = controller.energySet(energySet);
                 System.out.println(result.message());
-            }else if(walk != null){
+            } else if(unlimitedEnergy != null){
+                Result result=controller.unlimitedEnergySet();
+                System.out.println(result.message());
+            } else if(walk != null){
                 Result res=controller.energyResult(walk);
                 System.out.println(res.message());
                 if(res.isSuccessful()){

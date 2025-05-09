@@ -217,6 +217,8 @@ public class GameMenuController {
             }
         }
         int neededEnergy=currentCharacter.getNeededEnergy(x,y);
+        if(currentCharacter.isUnlimitedEnergy())
+            return new Result(false , "you have unlimited energy! do you want to move?(yes/no)");
         return new Result(true , "you need "+neededEnergy+" energy to move\ndo you want to move?(yes/no)");
     }
     public Result walk(String confirmation){
@@ -236,5 +238,10 @@ public class GameMenuController {
         }
         App.getCurrentGame().getCurrentCharacter().setEnergy(value);
         return new Result(true,"energy set to: "+value);
+    }
+    public Result unlimitedEnergySet(){
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        character.setUnlimitedEnergy(true);
+        return new Result(true,"energy set to unlimited!");
     }
 }
