@@ -108,7 +108,12 @@ public enum ItemType {
     rareSeed(0, "rare seed", 0, false),
     powdermelonSeed(0, "powdermelon seed", 0, false),
     ancientSeed(0, "ancient seed", 0, false),
-    mixedSeed(0, "mixed seed", 0, false);
+    mixedSeed(0, "mixed seed", 0, false),
+    acorns(0 , "acorns" , 0 , false),
+    mapleSeed(0 , "maple seed" , 0 , false),
+    pineCones(0 , "pine cones" , 0 , false),
+    mahoganySeed(0 , "mahogany seed",0,false),
+    mushroomTreeSeed(0 , "mushroom tree seed" , 0 , false);
 
 
 
