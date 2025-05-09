@@ -2,16 +2,12 @@ package views;
 
 import controllers.GameMenuController;
 import models.App;
-import models.Game;
 import models.RandomNumber;
 import models.Result;
-import models.character.Character;
 import models.enums.Commands.CheatCodes;
 import models.enums.Commands.GameMenuCommands;
 import models.enums.Commands.RegisterMenuCommands;
 import models.enums.Menu;
-import models.map.Map;
-import models.map.MapCreator.MapBuilder;
 
 import java.io.IOException;
 import java.util.ArrayList;
