@@ -99,6 +99,11 @@ public class Game implements Runnable {
         return null;
     }
 
+    public Character getCharacterByTurnNumber(int turn) {
+        Character character = allCharacters.get(turn);
+        return character;
+    }
+
     public String changeTurn() {
         int turn = currentCharacter+1;
         this.currentCharacter = turn % allCharacters.size();
