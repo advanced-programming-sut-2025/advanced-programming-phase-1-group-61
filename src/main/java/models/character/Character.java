@@ -9,10 +9,7 @@ import models.map.Map;
 import models.tool.Backpack;
 import models.tool.Tool;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Queue;
+import java.util.*;
 
 public class Character {
     private int userId;
@@ -119,11 +116,11 @@ public class Character {
                 .setPreviousCell(null);
         Queue<Cell> cells=new ArrayDeque<>();
         cells.add(cell);
+        int[] dx={1,0,-1,0,1,1,-1,-1};
+        int[] dy={0,1,0,-1,1,-1,1,-1};
         while(!cells.isEmpty()){
             Cell lastCell=cells.poll();
-            for(int i=0;i<4;i++){
-                int[] dx={1,0,-1,0,1,1,-1,-1};
-                int[] dy={0,1,0,-1,1,-1,1,-1};
+            for(int i=0;i<dx.length;i++){
                 int newX=lastCell.getX()+dx[i];
                 int newY=lastCell.getY()+dy[i];
                 if(newY<0 || newX<0 || newY>=map.getHeightSize() || newX>=map.getWidthSize()) continue;
