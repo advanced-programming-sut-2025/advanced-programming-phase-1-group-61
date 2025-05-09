@@ -111,7 +111,7 @@ public class RegisterMenuController {
         }catch (Exception e){
             return new Result(false,"the question you picked does not exist!");
         }
-        return new Result(true,"");
+        return new Result(true,"question successfully picked!");
     }
     public static Result exitGame(){
         try {

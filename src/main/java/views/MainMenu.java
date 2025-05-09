@@ -22,12 +22,8 @@ public class MainMenu implements AppMenu{
             Matcher logOut = MainMenuCommands.LOG_OUT.getMatcher(input);
 
             if(changeMenu != null){
-               String name= changeMenu.group("menu");
-               if(name.equals("game")){
-                   App.setCurrentMenu(Menu.GAME_MENU);
-               } else if (name.equals("profile")) {
-                   App.setCurrentMenu(Menu.PROFILE_MENU);
-               }
+               Result result=controller.changeMenu(changeMenu);
+               System.out.println(result.message());
             } else if (showCurrentMenu != null) {
                 System.out.println("you are in main menu");
             } else if (logOut != null) {

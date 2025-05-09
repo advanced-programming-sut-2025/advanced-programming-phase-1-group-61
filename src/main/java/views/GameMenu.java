@@ -39,7 +39,7 @@ public class GameMenu implements AppMenu{
             if(start!= null){
                 List<String> usernames = new ArrayList<>();
                 usernames.add(App.getLoggedInUser().getUsername());
-               String user1 = start.group(1);
+                String user1 = start.group(1);
                 if(user1 == null){
                     System.out.println("you need at least one more player to start game");
                     return;
@@ -52,7 +52,10 @@ public class GameMenu implements AppMenu{
                     }
                 }
                 Result res=controller.startGameErrors(usernames);
-                if(!res.isSuccessful()) System.out.println(res.message());
+                if(!res.isSuccessful()) {
+                    System.out.println(res.message());
+                    return;
+                }
 
                 Result userValidation = controller.userListIsValid(usernames);
                 if(userValidation.isSuccessful()){
@@ -76,24 +79,19 @@ public class GameMenu implements AppMenu{
                     }
 
                     while (i < 4){
-                        mapNumber[i] = RandomNumber.getRandomNumberWithBoundaries(1,3);
-                        i++;
+                        mapNumber[i++] = RandomNumber.getRandomNumberWithBoundaries(1,3);
                     }
                     Result result = controller.startGame(usernames,mapNumber);
                     System.out.println(result.message());
                     if(result.isSuccessful()){
                         inGame = true;
                     }
-                }//else {
-//                    System.out.println(userValidation.message());
-//                }
+                }
             }
             else if (loadGame != null){
             Result result = controller.loadGame();
             System.out.println(result.message());
-                if(result.isSuccessful()){
-                    inGame = true;
-                }
+                if(result.isSuccessful()) inGame = true;
             }
             else{
                 System.out.println("invalid command");
@@ -114,7 +112,8 @@ public class GameMenu implements AppMenu{
             Matcher weatherForeCast = GameMenuCommands.FORECAST_WEATHER.getMatcher(input);
             Matcher cheatWeather = CheatCodes.CHEAT_WEATHER_SET.getMatcher(input);
             Matcher walk = GameMenuCommands.WALK.getMatcher(input);
-
+            Matcher energySet = CheatCodes.ENERGY_SET.getMatcher(input);
+            Matcher unlimitedEnergy = CheatCodes.ENERGY_UNLIMITED.getMatcher(input);
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
@@ -150,6 +149,12 @@ public class GameMenu implements AppMenu{
                 System.out.println(result.message());
             } else if (cheatHour != null) {
                 Result result = controller.cheatHour(cheatHour);
+                System.out.println(result.message());
+            } else if(energySet != null){
+                Result result = controller.energySet(energySet);
+                System.out.println(result.message());
+            } else if(unlimitedEnergy != null){
+                Result result=controller.unlimitedEnergySet();
                 System.out.println(result.message());
             } else if(walk != null){
                 Result res=controller.energyResult(walk);

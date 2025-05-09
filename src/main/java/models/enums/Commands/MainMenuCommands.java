@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 public enum MainMenuCommands {
     ChangeMenu("^menu\\s+enter\\s+(?<menu>\\S+)$"),
     LOG_OUT("^logout$");
-    private String pattern;
+    private final String pattern;
     MainMenuCommands(String pattern) {
         this.pattern = pattern;
     }
