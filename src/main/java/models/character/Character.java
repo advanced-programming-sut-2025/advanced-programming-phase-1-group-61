@@ -16,6 +16,7 @@ public class Character {
     private Inventory inventory;
     private final Backpack backpack=new Backpack();
     private int energy;
+    private boolean unlimitedEnergy=false;
     private int x;
     private int y;
     private Skill skill;
@@ -77,7 +78,18 @@ public class Character {
     public void artisanUse(){}
     public void craft(){}
     public void cook(){}
-
+    public int getEnergy() {
+        return energy;
+    }
+    public void setEnergy(int energy) {
+        this.energy = energy;
+    }
+    public boolean isUnlimitedEnergy() {
+        return unlimitedEnergy;
+    }
+    public void setUnlimitedEnergy(boolean unlimitedEnergy) {
+        this.unlimitedEnergy = unlimitedEnergy;
+    }
     public int getUserId() {
         return userId;
     }

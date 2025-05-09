@@ -227,4 +227,14 @@ public class GameMenuController {
         }
         return new Result(false , "you did not move");
     }
+    public Result energySet(Matcher matcher){
+        int value;
+        try{
+            value = Integer.parseInt(matcher.group("value"));
+        }catch (Exception e){
+            return new Result(false , "please enter a valid value!");
+        }
+        App.getCurrentGame().getCurrentCharacter().setEnergy(value);
+        return new Result(true,"energy set to: "+value);
+    }
 }
