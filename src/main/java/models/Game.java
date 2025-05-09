@@ -36,6 +36,7 @@ public class Game implements Runnable {
 
     public void changeDayActivities() {
         handleWeatherBeforeDayChange();
+        spawnRandomItemsOnMap();
         date.setHour(9);
     }
 
@@ -529,6 +530,16 @@ public class Game implements Runnable {
 
                         }
                     }
+                }
+            }
+        }
+    }
+
+    private void spawnRandomResourceOnMap(){
+        for (Tile[] tiles : map.getTiles()) {
+            for (Tile tile : tiles) {
+                if(tile.getType().equals(TileType.grass)){
+
                 }
             }
         }
