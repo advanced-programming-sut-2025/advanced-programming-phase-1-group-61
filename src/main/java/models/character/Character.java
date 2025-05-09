@@ -115,7 +115,17 @@ public class Character {
     }
     public int getNeededEnergy(int targetX, int targetY){
         findPath(targetX,targetY);
-        return lastPath.size()/20;
+        int numberOfTurns=0;
+        for(int i=0;i<lastPath.size();i++){
+            if(i==lastPath.size()-1) break;
+            Cell cell1=lastPath.get(i);
+            Cell cell2=lastPath.get(i+1);
+            if((cell2.getX()>cell1.getX() && cell2.getY()>cell1.getY()) ||
+            (cell2.getX()>cell1.getX() && cell2.getY()<cell1.getY()) ||
+            (cell1.getX()>cell2.getX() && cell1.getY()>cell2.getY()) ||
+            (cell1.getX()>cell2.getX() && cell1.getY()<cell2.getY())) numberOfTurns++;
+        }
+        return (lastPath.size()+numberOfTurns*10)/20;
     }
     private Cell bfs(int targetX, int targetY,Map map){
         boolean[][] visited=new boolean[map.getHeightSize()][map.getWidthSize()];

@@ -226,6 +226,7 @@ public class GameMenuController {
                 return new Result(false,"character fainted!");
             }
             character.moveCharacter();
+            character.setEnergy(character.getEnergy()-neededEnergy);
             return new Result(true , "you are now in x:"+character.getX()+" y:"+character.getY());
         }
         return new Result(false , "you did not move");
