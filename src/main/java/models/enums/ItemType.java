@@ -145,4 +145,11 @@ public enum ItemType {
     public boolean isEdible() {
         return isEdible;
     }
+
+    public static boolean isItem(String itemName){
+        for(ItemType type : ItemType.values()){
+            if(type.name().equalsIgnoreCase(itemName.toLowerCase())) return true;
+        }
+        return false;
+    }
 }

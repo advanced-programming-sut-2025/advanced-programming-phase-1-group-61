@@ -1,9 +1,6 @@
 package controllers;
 
-import models.App;
-import models.Game;
-import models.Result;
-import models.User;
+import models.*;
 import models.character.Character;
 import models.enums.DaysOfTheWeek;
 import models.enums.Season;
@@ -12,7 +9,7 @@ import models.map.Map;
 import models.map.MapCreator.MapBuilder;
 import models.map.Tile;
 import models.map.Weather;
-import models.tool.Backpack;
+import models.character.Inventory;
 import models.tool.Tool;
 
 import java.util.ArrayList;
@@ -26,8 +23,8 @@ public class GameMenuController {
         if(tool==null){
             return new Result(false, "Invalid tool!");
         }
-        Backpack backpack=character.getBackpack();
-        if(!backpack.checkToolInBackPack(tool)){
+        Inventory inventory =character.getBackpack();
+        if(!inventory.checkToolInBackPack(tool)){
             return new Result(false,"you don't have the tool in your backpack!");
         }
         character.setTool(tool);
@@ -41,8 +38,8 @@ public class GameMenuController {
         return new Result(true,tool.getType().toString());
     }
     public Result showAvailableTools(Character character) {
-        Backpack backpack=character.getBackpack();
-        return new Result(true,"you have ("+backpack.getAllTools()+") in your backpack!");
+        Inventory inventory =character.getBackpack();
+        return new Result(true,"you have ("+ inventory.getAllTools()+") in your backpack!");
     }
     public Result upgradeTool(Matcher matcher, Character character) {
         String name=matcher.group("name").trim();
@@ -242,5 +239,18 @@ public class GameMenuController {
         Character character = App.getCurrentGame().getCurrentCharacter();
         character.setUnlimitedEnergy(true);
         return new Result(true,"energy set to unlimited!");
+    }
+    public Result cheatAddItem(Matcher matcher){
+        String itemName = matcher.group("itemName");
+        int count;
+        try {
+            count = Integer.parseInt(matcher.group("count"));
+        }catch (Exception e){
+            return new Result(false , "please enter a valid number!");
+        }
+        Item item=Item.getItem(itemName);
+        if(item==null) return new Result(false , "please enter a valid item!");
+        App.getCurrentGame().getCurrentCharacter().getBackpack().addItem(item,count);
+        return new Result(true,count+ " " + itemName +"s added to Inventory!");
     }
 }
