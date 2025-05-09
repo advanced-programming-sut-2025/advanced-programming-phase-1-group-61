@@ -39,7 +39,7 @@ public class GameMenu implements AppMenu{
             if(start!= null){
                 List<String> usernames = new ArrayList<>();
                 usernames.add(App.getLoggedInUser().getUsername());
-               String user1 = start.group(1);
+                String user1 = start.group(1);
                 if(user1 == null){
                     System.out.println("you need at least one more player to start game");
                     return;
@@ -52,7 +52,10 @@ public class GameMenu implements AppMenu{
                     }
                 }
                 Result res=controller.startGameErrors(usernames);
-                if(!res.isSuccessful()) System.out.println(res.message());
+                if(!res.isSuccessful()) {
+                    System.out.println(res.message());
+                    return;
+                }
 
                 Result userValidation = controller.userListIsValid(usernames);
                 if(userValidation.isSuccessful()){
@@ -76,24 +79,19 @@ public class GameMenu implements AppMenu{
                     }
 
                     while (i < 4){
-                        mapNumber[i] = RandomNumber.getRandomNumberWithBoundaries(1,3);
-                        i++;
+                        mapNumber[i++] = RandomNumber.getRandomNumberWithBoundaries(1,3);
                     }
                     Result result = controller.startGame(usernames,mapNumber);
                     System.out.println(result.message());
                     if(result.isSuccessful()){
                         inGame = true;
                     }
-                }//else {
-//                    System.out.println(userValidation.message());
-//                }
+                }
             }
             else if (loadGame != null){
             Result result = controller.loadGame();
             System.out.println(result.message());
-                if(result.isSuccessful()){
-                    inGame = true;
-                }
+                if(result.isSuccessful()) inGame = true;
             }
             else{
                 System.out.println("invalid command");

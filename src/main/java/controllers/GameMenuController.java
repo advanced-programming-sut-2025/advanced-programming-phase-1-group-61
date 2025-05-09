@@ -89,6 +89,12 @@ public class GameMenuController {
         return new Result(true , "game started successfully");
     }
     public Result startGameErrors(List<String> usernames){
+        for (int i = 1; i < usernames.size(); i++) {
+            String username=usernames.get(i);
+            if(username.equals(App.getLoggedInUser().getUsername())){
+                return new Result(false , "you can't pick yourself!");
+            }
+        }
         StringBuilder names=new StringBuilder();
         for(String username : usernames){
             User user=User.getUserByUsername(username.trim());
