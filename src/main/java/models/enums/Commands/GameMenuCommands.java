@@ -19,7 +19,7 @@ public enum GameMenuCommands {
     SHOW_WEEKDAY("^day\\s+of\\s+the\\s+week$"),
     SHOW_WEATHER("^weather$"),
     FORECAST_WEATHER("^weather\\s+forecast$"),
-    WALK("^walk\\s+-l\\s+<(?<x>\\d+),(?<y>\\d+)>\\s+$");
+    WALK("^walk\\s+-l\\s+<(?<x>\\d+),(?<y>\\d+)>$");
 
 
     private String pattern;

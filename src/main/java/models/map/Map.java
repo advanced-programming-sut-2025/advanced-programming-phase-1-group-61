@@ -43,11 +43,11 @@ public class Map {
     }
 
     public int getHeightSize(){
-        return tiles[0].length;
+        return tiles.length;
     }
 
     public int getWidthSize(){
-        return tiles.length;
+        return tiles[0].length;
     }
 
 }
