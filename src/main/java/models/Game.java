@@ -2,14 +2,13 @@ package models;
 
 import models.character.Character;
 import models.date.Date;
-import models.enums.ItemType;
-import models.enums.Season;
-import models.enums.TileType;
-import models.enums.WeatherState;
+import models.enums.*;
 import models.map.Map;
 import models.map.Tile;
 import models.map.Weather;
 import models.resource.Resource;
+import models.resource.Stone;
+import models.resource.Tree;
 
 import java.util.List;
 import java.util.Random;
@@ -29,6 +28,7 @@ public class Game implements Runnable {
     public Game(Map map, List<Character> characters) {
         id = App.getAllGames().size()+1;
         this.map = map;
+        spawnRandomResourceOnMap();
         this.allCharacters = characters;
         this.date = new Date();
     }
@@ -539,8 +539,56 @@ public class Game implements Runnable {
         for (Tile[] tiles : map.getTiles()) {
             for (Tile tile : tiles) {
                 if(tile.getType().equals(TileType.grass)){
+                    int rand = RandomNumber.getRandomNumber();
+                    switch (rand%20){
+                        case 0:{
+                            tile.setResource(new Tree(TreeType.Oak));
+                            break;
+                        } case 1:{
+                            tile.setResource(new Tree(TreeType.ApricotTree));
+                            break;
+                        } case 2:{
+                            tile.setResource(new Tree(TreeType.CherryTree));
+                            break;
+                        }
+                    }
 
+                } else if (tile.getType().equals(TileType.stone)) {
+                    int rand = RandomNumber.getRandomNumber();
+                    if(rand % 3 == 0) {
+                        tile.setResource(new Stone(StoneType.Coal));
+                        int chance = RandomNumber.getRandomNumber() % 100;
+
+                        if(chance < 25) {
+                            tile.setResource(new Stone(StoneType.Quartz));
+                        } else if(chance < 40) {
+                            tile.setResource(new Stone(StoneType.EarthCrystal));
+                        } else if(chance < 50) {
+                            tile.setResource(new Stone(StoneType.FrozenTear));
+                        } else if(chance < 60) {
+                            tile.setResource(new Stone(StoneType.FireQuartz));
+                        } else if(chance < 70) {
+                            tile.setResource(new Stone(StoneType.Amethyst));
+                        } else if(chance < 75) {
+                            tile.setResource(new Stone(StoneType.Topaz));
+                        } else if(chance < 80) {
+                            tile.setResource(new Stone(StoneType.Jade));
+                        } else if(chance < 85) {
+                            tile.setResource(new Stone(StoneType.Aquamarine));
+                        } else if(chance < 90) {
+                            tile.setResource(new Stone(StoneType.Emerald));
+                        } else if(chance < 93) {
+                            tile.setResource(new Stone(StoneType.Ruby));
+                        } else if(chance < 97) {
+                            tile.setResource(new Stone(StoneType.Diamond));
+                        } else if(chance < 99) {
+                            tile.setResource(new Stone(StoneType.Iridium));
+                        } else {
+                            tile.setResource(new Stone(StoneType.PrismaticShard));
+                        }
+                    }
                 }
+
             }
         }
     }
