@@ -50,4 +50,8 @@ public class Tile {
     public void setResource(Resource resource) {
         this.resource = resource;
     }
+
+    public int getOwnerId() {
+        return ownerId;
+    }
 }

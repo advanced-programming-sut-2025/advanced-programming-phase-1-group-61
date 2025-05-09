@@ -154,8 +154,11 @@ public class GameMenu implements AppMenu{
             } else if(walk != null){
                 Result res=controller.energyResult(walk);
                 System.out.println(res.message());
-                String confirmation=scanner.nextLine();
-                controller.walk(confirmation);
+                if(res.isSuccessful()){
+                    String confirmation=scanner.nextLine();
+                    Result result = controller.walk(confirmation);
+                    System.out.println(result.message());
+                }
             } else if(equipTool != null){
                 //TODO
             }else if(exitGame != null){

@@ -10,6 +10,7 @@ import models.enums.Season;
 import models.enums.WeatherState;
 import models.map.Map;
 import models.map.MapCreator.MapBuilder;
+import models.map.Tile;
 import models.map.Weather;
 import models.tool.Backpack;
 import models.tool.Tool;
@@ -190,18 +191,34 @@ public class GameMenuController {
         return new Result(true , "you can expect "+state.getDisplayName()+" tomorrow.");
     }
     public Result energyResult(Matcher matcher){
-        Character currentCharacter=App.getCurrentGame().getCurrentCharacter();
+        Game game = App.getCurrentGame();
+        Character currentCharacter=game.getCurrentCharacter();
         if(currentCharacter==null){
             return new Result(false , "no current character");
         }
         int x= Integer.parseInt(matcher.group("x"));
         int y= Integer.parseInt(matcher.group("y"));
-        int neededEnergy=currentCharacter.getNeededEnergy(x,y);
-        return new Result(true , "you have "+neededEnergy+" energies");
-    }
-    public void walk(String confirmation){
-        if(confirmation.equals("yes")){
-            App.getCurrentGame().getCurrentCharacter().moveCharacter();
+        Tile tile = game.getMap().getTiles()[y][x];
+        if(tile == null){
+            return new Result(false ,"you cant enter void");
         }
+        int turn = tile.getOwnerId();
+        if(turn != -1){
+            int userId = game.getCharacterByTurnNumber(turn).getUserId();
+            if(userId != currentCharacter.getUserId()){
+                return new Result(false , "you cant enter "
+                        +User.getUSerById(game.getCharacterByTurnNumber(turn).getUserId()).getUsername()+"'s farm");
+            }
+        }
+        int neededEnergy=currentCharacter.getNeededEnergy(x,y);
+        return new Result(true , "you need "+neededEnergy+" energy to move\ndo you want to move?(yes/no)");
+    }
+    public Result walk(String confirmation){
+        if(confirmation.equals("yes")){
+            Character character = App.getCurrentGame().getCurrentCharacter();
+            character.moveCharacter();
+            return new Result(true , "you are now in x:"+character.getX()+" y:"+character.getY());
+        }
+        return new Result(false , "you did not move");
     }
 }
