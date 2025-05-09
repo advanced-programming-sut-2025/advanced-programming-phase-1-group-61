@@ -29,6 +29,7 @@ public class Character {
     public Character(int userId){
         this.userId=userId;
         currentTool=null;
+        this.energy = 200;
     }
     public void setTool(Tool newTool){
         currentTool=newTool;
