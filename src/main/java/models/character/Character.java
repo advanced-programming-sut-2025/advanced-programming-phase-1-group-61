@@ -2,19 +2,16 @@ package models.character;
 
 import models.App;
 import models.Item;
-import models.User;
 import models.animal.Animal;
 import models.enums.Recipe;
 import models.map.Map;
-import models.tool.Backpack;
 import models.tool.Tool;
 
 import java.util.*;
 
 public class Character {
     private int userId;
-    private Inventory inventory;
-    private final Backpack backpack=new Backpack();
+    private final Inventory inventory =new Inventory();
     private int energy;
     private boolean unlimitedEnergy=false;
     private int x;
@@ -35,8 +32,8 @@ public class Character {
     public Tool getCurrentTool(){
         return currentTool;
     }
-    public Backpack getBackpack() {
-        return backpack;
+    public Inventory getBackpack() {
+        return inventory;
     }
     public void upgradeTool(Tool desiredTool){
 
