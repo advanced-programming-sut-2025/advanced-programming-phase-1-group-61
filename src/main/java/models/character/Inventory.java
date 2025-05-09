@@ -7,12 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Inventory {
-    //private ArrayList<Item> items=new ArrayList<>();
-    private HashMap<Item, Integer> items=new HashMap<>();
-    private ArrayList<Tool> tools=new ArrayList<>();
-    public void showItems(){
-        //todo
-    }
+    private final HashMap<Item, Integer> items=new HashMap<>();
+    private final ArrayList<Tool> tools=new ArrayList<>();
     public void addItem(Item item,int count){
         for(int i=0;i<items.size();i++){
             Item it=(Item) items.keySet().toArray()[i];
@@ -36,5 +32,30 @@ public class Inventory {
             else builder.append(tools.get(i).getType().toString());
         }
         return builder.toString();
+    }
+    public String getItemsInfo(){
+        StringBuilder builder=new StringBuilder();
+        for(int i=0;i<items.size();i++){
+            Item item=(Item) items.keySet().toArray()[i];
+            int count=items.get(item);
+            builder.append(item.getItemType().name()).append(": ").append(count);
+            if(i!=items.size()-1) builder.append("\n");
+        }
+        return builder.toString();
+    }
+    public HashMap<Item,Integer> getItems(){
+        return items;
+    }
+    public ArrayList<Tool> getTools(){
+        return tools;
+    }
+    public void removeItem(Item item){
+        items.remove(item);
+    }
+    public void removeItem(Item item,int count){
+        items.put(item,items.get(item)-count);
+    }
+    public int getCountOfItem(Item item){
+        return items.get(item);
     }
 }

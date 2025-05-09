@@ -32,7 +32,7 @@ public class Character {
     public Tool getCurrentTool(){
         return currentTool;
     }
-    public Inventory getBackpack() {
+    public Inventory getInventory() {
         return inventory;
     }
     public void upgradeTool(Tool desiredTool){

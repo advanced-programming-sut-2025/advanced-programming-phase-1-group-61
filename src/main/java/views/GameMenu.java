@@ -115,6 +115,8 @@ public class GameMenu implements AppMenu{
             Matcher energySet = CheatCodes.ENERGY_SET.getMatcher(input);
             Matcher unlimitedEnergy = CheatCodes.ENERGY_UNLIMITED.getMatcher(input);
             Matcher cheatAddItem = CheatCodes.CHEAT_ADD_ITEM.getMatcher(input);
+            Matcher inventoryShow = GameMenuCommands.INVENTORY_SHOW.getMatcher(input);
+            Matcher inventoryTrash = GameMenuCommands.INVENTORY_TRASH.getMatcher(input);
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
@@ -170,7 +172,12 @@ public class GameMenu implements AppMenu{
                 }
             } else if(equipTool != null){
                 //TODO
-            }else if(exitGame != null){
+            } else if(inventoryShow != null){
+                Result result=controller.inventoryShow();
+                System.out.println(result.message());
+            } else if(inventoryTrash != null){
+
+            } else if(exitGame != null){
                 try {
                     App.saveApp();
                 } catch (IOException e) {
