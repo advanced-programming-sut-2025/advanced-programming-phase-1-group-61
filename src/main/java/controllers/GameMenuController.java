@@ -206,8 +206,7 @@ public class GameMenuController {
         if(turn != -1){
             int userId = game.getCharacterByTurnNumber(turn).getUserId();
             if(userId != currentCharacter.getUserId()){
-                return new Result(false , "you cant enter "
-                        +User.getUSerById(game.getCharacterByTurnNumber(turn).getUserId()).getUsername()+"'s farm");
+                return new Result(false , "you cant enter someone else's farm");
             }
         }
         int neededEnergy=currentCharacter.getNeededEnergy(x,y);

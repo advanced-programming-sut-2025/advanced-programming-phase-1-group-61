@@ -26,6 +26,7 @@ public class Character {
     public Character(int userId){
         this.userId=userId;
         currentTool=null;
+        this.energy = 200;
     }
     public void setTool(Tool newTool){
         currentTool=newTool;
@@ -108,7 +109,6 @@ public class Character {
         return lastPath.size()/20;
     }
     private Cell bfs(int targetX, int targetY,Map map){
-        System.out.println(map.getHeightSize() + " "+map.getWidthSize());
         boolean[][] visited=new boolean[map.getHeightSize()][map.getWidthSize()];
         visited[getY()][getX()]=true;
         Cell cell=new Cell()
