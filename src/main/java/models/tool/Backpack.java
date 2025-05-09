@@ -3,15 +3,24 @@ package models.tool;
 import models.Item;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Backpack{
-    private ArrayList<Item> items=new ArrayList<>();
+    //private ArrayList<Item> items=new ArrayList<>();
+    private HashMap<Item, Integer> items=new HashMap<>();
     private ArrayList<Tool> tools=new ArrayList<>();
     public void showItems(){
         //todo
     }
-    public void addItem(Item item){
-        //todo
+    public void addItem(Item item,int count){
+        for(int i=0;i<items.size();i++){
+            Item it=(Item) items.keySet().toArray()[i];
+            if(it.getItemType().equals(item.getItemType())){
+                items.put(item,(int)items.entrySet().toArray()[i]+count);
+                return;
+            }
+        }
+        items.put(item,count);
     }
     public boolean checkToolInBackPack(Tool tool){
         for(Tool t : tools){

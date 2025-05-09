@@ -114,6 +114,7 @@ public class GameMenu implements AppMenu{
             Matcher walk = GameMenuCommands.WALK.getMatcher(input);
             Matcher energySet = CheatCodes.ENERGY_SET.getMatcher(input);
             Matcher unlimitedEnergy = CheatCodes.ENERGY_UNLIMITED.getMatcher(input);
+            Matcher cheatAddItem = CheatCodes.CHEAT_ADD_ITEM.getMatcher(input);
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
@@ -155,6 +156,9 @@ public class GameMenu implements AppMenu{
                 System.out.println(result.message());
             } else if(unlimitedEnergy != null){
                 Result result=controller.unlimitedEnergySet();
+                System.out.println(result.message());
+            } else if(cheatAddItem!=null){
+                Result result = controller.cheatAddItem(cheatAddItem);
                 System.out.println(result.message());
             } else if(walk != null){
                 Result res=controller.energyResult(walk);

@@ -1,11 +1,9 @@
 package controllers;
 
-import models.App;
-import models.Game;
-import models.Result;
-import models.User;
+import models.*;
 import models.character.Character;
 import models.enums.DaysOfTheWeek;
+import models.enums.ItemType;
 import models.enums.Season;
 import models.enums.WeatherState;
 import models.map.Map;
@@ -242,5 +240,18 @@ public class GameMenuController {
         Character character = App.getCurrentGame().getCurrentCharacter();
         character.setUnlimitedEnergy(true);
         return new Result(true,"energy set to unlimited!");
+    }
+    public Result cheatAddItem(Matcher matcher){
+        String itemName = matcher.group("itemName");
+        int count;
+        try {
+            count = Integer.parseInt(matcher.group("count"));
+        }catch (Exception e){
+            return new Result(false , "please enter a valid number!");
+        }
+        Item item=Item.getItem(itemName);
+        if(item==null) return new Result(false , "please enter a valid item!");
+        App.getCurrentGame().getCurrentCharacter().getBackpack().addItem(item,count);
+        return new Result(true,count+ " " + itemName +"s added to Inventory!");
     }
 }

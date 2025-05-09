@@ -46,4 +46,11 @@ public class Item {
     public void setEnergy(int energy) {
         this.energy = energy;
     }
+
+    public static Item getItem(String itemName) {
+        for(ItemType type : ItemType.values()) {
+            if(type.name().equalsIgnoreCase(itemName.toLowerCase())) return new Item(type);
+        }
+        return null;
+    }
 }
