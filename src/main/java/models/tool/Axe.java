@@ -15,6 +15,7 @@ public class Axe extends Tool{
     @Override
     public ToolType getType() {
         return ToolType.Axe;
+    }
     public void upgrade() {
         if(this.level.equals("iridium")) return;
         String nextLevel = type.getNextLevel(level);
