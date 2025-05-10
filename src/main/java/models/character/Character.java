@@ -3,6 +3,7 @@ package models.character;
 import models.App;
 import models.Item;
 import models.animal.Animal;
+import models.character.Skill.Skill;
 import models.enums.Recipe;
 import models.map.Map;
 import models.tool.Tool;
@@ -26,7 +27,7 @@ public class Character {
         this.userId=userId;
         currentTool=null;
         this.energy = 200;
-        skill=new Skill();
+        //skill=new Skill();
     }
     public void setTool(Tool newTool){
         currentTool=newTool;
