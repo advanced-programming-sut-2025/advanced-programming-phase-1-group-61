@@ -5,7 +5,7 @@ import models.character.Character;
 import models.enums.Direction;
 import models.enums.ToolType;
 
-public abstract class Tool {
+public class Tool {
     protected int durability;
     protected ToolType type;
     protected String level="primary";

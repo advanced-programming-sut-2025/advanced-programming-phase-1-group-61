@@ -12,7 +12,7 @@ import java.util.*;
 
 public class Character {
     private int userId;
-    private final Inventory inventory =new Inventory();
+    private final Inventory inventory ;
     private int energy;
     private boolean unlimitedEnergy=false;
     private int x;
@@ -28,6 +28,7 @@ public class Character {
         this.currentTool=null;
         this.energy = 200;
         this.skill = new Skill();
+        this.inventory = new Inventory();
     }
 
     public void setTool(Tool newTool){

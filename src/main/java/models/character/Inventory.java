@@ -2,6 +2,9 @@ package models.character;
 
 import models.Item;
 import models.enums.BackpackType;
+import models.tool.Axe;
+import models.tool.Hoe;
+import models.tool.Pickaxe;
 import models.tool.Tool;
 
 import java.util.ArrayList;
@@ -12,7 +15,14 @@ public class Inventory {
     private final ArrayList<Tool> tools=new ArrayList<>();
     private BackpackType backpackType=BackpackType.PRIMARY;
     private Trashcan trashcan=new Trashcan();
-    public void addItem(Item item,int count){
+
+    public Inventory() {
+        tools.add(new Axe());
+        tools.add(new Pickaxe());
+        tools.add(new Hoe());
+    }
+
+    public void addItem(Item item, int count){
         for(int i=0;i<items.size();i++){
             Item it=(Item) items.keySet().toArray()[i];
             if(it.getItemType().equals(item.getItemType())){
@@ -24,7 +34,7 @@ public class Inventory {
     }
     public boolean checkToolInInventory(Tool tool){
         for(Tool t : tools){
-            if(t.getType().toString().equalsIgnoreCase(tool.getType().toString().toLowerCase())) return true;
+            if(t.getType().equals(tool.getType())) return true;
         }
         return false;
     }
