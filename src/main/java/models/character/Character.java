@@ -4,9 +4,7 @@ import models.App;
 import models.Item;
 import models.animal.Animal;
 import models.building.Building;
-import models.character.Skill.*;
 import models.enums.Recipe;
-import models.enums.ToolType;
 import models.map.Map;
 import models.tool.Tool;
 
@@ -21,7 +19,7 @@ public class Character {
     private int y;
     private Skill skill;
     private Tool currentTool;
-    private ArrayList<Animal> animals=new ArrayList<>();
+    private java.util.Map<String,Animal> animals = new HashMap<>();
     private ArrayList<Building> buildings =new ArrayList<>();
     private ArrayList<Recipe> recipes=new ArrayList<>();
     private ArrayList<Cell> lastPath;
@@ -112,15 +110,17 @@ public class Character {
         }
     }
 
-    public ArrayList<Animal> getAnimals() {
+    public java.util.Map<String,Animal>getAnimals() {
         return animals;
     }
     public ArrayList<Building> getBuildings() {
         return buildings;
     }
-    public void addAnimal(Animal animal) {
-        if(!animals.contains(animal)){
-            animals.add(animal);
+    public void addAnimal(Animal animal, String name) {
+        if(!animals.containsKey(name)){
+            animals.put(name,animal);
+        }else{
+            System.out.println("Name is already taken");
         }
     }
 
