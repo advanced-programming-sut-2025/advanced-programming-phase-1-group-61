@@ -130,9 +130,9 @@ public class Character {
             Cell cell1=lastPath.get(i);
             Cell cell2=lastPath.get(i+1);
             if((cell2.getX()>cell1.getX() && cell2.getY()>cell1.getY()) ||
-            (cell2.getX()>cell1.getX() && cell2.getY()<cell1.getY()) ||
-            (cell1.getX()>cell2.getX() && cell1.getY()>cell2.getY()) ||
-            (cell1.getX()>cell2.getX() && cell1.getY()<cell2.getY())) numberOfTurns++;
+                    (cell2.getX()>cell1.getX() && cell2.getY()<cell1.getY()) ||
+                    (cell1.getX()>cell2.getX() && cell1.getY()>cell2.getY()) ||
+                    (cell1.getX()>cell2.getX() && cell1.getY()<cell2.getY())) numberOfTurns++;
         }
         return (lastPath.size()+numberOfTurns*10)/20;
     }
