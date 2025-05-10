@@ -3,9 +3,8 @@ package models.character;
 import models.App;
 import models.Item;
 import models.animal.Animal;
-import models.character.Skill.*;
+import models.building.Building;
 import models.enums.Recipe;
-import models.enums.ToolType;
 import models.map.Map;
 import models.tool.Tool;
 
@@ -20,7 +19,8 @@ public class Character {
     private int y;
     private Skill skill;
     private Tool currentTool;
-    private ArrayList<Animal> animals=new ArrayList<>();
+    private java.util.Map<String,Animal> animals = new HashMap<>();
+    private ArrayList<Building> buildings =new ArrayList<>();
     private ArrayList<Recipe> recipes=new ArrayList<>();
     private ArrayList<Cell> lastPath;
     private int money;
@@ -104,6 +104,9 @@ public class Character {
     public int getMoney() {
         return money;
     }
+    public void spend(int amount){
+        money-=amount;
+    }
     public void moveCharacter(){
         for(Cell cell:lastPath){
             this.setX(cell.getX());
@@ -112,6 +115,27 @@ public class Character {
     }
     public Skill getSkill() {
         return skill;
+    }
+
+    public java.util.Map<String,Animal>getAnimals() {
+        return animals;
+    }
+    public ArrayList<Building> getBuildings() {
+        return buildings;
+    }
+    public void addAnimal(Animal animal, String name) {
+        if(!animals.containsKey(name)){
+            animals.put(name,animal);
+        }else{
+            System.out.println("Name is already taken");
+        }
+    }
+    public void pet(System name){
+        if (!animals.containsKey(name)) {
+            System.out.println("You do not have "+name+" pet youre own animals");
+            return;
+        }
+            animals.get(name).pet(this.x,this.y);
     }
 
     public void findPath(int targetX, int targetY){
@@ -174,5 +198,13 @@ public class Character {
             }
         }
         return null;
+    }
+
+    public void shepherd(String name,int xx,int yy){
+        if(!animals.containsKey(name)){
+            System.out.println("You do not have "+name+" pet youre own animals");
+            return;
+        }
+        animals.get(name).shepherd(xx,yy);
     }
 }
