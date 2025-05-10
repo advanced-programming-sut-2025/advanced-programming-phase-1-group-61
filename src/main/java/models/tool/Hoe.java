@@ -7,6 +7,7 @@ public class Hoe extends Tool{
     public Hoe() {
         super(ToolType.Hoe);
     }
+
     public String use(Direction direction){
         super.use(direction);
         return "used hoe!";
