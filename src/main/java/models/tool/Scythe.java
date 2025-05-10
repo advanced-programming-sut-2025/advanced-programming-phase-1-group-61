@@ -1,6 +1,7 @@
 package models.tool;
 
 import models.enums.Direction;
+import models.enums.ToolType;
 
 public class Scythe extends Tool{
     public Scythe() {
@@ -12,5 +13,8 @@ public class Scythe extends Tool{
     }
 
     @Override
+    public ToolType getType() {
+        return ToolType.Scythe;
+    }
     public void upgrade() {}
 }

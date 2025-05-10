@@ -5,6 +5,7 @@ import models.enums.ToolType;
 
 import java.util.Map;
 
+
 public class Axe extends Tool{
     public String use(Direction direction){
         super.use(direction);
@@ -12,6 +13,8 @@ public class Axe extends Tool{
     }
 
     @Override
+    public ToolType getType() {
+        return ToolType.Axe;
     public void upgrade() {
         if(this.level.equals("iridium")) return;
         String nextLevel = type.getNextLevel(level);
