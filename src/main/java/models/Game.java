@@ -596,4 +596,7 @@ public class Game implements Runnable {
         }
     }
 
+    public List<Character> getAllCharacters() {
+        return allCharacters;
+    }
 }

@@ -40,4 +40,6 @@ public class Axe extends Tool{
             consume=Math.max(0,consume-1);
         return consume;
     }
+
+
 }
