@@ -6,12 +6,10 @@ import models.enums.*;
 import models.map.Map;
 import models.map.Tile;
 import models.map.Weather;
-import models.resource.Resource;
 import models.resource.Stone;
 import models.resource.Tree;
 
 import java.util.List;
-import java.util.Random;
 
 public class Game implements Runnable {
 
@@ -465,39 +463,39 @@ public class Game implements Runnable {
                                 break;
                             }
                             case 1:{
-                                tile.setItem(new Item(ItemType.earthCrystal));
+                                tile.setItem(new Item(ItemType.EarthCrystal));
                                 break;
                             }
                             case 2:{
-                                tile.setItem(new Item(ItemType.frozenTear));
+                                tile.setItem(new Item(ItemType.FrozenTear));
                                 break;
                             }
                             case 3:{
-                                tile.setItem(new Item(ItemType.fireQuartz));
+                                tile.setItem(new Item(ItemType.FireQuartz));
                                 break;
                             }
                             case 4:{
-                                tile.setItem(new Item(ItemType.emerald));
+                                tile.setItem(new Item(ItemType.Emerald));
                                 break;
                             }
                             case 5:{
-                                tile.setItem(new Item(ItemType.aquamarine));
+                                tile.setItem(new Item(ItemType.Aquamarine));
                                 break;
                             }
                             case 6:{
-                                tile.setItem(new Item(ItemType.ruby));
+                                tile.setItem(new Item(ItemType.Ruby));
                                 break;
                             }
                             case 7:{
-                                tile.setItem(new Item(ItemType.amethyst));
+                                tile.setItem(new Item(ItemType.Amethyst));
                                 break;
                             }
                             case 8:{
-                                tile.setItem(new Item(ItemType.topaz));
+                                tile.setItem(new Item(ItemType.Topaz));
                                 break;
                             }
                             case 9:{
-                                tile.setItem(new Item(ItemType.jade));
+                                tile.setItem(new Item(ItemType.Jade));
                                 break;
                             }
                             case 10:{
@@ -505,11 +503,11 @@ public class Game implements Runnable {
                                 break;
                             }
                             case 11:{
-                                tile.setItem(new Item(ItemType.prismaticShard));
+                                tile.setItem(new Item(ItemType.PrismaticShard));
                                 break;
                             }
                             case 12:{
-                                tile.setItem(new Item(ItemType.copper));
+                                tile.setItem(new Item(ItemType.Copper));
                                 break;
                             }
                             case 13:{
@@ -521,11 +519,11 @@ public class Game implements Runnable {
                                 break;
                             }
                             case 15:{
-                                tile.setItem(new Item(ItemType.iridium));
+                                tile.setItem(new Item(ItemType.Iridium));
                                 break;
                             }
                             case 16:{
-                                tile.setItem(new Item(ItemType.coal));
+                                tile.setItem(new Item(ItemType.Coal));
                             }
 
                         }

@@ -11,7 +11,6 @@ import models.map.MapCreator.MapBuilder;
 import models.map.Tile;
 import models.map.Weather;
 import models.character.Inventory;
-import models.resource.Tree;
 import models.tool.Tool;
 
 import java.util.ArrayList;
@@ -20,35 +19,39 @@ import java.util.regex.Matcher;
 
 public class GameMenuController {
     private int neededEnergy;
-    public Result equipTool(Matcher matcher, Character character) {
+    public Result equipTool(Matcher matcher) {
+        Character character=App.getCurrentGame().getCurrentCharacter();
         String name=matcher.group("name").trim();
         Tool tool=Tool.fromString(name);
         if(tool==null){
-            return new Result(false, "Invalid tool!");
+            return new Result(false, "Please enter a valid tool!");
         }
         Inventory inventory =character.getInventory();
-        if(!inventory.checkToolInBackPack(tool)){
+        if(!inventory.checkToolInInventory(tool)){
             return new Result(false,"you don't have the tool in your backpack!");
         }
         character.setTool(tool);
         return new Result(true,name+" has been equipped!");
     }
-    public Result showCurrentTool(Character character) {
+    public Result showCurrentTool() {
+        Character character=App.getCurrentGame().getCurrentCharacter();
         Tool tool=character.getCurrentTool();
         if(tool==null){
-            return new Result(false,"the thing you have in your hand is not a tool!");
+            return new Result(false,"No tool is in your hand!");
         }
-        return new Result(true,tool.getType().toString());
+        return new Result(true,tool.getType().toString()+" is your current tool!");
     }
-    public Result showAvailableTools(Character character) {
+    public Result showAvailableTools() {
+        Character character=App.getCurrentGame().getCurrentCharacter();
         Inventory inventory =character.getInventory();
         return new Result(true,"you have ("+ inventory.getAllTools()+") in your backpack!");
     }
-    public Result upgradeTool(Matcher matcher, Character character) {
+    public Result upgradeTool(Matcher matcher) {
+        Character character=App.getCurrentGame().getCurrentCharacter();
         String name=matcher.group("name").trim();
         Tool tool=Tool.fromString(name);
         if(tool==null){
-            return new Result(false,"Invalid tool!");
+            return new Result(false,"Please enter a valid tool!");
         }
         //other errors will be implemented later
         character.upgradeTool(tool);

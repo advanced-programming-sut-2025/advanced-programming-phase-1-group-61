@@ -23,11 +23,11 @@ public enum ItemType {
     GoldIngot(0 , "gold ingot" , 0 , false),
     Wheat(0 , "wheat" , 0 , false),
     Gold(0 , "gold" , 0 , false),
-    Quartz(0 , "quartz" , 0 , false),
+    Quartz(25 , "quartz" , 0 , false),
     WaterSprinkler(0 , "water sprinkler" , 0 , false),
     Plant(0 , "plant" , 0,false),
     Salmon(0,"salmon" , 0 , false),
-    Diamond(1000 , "diamond" , 0 ,false),
+    Diamond(750 , "diamond" , 0 ,false),
     blueJazz(50,"blue jazz" , 45 , true),
     carrot(35,"carrot" , 75 , true),
     cauliFlower(175 , "cauli flower" , 75 , false),
@@ -55,19 +55,19 @@ public enum ItemType {
     snowYam(100, "snow yam", 30, true),
     winterRoot(70, "winter root", 25, true),
     grape(30 , "grape" , 10 , true),
-    earthCrystal(50 , "earth crystal" , 0 , false),
-    frozenTear(75 , "frozen tear" , 0 , false),
-    fireQuartz(100 , "fire quartz" , 0 , false),
-    emerald(250 , "emerald" , 0 , false),
-    aquamarine(180 , "aquamarine" , 0 , false),
-    ruby(250  ,"ruby", 0 , false),
-    amethyst(100 , "amethyst" , 0 , false),
-    topaz(80 , "topaz" , 0 , false),
-    jade(200 , "jade" , 0 , false),
-    prismaticShard(2000 , "prismatic shard" , 0 , false),
-    copper(5 , "copper" , 0 , false),
-    iridium(100 , "iridium", 0 , false),
-    coal(15 , "coal" , 0 , false),
+    EarthCrystal(50 , "earth crystal" , 0 , false),
+    FrozenTear(75 , "frozen tear" , 0 , false),
+    FireQuartz(100 , "fire quartz" , 0 , false),
+    Emerald(250 , "emerald" , 0 , false),
+    Aquamarine(180 , "aquamarine" , 0 , false),
+    Ruby(250  ,"ruby", 0 , false),
+    Amethyst(100 , "amethyst" , 0 , false),
+    Topaz(80 , "topaz" , 0 , false),
+    Jade(200 , "jade" , 0 , false),
+    PrismaticShard(2000 , "prismatic shard" , 0 , false),
+    Copper(5 , "copper" , 0 , false),
+    Iridium(100 , "iridium", 0 , false),
+    Coal(15 , "coal" , 0 , false),
     jazzSeed(0, "jazz seed" , 0 ,false),
     carrotSeed(0 , "carrot seed" , 0 , false),
     cauliflowerSeed(0, "cauliflower seed", 0, false),
@@ -118,10 +118,10 @@ public enum ItemType {
 
 
 
-    private int price ;
-    private String disPlayName;
-    private int energy;
-    private boolean isEdible;
+    private final int price ;
+    private final String disPlayName;
+    private final int energy;
+    private final boolean isEdible;
 
     ItemType(int price, String disPlayName, int energy, boolean isEdible) {
         this.price = price;
