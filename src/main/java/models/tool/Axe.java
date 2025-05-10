@@ -1,7 +1,10 @@
 package models.tool;
 
-public class Axe extends Tool{
-    public Axe() {
+import models.enums.Direction;
 
+public class Axe extends Tool{
+    public String use(Direction direction){
+        super.use(direction);
+        return "used Axe!";
     }
 }
