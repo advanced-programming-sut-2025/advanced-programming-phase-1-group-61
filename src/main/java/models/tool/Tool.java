@@ -22,9 +22,7 @@ public abstract class Tool {
     public String getLevel() {
         return level;
     }
-    public ToolType getType() {
-        return type;
-    }
+    abstract public ToolType getType();
     public static Tool fromString(String name){
         for(ToolType t : ToolType.values()){
             if(t.toString().equalsIgnoreCase(name)) return t.getTool();
