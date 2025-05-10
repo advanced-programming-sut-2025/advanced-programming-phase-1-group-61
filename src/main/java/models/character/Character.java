@@ -3,6 +3,7 @@ package models.character;
 import models.App;
 import models.Item;
 import models.animal.Animal;
+import models.building.Building;
 import models.character.Skill.*;
 import models.enums.Recipe;
 import models.map.Map;
@@ -20,6 +21,7 @@ public class Character {
     private Skill skill;
     private Tool currentTool;
     private ArrayList<Animal> animals=new ArrayList<>();
+    private ArrayList<Building> buildings =new ArrayList<>();
     private ArrayList<Recipe> recipes=new ArrayList<>();
     private ArrayList<Cell> lastPath;
     private int money;
@@ -105,6 +107,18 @@ public class Character {
         for(Cell cell:lastPath){
             this.setX(cell.getX());
             this.setY(cell.getY());
+        }
+    }
+
+    public ArrayList<Animal> getAnimals() {
+        return animals;
+    }
+    public ArrayList<Building> getBuildings() {
+        return buildings;
+    }
+    public void addAnimal(Animal animal) {
+        if(!animals.contains(animal)){
+            animals.add(animal);
         }
     }
 
