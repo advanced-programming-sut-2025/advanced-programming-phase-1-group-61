@@ -159,8 +159,8 @@ public class Animal {
             }
         }
         for (Item item : products) {
-            owner.getInventory().addItem(item,1);
-            System.out.println("You have got 1"+item.toString()+" goooood!");
+            owner.getInventory().addItem(item.getItemType(),1);
+            System.out.println("You have got 1"+ item.getItemType().getDisPlayName()+" goooood!");
             products.remove(item);
         }
         products.clear();
