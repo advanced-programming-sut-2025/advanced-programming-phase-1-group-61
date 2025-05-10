@@ -3,10 +3,7 @@ package models.character;
 import models.Item;
 import models.enums.BackpackType;
 import models.enums.ToolType;
-import models.tool.Axe;
-import models.tool.Hoe;
-import models.tool.Pickaxe;
-import models.tool.Tool;
+import models.tool.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,9 +30,9 @@ public class Inventory {
         }
         items.put(item,count);
     }
-    public boolean checkToolInInventory(Tool tool){
+    public boolean checkToolInInventory(ToolType tool){
         for(Tool t : tools){
-            if(t.getType().equals(tool.getType())) return true;
+            if(t.getType().equals(tool)) return true;
         }
         return false;
     }
@@ -94,8 +91,24 @@ public class Inventory {
         return null;
     }
 
-    public void addTool(Tool tool){
-        tools.add(tool);
+    public void addTool(ToolType tool){
+        if(tool.equals(ToolType.Scythe)){
+            tools.add(new Scythe());
+        } else if (tool.equals(ToolType.Shear)) {
+            tools.add(new Scythe());
+        } else if (tool.equals(ToolType.MilkPail)) {
+            tools.add(new MilkPail());
+        } else if (tool.equals(ToolType.Axe)) {
+            tools.add(new Axe());
+        } else if (tool.equals(ToolType.Hoe)) {
+            tools.add(new Hoe());
+        } else if (tool.equals(ToolType.FishingPole)) {
+            tools.add(new FishingPole());
+        } else if (tool.equals(ToolType.PickAxe)) {
+            tools.add(new Pickaxe());
+        } else if (tool.equals(ToolType.WateringCan)) {
+            tools.add(new WateringCan());
+        }
     }
     public BackpackType getBackpackType() {
         return backpackType;

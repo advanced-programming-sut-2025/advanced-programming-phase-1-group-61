@@ -4,6 +4,11 @@ import models.enums.Direction;
 import models.enums.ToolType;
 
 public class WateringCan extends Tool{
+
+    public WateringCan() {
+        super(ToolType.WateringCan);
+    }
+
     public String use(Direction direction){
         super.use(direction);
         return "used watering can";
