@@ -2,10 +2,7 @@ package controllers;
 
 import models.*;
 import models.character.Character;
-import models.enums.DaysOfTheWeek;
-import models.enums.Season;
-import models.enums.TileType;
-import models.enums.WeatherState;
+import models.enums.*;
 import models.map.Map;
 import models.map.MapCreator.MapBuilder;
 import models.map.Tile;
@@ -56,6 +53,22 @@ public class GameMenuController {
         //other errors will be implemented later
         character.upgradeTool(tool);
         return new Result(true,name+" has been upgraded!");
+    }
+    public Result useTool(Matcher matcher) {
+        String directionStr=matcher.group("direction").trim();
+        Character character=App.getCurrentGame().getCurrentCharacter();
+        Direction direction=Direction.fromString(directionStr);
+        if(direction==null){
+            return new Result(false, "Please enter a valid direction!(right/left/up/bottom/up_right/up_left/bottom_right/bottom_left)");
+        }
+        Tool tool=character.getCurrentTool();
+        if(character.getCurrentTool()==null){
+            return new Result(false, "Please select a tool before trying to use it!");
+        }
+        if(tool.getType().getEnergyConsumption(tool.getLevel())>character.getEnergy()){
+            return new Result(false,"You don't have enough energy to use this tool!");
+        }
+        return new Result(true,tool.use(direction));
     }
     public Result startGame(List<String> usernames,int[] mapNumbers){
         List<User> userList =new ArrayList<>();

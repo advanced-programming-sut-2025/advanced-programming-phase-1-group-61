@@ -116,9 +116,10 @@ public class GameMenu implements AppMenu{
             Matcher cheatAddItem = CheatCodes.CHEAT_ADD_ITEM.getMatcher(input);
             Matcher inventoryShow = GameMenuCommands.INVENTORY_SHOW.getMatcher(input);
             Matcher inventoryTrash = GameMenuCommands.INVENTORY_TRASH.getMatcher(input);
-            Matcher helpReadingMap = GameMenuCommands.HelpReadingMap.getMatcher(input);
-            Matcher printMap = GameMenuCommands.PrintMap.getMatcher(input);
-            Matcher showEnergy = GameMenuCommands.showEnergy.getMatcher(input);
+            Matcher helpReadingMap = GameMenuCommands.HELP_READING_MAP.getMatcher(input);
+            Matcher printMap = GameMenuCommands.PRINT_MAP.getMatcher(input);
+            Matcher showEnergy = GameMenuCommands.SHOW_ENERGY.getMatcher(input);
+            Matcher toolsUse = GameMenuCommands.TOOLS_USE.getMatcher(input);
             
             
 
@@ -194,6 +195,9 @@ public class GameMenu implements AppMenu{
                 System.out.println(result.message());
             } else if(toolsShowAvailable !=null) {
                 Result result=controller.showAvailableTools();
+                System.out.println(result.message());
+            } else if(toolsUse !=null){
+                Result result=controller.useTool(toolsUse);
                 System.out.println(result.message());
             } else if(inventoryShow != null){
                 Result result=controller.inventoryShow();
