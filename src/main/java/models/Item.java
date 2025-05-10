@@ -2,6 +2,8 @@ package models;
 
 import models.enums.ItemType;
 
+import java.util.Arrays;
+
 public class Item {
     private ItemType itemType;
     private int price;
@@ -49,7 +51,7 @@ public class Item {
 
     public static Item getItem(String itemName) {
         for(ItemType type : ItemType.values()) {
-            if(type.name().equalsIgnoreCase(itemName.toLowerCase())) return new Item(type);
+            if(type.name().equalsIgnoreCase(itemName)) return new Item(type);
         }
         return null;
     }

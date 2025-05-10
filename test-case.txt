@@ -1,0 +1,6 @@
+register -u test -p Test@123 Test@123 -n testo -e test@gmail.com -g male
+register -u test2 -p Test@123 Test@123 -n teso2 -e test@gmail.com -g male
+menu enter loginmenu
+login -u test -p Test@123
+menu enter game
+game new -u test2

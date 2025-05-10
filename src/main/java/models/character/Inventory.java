@@ -54,13 +54,25 @@ public class Inventory {
         return tools;
     }
     public void removeItem(Item item){
-        items.remove(item);
+        for (int i=0;i<items.size();i++){
+            Item it=(Item) items.keySet().toArray()[i];
+            if(it.getItemType().equals(item.getItemType()))
+                items.remove(it);
+        }
     }
     public void removeItem(Item item,int count){
-        items.put(item,items.get(item)-count);
+        for(int i=0;i<items.size();i++){
+            Item it=(Item) items.keySet().toArray()[i];
+            if(it.getItemType().equals(item.getItemType()))
+                items.put(it,items.get(it) -count);
+        }
     }
     public int getCountOfItem(Item item){
-        return items.get(item);
+        for(int i=0;i<items.size();i++){
+            Item it=(Item) items.keySet().toArray()[i];
+            if(it.getItemType().equals(item.getItemType())) return items.get(it);
+        }
+        return 0;
     }
     public BackpackType getBackpackType() {
         return backpackType;
