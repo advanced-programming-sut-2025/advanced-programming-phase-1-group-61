@@ -4,7 +4,6 @@ import models.enums.ToolType;
 
 public class Tool {
     protected int durability;
-    protected int level;
     protected ToolType type;
     public void use(){
         //todo
