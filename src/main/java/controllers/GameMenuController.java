@@ -79,7 +79,7 @@ public class GameMenuController {
         if(character.getCurrentTool()==null){
             return new Result(false, "Please select a tool before trying to use it!");
         }
-        if(tool.getType().getEnergyConsumption(tool.getLevel())>character.getEnergy()){
+        if(tool.getConsumptionEnergy()>character.getEnergy()){
             return new Result(false,"You don't have enough energy to use this tool!");
         }
         return new Result(true,tool.use(direction));
@@ -383,5 +383,9 @@ public class GameMenuController {
         if (tile.getType().equals(TileType.brokenGreenHouseWall)) return YELLOW + "GW" + RESET;
 
         return WHITE + "? " + RESET;
+    }
+    public Result craftInfo(Matcher matcher) {
+        String craftName=matcher.group("craftName").trim();
+        return new Result(true , "");
     }
 }
