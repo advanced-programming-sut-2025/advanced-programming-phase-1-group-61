@@ -44,14 +44,26 @@ public class Skill {
 
     public void addMiningSkillXP(int amount){
         this.miningSkillXP +=amount;
+        if(checkLVL(this.miningSkillXP , this.miningLVL)){
+            this.miningSkillXP =0;
+            this.miningLVL++;
+        }
     }
 
     public void addFishingSkillXP(int amount){
         this.fishingSkillXP += amount;
+        if(checkLVL(this.fishingSkillXP , this.fishingLVL)){
+            this.fishingSkillXP=0;
+            this.fishingLVL++;
+        }
     }
 
     public void  addForgingSkillXP(int amount){
         this.forgingSkillXP += amount;
+        if(checkLVL(this.forgingSkillXP , this.foragingLVL)){
+            this.foragingLVL++;
+            this.forgingSkillXP = 0;
+        }
     }
 
     private boolean checkLVL(int amount , int lvl){
