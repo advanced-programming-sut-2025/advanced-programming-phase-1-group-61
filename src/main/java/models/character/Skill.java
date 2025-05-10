@@ -1,47 +1,65 @@
 package models.character;
 
 public class Skill {
-    private int miningSkill;
-    private int forgingSkill;
-    private int fishingSkill;
-    private int farmingSkill;
+    private int miningSkillXP;
+    private int forgingSkillXP;
+    private int fishingSkillXP;
+    private int farmingSkillXP;
+    private int miningLVL , foragingLVL , fishingLVL , farmingLVL;
 
     public Skill() {
-        this.miningSkill = 0;
-        this.forgingSkill = 0;
-        this.fishingSkill = 0;
-        this.farmingSkill = 0;
+        this.miningSkillXP = 0;
+        this.forgingSkillXP = 0;
+        this.fishingSkillXP = 0;
+        this.farmingSkillXP = 0;
+        this.miningLVL = 1;
+        this.foragingLVL = 1;
+        this.fishingLVL = 1;
+        this.farmingLVL = 1;
     }
 
-    public int getFarmingSkill() {
-        return farmingSkill;
+    public int getFarmingSkillXP() {
+        return farmingSkillXP;
     }
 
-    public int getFishingSkill() {
-        return fishingSkill;
+    public int getFishingSkillXP() {
+        return fishingSkillXP;
     }
 
-    public int getForgingSkill() {
-        return forgingSkill;
+    public int getForgingSkillXP() {
+        return forgingSkillXP;
     }
 
-    public int getMiningSkill() {
-        return miningSkill;
+    public int getMiningSkillXP() {
+        return miningSkillXP;
     }
 
-    public void addFarmingSkill(int amount){
-        this.farmingSkill+=amount;
+    public void addFarmingSkillXP(int amount){
+        this.farmingSkillXP +=amount;
+        if(checkLVL(this.farmingSkillXP , this.farmingLVL)){
+            this.farmingSkillXP = 0;
+            this.farmingLVL++;
+        }
     }
 
-    public void addMiningSkill(int amount){
-        this.miningSkill+=amount;
+    public void addMiningSkillXP(int amount){
+        this.miningSkillXP +=amount;
     }
 
-    public void addFishingSkill(int amount){
-        this.fishingSkill += amount;
+    public void addFishingSkillXP(int amount){
+        this.fishingSkillXP += amount;
     }
 
-    public void  addForgingSkill(int amount){
-        this.forgingSkill += amount;
+    public void  addForgingSkillXP(int amount){
+        this.forgingSkillXP += amount;
+    }
+
+    private boolean checkLVL(int amount , int lvl){
+           if(lvl < 4){
+               if(amount == (lvl * 100 + 50)){
+                   return true;
+               }
+           }
+        return false;
     }
 }
