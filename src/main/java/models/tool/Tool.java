@@ -9,6 +9,11 @@ public abstract class Tool {
     protected int durability;
     protected ToolType type;
     protected String level="primary";
+
+    public Tool(ToolType type) {
+        this.type = type;
+    }
+
     public String use(Direction direction) {
         //this method should be overwritten in child classes!
         Character character= App.getCurrentGame().getCurrentCharacter();
@@ -23,9 +28,9 @@ public abstract class Tool {
         return level;
     }
     abstract public ToolType getType();
-    public static Tool fromString(String name){
+    public static ToolType fromString(String name){
         for(ToolType t : ToolType.values()){
-            if(t.toString().equalsIgnoreCase(name)) return t.getTool();
+            if(t.getTool().equals(name)) return t;
         }
         return null;
     }
