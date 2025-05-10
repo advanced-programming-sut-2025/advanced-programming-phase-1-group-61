@@ -8,4 +8,8 @@ public class Tree extends Resource{
     public Tree(TreeType type) {
         this.type = type;
     }
+
+    public TreeType getType() {
+        return type;
+    }
 }
