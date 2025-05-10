@@ -166,7 +166,7 @@ public class Animal {
 
     public void shepherd(int x,int y){
 
-        Tile tile =
+        Tile tile =null;
 
     }
 
