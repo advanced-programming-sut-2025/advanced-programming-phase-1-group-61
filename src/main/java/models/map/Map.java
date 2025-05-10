@@ -42,6 +42,10 @@ public class Map {
         return tiles;
     }
 
+    public Tile getTileByCordinate(int x , int y){
+        return tiles[y][x];
+    }
+
     public int getHeightSize(){
         return tiles.length;
     }
