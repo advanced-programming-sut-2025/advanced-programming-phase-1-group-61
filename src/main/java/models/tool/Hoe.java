@@ -24,4 +24,9 @@ public class Hoe extends Tool{
         this.level = nextLevel;
 
     }
+
+    @Override
+    public int getConsumptionEnergy() {
+        return 0;
+    }
 }

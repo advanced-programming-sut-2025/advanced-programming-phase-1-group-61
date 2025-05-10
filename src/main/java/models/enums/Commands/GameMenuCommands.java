@@ -24,7 +24,8 @@ public enum GameMenuCommands {
     INVENTORY_TRASH("^inventory\\s+trash\\s+-i (?<itemName>.\\S+)( -n (?<number>.*))?$"),
     HELP_READING_MAP("^help\\s+reading\\s+map$"),
     PRINT_MAP("^print\\s+map\\s+-l\\s+<(?<x>\\d+),(?<y>\\d+)>\\s+-s\\s+(?<size>\\d+)$"),
-    SHOW_ENERGY("^energy\\S+show$");
+    SHOW_ENERGY("^energy\\S+show$"),
+    CRAFT_INFO("^craftinfo\\s+-n (?<craftName>.*)$");
 
 
     private String pattern;

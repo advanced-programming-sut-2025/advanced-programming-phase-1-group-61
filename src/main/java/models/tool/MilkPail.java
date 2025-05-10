@@ -19,4 +19,9 @@ public class MilkPail extends Tool{
         return ToolType.MilkPail;
     }
     public void upgrade() {}
+
+    @Override
+    public int getConsumptionEnergy() {
+        return this.type.getEnergyConsumption(this.level);
+    }
 }

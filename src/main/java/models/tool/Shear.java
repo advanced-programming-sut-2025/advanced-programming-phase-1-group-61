@@ -20,4 +20,9 @@ public class Shear extends Tool{
     }
     public void upgrade() {}
 
+    @Override
+    public int getConsumptionEnergy() {
+        return this.type.getEnergyConsumption(this.level);
+    }
+
 }
