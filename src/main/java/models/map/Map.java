@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 public class Map {
-    private Tile[][] tiles;
+   private Tile[][] tiles;
    private Weather weather;
    private List<Integer> xSpawnPoints;
    private List<Integer> ySpawnPoints;
