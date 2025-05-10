@@ -25,4 +25,7 @@ public enum ToolType {
     public String toString(){
         return this.name();
     }
+    public int getEnergyConsumption(String level){
+        return this.energyPerLevel.get(level);
+    }
 }
