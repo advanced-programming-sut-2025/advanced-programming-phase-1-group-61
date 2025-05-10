@@ -17,7 +17,7 @@ public class Character {
     private boolean unlimitedEnergy=false;
     private int x;
     private int y;
-    private final ArrayList<Skill> skills;
+    private Skill skill;
     private Tool currentTool;
     private ArrayList<Animal> animals=new ArrayList<>();
     private ArrayList<Recipe> recipes=new ArrayList<>();
@@ -25,26 +25,11 @@ public class Character {
     private int money;
     public Character(int userId){
         this.userId=userId;
-        currentTool=null;
+        this.currentTool=null;
         this.energy = 200;
-        skills=new ArrayList<>(List.of(new FarmingSkill(0,0),
-                new ForagingSkill(0,0),
-                new MiningSkill(0,0),
-                new FishingSkill(0,0),
-                new FarmingSkill(0,0)));
+        this.skill = new Skill();
     }
-    public Skill getForagingSkill(){
-        return skills.get(0);
-    }
-    public Skill getMiningSkill(){
-        return skills.get(1);
-    }
-    public Skill getFishingSkill(){
-        return skills.get(2);
-    }
-    public Skill getFarmingSkill(){
-        return skills.get(3);
-    }
+
     public void setTool(Tool newTool){
         currentTool=newTool;
     }
@@ -145,9 +130,9 @@ public class Character {
             Cell cell1=lastPath.get(i);
             Cell cell2=lastPath.get(i+1);
             if((cell2.getX()>cell1.getX() && cell2.getY()>cell1.getY()) ||
-            (cell2.getX()>cell1.getX() && cell2.getY()<cell1.getY()) ||
-            (cell1.getX()>cell2.getX() && cell1.getY()>cell2.getY()) ||
-            (cell1.getX()>cell2.getX() && cell1.getY()<cell2.getY())) numberOfTurns++;
+                    (cell2.getX()>cell1.getX() && cell2.getY()<cell1.getY()) ||
+                    (cell1.getX()>cell2.getX() && cell1.getY()>cell2.getY()) ||
+                    (cell1.getX()>cell2.getX() && cell1.getY()<cell2.getY())) numberOfTurns++;
         }
         return (lastPath.size()+numberOfTurns*10)/20;
     }
