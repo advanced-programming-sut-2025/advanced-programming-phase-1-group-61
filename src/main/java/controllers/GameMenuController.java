@@ -284,6 +284,8 @@ public class GameMenuController {
             return new Result(true,"successfully removed "+itemName+" from your Inventory!");
         }
         else {
+            if(inventory.getCountOfItem(item)==0)
+                return new Result(false,"you don't have such an item in your inventory!");
             if(number>inventory.getCountOfItem(item))
                 return new Result(false,"you have less items in your inventory!");
             inventory.removeItem(item, number);

@@ -186,7 +186,8 @@ public class GameMenu implements AppMenu{
                 Result result=controller.inventoryShow();
                 System.out.println(result.message());
             } else if(inventoryTrash != null){
-
+                Result result=controller.inventoryTrash(inventoryTrash);
+                System.out.println(result.message());
             } else if(exitGame != null){
                 try {
                     App.saveApp();
