@@ -16,4 +16,6 @@ public class Shear extends Tool{
     public ToolType getType() {
         return ToolType.Shear;
     }
+    public void upgrade() {}
+
 }

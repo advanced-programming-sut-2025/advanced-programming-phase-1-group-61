@@ -16,4 +16,5 @@ public class MilkPail extends Tool{
     public ToolType getType() {
         return ToolType.MilkPail;
     }
+    public void upgrade() {}
 }

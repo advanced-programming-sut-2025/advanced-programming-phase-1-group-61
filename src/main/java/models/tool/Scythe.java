@@ -16,4 +16,5 @@ public class Scythe extends Tool{
     public ToolType getType() {
         return ToolType.Scythe;
     }
+    public void upgrade() {}
 }

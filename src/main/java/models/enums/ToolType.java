@@ -28,4 +28,17 @@ public enum ToolType {
     public int getEnergyConsumption(String level){
         return this.energyPerLevel.get(level);
     }
+    public Map<String, Integer> getEnergyPerLevel(){
+        return this.energyPerLevel;
+    }
+    public String getNextLevel(String currentLevel) {
+        Object[] levels = energyPerLevel.keySet().toArray();
+        for (int i = 0; i < levels.length - 1; i++) {
+            if (levels[i].equals(currentLevel)) {
+                return (String) levels[i + 1];
+            }
+        }
+        return null; // already max level or invalid
+    }
+
 }

@@ -31,4 +31,5 @@ public abstract class Tool {
         }
         return null;
     }
+    public abstract void upgrade();
 }

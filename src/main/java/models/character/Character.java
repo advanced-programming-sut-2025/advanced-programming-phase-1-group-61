@@ -5,6 +5,7 @@ import models.Item;
 import models.animal.Animal;
 import models.character.Skill.*;
 import models.enums.Recipe;
+import models.enums.ToolType;
 import models.map.Map;
 import models.tool.Tool;
 
@@ -39,9 +40,6 @@ public class Character {
     }
     public Inventory getInventory() {
         return inventory;
-    }
-    public void upgradeTool(Tool desiredTool){
-
     }
 
     public int getX() {

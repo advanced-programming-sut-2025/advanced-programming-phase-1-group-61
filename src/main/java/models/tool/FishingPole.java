@@ -12,5 +12,10 @@ public class FishingPole extends Tool{
     @Override
     public ToolType getType() {
         return ToolType.FishingPole;
+    public void upgrade() {
+        if(this.level.equals("iridium")) return;
+        String nextLevel = type.getNextLevel(level);
+        if(nextLevel==null) return;
+        this.level = nextLevel;
     }
 }
