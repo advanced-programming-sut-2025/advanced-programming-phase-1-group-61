@@ -6,6 +6,7 @@ import models.animal.Animal;
 import models.building.Building;
 import models.character.Skill.*;
 import models.enums.Recipe;
+import models.enums.ToolType;
 import models.map.Map;
 import models.tool.Tool;
 
@@ -13,7 +14,7 @@ import java.util.*;
 
 public class Character {
     private int userId;
-    private final Inventory inventory =new Inventory();
+    private final Inventory inventory ;
     private int energy;
     private boolean unlimitedEnergy=false;
     private int x;
@@ -30,6 +31,7 @@ public class Character {
         this.currentTool=null;
         this.energy = 200;
         this.skill = new Skill();
+        this.inventory = new Inventory();
     }
 
     public void setTool(Tool newTool){
@@ -40,9 +42,6 @@ public class Character {
     }
     public Inventory getInventory() {
         return inventory;
-    }
-    public void upgradeTool(Tool desiredTool){
-
     }
 
     public int getX() {

@@ -120,7 +120,7 @@ public class GameMenu implements AppMenu{
             Matcher printMap = GameMenuCommands.PRINT_MAP.getMatcher(input);
             Matcher showEnergy = GameMenuCommands.SHOW_ENERGY.getMatcher(input);
             Matcher toolsUse = GameMenuCommands.TOOLS_USE.getMatcher(input);
-            
+            Matcher cheatAddTool = CheatCodes.CHEAT_ADD_TOOL.getMatcher(input);
             
 
             if (showCurrentMenu != null){
@@ -175,6 +175,9 @@ public class GameMenu implements AppMenu{
                 System.out.println(result.message());
             } else if(cheatAddItem!=null){
                 Result result = controller.cheatAddItem(cheatAddItem);
+                System.out.println(result.message());
+            } else if(cheatAddTool!=null){
+                Result result=controller.cheatAddTool(cheatAddTool);
                 System.out.println(result.message());
             } else if(walk != null){
                 Result res=controller.energyResult(walk);
