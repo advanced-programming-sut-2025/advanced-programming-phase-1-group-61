@@ -10,4 +10,7 @@ public class MilkPail extends Tool{
         super.use(direction);
         return "used milk pail!";
     }
+
+    @Override
+    public void upgrade() {}
 }

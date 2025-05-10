@@ -2,6 +2,7 @@ package models.character;
 
 import models.Item;
 import models.enums.BackpackType;
+import models.enums.ToolType;
 import models.tool.Tool;
 
 import java.util.ArrayList;
@@ -72,6 +73,15 @@ public class Inventory {
             if(it.getItemType().equals(item.getItemType())) return items.get(it);
         }
         return 0;
+    }
+    public void addTool(Tool tool){
+        tools.add(tool);
+    }
+    public Tool getToolByType(ToolType type){
+        for(Tool t : tools){
+            if(t.getType().equals(type)) return t;
+        }
+        return null;
     }
     public BackpackType getBackpackType() {
         return backpackType;
