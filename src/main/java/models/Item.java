@@ -49,9 +49,9 @@ public class Item {
         this.energy = energy;
     }
 
-    public static Item getItem(String itemName) {
+    public static ItemType getItem(String itemName) {
         for(ItemType type : ItemType.values()) {
-            if(type.name().equalsIgnoreCase(itemName)) return new Item(type);
+            if(type.name().equalsIgnoreCase(itemName)) return type;
         }
         return null;
     }
