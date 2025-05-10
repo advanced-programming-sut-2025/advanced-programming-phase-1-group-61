@@ -10,4 +10,7 @@ public class Shear extends Tool{
         super.use(direction);
         return "used shear!";
     }
+
+    @Override
+    public void upgrade() {}
 }

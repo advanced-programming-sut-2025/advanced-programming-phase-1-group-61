@@ -7,4 +7,12 @@ public class FishingPole extends Tool{
         super.use(direction);
         return "Used fishing pole!";
     }
+
+    @Override
+    public void upgrade() {
+        if(this.level.equals("iridium")) return;
+        String nextLevel = type.getNextLevel(level);
+        if(nextLevel==null) return;
+        this.level = nextLevel;
+    }
 }

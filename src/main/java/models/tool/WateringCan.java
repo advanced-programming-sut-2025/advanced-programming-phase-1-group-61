@@ -7,4 +7,12 @@ public class WateringCan extends Tool{
         super.use(direction);
         return "used watering can";
     }
+
+    @Override
+    public void upgrade() {
+        if(this.level.equals("iridium")) return;
+        String nextLevel = type.getNextLevel(level);
+        if(nextLevel==null) return;
+        this.level = nextLevel;
+    }
 }

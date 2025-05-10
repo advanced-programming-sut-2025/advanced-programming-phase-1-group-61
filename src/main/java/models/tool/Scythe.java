@@ -10,4 +10,7 @@ public class Scythe extends Tool{
         super.use(direction);
         return "used Scythe!";
     }
+
+    @Override
+    public void upgrade() {}
 }
