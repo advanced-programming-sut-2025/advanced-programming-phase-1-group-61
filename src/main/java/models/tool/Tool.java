@@ -5,7 +5,7 @@ import models.enums.ToolType;
 public class Tool {
     protected int durability;
     protected int level;
-    private ToolType type;
+    protected ToolType type;
     public void use(){
         //todo
     }
@@ -17,7 +17,7 @@ public class Tool {
     }
     public static Tool fromString(String name){
         for(ToolType t : ToolType.values()){
-            if(t.toString().equals(name)) return t.getTool();
+            if(t.toString().equalsIgnoreCase(name)) return t.getTool();
         }
         return null;
     }

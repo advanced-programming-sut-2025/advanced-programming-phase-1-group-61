@@ -2,7 +2,6 @@ package models.character;
 
 import models.Item;
 import models.enums.BackpackType;
-import models.enums.TrashcanType;
 import models.tool.Tool;
 
 import java.util.ArrayList;
@@ -23,9 +22,9 @@ public class Inventory {
         }
         items.put(item,count);
     }
-    public boolean checkToolInBackPack(Tool tool){
+    public boolean checkToolInInventory(Tool tool){
         for(Tool t : tools){
-            if(t.getType().toString().equals(tool.getType().toString())) return true;
+            if(t.getType().toString().equalsIgnoreCase(tool.getType().toString().toLowerCase())) return true;
         }
         return false;
     }
