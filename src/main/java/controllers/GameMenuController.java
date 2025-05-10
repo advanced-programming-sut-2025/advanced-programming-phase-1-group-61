@@ -286,7 +286,7 @@ public class GameMenuController {
         }catch (Exception e){
             return new Result(false , "please enter a valid number!");
         }
-        Item item=Item.getItem(itemName);
+        ItemType item=Item.getItem(itemName);
         if(item==null) return new Result(false , "please enter a valid item!");
         App.getCurrentGame().getCurrentCharacter().getInventory().addItem(item,count);
         return new Result(true,count+ " " + itemName +"s added to Inventory!");
@@ -307,7 +307,7 @@ public class GameMenuController {
                 return new Result(false , "please enter a valid number!");
             }
         }
-        Item item=Item.getItem(itemName);
+        ItemType item=Item.getItem(itemName);
         if(item==null) return new Result(false , "please enter a valid item!");
         if(number==-1) {
             inventory.removeItem(item);
