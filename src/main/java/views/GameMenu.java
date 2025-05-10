@@ -95,6 +95,9 @@ public class GameMenu implements AppMenu{
         }
         else {
             Matcher equipTool=GameMenuCommands.EQUIP_TOOL.getMatcher(input);
+            Matcher showCurrentTool=GameMenuCommands.SHOW_CURRENT_TOOL.getMatcher(input);
+            Matcher toolsShowAvailable=GameMenuCommands.TOOLS_SHOW_AVAILABLE.getMatcher(input);
+            Matcher toolsUpgrade=GameMenuCommands.TOOLS_UPGRADE.getMatcher(input);
             Matcher exitGame = RegisterMenuCommands.LEAVE_GAME.getMatcher(input);
             Matcher changePlayerTurn = GameMenuCommands.NEXT_TURN.getMatcher(input);
             Matcher showHour = GameMenuCommands.SHOW_HOUR.getMatcher(input);
@@ -181,7 +184,17 @@ public class GameMenu implements AppMenu{
                     System.out.println(result.message());
                 }
             } else if(equipTool != null){
-                //TODO
+                Result result=controller.equipTool(equipTool);
+                System.out.println(result.message());
+            } else if(showCurrentTool !=null){
+                Result result=controller.showCurrentTool();
+                System.out.println(result.message());
+            } else if(toolsUpgrade !=null){
+                Result result=controller.upgradeTool(toolsUpgrade);
+                System.out.println(result.message());
+            } else if(toolsShowAvailable !=null) {
+                Result result=controller.showAvailableTools();
+                System.out.println(result.message());
             } else if(inventoryShow != null){
                 Result result=controller.inventoryShow();
                 System.out.println(result.message());
