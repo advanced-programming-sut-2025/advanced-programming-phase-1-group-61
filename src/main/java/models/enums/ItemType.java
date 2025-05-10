@@ -113,7 +113,19 @@ public enum ItemType {
     mapleSeed(0 , "maple seed" , 0 , false),
     pineCones(0 , "pine cones" , 0 , false),
     mahoganySeed(0 , "mahogany seed",0,false),
-    mushroomTreeSeed(0 , "mushroom tree seed" , 0 , false);
+    mushroomTreeSeed(0 , "mushroom tree seed" , 0 , false),
+    milk(125 , "milk" , 50 , true),
+    bigmilk(190 , "big milk" , 75 , true),
+    goatmilk(225 , "goat milk" , 60 , true),
+    biggoatmilk(345 , "big goat milk" , 85 , true),
+    wool(340 , "wool" , 0 , false),
+    truffle(625 , "truffle" , 40 , true),
+    egg(50 , "egg" , 75 , true),
+    bigegg(95 , "big egg" , 90 , true),
+    duckegg(95 , "duck egg" , 90 , true),
+    duckfeather(250 , "duck feather ", 0 , false),
+    rabbitleg(565 , "rabbit leg" , 0 , false),
+    dinosaureegg(350 , "dinosaure egg" , 150 , true);
 
 
 
