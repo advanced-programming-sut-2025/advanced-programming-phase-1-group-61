@@ -6,7 +6,7 @@ import models.enums.Direction;
 import models.enums.ToolType;
 import models.map.Map;
 
-public abstract class Tool {
+public class Tool {
     protected int durability;
     protected ToolType type;
     protected String level="primary";
@@ -20,7 +20,7 @@ public abstract class Tool {
         Character character= App.getCurrentGame().getCurrentCharacter();
         int newEnergy=character.getEnergy()-type.getEnergyConsumption(level);
         character.setEnergy(newEnergy);
-        return "";
+        return "salam";
     }
     public void decreaseDurability(int amount){
         durability -= amount;
@@ -28,13 +28,30 @@ public abstract class Tool {
     public String getLevel() {
         return level;
     }
-    abstract public ToolType getType();
+     public ToolType getType(){
+        return type;
+     }
     public static ToolType fromString(String name){
         for(ToolType t : ToolType.values()){
             if(t.getTool().equals(name)) return t;
         }
         return null;
     }
-    public abstract void upgrade();
-    public abstract int getConsumptionEnergy();
+    public  void upgrade(){
+    }
+    public  int getConsumptionEnergy(){
+        return 0;
+    }
+
+    public int getDurability() {
+        return durability;
+    }
+
+    public void setDurability(int durability) {
+        this.durability = durability;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
 }

@@ -76,7 +76,7 @@ public class GameMenuController {
             return new Result(false, "Please enter a valid direction!(right/left/up/bottom/up_right/up_left/bottom_right/bottom_left)");
         }
         Tool tool=character.getCurrentTool();
-        if(character.getCurrentTool()==null){
+        if(tool==null){
             return new Result(false, "Please select a tool before trying to use it!");
         }
         if(tool.getConsumptionEnergy()>character.getEnergy()){
@@ -369,8 +369,7 @@ public class GameMenuController {
                 return BROWN+"T "+RESET;
             }
             return GREEN + "G " + RESET;
-        }
-        if (tile.getType().equals(TileType.stone)){
+        } else if (tile.getType().equals(TileType.stone)){
             if(tile.getResource() != null){
                 return WHITE + "S "+RESET;
             }
@@ -381,6 +380,7 @@ public class GameMenuController {
         if (tile.getType().equals(TileType.cabinWall)) return YELLOW + "Cw" + RESET;
         if (tile.getType().equals(TileType.brokenGreenHouse)) return YELLOW + "Gf" + RESET;
         if (tile.getType().equals(TileType.brokenGreenHouseWall)) return YELLOW + "GW" + RESET;
+        if(tile.getType().equals(TileType.soil))return BROWN + "So"+RESET;
 
         return WHITE + "? " + RESET;
     }
