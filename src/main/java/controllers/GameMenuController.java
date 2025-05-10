@@ -19,7 +19,7 @@ public class GameMenuController {
     public Result equipTool(Matcher matcher) {
         Character character=App.getCurrentGame().getCurrentCharacter();
         String name=matcher.group("name").trim();
-        Tool tool=Tool.fromString(name);
+        ToolType tool=Tool.fromString(name);
         if(tool==null){
             return new Result(false, "Please enter a valid tool!");
         }
@@ -46,12 +46,12 @@ public class GameMenuController {
     public Result upgradeTool(Matcher matcher) {
         Character character=App.getCurrentGame().getCurrentCharacter();
         String name=matcher.group("name").trim();
-        Tool toolEx=Tool.fromString(name);
+        ToolType toolEx=Tool.fromString(name);
         if(toolEx==null){
             return new Result(false,"Please enter a valid tool!");
         }
         Inventory inventory =character.getInventory();
-        Tool tool=inventory.getToolByType(toolEx.getType());
+        Tool tool=inventory.getToolByType(toolEx);
         if(tool==null){
             return new Result(false,"You don't have the tool in your inventory!");
         }
@@ -61,7 +61,7 @@ public class GameMenuController {
     public Result cheatAddTool(Matcher matcher) {
         String toolName=matcher.group("name").trim();
         Inventory inventory=App.getCurrentGame().getCurrentCharacter().getInventory();
-        Tool tool=Tool.fromString(toolName);
+        ToolType tool=Tool.fromString(toolName);
         if(tool==null){
             return new Result(false,"Please enter a valid tool!");
         }
