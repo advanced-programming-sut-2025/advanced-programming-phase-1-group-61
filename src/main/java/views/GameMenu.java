@@ -121,6 +121,7 @@ public class GameMenu implements AppMenu{
             Matcher showEnergy = GameMenuCommands.SHOW_ENERGY.getMatcher(input);
             Matcher toolsUse = GameMenuCommands.TOOLS_USE.getMatcher(input);
             Matcher cheatAddTool = CheatCodes.CHEAT_ADD_TOOL.getMatcher(input);
+            Matcher craftinfo = GameMenuCommands.CRAFT_INFO.getMatcher(input);
             
 
             if (showCurrentMenu != null){
@@ -215,7 +216,10 @@ public class GameMenu implements AppMenu{
                     System.out.println("failed to save app");
                 }
                 App.setCurrentMenu(Menu.EXIT_MENU);
-            }else{
+            } else if(craftinfo != null){
+
+            }
+            else{
                 System.out.println("invalid command");
             }
         }

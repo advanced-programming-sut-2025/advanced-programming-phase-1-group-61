@@ -110,6 +110,9 @@ public class Character {
             this.setY(cell.getY());
         }
     }
+    public Skill getSkill() {
+        return skill;
+    }
 
     public void findPath(int targetX, int targetY){
         lastPath=new ArrayList<>();
