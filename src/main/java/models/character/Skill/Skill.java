@@ -1,8 +1,8 @@
 package models.character.Skill;
 
-public class Skill {
-    int level;
-    int experience;
+public abstract class Skill {
+    protected int level;
+    protected int experience;
     Skill(int level, int experience) {
         this.level = level;
         this.experience = experience;
@@ -14,13 +14,13 @@ public class Skill {
         return experience;
     }
     public void increaseLevel() {
-        if(level<4) level++;
-    }
-    public void addExperience(int amount) {
-        experience += amount;
-        if(experience>=(100*(level+1)+50)) {
-            experience = 0;
-            increaseLevel();
+        if(experience==(100*(level+1)+50)) {
+            if (level < 4) {
+                level++;
+                experience = 0;
+            }
         }
     }
+    abstract public void addExperience();
+    abstract public String getSkillType();
 }
