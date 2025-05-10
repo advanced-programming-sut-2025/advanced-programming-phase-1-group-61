@@ -4,6 +4,10 @@ import models.enums.Direction;
 import models.enums.ToolType;
 
 public class Hoe extends Tool{
+    public Hoe() {
+        super(ToolType.Hoe);
+    }
+
     public String use(Direction direction){
         super.use(direction);
         return "used hoe!";
@@ -19,5 +23,10 @@ public class Hoe extends Tool{
         if(nextLevel==null) return;
         this.level = nextLevel;
 
+    }
+
+    @Override
+    public int getConsumptionEnergy() {
+        return 0;
     }
 }

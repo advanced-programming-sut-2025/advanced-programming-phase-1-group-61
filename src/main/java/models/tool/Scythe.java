@@ -1,11 +1,15 @@
 package models.tool;
 
+import models.App;
+import models.character.Character;
 import models.enums.Direction;
 import models.enums.ToolType;
 
 public class Scythe extends Tool{
+
+
     public Scythe() {
-        level="default";
+        super(ToolType.Scythe);
     }
     public String use(Direction direction){
         super.use(direction);
@@ -17,4 +21,9 @@ public class Scythe extends Tool{
         return ToolType.Scythe;
     }
     public void upgrade() {}
+
+    @Override
+    public int getConsumptionEnergy() {
+        return this.type.getEnergyConsumption(this.level);
+    }
 }

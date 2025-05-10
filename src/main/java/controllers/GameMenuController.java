@@ -19,7 +19,7 @@ public class GameMenuController {
     public Result equipTool(Matcher matcher) {
         Character character=App.getCurrentGame().getCurrentCharacter();
         String name=matcher.group("name").trim();
-        Tool tool=Tool.fromString(name);
+        ToolType tool=Tool.fromString(name);
         if(tool==null){
             return new Result(false, "Please enter a valid tool!");
         }
@@ -46,12 +46,12 @@ public class GameMenuController {
     public Result upgradeTool(Matcher matcher) {
         Character character=App.getCurrentGame().getCurrentCharacter();
         String name=matcher.group("name").trim();
-        Tool toolEx=Tool.fromString(name);
+        ToolType toolEx=Tool.fromString(name);
         if(toolEx==null){
             return new Result(false,"Please enter a valid tool!");
         }
         Inventory inventory =character.getInventory();
-        Tool tool=inventory.getToolByType(toolEx.getType());
+        Tool tool=inventory.getToolByType(toolEx);
         if(tool==null){
             return new Result(false,"You don't have the tool in your inventory!");
         }
@@ -61,7 +61,7 @@ public class GameMenuController {
     public Result cheatAddTool(Matcher matcher) {
         String toolName=matcher.group("name").trim();
         Inventory inventory=App.getCurrentGame().getCurrentCharacter().getInventory();
-        Tool tool=Tool.fromString(toolName);
+        ToolType tool=Tool.fromString(toolName);
         if(tool==null){
             return new Result(false,"Please enter a valid tool!");
         }
@@ -79,7 +79,7 @@ public class GameMenuController {
         if(character.getCurrentTool()==null){
             return new Result(false, "Please select a tool before trying to use it!");
         }
-        if(tool.getType().getEnergyConsumption(tool.getLevel())>character.getEnergy()){
+        if(tool.getConsumptionEnergy()>character.getEnergy()){
             return new Result(false,"You don't have enough energy to use this tool!");
         }
         return new Result(true,tool.use(direction));
@@ -286,7 +286,7 @@ public class GameMenuController {
         }catch (Exception e){
             return new Result(false , "please enter a valid number!");
         }
-        Item item=Item.getItem(itemName);
+        ItemType item=Item.getItem(itemName);
         if(item==null) return new Result(false , "please enter a valid item!");
         App.getCurrentGame().getCurrentCharacter().getInventory().addItem(item,count);
         return new Result(true,count+ " " + itemName +"s added to Inventory!");
@@ -307,7 +307,7 @@ public class GameMenuController {
                 return new Result(false , "please enter a valid number!");
             }
         }
-        Item item=Item.getItem(itemName);
+        ItemType item=Item.getItem(itemName);
         if(item==null) return new Result(false , "please enter a valid item!");
         if(number==-1) {
             inventory.removeItem(item);
@@ -383,5 +383,9 @@ public class GameMenuController {
         if (tile.getType().equals(TileType.brokenGreenHouseWall)) return YELLOW + "GW" + RESET;
 
         return WHITE + "? " + RESET;
+    }
+    public Result craftInfo(Matcher matcher) {
+        String craftName=matcher.group("craftName").trim();
+        return new Result(true , "");
     }
 }

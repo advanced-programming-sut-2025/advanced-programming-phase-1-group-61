@@ -4,8 +4,10 @@ import models.enums.Direction;
 import models.enums.ToolType;
 
 public class Shear extends Tool{
+
+
     public Shear() {
-        level="default";
+        super(ToolType.Shear);
     }
     public String use(Direction direction){
         super.use(direction);
@@ -17,5 +19,10 @@ public class Shear extends Tool{
         return ToolType.Shear;
     }
     public void upgrade() {}
+
+    @Override
+    public int getConsumptionEnergy() {
+        return this.type.getEnergyConsumption(this.level);
+    }
 
 }

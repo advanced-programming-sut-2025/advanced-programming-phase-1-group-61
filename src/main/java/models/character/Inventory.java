@@ -33,7 +33,6 @@ public class Inventory {
         }
         items.put(item,count);
     }
-
     public boolean checkToolInInventory(Tool tool){
         for(Tool t : tools){
             if(t.getType().equals(tool.getType())) return true;

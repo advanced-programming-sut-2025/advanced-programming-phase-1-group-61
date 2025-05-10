@@ -4,11 +4,17 @@ import models.App;
 import models.character.Character;
 import models.enums.Direction;
 import models.enums.ToolType;
+import models.map.Map;
 
 public abstract class Tool {
     protected int durability;
     protected ToolType type;
     protected String level="primary";
+
+    public Tool(ToolType type) {
+        this.type = type;
+    }
+
     public String use(Direction direction) {
         //this method should be overwritten in child classes!
         Character character= App.getCurrentGame().getCurrentCharacter();
@@ -22,14 +28,13 @@ public abstract class Tool {
     public String getLevel() {
         return level;
     }
-    public ToolType getType() {
-        return type;
-    }
-    public static Tool fromString(String name){
+    abstract public ToolType getType();
+    public static ToolType fromString(String name){
         for(ToolType t : ToolType.values()){
-            if(t.toString().equalsIgnoreCase(name)) return t.getTool();
+            if(t.getTool().equals(name)) return t;
         }
         return null;
     }
     public abstract void upgrade();
+    public abstract int getConsumptionEnergy();
 }

@@ -32,8 +32,12 @@ public class Character {
         this.inventory = new Inventory();
     }
 
-    public void setTool(Tool newTool){
-        currentTool=newTool;
+    public void setTool(ToolType newTool){
+        for (Tool tool : this.inventory.getTools()) {
+            if(tool.getType().equals(newTool)){
+                this.currentTool = tool;
+            }
+        }
     }
     public Tool getCurrentTool(){
         return currentTool;
@@ -108,6 +112,9 @@ public class Character {
             this.setX(cell.getX());
             this.setY(cell.getY());
         }
+    }
+    public Skill getSkill() {
+        return skill;
     }
 
     public java.util.Map<String,Animal>getAnimals() {
