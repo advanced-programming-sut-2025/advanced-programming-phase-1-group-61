@@ -102,6 +102,9 @@ public class Character {
     public int getMoney() {
         return money;
     }
+    public void spend(int amount){
+        money-=amount;
+    }
     public void moveCharacter(){
         for(Cell cell:lastPath){
             this.setX(cell.getX());
