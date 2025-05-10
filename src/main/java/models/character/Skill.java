@@ -34,6 +34,20 @@ public class Skill {
         return miningSkillXP;
     }
 
+    public int getMiningLVL() {
+        return miningLVL;
+    }
+
+    public int getForagingLVL() {
+        return foragingLVL;
+    }
+    public int getFarmingLVL() {
+        return farmingLVL;
+    }
+    public int getFishingLVL(){
+        return fishingLVL;
+    }
+
     public void addFarmingSkillXP(int amount){
         this.farmingSkillXP +=amount;
         if(checkLVL(this.farmingSkillXP , this.farmingLVL)){

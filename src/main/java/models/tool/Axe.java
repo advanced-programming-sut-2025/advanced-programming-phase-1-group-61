@@ -4,8 +4,7 @@ import models.App;
 import models.character.Character;
 import models.enums.Direction;
 import models.enums.ToolType;
-
-import java.util.Map;
+import models.map.Map;
 
 
 public class Axe extends Tool{
@@ -16,9 +15,7 @@ public class Axe extends Tool{
 
     @Override
     public String use(Direction direction) {
-        Character character= App.getCurrentGame().getCurrentCharacter();
-        int newEnergy=character.getEnergy()-type.getEnergyConsumption(level);
-        character.setEnergy(newEnergy);
+        super.use(direction);
         return "used axe";
     }
 
@@ -33,5 +30,14 @@ public class Axe extends Tool{
         String nextLevel = type.getNextLevel(level);
         if(nextLevel==null) return;
         this.level = nextLevel;
+    }
+
+    @Override
+    public int getConsumptionEnergy() {
+        int consume=this.type.getEnergyConsumption(this.level);
+        Character character= App.getCurrentGame().getCurrentCharacter();
+        if(character.getSkill().getForagingLVL()==4)
+            consume=Math.max(0,consume-1);
+        return consume;
     }
 }

@@ -4,6 +4,7 @@ import models.App;
 import models.character.Character;
 import models.enums.Direction;
 import models.enums.ToolType;
+import models.map.Map;
 
 public abstract class Tool {
     protected int durability;
@@ -35,4 +36,5 @@ public abstract class Tool {
         return null;
     }
     public abstract void upgrade();
+    public abstract int getConsumptionEnergy();
 }

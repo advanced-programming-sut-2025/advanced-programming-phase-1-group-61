@@ -1,5 +1,7 @@
 package models.tool;
 
+import models.App;
+import models.character.Character;
 import models.enums.Direction;
 import models.enums.ToolType;
 
@@ -22,5 +24,14 @@ public class FishingPole extends Tool{
         String nextLevel = type.getNextLevel(level);
         if(nextLevel==null) return;
         this.level = nextLevel;
+    }
+
+    @Override
+    public int getConsumptionEnergy() {
+        int consume=this.type.getEnergyConsumption(this.level);
+        Character character= App.getCurrentGame().getCurrentCharacter();
+        if(character.getSkill().getFishingLVL()==4)
+            consume=Math.max(0,consume-1);
+        return consume;
     }
 }
