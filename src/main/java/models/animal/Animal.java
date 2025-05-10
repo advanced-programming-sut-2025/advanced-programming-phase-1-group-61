@@ -8,8 +8,11 @@ import models.building.Building;
 import models.character.Character;
 import models.enums.AnimalType;
 import models.enums.ItemType;
+import models.enums.TileType;
 import models.map.Tile;
 import models.map.Map;
+import models.resource.Crop;
+import models.resource.Crop;
 
 import java.util.*;
 
@@ -168,11 +171,45 @@ public class Animal {
 
     public void shepherd(int x,int y){
         Game game =App.getCurrentGame();
-
-
-
+        assert game != null;
+        Map map = game.getMap();
+        Tile tile = map.getTileByCordinate(x,y);
+        if(tile.getType() == TileType.grass||tile.getType()==TileType.soil){
+            switch (tile.getResource().getResourceType()) {
+                case "Crop" -> {
+                    System.out.println("Nooo in the crops");
+                    return;
+                }
+                case "Barn" -> {
+                    Building barn = (Building) tile.getResource();
+                    if (barn.getSpace() > 0 && barn.getSize() >= this.type.getHouseSize() &&
+                            this.type.getHouse().equals("Barn")) {
+                        System.out.println(this.name + "is in " + barn.getName());
+                        this.isout = false;
+                        this.X = x;
+                        this.Y = y;
+                    }
+                    return;
+                }
+                case "Coop" -> {
+                    Building coop = (Building) tile.getResource();
+                    if (coop.getSpace() > 0 && coop.getSize() >= this.type.getHouseSize() &&
+                            this.type.getHouse().equals("Coop")) {
+                        System.out.println(this.name + "is in " + coop.getName());
+                        this.isout = false;
+                        this.X = x;
+                        this.Y = y;
+                    }
+                    return;
+                }
+            }
+            this.isout=true;
+            this.X=x;
+            this.Y=y;
+            return;
+        }
+        System.out.println("Nooooo there");
     }
-
 
     public void move() {
         //todo
