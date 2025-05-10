@@ -67,11 +67,11 @@ public class Skill {
     }
 
     private boolean checkLVL(int amount , int lvl){
-            if(lvl < 4){
-                if(amount == (lvl * 100 + 50)){
-                    return true;
-                }
+        if(lvl < 4){
+            if(amount == (lvl * 100 + 50)){
+                return true;
             }
+        }
         return false;
     }
 }
