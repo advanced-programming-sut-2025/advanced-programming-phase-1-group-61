@@ -2,6 +2,7 @@ package models.character;
 
 import models.Item;
 import models.enums.BackpackType;
+import models.enums.ToolType;
 import models.tool.Axe;
 import models.tool.Hoe;
 import models.tool.Pickaxe;
@@ -82,6 +83,19 @@ public class Inventory {
             if(it.getItemType().equals(item.getItemType())) return items.get(it);
         }
         return 0;
+    }
+
+    public Tool getToolByType(ToolType type){
+        for (Tool tool : tools) {
+            if(tool.getType().equals(type)){
+                return tool;
+            }
+        }
+        return null;
+    }
+
+    public void addTool(Tool tool){
+        tools.add(tool);
     }
     public BackpackType getBackpackType() {
         return backpackType;

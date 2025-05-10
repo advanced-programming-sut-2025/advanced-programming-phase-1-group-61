@@ -12,7 +12,7 @@ public class Hoe extends Tool{
     @Override
     public ToolType getType() {
         return ToolType.Hoe;
-
+    }
     public void upgrade() {
         if(this.level.equals("iridium")) return;
         String nextLevel = type.getNextLevel(level);
