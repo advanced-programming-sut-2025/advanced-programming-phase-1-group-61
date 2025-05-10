@@ -9,7 +9,8 @@ public enum TileType {
     cabinFloor(false , "4"),
     cabinWall(true , "6"),
     stone(false , "5"),
-    door(false , "8");
+    door(false , "8"),
+    building(true , "B");
     private boolean collisionOn;
     private String  typeNum;
 

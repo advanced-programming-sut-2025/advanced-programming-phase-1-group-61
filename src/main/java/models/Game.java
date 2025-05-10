@@ -26,9 +26,10 @@ public class Game implements Runnable {
     public Game(Map map, List<Character> characters) {
         id = App.getAllGames().size()+1;
         this.map = map;
-        spawnRandomResourceOnMap();
         this.allCharacters = characters;
         this.date = new Date();
+        spawnRandomResourceOnMap();
+        spawnRandomItemsOnMap();
     }
 
 
