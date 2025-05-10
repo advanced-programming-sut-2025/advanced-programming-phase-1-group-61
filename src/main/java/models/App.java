@@ -7,6 +7,7 @@ import models.character.Character;
 import models.enums.Menu;
 import models.enums.TileType;
 import models.enums.ToolType;
+import models.resource.Resource;
 import models.tool.*;
 
 import java.io.File;
@@ -57,8 +58,10 @@ public class App {
     public static void saveApp() throws IOException {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Tool.class, new ToolAdapter())
+                .registerTypeAdapter(Resource.class, new ResourceAndBuildingAdapter())
                 .setPrettyPrinting()
                 .create();
+
 
 
         try (FileWriter fileWriter = new FileWriter("users.json")) {
@@ -82,8 +85,10 @@ public class App {
     public static void loadApp() {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Tool.class, new ToolAdapter())
+                .registerTypeAdapter(Resource.class, new ResourceAndBuildingAdapter())
                 .setPrettyPrinting()
                 .create();
+
 
         File userFile = new File("users.json");
         File gameFile = new File("games.json");

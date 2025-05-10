@@ -8,6 +8,7 @@ import models.map.MapCreator.MapBuilder;
 import models.map.Tile;
 import models.map.Weather;
 import models.character.Inventory;
+import models.resource.Tree;
 import models.tool.Tool;
 
 import java.util.ArrayList;
@@ -366,6 +367,7 @@ public class GameMenuController {
 
         if (tile.getType().equals(TileType.grass)){
             if(tile.getResource() != null){
+                Tree tree =(Tree)tile.getResource();
                 return BROWN+"T "+RESET;
             }
             return GREEN + "G " + RESET;
