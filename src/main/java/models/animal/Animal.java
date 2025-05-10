@@ -27,8 +27,10 @@ public class Animal {
     protected Building house;
     private int friendship = 0;
     private List<Item> products = new ArrayList<>();
-    private boolean isout=false;
+    private boolean isout = false;
     private int price;
+    private boolean outfed = false;
+    private boolean ispet=false;
 
     public Animal(AnimalType type, Character owner, Building house, String name) {
         this.type = type;
@@ -37,9 +39,10 @@ public class Animal {
         this.name = name;
         this.X = house.getX();
         this.Y = house.getY();
-        this.price=type.getPrice();
+        this.price = type.getPrice();
     }
-    public int getPrice(){
+
+    public int getPrice() {
         return price;
     }
 
@@ -75,7 +78,7 @@ public class Animal {
         ArrayList<Building> buildings = owner.getBuildings();
         String house = type.getHouse();
         for (Building building : buildings) {
-            if (building.getBaseType().equals(house)&& building.getSize()>type.getHouseSize()) {
+            if (building.getBaseType().equals(house) && building.getSize() > type.getHouseSize()) {
                 if (building.getSpace() > 0) {
                     return building;
                 }
@@ -104,77 +107,86 @@ public class Animal {
 
     public void pet(int x, int y) {
         if (x < X + 2 && x > X - 2 && y < Y + 2 && y > Y - 2) {
-            this.friendship+=15;
-            System.out.println(name+": Yeeeeee comon do it");
+            this.friendship += 15;
+            ispet=true;
+            System.out.println(name + ": Yeeeeee comon do it");
             if (this.friendship > 1000) {
                 this.friendship = 1000;
             }
         }
-        System.out.println("Go near " + name + " at " + x + "," + y+" you don't hands that long");
+        System.out.println("Go near " + name + " at " + x + "," + y + " you don't hands that long");
     }
 
-    public void petbycheat(int amount){
-        friendship=amount;
+    public void petbycheat(int amount) {
+        friendship = amount;
         if (this.friendship > 1000) {
             this.friendship = 1000;
         }
-        System.out.println("Youre friendship with "+name+" is "+friendship+" you cheater");
+        System.out.println("Youre friendship with " + name + " is " + friendship + " you cheater");
     }
 
-    public void feed(){
-        hunger=false;
-        System.out.println(name+": I am well fed yes");
+    public void feed() {
+        hunger = false;
+        System.out.println(name + ": I am well fed yes");
     }
 
-    private void setProduct(){
-        if(this.type.getOutNeed()==isout && !hunger){
-            ItemType itemType=null;
-            for(int i=1;i<=this.type.getProductPERday();i++){
-                itemType=null;
-                if(this.type.getSecondProduct()!=null){
-                    float probebility = (float) (this.friendship + (15 * RandomNumber.getRandomNumberWithBoundaries(5, 15))) /1500;
-                    if(10*probebility>=RandomNumber.getRandomNumberWithBoundaries(0,10)){
-                        itemType=this.type.getSecondProduct();
+    private void setProduct() {
+        if (this.type.getOutNeed() == isout && !hunger) {
+            ItemType itemType = null;
+            for (int i = 1; i <= this.type.getProductPERday(); i++) {
+                itemType = null;
+                if (this.type.getSecondProduct() != null) {
+                    float probebility = (float) (this.friendship + (15 * RandomNumber.getRandomNumberWithBoundaries(5, 15))) / 1500;
+                    if (10 * probebility >= RandomNumber.getRandomNumberWithBoundaries(0, 10)) {
+                        itemType = this.type.getSecondProduct();
                     }
                 }
-                itemType=this.type.getFirstProduct();
-                double factor=0.0;
-                double quality = (double) (((double) this.friendship /1000)*(0.5+0.05*RandomNumber.getRandomNumberWithBoundaries(0,10)));
-                if(0<quality&&quality<=0.5) factor=1.0;
-                else if(0.5<quality&&quality<=0.7) factor=1.25;
-                else if(0.7<quality&&quality<=0.9) factor=2;
-                else if(0.9<quality) factor=2;
-                Item item = new Item(itemType,factor);
+                itemType = this.type.getFirstProduct();
+                double factor = 0.0;
+                double quality = (double) (((double) this.friendship / 1000) * (0.5 + 0.05 * RandomNumber.getRandomNumberWithBoundaries(0, 10)));
+                if (0 < quality && quality <= 0.5) factor = 1.0;
+                else if (0.5 < quality && quality <= 0.7) factor = 1.25;
+                else if (0.7 < quality && quality <= 0.9) factor = 2;
+                else if (0.9 < quality) factor = 2;
+                Item item = new Item(itemType, factor);
                 products.add(item);
             }
 
         }
-        if(!isout) {
+        if (!isout) {
             hunger = true;
         }
     }
 
     public void getProducts() {
-        if(this.type.getRequired()!=null){
-            if(!owner.getInventory().checkToolInInventory(this.type.getRequired())){
-                System.out.println("You don't have any"+this.type.getRequired().toString()+" just find one dam it");
+        if (this.type.getRequired() != null) {
+            if (!owner.getInventory().checkToolInInventory(this.type.getRequired())) {
+                System.out.println("You don't have any" + this.type.getRequired().toString() + " just find one dam it");
                 return;
             }
         }
         for (Item item : products) {
-            owner.getInventory().addItem(item,1);
-            System.out.println("You have got 1"+item.toString()+" goooood!");
+            owner.getInventory().addItem(item, 1);
+            System.out.println("You have got 1" + item.toString() + " goooood!");
             products.remove(item);
+        }
+        if (this.type == AnimalType.SHEEP ||
+                this.type == AnimalType.COW ||
+                this.type == AnimalType.GOAT) {
+            friendship += 5;
+            if (friendship > 1000) {
+                friendship = 1000;
+            }
         }
         products.clear();
     }
 
-    public void shepherd(int x,int y){
-        Game game =App.getCurrentGame();
+    public void shepherd(int x, int y) {
+        Game game = App.getCurrentGame();
         assert game != null;
         Map map = game.getMap();
-        Tile tile = map.getTileByCordinate(x,y);
-        if(tile.getType() == TileType.grass||tile.getType()==TileType.soil){
+        Tile tile = map.getTileByCordinate(x, y);
+        if (tile.getType() == TileType.grass || tile.getType() == TileType.soil) {
             switch (tile.getResource().getResourceType()) {
                 case "Crop" -> {
                     System.out.println("Nooo in the crops");
@@ -203,9 +215,15 @@ public class Animal {
                     return;
                 }
             }
-            this.isout=true;
-            this.X=x;
-            this.Y=y;
+            if (!outfed) friendship += 8;
+            if (friendship > 1000) {
+                friendship = 1000;
+            }
+            outfed = true;
+            hunger = false;
+            this.isout = true;
+            this.X = x;
+            this.Y = y;
             return;
         }
         System.out.println("Nooooo there");
@@ -214,9 +232,32 @@ public class Animal {
     public void move() {
         //todo
     }
+
     public void dayEND() {
-        if (!isout) hunger = true;
-        setProduct();
+        if (hunger) {
+            friendship -= 20;
+            if (friendship < 0) {
+                friendship = 0;
+            }
+        }else {
+            setProduct();
+        }
+        if (!isout) {
+            outfed = false;
+        }else{
+            friendship -= 20;
+            if (friendship < 0) {
+                friendship = 0;
+            }
+        }
+        if(!ispet){
+            friendship -= (10+friendship/200);
+            if (friendship < 0) {
+                friendship = 0;
+            }
+        }
+        ispet = false;
+
     }
 
 }
