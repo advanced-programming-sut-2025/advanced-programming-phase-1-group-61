@@ -123,6 +123,13 @@ public class Character {
             System.out.println("Name is already taken");
         }
     }
+    public void pet(System name){
+        if (!animals.containsKey(name)) {
+            System.out.println("You do not have "+name+" pet youre own animals");
+            return;
+        }
+            animals.get(name).pet(this.x,this.y);
+    }
 
     public void findPath(int targetX, int targetY){
         lastPath=new ArrayList<>();
