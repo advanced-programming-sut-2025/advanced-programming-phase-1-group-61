@@ -2,8 +2,9 @@ package models.building;
 
 import models.character.Character;
 import models.character.NPC;
+import models.resource.Resource;
 
-public class Building {
+public class Building extends Resource {
     protected int X=0;
     protected int Y=0;
     protected int space= 0;

@@ -14,6 +14,7 @@ public class Barn extends Building {
         this.space=getSpace(type);
         this.size=this.space;
         this.baseType="Barn";
+        this.Resourcetype="Barn";
     }
 
     private int getSpace(String type) {
