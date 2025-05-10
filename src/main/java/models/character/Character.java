@@ -3,7 +3,7 @@ package models.character;
 import models.App;
 import models.Item;
 import models.animal.Animal;
-import models.character.Skill.Skill;
+import models.character.Skill.*;
 import models.enums.Recipe;
 import models.map.Map;
 import models.tool.Tool;
@@ -17,7 +17,7 @@ public class Character {
     private boolean unlimitedEnergy=false;
     private int x;
     private int y;
-    private Skill skill;
+    private final ArrayList<Skill> skills;
     private Tool currentTool;
     private ArrayList<Animal> animals=new ArrayList<>();
     private ArrayList<Recipe> recipes=new ArrayList<>();
@@ -27,7 +27,23 @@ public class Character {
         this.userId=userId;
         currentTool=null;
         this.energy = 200;
-        //skill=new Skill();
+        skills=new ArrayList<>(List.of(new FarmingSkill(0,0),
+                new ForagingSkill(0,0),
+                new MiningSkill(0,0),
+                new FishingSkill(0,0),
+                new FarmingSkill(0,0)));
+    }
+    public Skill getForagingSkill(){
+        return skills.get(0);
+    }
+    public Skill getMiningSkill(){
+        return skills.get(1);
+    }
+    public Skill getFishingSkill(){
+        return skills.get(2);
+    }
+    public Skill getFarmingSkill(){
+        return skills.get(3);
     }
     public void setTool(Tool newTool){
         currentTool=newTool;
