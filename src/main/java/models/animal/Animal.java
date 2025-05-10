@@ -1,13 +1,15 @@
 package models.animal;
 
+import models.App;
+import models.Game;
 import models.Item;
 import models.RandomNumber;
 import models.building.Building;
 import models.character.Character;
-import models.character.Inventory;
 import models.enums.AnimalType;
 import models.enums.ItemType;
 import models.map.Tile;
+import models.map.Map;
 
 import java.util.*;
 
@@ -151,7 +153,7 @@ public class Animal {
 
     public void getProducts() {
         if(this.type.getRequired()!=null){
-            if(owner.getInventory().getToolByType(this.type.getRequired())==null){
+            if(!owner.getInventory().checkToolInInventory(this.type.getRequired())){
                 System.out.println("You don't have any"+this.type.getRequired().toString()+" just find one dam it");
                 return;
             }
@@ -165,8 +167,9 @@ public class Animal {
     }
 
     public void shepherd(int x,int y){
+        Game game =App.getCurrentGame();
 
-        Tile tile =null;
+
 
     }
 
