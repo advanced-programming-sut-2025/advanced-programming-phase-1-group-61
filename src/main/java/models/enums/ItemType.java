@@ -40,7 +40,7 @@ public enum ItemType {
     WheatFlour(0,"wheat flour" , 0 , false),
     Rice(0,"rice" , 0 , false),
     CauliFlower(175 , "cauli flower" , 75 , false),
-    CoffeeBeen(15 , "coffee" , 0 , false),
+    CoffeeBean(15 , "coffee bean" , 0 , false),
     CommonMushroom(40 , "common mushroom" , 38 , true),
     Daffodil(30 , "daffodil" , 0 , false),
     Dandelion(40 , "dandelion" , 25 , true),

@@ -187,7 +187,7 @@ public class Game implements Runnable {
                                     break;
                                 }
                                 case 11:{
-                                    tile.setItem(new Item(ItemType.CoffeeBeen));
+                                    tile.setItem(new Item(ItemType.CoffeeBean));
                                     break;
                                 }
                                 case 12:{
