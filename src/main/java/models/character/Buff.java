@@ -9,7 +9,8 @@ public class Buff {
     private final boolean miningBuff;
     private final boolean foragingBuff;
     private final boolean fishingBuff;
-    private int currentHour=App.getCurrentGame().getDate().getHour();
+    private int targetHour;
+    private boolean isOnUse=false;
     public Buff(int energyIncrease,int hours, boolean farmingBuff, boolean miningBuff, boolean foragingBuff, boolean fishingBuff) {
         this.energyIncrease = energyIncrease;
         this.hours = hours;
@@ -35,5 +36,16 @@ public class Buff {
     }
     public int getHours() {
         return hours;
+    }
+    public int getTargetHour() {
+        return targetHour;
+    }
+    public void use(){
+        int currentHour = App.getCurrentGame().getDate().getHour();
+        targetHour = (currentHour +hours)%22;
+        isOnUse=true;
+    }
+    public boolean isOnUse() {
+        return isOnUse;
     }
 }
