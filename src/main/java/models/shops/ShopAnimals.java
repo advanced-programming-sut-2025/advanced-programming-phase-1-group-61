@@ -1,25 +1,24 @@
 package models.shops;
 
-import models.animal.Animal;
 import models.enums.AnimalType;
-import models.enums.BuildingType;
+import models.enums.CageType;
 
 public class ShopAnimals {
     private final AnimalType animal;
-    private final BuildingType buildingType;
+    private final CageType cageType;
     private final int limit;
     private final int price;
-    public ShopAnimals(AnimalType animal,BuildingType buildingType, int limit, int price) {
+    public ShopAnimals(AnimalType animal, CageType cageType, int limit, int price) {
         this.animal = animal;
         this.limit = limit;
         this.price = price;
-        this.buildingType = buildingType;
+        this.cageType = cageType;
     }
     public AnimalType getAnimal() {
         return animal;
     }
-    public BuildingType getBuildingType() {
-        return buildingType;
+    public CageType getBuildingType() {
+        return cageType;
     }
     public int getLimit() {
         return limit;
