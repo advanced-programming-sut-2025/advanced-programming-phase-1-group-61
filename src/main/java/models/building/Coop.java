@@ -7,10 +7,10 @@ import java.util.ArrayList;
 
 public class Coop extends Building {
     private ArrayList<Animal> animals = new ArrayList<Animal>();
-    private Character owner;
-    public Coop(String type, String name, int X, int Y, Character owner) {
+    private int ownerId;
+    public Coop(String type, String name, int X, int Y, int owner) {
         super(type, name, X, Y);
-        this.owner = owner;
+        this.ownerId = owner;
         this.space = getSpace(type);
         this.size = this.space;
         this.baseType="Coop";
