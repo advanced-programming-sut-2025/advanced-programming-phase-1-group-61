@@ -9,4 +9,5 @@ public enum BuildingType {
     DELUXE_BARN,
     GREEN_HOUSE,
     SHOP;
+
 }

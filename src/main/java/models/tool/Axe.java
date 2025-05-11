@@ -54,6 +54,10 @@ public class Axe extends Tool{
         return "There is no use for Axe here";
     }
 
+    public String useForSyrup(Direction direction){
+        return "salam";
+    }
+
     @Override
     public ToolType getType() {
         return ToolType.Axe;
