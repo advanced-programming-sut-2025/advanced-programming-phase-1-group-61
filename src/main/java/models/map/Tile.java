@@ -4,6 +4,8 @@ import models.Item;
 import models.enums.TileType;
 import models.resource.Resource;
 
+import java.util.HashSet;
+
 public class Tile {
     private int x;
     private int y;

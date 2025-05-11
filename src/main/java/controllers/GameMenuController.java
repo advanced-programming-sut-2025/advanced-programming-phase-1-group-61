@@ -290,7 +290,7 @@ public class GameMenuController {
         ItemType item=Item.getItem(itemName);
         if(item==null) return new Result(false , "please enter a valid item!");
         App.getCurrentGame().getCurrentCharacter().getInventory().addItem(item,count);
-        return new Result(true,count+ " " + itemName +"s added to Inventory!");
+        return new Result(true,count+ " " + item.getDisPlayName() +"s added to Inventory!");
     }
     public Result inventoryShow(){
         Inventory inventory=App.getCurrentGame().getCurrentCharacter().getInventory();
