@@ -8,6 +8,7 @@ import models.map.MapCreator.MapBuilder;
 import models.map.Tile;
 import models.map.Weather;
 import models.character.Inventory;
+import models.resource.Tree;
 import models.tool.Tool;
 
 import java.util.ArrayList;
@@ -76,7 +77,7 @@ public class GameMenuController {
             return new Result(false, "Please enter a valid direction!(right/left/up/bottom/up_right/up_left/bottom_right/bottom_left)");
         }
         Tool tool=character.getCurrentTool();
-        if(character.getCurrentTool()==null){
+        if(tool==null){
             return new Result(false, "Please select a tool before trying to use it!");
         }
         if(tool.getConsumptionEnergy()>character.getEnergy()){
@@ -289,7 +290,7 @@ public class GameMenuController {
         ItemType item=Item.getItem(itemName);
         if(item==null) return new Result(false , "please enter a valid item!");
         App.getCurrentGame().getCurrentCharacter().getInventory().addItem(item,count);
-        return new Result(true,count+ " " + itemName +"s added to Inventory!");
+        return new Result(true,count+ " " + item.getDisPlayName() +"s added to Inventory!");
     }
     public Result inventoryShow(){
         Inventory inventory=App.getCurrentGame().getCurrentCharacter().getInventory();
@@ -352,8 +353,6 @@ public class GameMenuController {
     public Result showEnergy(){
         return new Result(true , "energy: "+App.getCurrentGame().getCurrentCharacter().getEnergy());
     }
-
-
     private String getColoredTile(Tile tile) {
         final String RESET = "\u001B[0m";
         final String GREEN = "\u001B[32m";
@@ -364,23 +363,24 @@ public class GameMenuController {
         final String BROWN = "\u001B[38;5;94m";
 
 
-        if (tile.getType().equals(TileType.grass)){
+        if (tile.getType().equals(TileType.Grass)){
             if(tile.getResource() != null){
+                Tree tree =(Tree)tile.getResource();
                 return BROWN+"T "+RESET;
             }
             return GREEN + "G " + RESET;
-        }
-        if (tile.getType().equals(TileType.stone)){
+        } else if (tile.getType().equals(TileType.Stone)){
             if(tile.getResource() != null){
                 return WHITE + "S "+RESET;
             }
             return GRAY + "M " + RESET;
         }
-        if (tile.getType().equals(TileType.water)) return BLUE + "W " + RESET;
-        if (tile.getType().equals(TileType.cabinFloor)) return WHITE + "Cf" + RESET;
-        if (tile.getType().equals(TileType.cabinWall)) return YELLOW + "Cw" + RESET;
-        if (tile.getType().equals(TileType.brokenGreenHouse)) return YELLOW + "Gf" + RESET;
-        if (tile.getType().equals(TileType.brokenGreenHouseWall)) return YELLOW + "GW" + RESET;
+        if (tile.getType().equals(TileType.Water)) return BLUE + "W " + RESET;
+        if (tile.getType().equals(TileType.CabinFloor)) return WHITE + "Cf" + RESET;
+        if (tile.getType().equals(TileType.CabinWall)) return YELLOW + "Cw" + RESET;
+        if (tile.getType().equals(TileType.BrokenGreenHouse)) return YELLOW + "Gf" + RESET;
+        if (tile.getType().equals(TileType.BrokenGreenHouseWall)) return YELLOW + "GW" + RESET;
+        if(tile.getType().equals(TileType.Soil))return BROWN + "So"+RESET;
 
         return WHITE + "? " + RESET;
     }
@@ -388,4 +388,5 @@ public class GameMenuController {
         String craftName=matcher.group("craftName").trim();
         return new Result(true , "");
     }
+
 }

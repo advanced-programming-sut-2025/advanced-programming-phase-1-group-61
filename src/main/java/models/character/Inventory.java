@@ -2,6 +2,7 @@ package models.character;
 
 import models.Item;
 import models.enums.BackpackType;
+import models.enums.ItemType;
 import models.enums.ToolType;
 import models.tool.Axe;
 import models.tool.Hoe;
@@ -23,25 +24,21 @@ public class Inventory {
         tools.add(new Hoe());
     }
 
-    public void addItem(Item item, int count){
+    public void addItem(ItemType item, int count){
         for(int i=0;i<items.size();i++){
             Item it=(Item) items.keySet().toArray()[i];
-            if(it.getItemType().equals(item.getItemType())){
-                items.put(item,(int)items.entrySet().toArray()[i]+count);
+            if(it.getItemType().equals(item)){
+                items.put(new Item(item),(int)items.entrySet().toArray()[i]+count);
                 return;
             }
         }
-        items.put(item,count);
+        if(backpackType.getSize() > items.size()){
+            items.put(new Item(item),count);
+        }
     }
     public boolean checkToolInInventory(ToolType tool){
         for(Tool t : tools){
             if(t.getType().equals(tool)) return true;
-        }
-        return false;
-    }
-    public boolean checkToolInInventory(Tool tool){
-        for(Tool t : tools){
-            if(t.getType().equals(tool.getType())) return true;
         }
         return false;
     }
@@ -58,7 +55,7 @@ public class Inventory {
         for(int i=0;i<items.size();i++){
             Item item=(Item) items.keySet().toArray()[i];
             int count=items.get(item);
-            builder.append(item.getItemType().name()).append(": ").append(count);
+            builder.append(item.getItemType().getDisPlayName()).append(": ").append(count);
             if(i!=items.size()-1) builder.append("\n");
         }
         return builder.toString();
@@ -69,24 +66,24 @@ public class Inventory {
     public ArrayList<Tool> getTools(){
         return tools;
     }
-    public void removeItem(Item item){
+    public void removeItem(ItemType item){
         for (int i=0;i<items.size();i++){
             Item it=(Item) items.keySet().toArray()[i];
-            if(it.getItemType().equals(item.getItemType()))
+            if(it.getItemType().equals(item))
                 items.remove(it);
         }
     }
-    public void removeItem(Item item,int count){
+    public void removeItem(ItemType item,int count){
         for(int i=0;i<items.size();i++){
             Item it=(Item) items.keySet().toArray()[i];
-            if(it.getItemType().equals(item.getItemType()))
+            if(it.getItemType().equals(item))
                 items.put(it,items.get(it) -count);
         }
     }
-    public int getCountOfItem(Item item){
+    public int getCountOfItem(ItemType item){
         for(int i=0;i<items.size();i++){
             Item it=(Item) items.keySet().toArray()[i];
-            if(it.getItemType().equals(item.getItemType())) return items.get(it);
+            if(it.getItemType().equals(item)) return items.get(it);
         }
         return 0;
     }
@@ -100,8 +97,8 @@ public class Inventory {
         return null;
     }
 
-    public void addTool(Tool tool){
-        tools.add(tool);
+    public void addTool(ToolType tool){
+        tools.add(new Tool(tool));
     }
     public BackpackType getBackpackType() {
         return backpackType;

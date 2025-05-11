@@ -5,6 +5,7 @@ import models.Item;
 import models.animal.Animal;
 import models.building.Building;
 import models.enums.Recipe;
+import models.enums.ToolType;
 import models.map.Map;
 import models.tool.Tool;
 
@@ -23,6 +24,7 @@ public class Character {
     private ArrayList<Building> buildings =new ArrayList<>();
     private ArrayList<Recipe> recipes=new ArrayList<>();
     private ArrayList<Cell> lastPath;
+    private Buff buff=null;
     private int money;
     public Character(int userId){
         this.userId=userId;
@@ -112,6 +114,12 @@ public class Character {
             this.setX(cell.getX());
             this.setY(cell.getY());
         }
+    }
+    public void setBuff(Buff buff){
+        this.buff=buff;
+    }
+    public Buff getBuff(){
+        return buff;
     }
     public Skill getSkill() {
         return skill;

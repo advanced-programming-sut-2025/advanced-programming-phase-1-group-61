@@ -35,7 +35,7 @@ public class LoginMenuController {
     private void saveLoggedInUser(User user) throws IOException {
         FileWriter fileWriter = new FileWriter("loggedInUser.json");
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        gson.toJson(user , fileWriter);
+        gson.toJson(user.getId() , fileWriter);
         fileWriter.close();
 
     }

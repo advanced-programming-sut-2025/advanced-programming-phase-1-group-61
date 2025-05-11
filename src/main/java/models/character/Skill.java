@@ -1,5 +1,7 @@
 package models.character;
 
+import models.App;
+
 public class Skill {
     private int miningSkillXP;
     private int forgingSkillXP;
@@ -35,16 +37,28 @@ public class Skill {
     }
 
     public int getMiningLVL() {
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        Buff buff=character.getBuff();
+        if(buff.isMiningBuff()) return 4;
         return miningLVL;
     }
 
     public int getForagingLVL() {
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        Buff buff=character.getBuff();
+        if(buff.isForagingBuff()) return 4;
         return foragingLVL;
     }
     public int getFarmingLVL() {
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        Buff buff=character.getBuff();
+        if(buff.isFarmingBuff()) return 4;
         return farmingLVL;
     }
     public int getFishingLVL(){
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        Buff buff=character.getBuff();
+        if(buff.isFishingBuff()) return 4;
         return fishingLVL;
     }
 
@@ -82,7 +96,7 @@ public class Skill {
 
     private boolean checkLVL(int amount , int lvl){
         if(lvl < 4){
-            if(amount == (lvl * 100 + 50)){
+            if(amount >= (lvl * 100 + 50)){
                 return true;
             }
         }

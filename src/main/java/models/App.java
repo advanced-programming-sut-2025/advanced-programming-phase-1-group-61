@@ -3,7 +3,12 @@ package models;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import models.character.Character;
 import models.enums.Menu;
+import models.enums.TileType;
+import models.enums.ToolType;
+import models.resource.Resource;
+import models.tool.*;
 
 import java.io.File;
 import java.io.FileReader;
@@ -51,75 +56,80 @@ public class App {
     }
 
     public static void saveApp() throws IOException {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        FileWriter fileWriter = new FileWriter("users.json");
-        gson.toJson(allUsers , fileWriter);
-        fileWriter.close();
-        FileWriter fileWriter1 = new FileWriter("games.json");
-        gson.toJson(allGames , fileWriter1);
-        fileWriter1.close();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Tool.class, new ToolAdapter())
+                .registerTypeAdapter(Resource.class, new ResourceAndBuildingAdapter())
+                .setPrettyPrinting()
+                .create();
+
+
+
+        try (FileWriter fileWriter = new FileWriter("users.json")) {
+            gson.toJson(allUsers, fileWriter);
+        }
+
+
+        try (FileWriter fileWriter1 = new FileWriter("games.json")) {
+            gson.toJson(allGames, fileWriter1);
+        }
+
+
         File loggedInUserFile = new File("loggedInUser.json");
-        if(loggedInUserFile.exists()){
-            FileWriter fileWriter2 = new FileWriter(loggedInUserFile.getName());
-            gson.toJson(loggedInUser, fileWriter2);
-            fileWriter2.close();
+        if (loggedInUserFile.exists()) {
+            try (FileWriter fileWriter2 = new FileWriter(loggedInUserFile.getName())) {
+                gson.toJson(loggedInUser, fileWriter2);
+            }
         }
     }
+
     public static void loadApp() {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Tool.class, new ToolAdapter())
+                .registerTypeAdapter(Resource.class, new ResourceAndBuildingAdapter())
+                .setPrettyPrinting()
+                .create();
+
+
         File userFile = new File("users.json");
         File gameFile = new File("games.json");
-        File loggedInUser = new File("loggedInUser.json");
-
-        if (!userFile.exists()) {
-            allUsers = new ArrayList<>();
-            return;
-        }
-        if(!gameFile.exists()){
-            allGames = new ArrayList<>();
-        }
-
-        //TODO
+        File loggedInUserFile = new File("loggedInUser.json");
 
         try {
-            FileReader fileReader = new FileReader(userFile);
-            Type userListType = new TypeToken<List<User>>() {}.getType();
-            allUsers = gson.fromJson(fileReader, userListType);
 
-            if (allUsers == null) {
-                allUsers = new ArrayList<>();
-            }
-
-
-
-            fileReader.close();
-            System.out.println("users loaded successfully " + allUsers.size());
-
-            FileReader gameFileReader = new FileReader(gameFile);
-            Type gameListType = new TypeToken<List<Game>>() {}.getType();
-            allGames = gson.fromJson(gameFileReader , gameListType);
-            if(allGames == null){
-                allGames = new ArrayList<>();
-            }
-            gameFileReader.close();
-            System.out.println("games loaded successfully "+allGames.size());
-
-            if(loggedInUser.exists()){
-                FileReader loggedInUserFileReader = new FileReader(loggedInUser);
-                Type loggedInUserType = new TypeToken<Integer>() {}.getType();
-                int user = gson.fromJson(loggedInUserFileReader , loggedInUserType);
-                if(user != -1 || user != 0){
-                App.setLoggedInUser(user);
-                App.setCurrentMenu(Menu.MAIN_MENU);
+            if (userFile.exists()) {
+                try (FileReader fileReader = new FileReader(userFile)) {
+                    Type userListType = new TypeToken<List<User>>() {}.getType();
+                    allUsers = gson.fromJson(fileReader, userListType);
                 }
-                System.out.println("welcome back "+App.getLoggedInUser().getUsername());
             }
+
+
+            if (gameFile.exists()) {
+                try (FileReader gameFileReader = new FileReader(gameFile)) {
+                    Type gameListType = new TypeToken<List<Game>>() {}.getType();
+                    allGames = gson.fromJson(gameFileReader, gameListType);
+                }
+            }
+            System.out.println("loaded games:"+allGames.size());
+            System.out.println("loaded users:"+allUsers.size());
+
+            if (loggedInUserFile.exists()) {
+                try (FileReader loggedInUserFileReader = new FileReader(loggedInUserFile)) {
+                    Type loggedInUserType = new TypeToken<Integer>() {}.getType();
+                    loggedInUser = gson.fromJson(loggedInUserFileReader, loggedInUserType);
+                    App.setCurrentMenu(Menu.MAIN_MENU);
+                    System.out.println("welcome back "+getLoggedInUser().getUsername());
+                }
+            }
+
+
+
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("error raeding games/users file");
-            allUsers = new ArrayList<>();
+            System.out.println("Error reading files");
         }
     }
+
     public static void setLoggedInUser(int user){
         loggedInUser = user;
     }

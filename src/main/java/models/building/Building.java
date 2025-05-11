@@ -4,11 +4,11 @@ import models.character.Character;
 import models.character.NPC;
 import models.resource.Resource;
 
-public class Building extends Resource {
-    protected int X=0;
-    protected int Y=0;
+public class Building extends Resource{
+    protected int X;
+    protected int Y;
     protected int space= 0;
-    protected  int size=0;
+    protected int size=0;
     protected String type;
     protected String name;
     protected String baseType="";
