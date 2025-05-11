@@ -14,8 +14,8 @@ public class Carpenter implements Mutual{
     private final ArrayList<ShopCages> farmBuildings;
     private Carpenter() {
         permanentItems = new ArrayList<>(List.of(
-                new ShopItem(ItemType.Wood,Integer.MAX_VALUE,10),
-                new ShopItem(ItemType.Stone,Integer.MAX_VALUE,20)
+                new ShopItem(ItemType.Wood,Integer.MAX_VALUE,10,"A sturdy, yet flexible plant material with a wide variety of uses."),
+                new ShopItem(ItemType.Stone,Integer.MAX_VALUE,20,"A common material with many uses in crafting and building.")
         ));
         farmBuildings = new ArrayList<>(List.of(
                 new ShopCages(CageType.BARN,1,6000, Map.of(ItemType.Wood,350,ItemType.Stone,150)),

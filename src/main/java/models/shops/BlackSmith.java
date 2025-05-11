@@ -14,10 +14,10 @@ public class BlackSmith implements Mutual{
     private final HashMap<String,Integer> upgrades;
     private BlackSmith(){
         items=new ArrayList<>(List.of(
-                new ShopItem(ItemType.CopperOre,Integer.MAX_VALUE,75),
-                new ShopItem(ItemType.IronOre,Integer.MAX_VALUE,150),
-                new ShopItem(ItemType.Coal,Integer.MAX_VALUE,150),
-                new ShopItem(ItemType.GoldOre,Integer.MAX_VALUE,400)
+                new ShopItem(ItemType.CopperOre,Integer.MAX_VALUE,75,"A common ore that can be smelted into bars."),
+                new ShopItem(ItemType.IronOre,Integer.MAX_VALUE,150,"A fairly common ore that can be smelted into bars."),
+                new ShopItem(ItemType.Coal,Integer.MAX_VALUE,150,"A combustible rock that is useful for crafting and smelting."),
+                new ShopItem(ItemType.GoldOre,Integer.MAX_VALUE,400,"A precious ore that can be smelted into bars.")
         ));
         upgrades=new HashMap<>(Map.of(
                 "copper",5,
