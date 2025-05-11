@@ -9,7 +9,7 @@ public enum AnimalType {
     HEN("","Coop",4,800,ItemType.Egg,ItemType.BigEgg,1,false,null),
     PIG("","Barn",12,16000,ItemType.Truffle,null,1,true,null),
     RABBIT("","Coop",12,8000,ItemType.Wool,ItemType.RabbitLeg,4,false,null),
-    SHEEP("","Barn",12,8000,ItemType.Wool,null,1,false,ToolType.Shear),;
+    SHEEP("","Barn",12,8000,ItemType.Wool,null,1,false,ToolType.Shear);
     private String texturePath;
     private String house;
     private int price;
