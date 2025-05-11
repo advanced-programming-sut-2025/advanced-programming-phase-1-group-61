@@ -24,7 +24,7 @@ public class Hoe extends Tool{
             return "you cant dig at x: "+x +" y: "+y;
         }
        Tile tile = map.getTileByCordinate(x, y);
-        if(!tile.getType().equals(TileType.grass)){
+        if(!tile.getType().equals(TileType.Grass)){
             return "you cant dig here its not grass";
         }
         if(tile.getResource()!=null){
@@ -33,7 +33,7 @@ public class Hoe extends Tool{
         if(tile.getItem()!= null){
             tile.setItem(null);
         }
-        tile.setType(TileType.soil);
+        tile.setType(TileType.Soil);
 
         int newEnergy=character.getEnergy()-type.getEnergyConsumption(level);
         character.setEnergy(newEnergy);

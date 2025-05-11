@@ -1,16 +1,18 @@
 package models.enums;
 
 public enum TileType {
-    grass(false,"0"),
-    soil(false,"1"),
-    water(true,"2"),
-    brokenGreenHouse(true , "3"),
-    brokenGreenHouseWall(true , "7"),
-    cabinFloor(false , "4"),
-    cabinWall(true , "6"),
-    stone(false , "5"),
-    door(false , "8"),
-    building(true , "B");
+    Grass(false,"0"),
+    Soil(false,"1"),
+    Water(true,"2"),
+    BrokenGreenHouse(true , "3"),
+    BrokenGreenHouseWall(true , "7"),
+    CabinFloor(false , "4"),
+    CabinWall(true , "6"),
+    Stone(false , "5"),
+    Door(false , "8"),
+    Shop(true , "B"),
+    GreenHouse(true , "C"),
+    Barn(true , "D");
     private boolean collisionOn;
     private String  typeNum;
 

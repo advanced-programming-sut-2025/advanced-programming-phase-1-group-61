@@ -1,19 +1,15 @@
 package models.enums;
 
-import models.Item;
-import models.building.Barn;
-import models.building.Building;
-
 public enum AnimalType {
-    COW("","Barn",4,1500,ItemType.milk,ItemType.bigmilk,1,false,ToolType.MilkPail),
-    DINOSAUR("","Coop",8,14000,ItemType.dinosaureegg,null,1,false,null),
-    DUCK("","Coop",8,1200,ItemType.duckegg,ItemType.duckfeather,2,false,null),
+    COW("","Barn",4,1500,ItemType.Milk,ItemType.BigMilk,1,false,ToolType.MilkPail),
+    DINOSAUR("","Coop",8,14000,ItemType.DinosaurEgg,null,1,false,null),
+    DUCK("","Coop",8,1200,ItemType.DuckEgg,ItemType.DuckFeather,2,false,null),
     FISH("","Lake",0,0,null,null,1,false,null),
-    GOAT("","Barn",8,4000,ItemType.goatmilk,ItemType.biggoatmilk,2,false,ToolType.MilkPail),
-    HEN("","Coop",4,800,ItemType.egg,ItemType.bigegg,1,false,null),
-    PIG("","Barn",12,16000,ItemType.truffle,null,1,true,null),
-    RABBIT("","Coop",12,8000,ItemType.wool,ItemType.rabbitleg,4,false,null),
-    SHEEP("","Barn",12,8000,ItemType.wool,null,1,false,ToolType.Shear),;
+    GOAT("","Barn",8,4000,ItemType.GoatMilk,ItemType.BigGoatMilk,2,false,ToolType.MilkPail),
+    HEN("","Coop",4,800,ItemType.Egg,ItemType.BigEgg,1,false,null),
+    PIG("","Barn",12,16000,ItemType.Truffle,null,1,true,null),
+    RABBIT("","Coop",12,8000,ItemType.Wool,ItemType.RabbitLeg,4,false,null),
+    SHEEP("","Barn",12,8000,ItemType.Wool,null,1,false,ToolType.Shear),;
     private String texturePath;
     private String house;
     private int price;
@@ -39,7 +35,7 @@ public enum AnimalType {
     public ToolType getRequired() {
         return required;
     }
-    public int getProductPERday() {
+    public int getProductPerDay() {
         return productPERday;
     }
     public int getHouseSize() {

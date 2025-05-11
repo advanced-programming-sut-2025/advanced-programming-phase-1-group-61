@@ -21,23 +21,15 @@ public class ResourceAndBuildingAdapter implements JsonSerializer<Resource>, Jso
         String type = jsonObject.get("type").getAsString();
         JsonElement dataElement = jsonObject.get("data");
 
-        switch (type) {
-            case "Crop":
-                return context.deserialize(dataElement, Crop.class);
-            case "Stone":
-                return context.deserialize(dataElement, Stone.class);
-            case "Tree":
-                return context.deserialize(dataElement, Tree.class);
-            case "Barn":
-                return context.deserialize(dataElement, Barn.class);
-            case "Coop":
-                return context.deserialize(dataElement, Coop.class);
-            case "Greenhouse":
-                return context.deserialize(dataElement, Greenhouse.class);
-            case "Shop":
-                return context.deserialize(dataElement, Shop.class);
-            default:
-                throw new JsonParseException("Unknown Resource/Building type: " + type);
-        }
+        return switch (type) {
+            case "Crop" -> context.deserialize(dataElement, Crop.class);
+            case "Stone" -> context.deserialize(dataElement, Stone.class);
+            case "Tree" -> context.deserialize(dataElement, Tree.class);
+            case "Barn" -> context.deserialize(dataElement, Barn.class);
+            case "Coop" -> context.deserialize(dataElement, Coop.class);
+            case "Greenhouse" -> context.deserialize(dataElement, Greenhouse.class);
+            case "Shop" -> context.deserialize(dataElement, Shop.class);
+            default -> throw new JsonParseException("Unknown Resource/Building type: " + type);
+        };
     }
 }
