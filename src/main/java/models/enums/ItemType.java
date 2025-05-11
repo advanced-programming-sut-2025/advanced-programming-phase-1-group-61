@@ -158,7 +158,28 @@ public enum ItemType {
     DuckEgg(95 , "duck egg" , 90 , true),
     DuckFeather(250 , "duck feather ", 0 , false),
     RabbitLeg(565 , "rabbit leg" , 0 , false),
-    DinosaurEgg(350 , "dinosaur egg" , 150 , true);
+    DinosaurEgg(350 , "dinosaur egg" , 150 , true),
+    ApricotTreeSapling(100 , "Apricot Tree Sapling" , 0 , false),
+    CherryTreeSapling(100,"Cherry Tree Sapling",0,false),
+    BannaTreeSapling(100 , "banananan sapling",0,false),
+    MangoTreeSapling(100 , "mango tree sapling",0,false),
+    OrangeTreeSapling(100 , "orange tree sapling",0,false),
+    PeachTreeSapling(100,"peachTreeSapling",0,false),
+    AppleTreeSapling(100,"apple tree sapling",0,false),
+    PomegranateTreeSapling(100 , "anare sapling",0,false),
+    MysticTreeSeed(1000 , "mystic tree seed",0,false),
+    OakResin(200,"oak resin" , 0 , false),
+    Cherry(80,"cherry" , 38 , true),
+    Banana(150 , "banana",75, true),
+    Mango(130 , "mango", 100 , true),
+    Orange(100 , "orange" , 38 , true),
+    Peach(140 ,  "peach" , 38 , true),
+    Apple(100 , "apple" , 100 , true),
+    Pomegranate(100 , "pomegranate" , 140 , true),
+    MapleSyrup(200 , "maple syrypm" , 0 , false),
+    PineTar(100 , "pine tar" , 0 , false),
+    Sap(2 , "sap" , -2  ,true),
+    MysticSyrup(1000 , "mystic syrup", 500 , true);
 
 
 

@@ -17,4 +17,24 @@ public class Tree extends Resource{
     public TreeType getType() {
         return type;
     }
+
+    public void setTreeStage(int treeStage) {
+        this.treeStage = treeStage;
+    }
+
+    public void setTreeAge(int treeAge) {
+        this.treeAge = treeAge;
+    }
+
+    public void setDaysUntilNextCycle(int daysUntilNextCycle) {
+        this.daysUntilNextCycle = daysUntilNextCycle;
+    }
+
+    public void dayCycleForTrees(){
+        this.treeAge++;
+        setTreeAge(type.getStageByTreeAge(treeAge));
+        if(daysUntilNextCycle>0){
+            daysUntilNextCycle--;
+        }
+    }
 }
