@@ -34,7 +34,7 @@ public enum GameMenuCommands {
     FEED_HEY("^feed\\s+hey\\s+-n\\s+(?<animal_name>.*)$"),
     PRODUCES("^produces$"),
     COLLECT_PRODUCES("^collect\\s+produces\\s+-n\\s+(?<animal_name>.*)$"),
-    SELL_ANIMAL("^sell\\s+animal\\s+-n\\s+(?<animal_name>.*)$");
+    SELL_ANIMAL ("^sell\\s+animal\\s+-n\\s+(?<animal_name>.*)$");
 
 
     private String pattern;
