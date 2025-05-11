@@ -58,7 +58,7 @@ public class Animal {
                             Owner.addAnimal(animal, name);
                             return true;
                         }
-                    System.out.println("Name is already taken");
+                    System.out.println("Name is already taken" );
                     return false;
                 }
             }
