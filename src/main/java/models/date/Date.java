@@ -1,8 +1,12 @@
 package models.date;
 
 import models.App;
+import models.character.Buff;
+import models.character.Character;
 import models.enums.DaysOfTheWeek;
 import models.enums.Season;
+
+import java.util.List;
 
 public class Date {
     private DaysOfTheWeek day;
@@ -18,6 +22,13 @@ public class Date {
         hour += increase;
         if (hour >= 22) {
             changeDay(1);
+        }
+        List<Character> characters=App.getCurrentGame().getAllCharacters();
+        for(Character character:characters){
+            Buff buff=character.getBuff();
+            if(buff!=null){
+                if(buff.getTargetHour()<hour) character.setBuff(null);
+            }
         }
     }
 
