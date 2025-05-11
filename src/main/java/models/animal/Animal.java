@@ -8,8 +8,6 @@ import models.building.Building;
 import models.character.Character;
 import models.enums.AnimalType;
 import models.enums.ItemType;
-import models.map.Tile;
-import models.map.Map;
 
 import java.util.*;
 
@@ -126,7 +124,7 @@ public class Animal {
     private void setProduct(){
         if(this.type.getOutNeed()==isout && !hunger){
             ItemType itemType=null;
-            for(int i=1;i<=this.type.getProductPERday();i++){
+            for(int i = 1; i<=this.type.getProductPerDay(); i++){
                 itemType=null;
                 if(this.type.getSecondProduct()!=null){
                     float probebility = (float) (this.friendship + (15 * RandomNumber.getRandomNumberWithBoundaries(5, 15))) /1500;

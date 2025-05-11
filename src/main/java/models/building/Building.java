@@ -4,8 +4,8 @@ import models.character.Character;
 import models.character.NPC;
 
 public class Building {
-    protected int X=0;
-    protected int Y=0;
+    protected int X;
+    protected int Y;
     protected int space= 0;
     protected  int size=0;
     protected String type;

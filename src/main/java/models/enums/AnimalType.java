@@ -1,9 +1,5 @@
 package models.enums;
 
-import models.Item;
-import models.building.Barn;
-import models.building.Building;
-
 public enum AnimalType {
     COW("","Barn",4,1500,ItemType.milk,ItemType.bigmilk,1,false,ToolType.MilkPail),
     DINOSAUR("","Coop",8,14000,ItemType.dinosaureegg,null,1,false,null),
@@ -39,7 +35,7 @@ public enum AnimalType {
     public ToolType getRequired() {
         return required;
     }
-    public int getProductPERday() {
+    public int getProductPerDay() {
         return productPERday;
     }
     public int getHouseSize() {
