@@ -7,9 +7,11 @@ import models.RandomNumber;
 import models.building.Building;
 import models.character.Character;
 import models.enums.AnimalType;
+import models.enums.BuildingType;
 import models.enums.ItemType;
-import models.map.Tile;
+import models.enums.TileType;
 import models.map.Map;
+import models.map.Tile;
 
 import java.util.*;
 
@@ -20,61 +22,58 @@ public class Animal {
     private AnimalType type;
     private String name = "";
     protected boolean hunger = true;
-    protected Character owner;
-    protected Building house;
+    protected String house;
     private int friendship = 0;
     private List<Item> products = new ArrayList<>();
     private boolean isout=false;
     private int price;
+    private boolean ispet=false;
+    private boolean outfed=false;
 
-    public Animal(AnimalType type, Character owner, Building house, String name) {
+    public Animal(AnimalType type, String house, String name) {
         this.type = type;
-        this.owner = owner;
         this.house = house;
         this.name = name;
-        this.X = house.getX();
-        this.Y = house.getY();
+        this.X = App.getCurrentGame().getCurrentCharacter().getBuilding(house).getX();
+        this.Y = App.getCurrentGame().getCurrentCharacter().getBuilding(house).getY();
         this.price=type.getPrice();
     }
     public int getPrice(){
         return price;
     }
 
-    public static Animal buy(String type, Character owner, String name) {
+    public static boolean buy(String type, int ID, String name) {
         AnimalType Type = TypeOf(type);
+        Character Owner = App.getCurrentGame().getCurrentCharacter();
         if (Type != null) {
-            if (owner.getMoney() < Type.getPrice()) {
+            if (Owner.getMoney() < Type.getPrice()) {
                 System.out.println("You don't have enough money to buy this animal");
-                return null;
+                return false;
             }
-            Building House = getHouse(Type, owner);
+            String House = getHouse(Type, Owner);
             if (House != null) {
-                if (House.getSpace() > 0) {
-                    if (!owner.getAnimals().containsKey(name)) {
-                        Animal animal = new Animal(Type, owner, House, name);
-                        if (House.addInput(animal)) {
-                            owner.addAnimal(animal, name);
-                            return animal;
+                    if (!Owner.getAnimals().containsKey(name)) {
+                        Animal animal = new Animal(Type, House, name);
+                        if (Owner.getBuilding(House).addInput(animal)) {
+                            Owner.addAnimal(animal, name);
+                            return true;
                         }
-                        System.out.println("Can't add animal to house");
-                        return null;
-                    }
-                    System.out.println("Name is already taken");
-                    return null;
+                    System.out.println("Name is already taken" );
+                    return false;
                 }
             }
             System.out.println("Not enough space");
         }
-        return null;
+        return false;
     }
 
-    private static Building getHouse(AnimalType type, Character owner) {
+    private static String getHouse(AnimalType type, Character owner) {
         ArrayList<Building> buildings = owner.getBuildings();
         String house = type.getHouse();
         for (Building building : buildings) {
             if (building.getBaseType().equals(house)&& building.getSize()>type.getHouseSize()) {
                 if (building.getSpace() > 0) {
-                    return building;
+                    return building.getName();
                 }
             }
         }
@@ -87,7 +86,6 @@ public class Animal {
             case "COW" -> AnimalType.COW;
             case "DINOSAUR" -> AnimalType.DINOSAUR;
             case "DUCK" -> AnimalType.DUCK;
-            case "FISH" -> AnimalType.FISH;
             case "GOAT" -> AnimalType.GOAT;
             case "HEN" -> AnimalType.HEN;
             case "SHEEP" -> AnimalType.SHEEP;
@@ -99,15 +97,16 @@ public class Animal {
         };
     }
 
-    public void pet(int x, int y) {
+    public boolean pet(int x, int y) {
         if (x < X + 2 && x > X - 2 && y < Y + 2 && y > Y - 2) {
             this.friendship+=15;
-            System.out.println(name+": Yeeeeee comon do it");
             if (this.friendship > 1000) {
                 this.friendship = 1000;
             }
+            this.ispet=true;
+            return true;
         }
-        System.out.println("Go near " + name + " at " + x + "," + y+" you don't hands that long");
+        return false;
     }
 
     public void petbycheat(int amount){
@@ -115,12 +114,10 @@ public class Animal {
         if (this.friendship > 1000) {
             this.friendship = 1000;
         }
-        System.out.println("Youre friendship with "+name+" is "+friendship+" you cheater");
     }
 
     public void feed(){
         hunger=false;
-        System.out.println(name+": I am well fed yes");
     }
 
     private void setProduct(){
@@ -151,35 +148,89 @@ public class Animal {
         }
     }
 
-    public void getProducts() {
+    public boolean getProducts() {
+        Character Owner = App.getCurrentGame().getCurrentCharacter();
         if(this.type.getRequired()!=null){
-            if(!owner.getInventory().checkToolInInventory(this.type.getRequired())){
-                System.out.println("You don't have any"+this.type.getRequired().toString()+" just find one dam it");
-                return;
+            if(!Owner.getInventory().checkToolInInventory(this.type.getRequired())){
+                return false;
             }
         }
         for (Item item : products) {
-            owner.getInventory().addItem(item.getItemType(),1);
+            Owner.getInventory().addItem(item.getItemType(),1);
             System.out.println("You have got 1"+item.toString()+" goooood!");
             products.remove(item);
         }
         products.clear();
+        return true;
     }
 
-    public void shepherd(int x,int y){
-        Game game =App.getCurrentGame();
-
-
-
+    public boolean shepherd(int x, int y) {
+        Game game = App.getCurrentGame();
+        assert game != null;
+        Map map = game.getMap();
+        Tile tile = map.getTileByCordinate(x, y);
+        if (tile.getType() == TileType.Grass || tile.getType() == TileType.Soil) {
+            switch (tile.getResource().getResourceType()) {
+                case "Crop" -> {
+                    System.out.println("Nooo in the crops");
+                    return false;
+                }
+                case "Barn" -> {
+                    Building barn = (Building) tile.getResource();
+                    if (barn.getSpace() > 0 && barn.getSize() >= this.type.getHouseSize() &&
+                            this.type.getHouse().equals("Barn")) {
+                        barn.addInput(this);
+                        System.out.println(this.name + "is in " + barn.getName());
+                        this.isout = false;
+                        this.X = x;
+                        this.Y = y;
+                        return true;
+                    }
+                    return false;
+                }
+                case "Coop" -> {
+                    Building coop = (Building) tile.getResource();
+                    if (coop.getSpace() > 0 && coop.getSize() >= this.type.getHouseSize() &&
+                            this.type.getHouse().equals("Coop")) {
+                        System.out.println(this.name + "is in " + coop.getName());
+                        this.isout = false;
+                        this.X = x;
+                        this.Y = y;
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            System.out.println(this.name + "is in good palce");
+            if (!outfed) friendship += 8;
+            if (friendship > 1000) {
+                friendship = 1000;
+            }
+            return true;
+        }
+        return false;
     }
 
 
-    public void move() {
+
+            public void move() {
         //todo
     }
     public void dayEND() {
-        if (!isout) hunger = true;
+        if (isout)friendship-=10;
         setProduct();
+        ispet=false;
+
+    }
+    public void show(){
+        System.out.println(this.type+": "+this.name+" || friendship: "+this.friendship+" || hunger: "+this.hunger+" || is: "+this.ispet);
+    }
+
+    public void showproducts(){
+        System.out.println(this.type+": "+this.name);
+        for( Item item : products) {
+            System.out.println(item.getItemType().getDisPlayName());
+        }
     }
 
 }

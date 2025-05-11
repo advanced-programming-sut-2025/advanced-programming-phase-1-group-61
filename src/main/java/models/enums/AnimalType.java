@@ -4,7 +4,6 @@ public enum AnimalType {
     COW("","Barn",4,1500,ItemType.Milk,ItemType.BigMilk,1,false,ToolType.MilkPail),
     DINOSAUR("","Coop",8,14000,ItemType.DinosaurEgg,null,1,false,null),
     DUCK("","Coop",8,1200,ItemType.DuckEgg,ItemType.DuckFeather,2,false,null),
-    FISH("","Lake",0,0,null,null,1,false,null),
     GOAT("","Barn",8,4000,ItemType.GoatMilk,ItemType.BigGoatMilk,2,false,ToolType.MilkPail),
     HEN("","Coop",4,800,ItemType.Egg,ItemType.BigEgg,1,false,null),
     PIG("","Barn",12,16000,ItemType.Truffle,null,1,true,null),

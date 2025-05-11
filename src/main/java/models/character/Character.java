@@ -215,4 +215,25 @@ public class Character {
         }
         animals.get(name).shepherd(xx,yy);
     }
+    public Building getBuilding(String name){
+        for (Building building : buildings) {
+            if(building.getName().equals(name)) return building;
+        }
+        return null;
+    }
+    public void  showAnimals(){
+        for (Animal animal : animals.values()) {
+            animal.show();
+        }
+    }
+
+    public int sellAnimal(String name){
+        if(animals.containsKey(name)){
+            this.money+=animals.get(name).getPrice();
+            int Animalprice=animals.get(name).getPrice();
+            animals.remove(name);
+            return Animalprice;
+        }
+        return -1;
+    }
 }
