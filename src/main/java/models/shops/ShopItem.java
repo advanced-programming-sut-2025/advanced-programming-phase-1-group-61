@@ -1,17 +1,20 @@
 package models.shops;
 
 import models.Item;
+import models.enums.ItemType;
 
 public class ShopItem {
-    private final Item item;
+    private final ItemType item;
     private final int dailyLimit;
     private final int price;
-    public ShopItem(Item item, int limit, int price) {
+    private final String description;
+    public ShopItem(ItemType item, int limit, int price,String description) {
         this.item = item;
         this.dailyLimit = limit;
         this.price = price;
+        this.description = description;
     }
-    public Item getItem() {
+    public ItemType getItem() {
         return item;
     }
     public int getDailyLimit() {
@@ -19,5 +22,8 @@ public class ShopItem {
     }
     public int getPrice() {
         return price;
+    }
+    public String getDescription() {
+        return description;
     }
 }
