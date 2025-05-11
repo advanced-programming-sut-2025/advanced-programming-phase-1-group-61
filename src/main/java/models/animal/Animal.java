@@ -7,9 +7,8 @@ import models.RandomNumber;
 import models.building.Building;
 import models.character.Character;
 import models.enums.AnimalType;
+import models.enums.BuildingType;
 import models.enums.ItemType;
-import models.map.Tile;
-import models.map.Map;
 
 import java.util.*;
 
@@ -20,61 +19,64 @@ public class Animal {
     private AnimalType type;
     private String name = "";
     protected boolean hunger = true;
-    protected Character owner;
-    protected Building house;
+    protected int owner;
+    protected String house;
     private int friendship = 0;
     private List<Item> products = new ArrayList<>();
     private boolean isout=false;
     private int price;
 
-    public Animal(AnimalType type, Character owner, Building house, String name) {
+    private Animal(AnimalType type, int ID, String house, String name) {
         this.type = type;
-        this.owner = owner;
+        this.owner = ID;
         this.house = house;
         this.name = name;
-        this.X = house.getX();
-        this.Y = house.getY();
+        this.X = App.getCurrentGame().getCurrentCharacter().getBuilding(house).getX();
+        this.Y = App.getCurrentGame().getCurrentCharacter().getBuilding(house).getY();
+        this.price=type.getPrice();
+    }
+    public Animal(AnimalType type, int ID, BuildingType house) {
+        this.type = type;
+        this.owner = ID;
+        this.name = name;
         this.price=type.getPrice();
     }
     public int getPrice(){
         return price;
     }
 
-    public static Animal buy(String type, Character owner, String name) {
+    public static boolean buy(String type, int ID, String name) {
         AnimalType Type = TypeOf(type);
+        Character Owner = App.getCurrentGame().getCurrentCharacter();
         if (Type != null) {
-            if (owner.getMoney() < Type.getPrice()) {
+            if (Owner.getMoney() < Type.getPrice()) {
                 System.out.println("You don't have enough money to buy this animal");
-                return null;
+                return false;
             }
-            Building House = getHouse(Type, owner);
+            String House = getHouse(Type, Owner);
             if (House != null) {
-                if (House.getSpace() > 0) {
-                    if (!owner.getAnimals().containsKey(name)) {
-                        Animal animal = new Animal(Type, owner, House, name);
-                        if (House.addInput(animal)) {
-                            owner.addAnimal(animal, name);
-                            return animal;
+                    if (!Owner.getAnimals().containsKey(name)) {
+                        Animal animal = new Animal(Type, ID, House, name);
+                        if (Owner.getBuilding(House).addInput(animal)) {
+                            Owner.addAnimal(animal, name);
+                            return true;
                         }
-                        System.out.println("Can't add animal to house");
-                        return null;
-                    }
                     System.out.println("Name is already taken");
-                    return null;
+                    return false;
                 }
             }
             System.out.println("Not enough space");
         }
-        return null;
+        return false;
     }
 
-    private static Building getHouse(AnimalType type, Character owner) {
+    private static String getHouse(AnimalType type, Character owner) {
         ArrayList<Building> buildings = owner.getBuildings();
         String house = type.getHouse();
         for (Building building : buildings) {
             if (building.getBaseType().equals(house)&& building.getSize()>type.getHouseSize()) {
                 if (building.getSpace() > 0) {
-                    return building;
+                    return building.getName();
                 }
             }
         }
@@ -87,7 +89,6 @@ public class Animal {
             case "COW" -> AnimalType.COW;
             case "DINOSAUR" -> AnimalType.DINOSAUR;
             case "DUCK" -> AnimalType.DUCK;
-            case "FISH" -> AnimalType.FISH;
             case "GOAT" -> AnimalType.GOAT;
             case "HEN" -> AnimalType.HEN;
             case "SHEEP" -> AnimalType.SHEEP;
@@ -152,14 +153,15 @@ public class Animal {
     }
 
     public void getProducts() {
+        Character Owner = App.getCurrentGame().getCurrentCharacter();
         if(this.type.getRequired()!=null){
-            if(!owner.getInventory().checkToolInInventory(this.type.getRequired())){
+            if(!Owner.getInventory().checkToolInInventory(this.type.getRequired())){
                 System.out.println("You don't have any"+this.type.getRequired().toString()+" just find one dam it");
                 return;
             }
         }
         for (Item item : products) {
-            owner.getInventory().addItem(item.getItemType(),1);
+            Owner.getInventory().addItem(item.getItemType(),1);
             System.out.println("You have got 1"+item.toString()+" goooood!");
             products.remove(item);
         }
