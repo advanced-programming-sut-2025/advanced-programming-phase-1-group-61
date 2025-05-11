@@ -156,12 +156,11 @@ public class Animal {
         }
     }
 
-    public void getProducts() {
+    public boolean getProducts() {
         Character Owner = App.getCurrentGame().getCurrentCharacter();
         if(this.type.getRequired()!=null){
             if(!Owner.getInventory().checkToolInInventory(this.type.getRequired())){
-                System.out.println("You don't have any"+this.type.getRequired().toString()+" just find one dam it");
-                return;
+                return false;
             }
         }
         for (Item item : products) {
@@ -170,6 +169,7 @@ public class Animal {
             products.remove(item);
         }
         products.clear();
+        return true;
     }
 
     public boolean shepherd(int x, int y) {

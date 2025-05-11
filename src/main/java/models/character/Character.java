@@ -226,4 +226,14 @@ public class Character {
             animal.show();
         }
     }
+
+    public int sellAnimal(String name){
+        if(animals.containsKey(name)){
+            this.money+=animals.get(name).getPrice();
+            int Animalprice=animals.get(name).getPrice();
+            animals.remove(name);
+            return Animalprice;
+        }
+        return -1;
+    }
 }
