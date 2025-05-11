@@ -25,7 +25,16 @@ public enum GameMenuCommands {
     HELP_READING_MAP("^help\\s+reading\\s+map$"),
     PRINT_MAP("^print\\s+map\\s+-l\\s+<(?<x>\\d+),(?<y>\\d+)>\\s+-s\\s+(?<size>\\d+)$"),
     SHOW_ENERGY("^energy\\S+show$"),
-    CRAFT_INFO("^craftinfo\\s+-n (?<craftName>.*)$");
+    CRAFT_INFO("^craftinfo\\s+-n (?<craftName>.*)$"),
+    BUY_ANIMAL("^buy\\s+animal\\s+-a\\s+(?<animal>.*)\\s+-n\\s+(?<animal_name>.*)$"),
+    PET("^pet\\s+-n\\s+(?<animal_name>.*)$"),
+    CHEAT_SET_FRIENDSHIP("^cheat\\s+set\\s+\\friendship\\s+-n\\s+(?<animal_name>.*)\\s+-c(?<amount>.\\d+)$"),
+    ANIMALS("^animals$"),
+    SHEPERD_ANIMALS("^sheper\\s+animals\\s+-n\\s+(?<animal_name>.*)\\s+-l\\s+<(?<x>.\\d+),(?<y>.\\d+)>$"),
+    FEED_HEY("^feed\\s+hey\\s+-n\\s+(?<animal_name>.*)$"),
+    PRODUCES("^produces$"),
+    COLLECT_PRODUCES("^collect\\s+produces\\s+-n\\s+(?<animal_name>.*)$"),
+    SELL_ANIMAL("^sell\\s+animal\\s+-n\\s+(?<animal_name>.*)$");
 
 
     private String pattern;

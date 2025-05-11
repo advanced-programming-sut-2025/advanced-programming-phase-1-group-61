@@ -14,6 +14,7 @@ public class Coop extends Building {
         this.space = getSpace(type);
         this.size = this.space;
         this.baseType="Coop";
+        this.Resourcetype="Coop";
     }
 
     private int getSpace(String type) {

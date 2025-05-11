@@ -353,8 +353,6 @@ public class GameMenuController {
     public Result showEnergy(){
         return new Result(true , "energy: "+App.getCurrentGame().getCurrentCharacter().getEnergy());
     }
-
-
     private String getColoredTile(Tile tile) {
         final String RESET = "\u001B[0m";
         final String GREEN = "\u001B[32m";
@@ -390,4 +388,5 @@ public class GameMenuController {
         String craftName=matcher.group("craftName").trim();
         return new Result(true , "");
     }
+
 }

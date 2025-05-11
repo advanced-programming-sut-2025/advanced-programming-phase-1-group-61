@@ -7,8 +7,9 @@ import models.RandomNumber;
 import models.building.Building;
 import models.character.Character;
 import models.enums.AnimalType;
-import models.enums.BuildingType;
 import models.enums.ItemType;
+import models.map.Tile;
+import models.map.Map;
 
 import java.util.*;
 
@@ -16,12 +17,11 @@ import java.util.*;
 public class Animal {
     private int X = 0;
     private int Y = 0;
-    private final AnimalType type;
+    private AnimalType type;
     private String name = "";
     protected boolean hunger = true;
     protected Character owner;
     protected Building house;
-    private BuildingType buildingType;
     private int friendship = 0;
     private List<Item> products = new ArrayList<>();
     private boolean isout=false;
@@ -35,11 +35,6 @@ public class Animal {
         this.X = house.getX();
         this.Y = house.getY();
         this.price=type.getPrice();
-    }
-    public Animal(AnimalType type,Character owner,BuildingType buildingType){
-        this.type = type;
-        this.owner = owner;
-        this.buildingType=buildingType;
     }
     public int getPrice(){
         return price;
@@ -131,7 +126,7 @@ public class Animal {
     private void setProduct(){
         if(this.type.getOutNeed()==isout && !hunger){
             ItemType itemType=null;
-            for(int i = 1; i<=this.type.getProductPerDay(); i++){
+            for(int i=1;i<=this.type.getProductPerDay();i++){
                 itemType=null;
                 if(this.type.getSecondProduct()!=null){
                     float probebility = (float) (this.friendship + (15 * RandomNumber.getRandomNumberWithBoundaries(5, 15))) /1500;
@@ -165,7 +160,7 @@ public class Animal {
         }
         for (Item item : products) {
             owner.getInventory().addItem(item.getItemType(),1);
-            System.out.println("You have got 1"+ item.getItemType().getDisPlayName()+" goooood!");
+            System.out.println("You have got 1"+item.toString()+" goooood!");
             products.remove(item);
         }
         products.clear();
