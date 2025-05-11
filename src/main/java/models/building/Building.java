@@ -7,7 +7,7 @@ public class Building {
     protected int X;
     protected int Y;
     protected int space= 0;
-    protected  int size=0;
+    protected int size=0;
     protected String type;
     protected String name;
     protected String baseType="";

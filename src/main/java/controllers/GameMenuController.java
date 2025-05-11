@@ -365,24 +365,24 @@ public class GameMenuController {
         final String BROWN = "\u001B[38;5;94m";
 
 
-        if (tile.getType().equals(TileType.grass)){
+        if (tile.getType().equals(TileType.Grass)){
             if(tile.getResource() != null){
                 Tree tree =(Tree)tile.getResource();
                 return BROWN+"T "+RESET;
             }
             return GREEN + "G " + RESET;
-        } else if (tile.getType().equals(TileType.stone)){
+        } else if (tile.getType().equals(TileType.Stone)){
             if(tile.getResource() != null){
                 return WHITE + "S "+RESET;
             }
             return GRAY + "M " + RESET;
         }
-        if (tile.getType().equals(TileType.water)) return BLUE + "W " + RESET;
-        if (tile.getType().equals(TileType.cabinFloor)) return WHITE + "Cf" + RESET;
-        if (tile.getType().equals(TileType.cabinWall)) return YELLOW + "Cw" + RESET;
-        if (tile.getType().equals(TileType.brokenGreenHouse)) return YELLOW + "Gf" + RESET;
-        if (tile.getType().equals(TileType.brokenGreenHouseWall)) return YELLOW + "GW" + RESET;
-        if(tile.getType().equals(TileType.soil))return BROWN + "So"+RESET;
+        if (tile.getType().equals(TileType.Water)) return BLUE + "W " + RESET;
+        if (tile.getType().equals(TileType.CabinFloor)) return WHITE + "Cf" + RESET;
+        if (tile.getType().equals(TileType.CabinWall)) return YELLOW + "Cw" + RESET;
+        if (tile.getType().equals(TileType.BrokenGreenHouse)) return YELLOW + "Gf" + RESET;
+        if (tile.getType().equals(TileType.BrokenGreenHouseWall)) return YELLOW + "GW" + RESET;
+        if(tile.getType().equals(TileType.Soil))return BROWN + "So"+RESET;
 
         return WHITE + "? " + RESET;
     }
