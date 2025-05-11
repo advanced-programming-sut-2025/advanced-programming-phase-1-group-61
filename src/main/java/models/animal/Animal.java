@@ -126,7 +126,6 @@ public class Animal {
 
     public void feed(){
         hunger=false;
-        System.out.println(name+": I am well fed yes");
     }
 
     private void setProduct(){
@@ -233,6 +232,13 @@ public class Animal {
     }
     public void show(){
         System.out.println(this.type+": "+this.name+" || friendship: "+this.friendship+" || hunger: "+this.hunger+" || is: "+this.ispet);
+    }
+
+    public void showproducts(){
+        System.out.println(this.type+": "+this.name);
+        for( Item item : products) {
+            System.out.println(item.getItemType().getDisPlayName());
+        }
     }
 
 }
