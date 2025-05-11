@@ -1,5 +1,6 @@
 package models.resource;
 
+import models.enums.ItemType;
 import models.enums.TreeType;
 
 public class Tree extends Resource{
@@ -7,11 +8,14 @@ public class Tree extends Resource{
     private int treeStage;
     private int treeAge;
     private int daysUntilNextCycle;
+    private ItemType fruit , source;
     public Tree(TreeType type) {
         this.type = type;
         this.treeStage = 1;
         this.treeAge = 0;
         this.daysUntilNextCycle += type.getTotalCycleTime();
+        this.fruit = type.getFruit();
+        this.source = type.getSource();
     }
 
     public TreeType getType() {
@@ -28,6 +32,18 @@ public class Tree extends Resource{
 
     public void setDaysUntilNextCycle(int daysUntilNextCycle) {
         this.daysUntilNextCycle = daysUntilNextCycle;
+    }
+
+    public int getTreeStage() {
+        return treeStage;
+    }
+
+    public ItemType getFruit() {
+        return fruit;
+    }
+
+    public ItemType getSource() {
+        return source;
     }
 
     public void dayCycleForTrees(){
