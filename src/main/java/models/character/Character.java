@@ -221,4 +221,9 @@ public class Character {
         }
         return null;
     }
+    public void showAnimals(){
+        for (Animal animal : animals.values()) {
+            animal.show();
+        }
+    }
 }
