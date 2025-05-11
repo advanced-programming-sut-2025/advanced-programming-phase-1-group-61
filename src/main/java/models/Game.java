@@ -148,7 +148,7 @@ public class Game implements Runnable {
                         if(date.getSeason().equals(Season.Spring)){
                             switch (rand%100){
                                 case 0:{
-                                    tile.setItem(new Item(ItemType.commonMushroom));
+                                    tile.setItem(new Item(ItemType.CommonMushroom));
                                     break;
                                 }
                                 case 1:{
