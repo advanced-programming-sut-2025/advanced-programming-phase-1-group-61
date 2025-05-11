@@ -1,6 +1,7 @@
 package controllers;
 
 import models.*;
+import models.animal.Animal;
 import models.character.Character;
 import models.enums.*;
 import models.map.Map;
@@ -387,6 +388,17 @@ public class GameMenuController {
     public Result craftInfo(Matcher matcher) {
         String craftName=matcher.group("craftName").trim();
         return new Result(true , "");
+    }
+    public Result buyAnimal(Matcher matcher) {
+        String animalName=matcher.group("animal_name").trim();
+        String animalType=matcher.group("animal_type").trim();
+        if(App.getCurrentGame().getCurrentCharacter()==null){
+            return new Result(false, "Error: No character found.");
+        }
+        if(Animal.buy(animalType,App.getCurrentGame().getCurrentCharacter().getUserId(),animalName)){
+            return new Result(true, "Animal created successfully.");
+        }
+        return new Result(false, "Error: Invalid animal type.");
     }
 
 }
