@@ -11,8 +11,6 @@ import models.enums.ItemType;
 import models.enums.TileType;
 import models.map.Tile;
 import models.map.Map;
-import models.resource.Crop;
-import models.resource.Crop;
 
 import java.util.*;
 
@@ -20,7 +18,7 @@ import java.util.*;
 public class Animal {
     private int X = 0;
     private int Y = 0;
-    private AnimalType type;
+    private final AnimalType type;
     private String name = "";
     protected boolean hunger = true;
     protected Character owner;
@@ -28,7 +26,7 @@ public class Animal {
     private int friendship = 0;
     private List<Item> products = new ArrayList<>();
     private boolean isout = false;
-    private int price;
+    private final int price;
     private boolean outfed = false;
     private boolean ispet=false;
 
