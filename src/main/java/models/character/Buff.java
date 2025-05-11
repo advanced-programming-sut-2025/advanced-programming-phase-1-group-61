@@ -1,5 +1,7 @@
 package models.character;
 
+import models.App;
+
 public class Buff {
     private final int energyIncrease;
     private final int hours;
@@ -7,6 +9,7 @@ public class Buff {
     private final boolean miningBuff;
     private final boolean foragingBuff;
     private final boolean fishingBuff;
+    private int currentHour=App.getCurrentGame().getDate().getHour();
     public Buff(int energyIncrease,int hours, boolean farmingBuff, boolean miningBuff, boolean foragingBuff, boolean fishingBuff) {
         this.energyIncrease = energyIncrease;
         this.hours = hours;

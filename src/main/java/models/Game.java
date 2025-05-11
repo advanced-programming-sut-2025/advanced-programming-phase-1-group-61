@@ -162,13 +162,13 @@ public class Game implements Runnable {
                                     tile.setItem(new Item(ItemType.Leek));
                                     break;
                                 } case 4:{
-                                    tile.setItem(new Item(ItemType.moral));
+                                    tile.setItem(new Item(ItemType.Moral));
                                     break;
                                 } case 5:{
                                     tile.setItem(new Item(ItemType.SalmonBerry));
                                     break;
                                 } case 6:{
-                                    tile.setItem(new Item(ItemType.springOnion));
+                                    tile.setItem(new Item(ItemType.SpringOnion));
                                     break;
                                 } case 7:{
                                     tile.setItem(new Item(ItemType.WildHorseradish));
