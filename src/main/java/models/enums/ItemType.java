@@ -179,7 +179,29 @@ public enum ItemType {
     MapleSyrup(200 , "maple syrypm" , 0 , false),
     PineTar(100 , "pine tar" , 0 , false),
     Sap(2 , "sap" , -2  ,true),
-    MysticSyrup(1000 , "mystic syrup", 500 , true);
+    MysticSyrup(1000 , "mystic syrup", 500 , true),
+
+
+    Garlic(20 , "garlic" , 10 , true),
+    GreenBean(20  , "greenBeen" , 10 , true),
+    Rhubarb(20 , "Rhubarb" , 20 , true),
+    Strawberry(20 , "Strawberry" , 20 , true),
+    Tulip(20 , "Tulip" , 20 , true),
+    UnmilledRice(20 , "UnmilledRice" , 20 , true),
+    Hops(20 , "Hop" , 20 , true),
+    HotPepper(20 , "HotPepper" , 20 , true),
+    Poppy(20,"poppy" , 20 , true),
+    Starfruit(20 , "Starfruit" , 20 , true),
+    SummerSpangle(20 , "SummerSpangle" , 20 , true),
+    Sunflower(20 , "Sunflower" , 20 , true),
+    Artichoke(20 , "Artichoke" , 20 ,true),
+    BokChoy(20 , "BokChoy" , 20 , true),
+    Broccoli(20 , "Broccoli" , 20 , true),
+    Cranberries(20 , "Cranberries", 20 , true),
+    SweetGemBerry(20 , "SweetGemBerry" , 20 , true),
+    Powdermelon(20 , "Powdermelon" , 20 , true),
+    PowdermelonSeed(100 , "PowdermelonSeed" , 0 , false),
+    AncientFruit(20 , "AncientFruit" , 20 , true);
 
 
 
