@@ -55,7 +55,32 @@ public class Axe extends Tool{
     }
 
     public String useForSyrup(Direction direction){
-        return "salam";
+        Character character= App.getCurrentGame().getCurrentCharacter();
+        int targetX=character.getX()+direction.getDx();
+        int targetY=character.getY()+direction.getDy();
+        Map map=App.getCurrentGame().getMap();
+        Tile tile = map.getTileByCordinate(targetX , targetY);
+        if(targetY<0 || targetX<0 || targetY>=map.getHeightSize() || targetX>=map.getWidthSize())
+            return "you cant get syrup of void \n(pls stop trying to break our game)";
+        if(tile.getResource() != null){
+            Resource resource = tile.getResource();
+            if(resource instanceof Tree) {
+                Tree tree = (Tree) resource;
+                int randomAmount = RandomNumber.getRandomNumberWithBoundaries(3 , 7);
+                character.getInventory().addItem(tree.getFruit(),randomAmount);
+                character.getSkill().addForgingSkillXP(10);
+                int dEnergy  = type.getEnergyConsumption(level)-character.getSkill().getForagingLVL();
+                if(dEnergy <0){
+                    dEnergy = 0;
+                }
+                int newEnergy=character.getEnergy()-dEnergy;
+                character.setEnergy(newEnergy);
+                return "you now have the syrup";
+            }
+        }
+        int newEnergy=character.getEnergy()-1;
+        character.setEnergy(newEnergy);
+        return "There is no use for Axe here";
     }
 
     @Override
