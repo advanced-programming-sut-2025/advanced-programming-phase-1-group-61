@@ -1,8 +1,10 @@
 package models.tool;
 
 import models.App;
+import models.RandomNumber;
 import models.character.Character;
 import models.enums.Direction;
+import models.enums.ItemType;
 import models.enums.TileType;
 import models.enums.ToolType;
 import models.map.Map;
@@ -30,7 +32,20 @@ public class Axe extends Tool{
         if(tile.getResource() != null){
             Resource resource = tile.getResource();
             if(resource instanceof Tree) {
-
+                Tree tree = (Tree) resource;
+                int randomNumber = RandomNumber.getRandomNumberWithBoundaries(1,3);
+                character.getInventory().addItem(tree.getSource() , randomNumber);
+                int randomAmount = RandomNumber.getRandomNumberWithBoundaries(3 , 7);
+                character.getInventory().addItem(tree.getFruit(),randomAmount);
+                character.getInventory().addItem(ItemType.Wood,10);
+                tile.setResource(null);
+                character.getSkill().addForgingSkillXP(10);
+                int dEnergy  = type.getEnergyConsumption(level)-character.getSkill().getForagingLVL();
+                if(dEnergy <0){
+                    dEnergy = 0;
+                }
+                int newEnergy=character.getEnergy()-dEnergy;
+                character.setEnergy(newEnergy);
                 return "tree chopped down";
             }
         }
