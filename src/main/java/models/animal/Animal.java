@@ -24,6 +24,7 @@ public class Animal {
     private List<Item> products = new ArrayList<>();
     private boolean isout=false;
     private int price;
+    private boolean ispet=false;
 
     private Animal(AnimalType type, int ID, String house, String name) {
         this.type = type;
@@ -99,15 +100,16 @@ public class Animal {
         };
     }
 
-    public void pet(int x, int y) {
+    public boolean pet(int x, int y) {
         if (x < X + 2 && x > X - 2 && y < Y + 2 && y > Y - 2) {
             this.friendship+=15;
-            System.out.println(name+": Yeeeeee comon do it");
             if (this.friendship > 1000) {
                 this.friendship = 1000;
             }
+            this.ispet=true;
+            return true;
         }
-        System.out.println("Go near " + name + " at " + x + "," + y+" you don't hands that long");
+        return false;
     }
 
     public void petbycheat(int amount){
@@ -115,7 +117,6 @@ public class Animal {
         if (this.friendship > 1000) {
             this.friendship = 1000;
         }
-        System.out.println("Youre friendship with "+name+" is "+friendship+" you cheater");
     }
 
     public void feed(){
@@ -181,6 +182,9 @@ public class Animal {
     public void dayEND() {
         if (!isout) hunger = true;
         setProduct();
+    }
+    public void show(){
+        System.out.println(this.type+": "+this.name+" || friendship: "+this.friendship+" || hunger: "+this.hunger+" || is: "+this.ispet);
     }
 
 }
