@@ -17,4 +17,7 @@ public class ShopItem {
     public int getDailyLimit() {
         return dailyLimit;
     }
+    public int getPrice() {
+        return price;
+    }
 }
