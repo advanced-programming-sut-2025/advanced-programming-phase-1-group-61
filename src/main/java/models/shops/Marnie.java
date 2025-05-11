@@ -27,14 +27,14 @@ public class Marnie implements Mutual{
         ));
         Character character= App.getCurrentGame().getCurrentCharacter();
         permanentAnimals = new ArrayList<>(List.of(
-                new ShopAnimals(new Animal(AnimalType.HEN,character.getUserId(), BuildingType.COOP),2,800),
-                new ShopAnimals(new Animal(AnimalType.COW,character.getUserId(), BuildingType.BARN),2,1500),
-                new ShopAnimals(new Animal(AnimalType.GOAT,character.getUserId(), BuildingType.BIG_BARN),2,1400),
-                new ShopAnimals(new Animal(AnimalType.DUCK,character.getUserId(), BuildingType.BIG_COOP),2,1200),
-                new ShopAnimals(new Animal(AnimalType.SHEEP,character.getUserId(), BuildingType.DELUXE_BARN),2,8000),
-                new ShopAnimals(new Animal(AnimalType.RABBIT,character.getUserId(), BuildingType.DELUXE_COOP),2,8000),
-                new ShopAnimals(new Animal(AnimalType.DINOSAUR,character.getUserId(), BuildingType.BIG_COOP),2,14000),
-                new ShopAnimals(new Animal(AnimalType.PIG,character.getUserId(), BuildingType.DELUXE_BARN),2,16000)
+//                new ShopAnimals(new Animal(AnimalType.HEN,character, BuildingType.COOP),2,800),
+//                new ShopAnimals(new Animal(AnimalType.COW,character, BuildingType.BARN),2,1500),
+//                new ShopAnimals(new Animal(AnimalType.GOAT,character, BuildingType.BIG_BARN),2,1400),
+//                new ShopAnimals(new Animal(AnimalType.DUCK,character, BuildingType.BIG_COOP),2,1200),
+//                new ShopAnimals(new Animal(AnimalType.SHEEP,character, BuildingType.DELUXE_BARN),2,8000),
+//                new ShopAnimals(new Animal(AnimalType.RABBIT,character, BuildingType.DELUXE_COOP),2,8000),
+//                new ShopAnimals(new Animal(AnimalType.DINOSAUR,character, BuildingType.BIG_COOP),2,14000),
+//                new ShopAnimals(new Animal(AnimalType.PIG,character, BuildingType.DELUXE_BARN),2,16000)
         ));
     }
     public static Marnie getMarnie() {

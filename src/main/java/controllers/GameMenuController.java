@@ -1,5 +1,6 @@
 package controllers;
 
+import com.sun.source.tree.PatternTree;
 import models.*;
 import models.animal.Animal;
 import models.character.Character;
@@ -10,11 +11,13 @@ import models.map.Tile;
 import models.map.Weather;
 import models.character.Inventory;
 import models.resource.Tree;
+import models.tool.Axe;
 import models.tool.Tool;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GameMenuController {
     private int neededEnergy;
@@ -85,6 +88,23 @@ public class GameMenuController {
             return new Result(false,"You don't have enough energy to use this tool!");
         }
         return new Result(true,tool.use(direction));
+    }
+    public Result useAxeForSyrup(Matcher matcher){
+        String directionString = matcher.group("direction");
+      Direction direction = Direction.fromString(directionString);
+      if(direction == null){
+          return new Result( false ,directionString+" is not a valid direction.");
+      }
+      Character character = App.getCurrentGame().getCurrentCharacter();
+      Tool tool = character.getCurrentTool();
+      if(tool == null){
+          return new Result(false , "equip an axe first");
+      }
+       if(tool.getConsumptionEnergy()>character.getEnergy()){
+           return new Result(false,"You don't have enough energy to use this tool!");
+       }
+        Axe axe = (Axe) tool;
+        return new Result(true ,axe.useForSyrup(direction) );
     }
     public Result startGame(List<String> usernames,int[] mapNumbers){
         List<User> userList =new ArrayList<>();

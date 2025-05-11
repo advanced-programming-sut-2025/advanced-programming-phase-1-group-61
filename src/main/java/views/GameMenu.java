@@ -122,10 +122,15 @@ public class GameMenu implements AppMenu{
             Matcher toolsUse = GameMenuCommands.TOOLS_USE.getMatcher(input);
             Matcher cheatAddTool = CheatCodes.CHEAT_ADD_TOOL.getMatcher(input);
             Matcher craftinfo = GameMenuCommands.CRAFT_INFO.getMatcher(input);
-            
+            Matcher useAxeForSyrup = GameMenuCommands.USE_AXE_FOR_SYRUP.getMatcher(input);
+
+
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
+            } else if (useAxeForSyrup != null) {
+                Result result = controller.useAxeForSyrup(useAxeForSyrup);
+                System.out.println(result.message());
             } else if (showEnergy != null) {
                 Result result = controller.showEnergy();
                 System.out.println(result.message());
