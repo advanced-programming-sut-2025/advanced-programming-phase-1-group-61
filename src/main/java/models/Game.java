@@ -566,7 +566,9 @@ public class Game implements Runnable {
                             tile.setResource(new Stone(StoneType.Iron));
                         } else if(chance < 40) {
                             tile.setResource(new Stone(StoneType.EarthCrystal));
-                        } else if(chance < 50) {
+                        } else if (chance < 50) {
+                            tile.setResource(new Stone(StoneType.Gold));
+                        } else if(chance < 55) {
                             tile.setResource(new Stone(StoneType.FrozenTear));
                         } else if(chance < 60) {
                             tile.setResource(new Stone(StoneType.FireQuartz));

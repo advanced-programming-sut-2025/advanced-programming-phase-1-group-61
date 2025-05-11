@@ -16,10 +16,9 @@ public class Hoe extends Tool{
     public String use(Direction direction){
         Character character = App.getCurrentGame().getCurrentCharacter();
         Map map = App.getCurrentGame().getMap();
-        int x = character.getX();
-        int y = character.getY();
-        x += direction.getDx();
-        y += direction.getDy();
+        int x = character.getX() + direction.getDx();
+        int y = character.getY() + direction.getDy();
+
         if(x < 0 || x >= map.getWidthSize() || y <0 ||
                 y >= map.getHeightSize()){
             return "you cant dig at x: "+x +" y: "+y;
@@ -29,12 +28,16 @@ public class Hoe extends Tool{
             return "you cant dig here its not grass";
         }
         if(tile.getResource()!=null){
-            return "there is a in this tile remove it first";
+            return "there is a resource in this tile remove it first";
+        }
+        if(tile.getItem()!= null){
+            tile.setItem(null);
         }
         tile.setType(TileType.soil);
 
         int newEnergy=character.getEnergy()-type.getEnergyConsumption(level);
         character.setEnergy(newEnergy);
+        character.getSkill().addFarmingSkillXP(5);
         return "used hoe!";
     }
 

@@ -55,7 +55,7 @@ public class Inventory {
         for(int i=0;i<items.size();i++){
             Item item=(Item) items.keySet().toArray()[i];
             int count=items.get(item);
-            builder.append(item.getItemType().name()).append(": ").append(count);
+            builder.append(item.getItemType().getDisPlayName()).append(": ").append(count);
             if(i!=items.size()-1) builder.append("\n");
         }
         return builder.toString();
