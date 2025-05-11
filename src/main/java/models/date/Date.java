@@ -27,7 +27,8 @@ public class Date {
         for(Character character:characters){
             Buff buff=character.getBuff();
             if(buff!=null){
-                if(buff.getTargetHour()<hour) character.setBuff(null);
+                if(buff.isOnUse())
+                    if(buff.getTargetHour()<hour) character.setBuff(null);
             }
         }
     }
