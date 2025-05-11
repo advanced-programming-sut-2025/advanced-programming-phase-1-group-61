@@ -47,6 +47,7 @@ public enum ItemType {
     Leek(60 , "leek",40 , true),
     Moral(150 , "moral", 20 , true),
     SalmonBerry(5 , "salmon berry", 25 , true),
+    Hay(0,"hay" , 0 , false),
     SpringOnion(8  ,"spring onion" , 13 , true),
     WildHorseradish(50  , "wildHorseradish" , 13 , true),
     FiddleHead(90 , "fiddle head" ,25 , true),

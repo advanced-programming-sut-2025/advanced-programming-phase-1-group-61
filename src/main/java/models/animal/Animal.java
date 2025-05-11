@@ -7,6 +7,7 @@ import models.RandomNumber;
 import models.building.Building;
 import models.character.Character;
 import models.enums.AnimalType;
+import models.enums.BuildingType;
 import models.enums.ItemType;
 
 import java.util.*;
@@ -15,11 +16,12 @@ import java.util.*;
 public class Animal {
     private int X = 0;
     private int Y = 0;
-    private AnimalType type;
+    private final AnimalType type;
     private String name = "";
     protected boolean hunger = true;
     protected Character owner;
     protected Building house;
+    private BuildingType buildingType;
     private int friendship = 0;
     private List<Item> products = new ArrayList<>();
     private boolean isout=false;
@@ -33,6 +35,11 @@ public class Animal {
         this.X = house.getX();
         this.Y = house.getY();
         this.price=type.getPrice();
+    }
+    public Animal(AnimalType type,Character owner,BuildingType buildingType){
+        this.type = type;
+        this.owner = owner;
+        this.buildingType=buildingType;
     }
     public int getPrice(){
         return price;
