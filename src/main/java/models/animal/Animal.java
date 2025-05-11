@@ -22,7 +22,6 @@ public class Animal {
     private AnimalType type;
     private String name = "";
     protected boolean hunger = true;
-    protected int owner;
     protected String house;
     private int friendship = 0;
     private List<Item> products = new ArrayList<>();
@@ -31,19 +30,12 @@ public class Animal {
     private boolean ispet=false;
     private boolean outfed=false;
 
-    private Animal(AnimalType type, int ID, String house, String name) {
+    public Animal(AnimalType type, String house, String name) {
         this.type = type;
-        this.owner = ID;
         this.house = house;
         this.name = name;
         this.X = App.getCurrentGame().getCurrentCharacter().getBuilding(house).getX();
         this.Y = App.getCurrentGame().getCurrentCharacter().getBuilding(house).getY();
-        this.price=type.getPrice();
-    }
-    public Animal(AnimalType type, int ID, BuildingType house) {
-        this.type = type;
-        this.owner = ID;
-        this.name = name;
         this.price=type.getPrice();
     }
     public int getPrice(){
@@ -61,7 +53,7 @@ public class Animal {
             String House = getHouse(Type, Owner);
             if (House != null) {
                     if (!Owner.getAnimals().containsKey(name)) {
-                        Animal animal = new Animal(Type, ID, House, name);
+                        Animal animal = new Animal(Type, House, name);
                         if (Owner.getBuilding(House).addInput(animal)) {
                             Owner.addAnimal(animal, name);
                             return true;
