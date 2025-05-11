@@ -9,6 +9,10 @@ import models.character.Character;
 import models.enums.AnimalType;
 import models.enums.BuildingType;
 import models.enums.ItemType;
+import models.enums.TileType;
+import models.map.Map;
+import models.map.Tile;
+
 import java.util.*;
 
 
@@ -25,6 +29,7 @@ public class Animal {
     private boolean isout=false;
     private int price;
     private boolean ispet=false;
+    private boolean outfed=false;
 
     private Animal(AnimalType type, int ID, String house, String name) {
         this.type = type;
@@ -168,20 +173,63 @@ public class Animal {
         products.clear();
     }
 
-    public void shepherd(int x,int y){
-        Game game =App.getCurrentGame();
-
-
-
+    public boolean shepherd(int x, int y) {
+        Game game = App.getCurrentGame();
+        assert game != null;
+        Map map = game.getMap();
+        Tile tile = map.getTileByCordinate(x, y);
+        if (tile.getType() == TileType.Grass || tile.getType() == TileType.Soil) {
+            switch (tile.getResource().getResourceType()) {
+                case "Crop" -> {
+                    System.out.println("Nooo in the crops");
+                    return false;
+                }
+                case "Barn" -> {
+                    Building barn = (Building) tile.getResource();
+                    if (barn.getSpace() > 0 && barn.getSize() >= this.type.getHouseSize() &&
+                            this.type.getHouse().equals("Barn")) {
+                        barn.addInput(this);
+                        System.out.println(this.name + "is in " + barn.getName());
+                        this.isout = false;
+                        this.X = x;
+                        this.Y = y;
+                        return true;
+                    }
+                    return false;
+                }
+                case "Coop" -> {
+                    Building coop = (Building) tile.getResource();
+                    if (coop.getSpace() > 0 && coop.getSize() >= this.type.getHouseSize() &&
+                            this.type.getHouse().equals("Coop")) {
+                        System.out.println(this.name + "is in " + coop.getName());
+                        this.isout = false;
+                        this.X = x;
+                        this.Y = y;
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            System.out.println(this.name + "is in good palce");
+            if (!outfed) friendship += 8;
+            if (friendship > 1000) {
+                friendship = 1000;
+            }
+            return true;
+        }
+        return false;
     }
 
 
-    public void move() {
+
+            public void move() {
         //todo
     }
     public void dayEND() {
-        if (!isout) hunger = true;
+        if (isout)friendship-=10;
         setProduct();
+        ispet=false;
+
     }
     public void show(){
         System.out.println(this.type+": "+this.name+" || friendship: "+this.friendship+" || hunger: "+this.hunger+" || is: "+this.ispet);
