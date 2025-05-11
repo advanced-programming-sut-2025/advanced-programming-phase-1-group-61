@@ -215,4 +215,10 @@ public class Character {
         }
         animals.get(name).shepherd(xx,yy);
     }
+    public Building getBuilding(String name){
+        for (Building building : buildings) {
+            if(building.getName().equals(name)) return building;
+        }
+        return null;
+    }
 }
