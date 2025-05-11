@@ -117,6 +117,8 @@ public class App {
                 try (FileReader loggedInUserFileReader = new FileReader(loggedInUserFile)) {
                     Type loggedInUserType = new TypeToken<Integer>() {}.getType();
                     loggedInUser = gson.fromJson(loggedInUserFileReader, loggedInUserType);
+                    if(gson == null){
+                    }
                     App.setCurrentMenu(Menu.MAIN_MENU);
                     System.out.println("welcome back "+getLoggedInUser().getUsername());
                 }
