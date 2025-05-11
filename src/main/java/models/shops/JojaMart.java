@@ -9,7 +9,7 @@ import java.util.List;
 public class JojaMart implements Mutual{
     private static final JojaMart instance = new JojaMart();
     private final ArrayList<ShopItem> permanentShopItems;
-    private final ArrayList<ShopItem> sprintShopItems;
+    private final ArrayList<ShopItem> springShopItems;
     private final ArrayList<ShopItem> summerShopItems;
     private final ArrayList<ShopItem> fallShopItems;
     private final ArrayList<ShopItem> winterShopItems;
@@ -22,7 +22,7 @@ public class JojaMart implements Mutual{
                 new ShopItem(new Item(ItemType.WheatFlour),Integer.MAX_VALUE,125),
                 new ShopItem(new Item(ItemType.Rice), Integer.MAX_VALUE,250)
         ));
-        sprintShopItems = new ArrayList<>(List.of(
+        springShopItems = new ArrayList<>(List.of(
                 new ShopItem(new Item(ItemType.ParsnipSeed), 5, 25),
                 new ShopItem(new Item(ItemType.BeanStarter), 5, 75),
                 new ShopItem(new Item(ItemType.CauliflowerSeed), 5, 100),
@@ -71,5 +71,20 @@ public class JojaMart implements Mutual{
     }
     public static JojaMart getJojaMart() {
         return instance;
+    }
+    public ArrayList<ShopItem> getPermanentShopItems() {
+        return permanentShopItems;
+    }
+    public ArrayList<ShopItem> getFallShopItems() {
+        return fallShopItems;
+    }
+    public ArrayList<ShopItem> getWinterShopItems() {
+        return winterShopItems;
+    }
+    public ArrayList<ShopItem> getSummerShopItems() {
+        return summerShopItems;
+    }
+    public ArrayList<ShopItem> getSpringShopItems(){
+        return springShopItems;
     }
 }
