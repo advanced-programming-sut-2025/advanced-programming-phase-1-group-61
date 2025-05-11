@@ -527,6 +527,13 @@ public class GameMenuController {
         return new Result(false, "You don't have any " + animalName);
     }
 
-
+    public Result sellAnimal(Matcher matcher) {
+        String animalName = matcher.group("animal_name").trim();
+        int gained =App.getCurrentGame().getCurrentCharacter().sellAnimal(animalName);
+        if(gained>0){
+            return new Result(true, "You gained"+gained);
+        }
+        return new Result(false, "You don't have any " + animalName);
+    }
 
 }
