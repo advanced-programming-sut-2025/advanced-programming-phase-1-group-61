@@ -83,6 +83,53 @@ public class Pierre extends Shop {
         ));
     }
 
+    @Override
+    public String showAllProducts() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("year round items:").append("\n");
+        for(ShopItem item:yearRoundItems){
+            builder.append("Name: ")
+                    .append(item.getItem().getDisPlayName())
+                    .append(" | Price: ")
+                    .append(item.getPrice())
+                    .append("\n");
+        }
+        builder.append("spring items").append("\n");
+        for(ShopItem item:springItems){
+            builder.append("Name: ")
+                    .append(item.getItem().getDisPlayName())
+                    .append(" | Price: ")
+                    .append(item.getPrice())
+                    .append("\n");
+        }
+        builder.append("summer items:").append("\n");
+        for(ShopItem item:summerItems){
+            builder.append("Name: ")
+                    .append(item.getItem().getDisPlayName())
+                    .append(" | Price: ")
+                    .append(item.getPrice())
+                    .append("\n");
+        }
+        builder.append("fall items:").append("\n");
+        for(ShopItem item:fallItems) {
+            builder.append("Name: ")
+                    .append(item.getItem().getDisPlayName())
+                    .append(" | Price: ")
+                    .append(item.getPrice())
+                    .append("\n");
+        }
+        builder.append("backpacks:").append("\n");
+        for(int i=0;i<shopBackpacks.size();i++){
+            ShopBackpacks backpack = shopBackpacks.get(i);
+            builder.append("Name: ")
+                    .append(backpack.getBackpackType().getDisplayName())
+                    .append(" | Price: ")
+                    .append(backpack.getPrice());
+            if(i!=shopBackpacks.size()-1) builder.append("\n");
+        }
+        return builder.toString();
+    }
+
     public ArrayList<ShopItem> getYearRoundItems() {
         return yearRoundItems;
     }
@@ -95,5 +142,8 @@ public class Pierre extends Shop {
     }
     public ArrayList<ShopItem> getSummerItems(){
         return summerItems;
+    }
+    public ArrayList<ShopBackpacks> getShopBackpacks(){
+        return shopBackpacks;
     }
 }

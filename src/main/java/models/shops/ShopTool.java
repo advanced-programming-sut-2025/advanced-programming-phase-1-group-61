@@ -1,21 +1,22 @@
 package models.shops;
 
+import models.enums.ToolType;
 import models.tool.Tool;
 
 public class ShopTool {
-    private final Tool tool;
+    private final ToolType tool;
     private final int limit;
     private final int price;
     private final String description;
     private int stock;
-    public ShopTool(Tool tool, int limit, int price, String description) {
+    public ShopTool(ToolType tool, int limit, int price, String description) {
         this.tool = tool;
         this.limit = limit;
         this.price = price;
         this.description = description;
         stock=limit;
     }
-    public Tool getTool() {
+    public ToolType getTool() {
         return tool;
     }
     public int getLimit() {
