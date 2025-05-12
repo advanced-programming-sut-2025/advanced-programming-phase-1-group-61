@@ -24,6 +24,8 @@ public class Game implements Runnable {
     private final int FPS = 60;
     private final Date date;
     private volatile boolean running = false;
+    private ArrayList<Shop> shops = new ArrayList<>();
+
 
     public Game(Map map, List<Character> characters) {
         id = App.getAllGames().size()+1;
@@ -143,7 +145,7 @@ public class Game implements Runnable {
     }
 
     public ArrayList<Shop> getAllShops() {
-        return new ArrayList<>();
+        return shops;
     }
 
     private void spawnRandomItemsOnMap(){
