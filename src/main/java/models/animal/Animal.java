@@ -11,6 +11,8 @@ import models.enums.ItemType;
 import models.enums.TileType;
 import models.map.Map;
 import models.map.Tile;
+import models.resource.BuildingRefrence;
+import models.resource.Resource;
 
 import java.util.*;
 
@@ -164,7 +166,21 @@ public class Animal {
         assert game != null;
         Map map = game.getMap();
         Tile tile = map.getTileByCordinate(x, y);
-        if (tile.getType() == TileType.Grass || tile.getType() == TileType.Soil) {
+        Building building = null;
+        Resource resource =tile.getResource();
+        if(resource != null){
+            if(tile.getResource() instanceof BuildingRefrence){
+                String name =  ((BuildingRefrence) tile.getResource()).getName();
+                building = game.getCurrentCharacter().getBuilding(name);
+            }
+        }else{
+            // چریدن در چمن
+        }
+      if(tile.getResource() instanceof BuildingRefrence){
+       String name =  ((BuildingRefrence) tile.getResource()).getName();
+       building = game.getCurrentCharacter().getBuilding(name);
+       }
+        if (!tile.getType().isCollisionOn()) {
             switch (tile.getResource().getResourceType()) {
                 case "Crop" -> {
                     System.out.println("Nooo in the crops");
