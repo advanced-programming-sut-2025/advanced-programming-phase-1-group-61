@@ -548,4 +548,7 @@ public class GameMenuController {
         }
         return new Result(true, currentShop.showAllAvailableProducts());
     }
+    public Result purchaseProduct(Matcher matcher) {
+        return new Result(true,"successfully purchased!");
+    }
 }

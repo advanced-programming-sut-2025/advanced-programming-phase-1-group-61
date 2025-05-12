@@ -125,6 +125,7 @@ public class GameMenu implements AppMenu{
             Matcher useAxeForSyrup = GameMenuCommands.USE_AXE_FOR_SYRUP.getMatcher(input);
             Matcher showAllProducts = GameMenuCommands.SHOW_ALL_PRODUCTS.getMatcher(input);
             Matcher showAllAvailableProducts = GameMenuCommands.SHOW_ALL_AVAILABLE_PRODUCTS.getMatcher(input);
+            Matcher purchase = GameMenuCommands.PURCHASE.getMatcher(input);
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
@@ -230,6 +231,10 @@ public class GameMenu implements AppMenu{
             }
             else if(showAllAvailableProducts != null){
                 Result result=controller.showShopAvailableProducts();
+                System.out.println(result.message());
+            }
+            else if(purchase != null){
+                Result result=controller.purchaseProduct(purchase);
                 System.out.println(result.message());
             }
             else{
