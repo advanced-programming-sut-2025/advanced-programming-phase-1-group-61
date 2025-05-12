@@ -2,7 +2,7 @@ package models.building;
 
 import models.animal.Animal;
 import models.character.Character;
-import models.enums.BuildingType;
+
 
 import java.util.ArrayList;
 
@@ -10,7 +10,7 @@ public class Coop extends Building {
     private ArrayList<Animal> animals = new ArrayList<Animal>();
     private int ownerId;
     public Coop(String type, String name, int X, int Y, int owner) {
-        super(BuildingType.valueOf(type), name, X, Y);
+        super(type, name, X, Y);
         this.ownerId = owner;
         this.space = getSpace(type);
         this.size = this.space;

@@ -54,6 +54,26 @@ public enum CropType {
         this.source = source;
         this.product = product;
     }
+    public int getStageByCropAge(int age){
+        int stage = 0;
+        int dayCounter =0;
+        for (int i = 0; i < this.stages.length; i++) {
+            dayCounter += stages[i];
+            if(dayCounter < age){
+                stage++;
+            }else {
+                return stage;
+            }
+        }
+        return 1;
+    }
+    public int getTotalHarvestTime(){
+        int counter =0;
+        for (int stage : stages) {
+            counter += stage;
+        }
+        return counter;
+    }
 
 
 }

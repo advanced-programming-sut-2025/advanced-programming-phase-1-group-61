@@ -53,12 +53,16 @@ public class WateringCan extends Tool{
         }
         else if (tile.getType().equals(TileType.Soil)) {
             Crop crop =(Crop) tile.getResource();
-            int dEnergy  = type.getEnergyConsumption(level)-character.getSkill().getForagingLVL();
-            if(dEnergy <0){
-                dEnergy = 0;
+            if(crop != null && character.getCurrentTool().getDurability() > 0){
+                crop.setWatered(true);
+                int dEnergy  = type.getEnergyConsumption(level)-character.getSkill().getForagingLVL();
+                if(dEnergy <0){
+                    dEnergy = 0;
+                }
+                int newEnergy=character.getEnergy()-dEnergy;
+                character.setEnergy(newEnergy);
+                character.getCurrentTool().decreaseDurability(1);
             }
-            int newEnergy=character.getEnergy()-dEnergy;
-            character.setEnergy(newEnergy);
         }
         int newEnergy=character.getEnergy()-1;
         character.setEnergy(newEnergy);

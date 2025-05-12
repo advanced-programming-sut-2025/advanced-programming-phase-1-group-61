@@ -48,7 +48,7 @@ public class Tree extends Resource{
 
     public void dayCycleForTrees(){
         this.treeAge++;
-        setTreeAge(type.getStageByTreeAge(treeAge));
+        setTreeStage(type.getStageByTreeAge(treeAge));
         if(daysUntilNextCycle>0){
             daysUntilNextCycle--;
         }

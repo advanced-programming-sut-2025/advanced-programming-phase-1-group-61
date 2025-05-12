@@ -3,7 +3,10 @@ package models.tool;
 import models.App;
 import models.character.Character;
 import models.enums.Direction;
+import models.enums.TileType;
 import models.enums.ToolType;
+import models.map.Map;
+import models.map.Tile;
 
 public class FishingPole extends Tool{
     public FishingPole() {
@@ -11,7 +14,20 @@ public class FishingPole extends Tool{
     }
 
     public String use(Direction direction){
-        super.use(direction);
+        Character character= App.getCurrentGame().getCurrentCharacter();
+        int targetX=character.getX()+direction.getDx();
+        int targetY=character.getY()+direction.getDy();
+        Map map=App.getCurrentGame().getMap();
+        Tile tile = map.getTileByCordinate(targetX , targetY);
+        if(targetY<0 || targetX<0 || targetY>=map.getHeightSize() || targetX>=map.getWidthSize())
+            return "you cant fish void \n(pls stop trying to break our game)";
+
+        if(!tile.getType().equals(TileType.Water)){
+            return "what do you want to fish form here?! worms?";
+        }
+        if(character.getCurrentTool().getLevel().equals("educational")){
+
+        }
         return "Used fishing pole!";
     }
 
