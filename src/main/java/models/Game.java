@@ -1,5 +1,6 @@
 package models;
 
+import models.building.Shop;
 import models.character.Character;
 import models.date.Date;
 import models.enums.*;
@@ -9,6 +10,7 @@ import models.map.Weather;
 import models.resource.Stone;
 import models.resource.Tree;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Game implements Runnable {
@@ -37,6 +39,8 @@ public class Game implements Runnable {
         handleWeatherBeforeDayChange();
         spawnRandomItemsOnMap();
         date.setHour(9);
+        ArrayList<Shop> shops=this.getAllShops();
+        for(Shop shop:shops) shop.restoreStocks();
     }
 
 
@@ -136,6 +140,10 @@ public class Game implements Runnable {
                 weather.lightning(x, y);
             }
         }
+    }
+
+    public ArrayList<Shop> getAllShops() {
+        return new ArrayList<>();
     }
 
     private void spawnRandomItemsOnMap(){

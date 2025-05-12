@@ -36,4 +36,7 @@ public class ShopCages {
     public void setStock(int stock) {
         this.stock = stock;
     }
+    public void restoreStock(){
+        stock=limit;
+    }
 }

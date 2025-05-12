@@ -237,6 +237,15 @@ public class Pierre extends Shop {
         return "successfully purchased";
     }
 
+    @Override
+    public void restoreStocks() {
+        for(ShopItem item : yearRoundItems) item.restoreStock();
+        for(ShopItem item : springItems) item.restoreStock();
+        for(ShopBackpacks backpack : shopBackpacks) backpack.restoreStock();
+        for(ShopItem item : summerItems) item.restoreStock();
+        for(ShopItem item : fallItems) item.restoreStock();
+    }
+
     public ArrayList<ShopItem> getYearRoundItems() {
         return yearRoundItems;
     }

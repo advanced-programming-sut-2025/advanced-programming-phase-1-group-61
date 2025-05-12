@@ -135,6 +135,13 @@ public class BlackSmith extends Shop {
         return "Please enter a valid product!";
     }
 
+    @Override
+    public void restoreStocks() {
+        for(ShopItem item:items) item.restoreStock();
+        for(ShopToolUpgrades tool:toolUpgrades) tool.restoreStock();
+        for(ShopTrashcanUpgrades trashcan:trashcanUpgrades) trashcan.restoreStock();
+    }
+
     public ArrayList<ShopItem> getItems() {
         return items;
     }
