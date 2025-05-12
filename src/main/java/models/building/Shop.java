@@ -10,4 +10,5 @@ public abstract class Shop extends Building {
         return owner;
     }
     abstract public String showAllProducts();
+    abstract public String showAllAvailableProducts();
 }

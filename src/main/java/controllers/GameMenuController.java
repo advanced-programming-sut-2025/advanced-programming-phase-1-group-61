@@ -541,4 +541,11 @@ public class GameMenuController {
         }
         return new Result(true, currentShop.showAllProducts());
     }
+    public Result showShopAvailableProducts(){
+        Shop currentShop=App.getCurrentGame().getCurrentCharacter().getCurrentShop();
+        if(currentShop==null){
+            return new Result(false, "You are not in a shop!");
+        }
+        return new Result(true, currentShop.showAllAvailableProducts());
+    }
 }
