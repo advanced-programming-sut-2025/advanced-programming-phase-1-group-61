@@ -22,7 +22,7 @@ public class Game implements Runnable {
     private int currentCharacter;
     private transient Thread gameThread;
     private final int FPS = 60;
-    private Date date;
+    private final Date date;
     private volatile boolean running = false;
 
     public Game(Map map, List<Character> characters) {

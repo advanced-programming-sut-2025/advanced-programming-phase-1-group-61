@@ -1,7 +1,9 @@
 package models.shops;
 
+import models.App;
 import models.building.Shop;
 import models.enums.ItemType;
+import models.enums.Season;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -189,32 +191,41 @@ public class JojaMart extends Shop {
                 return "Successfully purchased!";
             }
         }
-        for(ShopItem item : summerShopItems){
-            if(item.getItem().getDisPlayName().equals(product)){
-                if(count> item.getStock()) return "not enough stock!";
-                item.setStock(item.getStock()-count);
-                return "Successfully purchased!";
+        Season season= App.getCurrentGame().getDate().getSeason();
+        if(season.equals(Season.Summer)) {
+            for (ShopItem item : summerShopItems) {
+                if (item.getItem().getDisPlayName().equals(product)) {
+                    if (count > item.getStock()) return "not enough stock!";
+                    item.setStock(item.getStock() - count);
+                    return "Successfully purchased!";
+                }
             }
         }
-        for(ShopItem item : springShopItems){
-            if(item.getItem().getDisPlayName().equals(product)){
-                if(count> item.getStock()) return "not enough stock!";
-                item.setStock(item.getStock()-count);
-                return "Successfully purchased!";
+        if(season.equals(Season.Spring)) {
+            for (ShopItem item : springShopItems) {
+                if (item.getItem().getDisPlayName().equals(product)) {
+                    if (count > item.getStock()) return "not enough stock!";
+                    item.setStock(item.getStock() - count);
+                    return "Successfully purchased!";
+                }
             }
         }
-        for(ShopItem item : fallShopItems){
-            if(item.getItem().getDisPlayName().equals(product)){
-                if(count> item.getStock()) return "not enough stock!";
-                item.setStock(item.getStock()-count);
-                return "Successfully purchased!";
+        if(season.equals(Season.Fall)) {
+            for (ShopItem item : fallShopItems) {
+                if (item.getItem().getDisPlayName().equals(product)) {
+                    if (count > item.getStock()) return "not enough stock!";
+                    item.setStock(item.getStock() - count);
+                    return "Successfully purchased!";
+                }
             }
         }
-        for(ShopItem item : winterShopItems){
-            if(item.getItem().getDisPlayName().equals(product)){
-                if(count> item.getStock()) return "not enough stock!";
-                item.setStock(item.getStock()-count);
-                return "Successfully purchased!";
+        if(season.equals(Season.Winter)) {
+            for (ShopItem item : winterShopItems) {
+                if (item.getItem().getDisPlayName().equals(product)) {
+                    if (count > item.getStock()) return "not enough stock!";
+                    item.setStock(item.getStock() - count);
+                    return "Successfully purchased!";
+                }
             }
         }
         return "successfully purchased!";

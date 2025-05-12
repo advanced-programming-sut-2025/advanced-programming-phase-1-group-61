@@ -1,8 +1,10 @@
 package models.shops;
 
+import models.App;
 import models.building.Shop;
 import models.enums.BackpackType;
 import models.enums.ItemType;
+import models.enums.Season;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +89,7 @@ public class Pierre extends Shop {
     public String showAllProducts() {
         StringBuilder builder = new StringBuilder();
         builder.append("year round items:").append("\n");
+        Season season= App.getCurrentGame().getDate().getSeason();
         for(ShopItem item:yearRoundItems){
             builder.append("Name: ")
                     .append(item.getItem().getDisPlayName())
@@ -98,25 +101,28 @@ public class Pierre extends Shop {
         for(ShopItem item:springItems){
             builder.append("Name: ")
                     .append(item.getItem().getDisPlayName())
-                    .append(" | Price: ")
-                    .append(item.getPrice())
-                    .append("\n");
+                    .append(" | Price: ");
+            if(season.equals(Season.Spring)) builder.append(item.getPrice());
+            else builder.append((float)item.getPrice()*outOfSeasonCoefficient);
+            builder.append("\n");
         }
         builder.append("summer items:").append("\n");
         for(ShopItem item:summerItems){
             builder.append("Name: ")
                     .append(item.getItem().getDisPlayName())
-                    .append(" | Price: ")
-                    .append(item.getPrice())
-                    .append("\n");
+                    .append(" | Price: ");
+            if(season.equals(Season.Summer)) builder.append(item.getPrice());
+            else builder.append((float)item.getPrice()*outOfSeasonCoefficient);
+            builder.append("\n");
         }
         builder.append("fall items:").append("\n");
         for(ShopItem item:fallItems) {
             builder.append("Name: ")
                     .append(item.getItem().getDisPlayName())
-                    .append(" | Price: ")
-                    .append(item.getPrice())
-                    .append("\n");
+                    .append(" | Price: ");
+            if(season.equals(Season.Fall)) builder.append(item.getPrice());
+            else builder.append((float)item.getPrice()*outOfSeasonCoefficient);
+            builder.append("\n");
         }
         builder.append("backpacks:").append("\n");
         for(int i=0;i<shopBackpacks.size();i++){
