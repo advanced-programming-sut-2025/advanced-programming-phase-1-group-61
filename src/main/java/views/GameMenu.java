@@ -123,8 +123,8 @@ public class GameMenu implements AppMenu{
             Matcher cheatAddTool = CheatCodes.CHEAT_ADD_TOOL.getMatcher(input);
             Matcher craftinfo = GameMenuCommands.CRAFT_INFO.getMatcher(input);
             Matcher useAxeForSyrup = GameMenuCommands.USE_AXE_FOR_SYRUP.getMatcher(input);
-
-
+            Matcher showAllProducts = GameMenuCommands.SHOW_ALL_PRODUCTS.getMatcher(input);
+            Matcher showAllAvailableProducts = GameMenuCommands.SHOW_ALL_AVAILABLE_PRODUCTS.getMatcher(input);
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
@@ -223,6 +223,14 @@ public class GameMenu implements AppMenu{
                 App.setCurrentMenu(Menu.EXIT_MENU);
             } else if(craftinfo != null){
 
+            }
+            else if(showAllProducts != null){
+                Result result=controller.showShopProducts();
+                System.out.println(result.message());
+            }
+            else if(showAllAvailableProducts != null){
+                Result result=controller.showShopAvailableProducts();
+                System.out.println(result.message());
             }
             else{
                 System.out.println("invalid command");
