@@ -444,8 +444,13 @@ public class GameMenuController {
     public Result buyAnimal(Matcher matcher) {
         String animalName = matcher.group("animal_name").trim();
         String animalType = matcher.group("animal_type").trim();
-        if (App.getCurrentGame().getCurrentCharacter() == null) {
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        if (character == null) {
             return new Result(false, "Error: No character found.");
+        }
+       AnimalType Type = Animal.TypeOf(animalType);
+        if(character.getMoney() < Type.getPrice()) {
+            return new Result(false , "You don't have enough money to buy this animal");
         }
         if (Animal.buy(animalType, App.getCurrentGame().getCurrentCharacter().getUserId(), animalName)) {
             return new Result(true, "Animal created successfully.");

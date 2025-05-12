@@ -123,11 +123,14 @@ public class GameMenu implements AppMenu{
             Matcher cheatAddTool = CheatCodes.CHEAT_ADD_TOOL.getMatcher(input);
             Matcher craftinfo = GameMenuCommands.CRAFT_INFO.getMatcher(input);
             Matcher useAxeForSyrup = GameMenuCommands.USE_AXE_FOR_SYRUP.getMatcher(input);
-
+            Matcher buyAnimal = GameMenuCommands.BUY_ANIMAL.getMatcher(input);
 
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
+            } else if (buyAnimal != null) {
+                Result result = controller.buyAnimal(buyAnimal);
+                System.out.println(result.message());
             } else if (useAxeForSyrup != null) {
                 Result result = controller.useAxeForSyrup(useAxeForSyrup);
                 System.out.println(result.message());
