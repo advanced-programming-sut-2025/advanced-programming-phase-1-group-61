@@ -14,6 +14,7 @@ import java.util.List;
 public class FishingPole extends Tool{
     public FishingPole() {
         super(ToolType.FishingPole);
+        this.level = "educational";
     }
 
     public String use(Direction direction){
@@ -48,6 +49,7 @@ public class FishingPole extends Tool{
                     }
                 }
                 character.getInventory().addItem(fish , 1);
+                return "you caught a fish";
             }else {
                List<FishType> fishTypes = FishType.getFishTypeListBySeason(season);
                fishTypes.sort(Comparator.comparing(fishType -> fishType.getFish().getPrice()));
@@ -72,6 +74,7 @@ public class FishingPole extends Tool{
                     }
                     int newEnergy=character.getEnergy()-dEnergy;
                     character.setEnergy(newEnergy);
+                    return "you caught a fish";
                 }else {
                     int dEnergy  = type.getEnergyConsumption(level)-character.getSkill().getFishingLVL();
                     if(dEnergy <0){
@@ -84,7 +87,6 @@ public class FishingPole extends Tool{
             }
 
         }
-        return "Used fishing pole but something went wrong!";
     }
 
     @Override
