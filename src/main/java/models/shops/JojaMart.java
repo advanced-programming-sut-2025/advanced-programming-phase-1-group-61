@@ -220,6 +220,15 @@ public class JojaMart extends Shop {
         return "successfully purchased!";
     }
 
+    @Override
+    public void restoreStocks() {
+        for(ShopItem item : permanentShopItems) item.restoreStock();
+        for(ShopItem item : summerShopItems) item.restoreStock();
+        for(ShopItem item : fallShopItems) item.restoreStock();
+        for(ShopItem item : winterShopItems) item.restoreStock();
+        for(ShopItem item : springShopItems) item.restoreStock();
+    }
+
     public ArrayList<ShopItem> getPermanentShopItems() {
         return permanentShopItems;
     }

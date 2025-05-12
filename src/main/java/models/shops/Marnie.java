@@ -138,6 +138,13 @@ public class Marnie extends Shop {
         return "successfully purchased";
     }
 
+    @Override
+    public void restoreStocks() {
+        for(ShopItem item : permanentItems) item.restoreStock();
+        for(ShopTool tool : permanentTools) tool.restoreStock();
+        for(ShopAnimals animal : permanentAnimals) animal.restoreStock();
+    }
+
 
     public ArrayList<ShopItem> getPermanentItems() {
         return permanentItems;

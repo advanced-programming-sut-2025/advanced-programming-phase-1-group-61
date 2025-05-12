@@ -33,4 +33,7 @@ public class ShopFoods {
     public void setStock(int stock) {
         this.stock = stock;
     }
+    public void restoreStock(){
+        stock=dailyLimit;
+    }
 }

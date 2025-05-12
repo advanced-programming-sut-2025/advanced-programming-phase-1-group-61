@@ -40,4 +40,7 @@ public class ShopToolUpgrades {
     public void setStock(int stock) {
         this.stock = stock;
     }
+    public void restoreStock(){
+        this.stock=limit;
+    }
 }

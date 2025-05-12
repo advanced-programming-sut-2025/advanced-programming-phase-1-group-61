@@ -99,6 +99,12 @@ public class Carpenter extends Shop {
         return "please enter a valid product!";
     }
 
+    @Override
+    public void restoreStocks() {
+        for(ShopCages cage : farmBuildings) cage.restoreStock();
+        for(ShopItem item : permanentItems) item.restoreStock();
+    }
+
     public ArrayList<ShopItem> getPermanentItems() {
         return permanentItems;
     }
