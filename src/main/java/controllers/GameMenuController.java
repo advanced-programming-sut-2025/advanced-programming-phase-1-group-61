@@ -277,13 +277,23 @@ public class GameMenuController {
         }
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
-        Tile tile = game.getMap().getTiles()[y][x];
+        Tile tile;
+        try {
+            tile = game.getMap().getTiles()[y][x];
+        } catch (Exception e) {
+            return new Result(false, "you cant enter void");
+        }
         if (tile == null) {
             return new Result(false, "you cant enter void");
         }
         int turn = tile.getOwnerId();
         if (turn != -1) {
-            int userId = game.getCharacterByTurnNumber(turn).getUserId();
+            int userId ;
+            try {
+               userId = game.getCharacterByTurnNumber(turn).getUserId();
+            }catch (Exception e){
+                userId = -1;
+            }
             if (userId != currentCharacter.getUserId()) {
                 return new Result(false, "you cant enter someone else's farm");
             }
