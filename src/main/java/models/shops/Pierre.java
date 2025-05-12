@@ -86,4 +86,14 @@ public class Pierre implements Mutual{
     public ArrayList<ShopItem> getYearRoundItems() {
         return yearRoundItems;
     }
+
+    public ArrayList<ShopItem> getFallItems() {
+        return fallItems;
+    }
+    public ArrayList<ShopItem> getSpringItems(){
+        return springItems;
+    }
+    public ArrayList<ShopItem> getSummerItems(){
+        return summerItems;
+    }
 }

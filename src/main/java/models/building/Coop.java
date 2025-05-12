@@ -1,7 +1,6 @@
 package models.building;
 
 import models.animal.Animal;
-import models.character.Character;
 
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ public class Coop extends Building {
         this.space = getSpace(type);
         this.size = this.space;
         this.baseType="Coop";
-        this.Resourcetype="Coop";
+        this.resourceType ="Coop";
     }
 
     private int getSpace(String type) {

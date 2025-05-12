@@ -18,16 +18,16 @@ import java.util.*;
 public class Animal {
     private int X = 0;
     private int Y = 0;
-    private AnimalType type;
+    private final AnimalType type;
     private String name = "";
     protected boolean hunger = true;
     protected String house;
     private int friendship = 0;
-    private List<Item> products = new ArrayList<>();
-    private boolean isout=false;
+    private final List<Item> products = new ArrayList<>();
+    private boolean isOut =false;
     private int price;
-    private boolean ispet=false;
-    private boolean outfed=false;
+    private boolean isPet =false;
+    private boolean outFed =false;
 
     public Animal(AnimalType type, String house, String name) {
         this.type = type;
@@ -102,13 +102,13 @@ public class Animal {
             if (this.friendship > 1000) {
                 this.friendship = 1000;
             }
-            this.ispet=true;
+            this.isPet =true;
             return true;
         }
         return false;
     }
 
-    public void petbycheat(int amount){
+    public void petByCheat(int amount){
         friendship=amount;
         if (this.friendship > 1000) {
             this.friendship = 1000;
@@ -120,19 +120,19 @@ public class Animal {
     }
 
     private void setProduct(){
-        if(this.type.getOutNeed()==isout && !hunger){
+        if(this.type.getOutNeed()== isOut && !hunger){
             ItemType itemType=null;
             for(int i=1;i<=this.type.getProductPerDay();i++){
                 itemType=null;
                 if(this.type.getSecondProduct()!=null){
-                    float probebility = (float) (this.friendship + (15 * RandomNumber.getRandomNumberWithBoundaries(5, 15))) /1500;
-                    if(10*probebility>=RandomNumber.getRandomNumberWithBoundaries(0,10)){
+                    float probability = (float) (this.friendship + (15 * RandomNumber.getRandomNumberWithBoundaries(5, 15))) /1500;
+                    if(10*probability>=RandomNumber.getRandomNumberWithBoundaries(0,10)){
                         itemType=this.type.getSecondProduct();
                     }
                 }
                 itemType=this.type.getFirstProduct();
                 double factor=0.0;
-                double quality = (double) (((double) this.friendship /1000)*(0.5+0.05*RandomNumber.getRandomNumberWithBoundaries(0,10)));
+                double quality = ((double) this.friendship /1000)*(0.5+0.05*RandomNumber.getRandomNumberWithBoundaries(0,10));
                 if(0<quality&&quality<=0.5) factor=1.0;
                 else if(0.5<quality&&quality<=0.7) factor=1.25;
                 else if(0.7<quality&&quality<=0.9) factor=2;
@@ -142,7 +142,7 @@ public class Animal {
             }
 
         }
-        if(!isout) {
+        if(!isOut) {
             hunger = true;
         }
     }
@@ -180,7 +180,7 @@ public class Animal {
                             this.type.getHouse().equals("Barn")) {
                         barn.addInput(this);
                         System.out.println(this.name + "is in " + barn.getName());
-                        this.isout = false;
+                        this.isOut = false;
                         this.X = x;
                         this.Y = y;
                         return true;
@@ -192,7 +192,7 @@ public class Animal {
                     if (coop.getSpace() > 0 && coop.getSize() >= this.type.getHouseSize() &&
                             this.type.getHouse().equals("Coop")) {
                         System.out.println(this.name + "is in " + coop.getName());
-                        this.isout = false;
+                        this.isOut = false;
                         this.X = x;
                         this.Y = y;
                         return true;
@@ -201,7 +201,7 @@ public class Animal {
                 }
             }
             System.out.println(this.name + "is in good palce");
-            if (!outfed) friendship += 8;
+            if (!outFed) friendship += 8;
             if (friendship > 1000) {
                 friendship = 1000;
             }
@@ -216,13 +216,13 @@ public class Animal {
         //todo
     }
     public void dayEND() {
-        if (isout)friendship-=10;
+        if (isOut)friendship-=10;
         setProduct();
-        ispet=false;
+        isPet =false;
 
     }
     public void show(){
-        System.out.println(this.type+": "+this.name+" || friendship: "+this.friendship+" || hunger: "+this.hunger+" || is: "+this.ispet);
+        System.out.println(this.type+": "+this.name+" || friendship: "+this.friendship+" || hunger: "+this.hunger+" || is: "+this.isPet);
     }
 
     public void showproducts(){
