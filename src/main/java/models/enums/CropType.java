@@ -75,5 +75,19 @@ public enum CropType {
         return counter;
     }
 
+    public boolean CanBecomeGiant() {
+        return canBecomeGiant;
+    }
 
+    public ItemType getProduct() {
+        return product;
+    }
+
+    public ItemType getSource() {
+        return source;
+    }
+
+    public int getReGrowthTime() {
+        return reGrowthTime;
+    }
 }

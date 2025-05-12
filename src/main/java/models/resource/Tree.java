@@ -46,6 +46,10 @@ public class Tree extends Resource{
         return source;
     }
 
+    public int getDaysUntilNextCycle() {
+        return daysUntilNextCycle;
+    }
+
     public void dayCycleForTrees(){
         this.treeAge++;
         setTreeStage(type.getStageByTreeAge(treeAge));

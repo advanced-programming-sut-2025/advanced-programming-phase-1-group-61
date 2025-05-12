@@ -66,4 +66,8 @@ public class Crop extends Resource{
            this.daysWithOutWater++;
        }
     }
+
+    public void setDaysTillNextHarvest(int daysTillNextHarvest) {
+        this.daysTillNextHarvest = daysTillNextHarvest;
+    }
 }

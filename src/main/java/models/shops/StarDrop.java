@@ -1,5 +1,6 @@
 package models.shops;
 
+
 import models.building.Shop;
 
 public class StarDrop extends Shop {
