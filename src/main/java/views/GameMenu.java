@@ -121,7 +121,7 @@ public class GameMenu implements AppMenu{
             Matcher showEnergy = GameMenuCommands.SHOW_ENERGY.getMatcher(input);
             Matcher toolsUse = GameMenuCommands.TOOLS_USE.getMatcher(input);
             Matcher cheatAddTool = CheatCodes.CHEAT_ADD_TOOL.getMatcher(input);
-            Matcher craftinfo = GameMenuCommands.CRAFT_INFO.getMatcher(input);
+            Matcher craftInfo = GameMenuCommands.CRAFT_INFO.getMatcher(input);
             Matcher useAxeForSyrup = GameMenuCommands.USE_AXE_FOR_SYRUP.getMatcher(input);
             Matcher buyAnimal = GameMenuCommands.BUY_ANIMAL.getMatcher(input);
             Matcher showAllProducts = GameMenuCommands.SHOW_ALL_PRODUCTS.getMatcher(input);
@@ -227,7 +227,7 @@ public class GameMenu implements AppMenu{
                     System.out.println("failed to save app");
                 }
                 App.setCurrentMenu(Menu.EXIT_MENU);
-            } else if(craftinfo != null){
+            } else if(craftInfo != null){
 
             } else if(showAllProducts != null){
                 Result result=controller.showShopProducts();

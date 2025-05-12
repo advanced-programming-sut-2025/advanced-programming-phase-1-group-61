@@ -486,12 +486,12 @@ public class GameMenuController {
 
     }
 
-    public Result showanimals(Matcher matcher) {
+    public Result showAnimals(Matcher matcher) {
         App.getCurrentGame().getCurrentCharacter().showAnimals();
         return new Result(true, "\n");
     }
 
-    public Result sheperd(Matcher matcher) {
+    public Result shepherd(Matcher matcher) {
         String animalName = matcher.group("animal_name").trim();
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
@@ -515,7 +515,7 @@ public class GameMenuController {
         return new Result(false, "You don't have any " + animalName);
     }
 
-    public Result animalsproductes(Matcher matcher) {
+    public Result animalsProducts(Matcher matcher) {
         for(Animal animal: App.getCurrentGame().getCurrentCharacter().getAnimals().values()){
             animal.showproducts();
         }
