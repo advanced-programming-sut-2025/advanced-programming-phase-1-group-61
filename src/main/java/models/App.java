@@ -29,12 +29,7 @@ public class App {
 
 
     public static Game getCurrentGame(){
-        for (Game game : allGames) {
-            if(game.getId() == currentGameId){
-                return game;
-            }
-        }
-        return null;
+        return getGameByID(currentGameId);
     }
     public static void setCurrentGame(int id ){
         currentGameId = id;
