@@ -16,8 +16,8 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class GameMenu implements AppMenu{
-   private final GameMenuController controller = new GameMenuController();
-   private boolean inGame = false;
+    private final GameMenuController controller = new GameMenuController();
+    private boolean inGame = false;
     @Override
     public void check(Scanner scanner) {
         String input = scanner.nextLine().trim();
@@ -85,8 +85,8 @@ public class GameMenu implements AppMenu{
                 }
             }
             else if (loadGame != null){
-            Result result = controller.loadGame();
-            System.out.println(result.message());
+                Result result = controller.loadGame();
+                System.out.println(result.message());
                 if(result.isSuccessful()) inGame = true;
             }
             else{
@@ -124,6 +124,9 @@ public class GameMenu implements AppMenu{
             Matcher craftinfo = GameMenuCommands.CRAFT_INFO.getMatcher(input);
             Matcher useAxeForSyrup = GameMenuCommands.USE_AXE_FOR_SYRUP.getMatcher(input);
             Matcher buyAnimal = GameMenuCommands.BUY_ANIMAL.getMatcher(input);
+            Matcher showAllProducts = GameMenuCommands.SHOW_ALL_PRODUCTS.getMatcher(input);
+            Matcher showAllAvailableProducts = GameMenuCommands.SHOW_ALL_AVAILABLE_PRODUCTS.getMatcher(input);
+            Matcher purchaseProduct = GameMenuCommands.PURCHASE.getMatcher(input);
 
 
             if (showCurrentMenu != null){
@@ -150,7 +153,7 @@ public class GameMenu implements AppMenu{
                 Result result = controller.foreCastWeather();
                 System.out.println(result.message());
             } else if (showWeather != null) {
-               String state = App.getCurrentGame().getMap().getWeather().getState().getDisplayName();
+                String state = App.getCurrentGame().getMap().getWeather().getState().getDisplayName();
                 System.out.println("weather is now "+state);
             } else if (cheatThor != null) {
                 Result result = controller.cheatThor(cheatThor);
@@ -226,6 +229,15 @@ public class GameMenu implements AppMenu{
                 App.setCurrentMenu(Menu.EXIT_MENU);
             } else if(craftinfo != null){
 
+            } else if(showAllProducts != null){
+                Result result=controller.showShopProducts();
+                System.out.println(result.message());
+            } else if(showAllAvailableProducts != null){
+                Result result=controller.showShopAvailableProducts();
+                System.out.println(result.message());
+            } else if(purchaseProduct != null){
+                Result result = controller.purchaseProduct(purchaseProduct);
+                System.out.println(result.message());
             }
             else{
                 System.out.println("invalid command");

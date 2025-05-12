@@ -67,6 +67,84 @@ public class Marnie extends Shop {
         return builder.toString();
     }
 
+    @Override
+    public String showAllAvailableProducts() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("permanent items:").append("\n");
+        for(ShopItem item : permanentItems) {
+            if(item.getStock()>0) {
+                builder.append("Name: ")
+                        .append(item.getItem().getDisPlayName())
+                        .append(" | Price: ")
+                        .append(item.getPrice())
+                        .append(" | Stock: ")
+                        .append(item.getStock())
+                        .append("\n");
+            }
+        }
+        builder.append("\n");
+        builder.append("permanent tools:").append("\n");
+        for(ShopTool tool : permanentTools) {
+            if(tool.getStock()>0) {
+                builder.append("Name: ")
+                        .append(tool.getTool().getTool())
+                        .append(" | Price: ")
+                        .append(tool.getPrice())
+                        .append(" | Stock: ")
+                        .append(tool.getStock())
+                        .append("\n");
+            }
+        }
+        builder.append("\n");
+        builder.append("permanent animals:").append("\n");
+        for(int i=0; i<permanentAnimals.size(); i++) {
+            ShopAnimals animal = permanentAnimals.get(i);
+            if(animal.getStock()>0) {
+                builder.append("Name: ")
+                        .append(animal.getAnimal().getDisplayName())
+                        .append(" | Price: ")
+                        .append(animal.getPrice())
+                        .append(" | Stock: ")
+                        .append(animal.getStock());
+                if (i != permanentAnimals.size() - 1) builder.append("\n");
+            }
+        }
+        return builder.toString();
+    }
+
+    @Override
+    public String purchaseProduct(String product, int count) {
+        for(ShopItem item : permanentItems){
+            if(item.getItem().getDisPlayName().equals(product)){
+                if(count> item.getStock()) return "not enough stock!";
+                item.setStock(item.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        for(ShopTool tool : permanentTools){
+            if(tool.getTool().getTool().equals(product)){
+                if(count> tool.getStock()) return "not enough stock!";
+                tool.setStock(tool.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        for(ShopAnimals animal : permanentAnimals){
+            if(animal.getAnimal().getDisplayName().equals(product)){
+                if(count> animal.getStock()) return "not enough stock!";
+                animal.setStock(animal.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        return "successfully purchased";
+    }
+
+    @Override
+    public void restoreStocks() {
+        for(ShopItem item : permanentItems) item.restoreStock();
+        for(ShopTool tool : permanentTools) tool.restoreStock();
+        for(ShopAnimals animal : permanentAnimals) animal.restoreStock();
+    }
+
 
     public ArrayList<ShopItem> getPermanentItems() {
         return permanentItems;

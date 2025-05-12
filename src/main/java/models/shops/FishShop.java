@@ -12,4 +12,19 @@ public class FishShop extends Shop {
     public String showAllProducts() {
         return "";
     }
+
+    @Override
+    public String showAllAvailableProducts() {
+        return "";
+    }
+
+    @Override
+    public String purchaseProduct(String product, int count) {
+        return "";
+    }
+
+    @Override
+    public void restoreStocks() {
+
+    }
 }

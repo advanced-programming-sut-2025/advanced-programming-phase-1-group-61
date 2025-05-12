@@ -35,7 +35,10 @@ public enum GameMenuCommands {
     PRODUCES("^produces$"),
     COLLECT_PRODUCES("^collect\\s+produces\\s+-n\\s+(?<animal_name>.*)$"),
     SELL_ANIMAL("^sell\\s+animal\\s+-n\\s+(?<animal_name>.*)$"),
-    USE_AXE_FOR_SYRUP("^tools\\s+use\\s+-d\\s+(?<direction>.*)\\s+-syrup$");
+    USE_AXE_FOR_SYRUP("^tools\\s+use\\s+-d\\s+(?<direction>.*)\\s+-syrup$"),
+    SHOW_ALL_PRODUCTS("^show\\s+all\\s+products$"),
+    SHOW_ALL_AVAILABLE_PRODUCTS("^show\\s+all\\s+available\\s+products$"),
+    PURCHASE("^purchase (?<productName>.*) -n (?<count>.*)$");
 
 
     private String pattern;
