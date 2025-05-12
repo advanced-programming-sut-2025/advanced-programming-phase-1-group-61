@@ -4,16 +4,13 @@ import models.Item;
 import models.enums.BackpackType;
 import models.enums.ItemType;
 import models.enums.ToolType;
-import models.tool.Axe;
-import models.tool.Hoe;
-import models.tool.Pickaxe;
-import models.tool.Tool;
+import models.tool.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Inventory {
-    private final HashMap<Item, Integer> items=new HashMap<>();
+    private final HashMap<ItemType, Integer> items=new HashMap<>();
     private final ArrayList<Tool> tools=new ArrayList<>();
     private BackpackType backpackType=BackpackType.PRIMARY;
     private Trashcan trashcan=new Trashcan();
@@ -25,16 +22,15 @@ public class Inventory {
     }
 
     public void addItem(ItemType item, int count){
-        for(int i=0;i<items.size();i++){
-            Item it=(Item) items.keySet().toArray()[i];
-            if(it.getItemType().equals(item)){
-                items.put(new Item(item),(int)items.entrySet().toArray()[i]+count);
-                return;
-            }
-        }
-        if(backpackType.getSize() > items.size()){
-            items.put(new Item(item),count);
-        }
+
+       if(items.containsKey(item)){
+           int i = items.get(item);
+           items.put(item , i+count);
+       }else {
+           if(backpackType.getSize() > items.keySet().size()){
+               items.put(item , count);
+           }
+       }
     }
     public boolean checkToolInInventory(ToolType tool){
         for(Tool t : tools){
@@ -53,14 +49,15 @@ public class Inventory {
     public String getItemsInfo(){
         StringBuilder builder=new StringBuilder();
         for(int i=0;i<items.size();i++){
-            Item item=(Item) items.keySet().toArray()[i];
-            int count=items.get(item);
+            ItemType itemType=(ItemType) items.keySet().toArray()[i];
+            int count=items.get(itemType);
+            Item item = new Item(itemType);
             builder.append(item.getItemType().getDisPlayName()).append(": ").append(count);
             if(i!=items.size()-1) builder.append("\n");
         }
         return builder.toString();
     }
-    public HashMap<Item,Integer> getItems(){
+    public HashMap<ItemType,Integer> getItems(){
         return items;
     }
     public ArrayList<Tool> getTools(){
@@ -75,10 +72,10 @@ public class Inventory {
     }
     public void removeItem(ItemType item,int count){
         for(int i=0;i<items.size();i++){
-            Item it=(Item) items.keySet().toArray()[i];
-            if(it.getItemType().equals(item))
-                items.put(it,items.get(it) -count);
+            if(items.get(i).equals(item))
+                items.put(item,items.get(item) -count);
         }
+
     }
     public int getCountOfItem(ItemType item){
         for(int i=0;i<items.size();i++){
@@ -98,7 +95,16 @@ public class Inventory {
     }
 
     public void addTool(ToolType tool){
-        tools.add(new Tool(tool));
+        switch (tool){
+            case FishingPole -> tools.add(new FishingPole());
+            case Axe -> tools.add(new Axe());
+            case Hoe -> tools.add(new Hoe());
+            case MilkPail ->  tools.add(new MilkPail());
+            case PickAxe -> tools.add(new Pickaxe());
+            case Scythe -> tools.add(new Scythe());
+            case Shear -> tools.add(new Shear());
+            case WateringCan -> tools.add(new WateringCan());
+        }
     }
     public BackpackType getBackpackType() {
         return backpackType;

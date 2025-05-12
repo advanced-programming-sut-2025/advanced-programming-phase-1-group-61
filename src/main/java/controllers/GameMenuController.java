@@ -69,7 +69,7 @@ public class GameMenuController {
     }
 
     public Result cheatAddTool(Matcher matcher) {
-        String toolName = matcher.group("name").trim();
+        String toolName = matcher.group("toolName").trim();
         Inventory inventory = App.getCurrentGame().getCurrentCharacter().getInventory();
         ToolType tool = Tool.fromString(toolName);
         if (tool == null) {
