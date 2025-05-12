@@ -142,7 +142,7 @@ public class Character {
             System.out.println("Name is already taken");
         }
     }
-    public void pet(System name){
+    public void pet(String name){
         if (!animals.containsKey(name)) {
             System.out.println("You do not have "+name+" pet youre own animals");
             return;
@@ -152,6 +152,7 @@ public class Character {
 
     public void findPath(int targetX, int targetY){
         lastPath=new ArrayList<>();
+        System.gc();
         Map map= App.getCurrentGame().getMap();
         if(map==null) return;
         if(map.getTiles()[targetY][targetX].getType().isCollisionOn()) return;
@@ -182,9 +183,10 @@ public class Character {
     private Cell bfs(int targetX, int targetY,Map map){
         boolean[][] visited=new boolean[map.getHeightSize()][map.getWidthSize()];
         visited[getY()][getX()]=true;
+        Character character=App.getCurrentGame().getCurrentCharacter();
         Cell cell=new Cell()
-                .setX(targetX)
-                .setY(targetY)
+                .setX(character.getX())
+                .setY(character.getY())
                 .setPreviousCell(null);
         Queue<Cell> cells=new ArrayDeque<>();
         cells.add(cell);
