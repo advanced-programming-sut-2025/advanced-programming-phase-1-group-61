@@ -51,6 +51,35 @@ public class Carpenter extends Shop {
         return builder.toString();
     }
 
+    @Override
+    public String showAllAvailableProducts() {
+        StringBuilder builder = new StringBuilder();
+        for (ShopItem item : permanentItems) {
+            if(item.getStock()>0) {
+                builder.append("Name: ")
+                        .append(item.getItem().getDisPlayName())
+                        .append(" | Price: ")
+                        .append(item.getPrice())
+                        .append(" | Stock: ")
+                        .append(item.getStock())
+                        .append("\n");
+            }
+        }
+        for(int i=0;i<farmBuildings.size();i++) {
+            ShopCages cage = farmBuildings.get(i);
+            if(cage.getStock()>0) {
+                builder.append("Name: ")
+                        .append(cage.getCageType().getDisplayName())
+                        .append(" | Price: ")
+                        .append(cage.getPrice())
+                        .append(" | Stock: ")
+                        .append(cage.getStock());
+                if (i != farmBuildings.size() - 1) builder.append("\n");
+            }
+        }
+        return builder.toString();
+    }
+
     public ArrayList<ShopItem> getPermanentItems() {
         return permanentItems;
     }

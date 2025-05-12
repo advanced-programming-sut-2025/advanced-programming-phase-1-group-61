@@ -6,7 +6,6 @@ import models.enums.TrashcanType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class BlackSmith extends Shop {
     private final ArrayList<ShopItem> items;
@@ -40,6 +39,7 @@ public class BlackSmith extends Shop {
     @Override
     public String showAllProducts() {
         StringBuilder builder=new StringBuilder();
+        builder.append("items:").append("\n");
         for(ShopItem item:items){
             builder.append("Name: ")
                     .append(item.getItem().getDisPlayName())
@@ -76,19 +76,40 @@ public class BlackSmith extends Shop {
                         .append(item.getItem().getDisPlayName())
                         .append(" | Price: ")
                         .append(item.getPrice())
+                        .append(" | Stock: ")
+                        .append(item.getStock())
                         .append("\n");
             }
         }
-
+        for(ShopToolUpgrades tool:toolUpgrades){
+            if(tool.getStock()>0){
+                builder.append("Name: ")
+                        .append(tool.getUpgradeName())
+                        .append(" tool")
+                        .append(" | Price: ")
+                        .append(tool.getPrice())
+                        .append(" | Stock: ")
+                        .append(tool.getStock())
+                        .append("\n");
+            }
+        }
+        for(int i=0;i<trashcanUpgrades.size();i++){
+            ShopTrashcanUpgrades trashcan=trashcanUpgrades.get(i);
+            if(trashcan.getStock()>0){
+                builder.append("Name: ")
+                        .append(trashcan.getTrashcanType().getDisplayName())
+                        .append(" Trashcan")
+                        .append(" | Price: ")
+                        .append(trashcan.getPrice())
+                        .append(" | Stock: ")
+                        .append(trashcan.getStock());
+                if(i!=trashcanUpgrades.size()-1) builder.append("\n");
+            }
+        }
         return builder.toString();
     }
 
     public ArrayList<ShopItem> getItems() {
         return items;
-    }
-    private String getFirstCapitalLetter(String s){
-        char[] chars=s.toCharArray();
-        chars[0]=Character.toUpperCase(chars[0]);
-        return new String(chars);
     }
 }

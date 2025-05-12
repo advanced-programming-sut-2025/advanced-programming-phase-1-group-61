@@ -67,6 +67,51 @@ public class Marnie extends Shop {
         return builder.toString();
     }
 
+    @Override
+    public String showAllAvailableProducts() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("permanent items:").append("\n");
+        for(ShopItem item : permanentItems) {
+            if(item.getStock()>0) {
+                builder.append("Name: ")
+                        .append(item.getItem().getDisPlayName())
+                        .append(" | Price: ")
+                        .append(item.getPrice())
+                        .append(" | Stock: ")
+                        .append(item.getStock())
+                        .append("\n");
+            }
+        }
+        builder.append("\n");
+        builder.append("permanent tools:").append("\n");
+        for(ShopTool tool : permanentTools) {
+            if(tool.getStock()>0) {
+                builder.append("Name: ")
+                        .append(tool.getTool().getTool())
+                        .append(" | Price: ")
+                        .append(tool.getPrice())
+                        .append(" | Stock: ")
+                        .append(tool.getStock())
+                        .append("\n");
+            }
+        }
+        builder.append("\n");
+        builder.append("permanent animals:").append("\n");
+        for(int i=0; i<permanentAnimals.size(); i++) {
+            ShopAnimals animal = permanentAnimals.get(i);
+            if(animal.getStock()>0) {
+                builder.append("Name: ")
+                        .append(animal.getAnimal().getDisplayName())
+                        .append(" | Price: ")
+                        .append(animal.getPrice())
+                        .append(" | Stock: ")
+                        .append(animal.getStock());
+                if (i != permanentAnimals.size() - 1) builder.append("\n");
+            }
+        }
+        return builder.toString();
+    }
+
 
     public ArrayList<ShopItem> getPermanentItems() {
         return permanentItems;

@@ -130,6 +130,73 @@ public class Pierre extends Shop {
         return builder.toString();
     }
 
+    @Override
+    public String showAllAvailableProducts() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("year round items:").append("\n");
+        for(ShopItem item:yearRoundItems){
+            if(item.getStock()>0) {
+                builder.append("Name: ")
+                        .append(item.getItem().getDisPlayName())
+                        .append(" | Price: ")
+                        .append(item.getPrice())
+                        .append(" | Stock: ")
+                        .append(item.getStock())
+                        .append("\n");
+            }
+        }
+        builder.append("spring items").append("\n");
+        for(ShopItem item:springItems){
+            if(item.getStock()>0) {
+                builder.append("Name: ")
+                        .append(item.getItem().getDisPlayName())
+                        .append(" | Price: ")
+                        .append(item.getPrice())
+                        .append(" | Stock: ")
+                        .append(item.getStock())
+                        .append("\n");
+            }
+        }
+        builder.append("summer items:").append("\n");
+        for(ShopItem item:summerItems){
+            if(item.getStock()>0) {
+                builder.append("Name: ")
+                        .append(item.getItem().getDisPlayName())
+                        .append(" | Price: ")
+                        .append(item.getPrice())
+                        .append(" | Stock: ")
+                        .append(item.getStock())
+                        .append("\n");
+            }
+        }
+        builder.append("fall items:").append("\n");
+        for(ShopItem item:fallItems) {
+            if(item.getStock()>0) {
+                builder.append("Name: ")
+                        .append(item.getItem().getDisPlayName())
+                        .append(" | Price: ")
+                        .append(item.getPrice())
+                        .append(" | Stock: ")
+                        .append(item.getStock())
+                        .append("\n");
+            }
+        }
+        builder.append("backpacks:").append("\n");
+        for(int i=0;i<shopBackpacks.size();i++){
+            ShopBackpacks backpack = shopBackpacks.get(i);
+            if(backpack.getStock()>0) {
+                builder.append("Name: ")
+                        .append(backpack.getBackpackType().getDisplayName())
+                        .append(" | Price: ")
+                        .append(backpack.getPrice())
+                        .append(" | Stock: ")
+                        .append(backpack.getStock());
+            }
+            if(i!=shopBackpacks.size()-1) builder.append("\n");
+        }
+        return builder.toString();
+    }
+
     public ArrayList<ShopItem> getYearRoundItems() {
         return yearRoundItems;
     }
