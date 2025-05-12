@@ -2,18 +2,17 @@ package models.building;
 
 import models.character.Character;
 import models.character.NPC;
-import models.enums.BuildingType;
 import models.resource.Resource;
 
 public class Building extends Resource{
     protected int X;
     protected int Y;
     protected int space= 0;
-    protected BuildingType type;
+    protected String type;
     protected int size;
     protected String name;
     protected String baseType="";
-    public Building(BuildingType type, String name , int X, int Y) {
+    public Building(String type, String name , int X, int Y) {
         this.type = type;
         this.name = name;
         this.X = X;
@@ -27,7 +26,7 @@ public class Building extends Resource{
     public String getBaseType(){
         return baseType;
     }
-    public BuildingType getType(){
+    public String getType(){
         return type;
     }
     public String getName(){

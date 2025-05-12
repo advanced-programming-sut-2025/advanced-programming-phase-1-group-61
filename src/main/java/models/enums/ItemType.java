@@ -10,7 +10,7 @@ public enum ItemType {
     Pizza(300 , "pizza" , 150 , true),
     Coffee(300 , "coffe" , 100 , true),
     Wine(200 , "ab shangooli" , 25 , true),
-    Sardine(100,"sardine" , 0 , false),
+    Sardine(40,"sardine" , 0 , false),
     DeluxeRetainingSoil(300,"deluxe retaining soil" , 0 , false),
     Vinegar(2000,"vine gar",0,false),
     SpeedGro(123,"speed gro",0,false),
@@ -51,7 +51,7 @@ public enum ItemType {
     Bread(50, "bread" , 0 , false),
     EggPlant(10,"egg plant" , 0 , false),
     HashBrowns(40,"hash browns" , 0 , false),
-    Flounder(34,"flounder" , 0 , false),
+    Flounder(100,"flounder" , 0 , false),
     MidnightCarp(500,"midnight carp" , 0 , false),
     IronBar(200,"iron bar" , 0 , false),
     GoldBar(1000,"gold bar" , 0 , false),
@@ -65,7 +65,7 @@ public enum ItemType {
     Quartz(25 , "quartz" , 0 , false),
     WaterSprinkler(300 , "water sprinkler" , 0 , false),
     Plant(200 , "plant" , 0,false),
-    Salmon(0,"salmon" , 0 , false),
+    Salmon(75,"salmon" , 0 , false),
     Diamond(750 , "diamond" , 0 ,false),
     BlueJazz(50,"blue jazz" , 45 , true),
     Carrot(35,"carrot" , 75 , true),
@@ -193,8 +193,8 @@ public enum ItemType {
     PineTar(100 , "pine tar" , 0 , false),
     Sap(2 , "sap" , -2  ,true),
     MysticSyrup(1000 , "mystic syrup", 500 , true),
-
-
+    Shad(60 , "shad" , 0 , false),
+    Discus(120 , "blue discus" , 0 , false),
     Garlic(20 , "garlic" , 10 , true),
     GreenBean(20  , "greenBeen" , 10 , true),
     Rhubarb(20 , "Rhubarb" , 20 , true),
@@ -214,7 +214,25 @@ public enum ItemType {
     SweetGemBerry(20 , "SweetGemBerry" , 20 , true),
     Powdermelon(20 , "Powdermelon" , 20 , true),
     PowdermelonSeed(100 , "PowdermelonSeed" , 0 , false),
-    AncientFruit(20 , "AncientFruit" , 20 , true);
+    AncientFruit(20 , "AncientFruit" , 20 , true),
+
+
+
+
+    Squid(80 , "Squid" , 20 , true),
+    Tuna(100 , "Tuna" , 20 , true),
+    Perch(55 , "perch" , 20 , true),
+    LionFish(100 , "LionFish" , 20 , false),
+    Herring(30 , "Herring" , 20 , true),
+    GhostFish(45 , "ghost fish" , 20 , true),
+    Tilapia(75 , "Tilapia" , 20 , true),
+    Dorado(100 , "Dorado" , 20 , true),
+    Sunfish(30 , "Sunfish" , 20 , false),
+    RainbowTrout(65 , "RainbowTrout", 30 , false),
+    Legend(5000 , "Legend" , 0 , false),
+    Glacierfish(1000 , "Glacierfish" , 0 , false),
+    Angler(900 , "Angler" , 0 , false),
+    Crimsonfish(1500 , "Crimsonfish" , 0 , false);
 
 
 
