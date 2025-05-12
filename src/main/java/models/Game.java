@@ -100,8 +100,7 @@ public class Game implements Runnable {
     }
 
     public Character getCharacterByTurnNumber(int turn) {
-        Character character = allCharacters.get(turn);
-        return character;
+        return allCharacters.get(turn);
     }
 
     public String changeTurn() {
