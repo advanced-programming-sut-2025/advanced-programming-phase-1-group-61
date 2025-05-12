@@ -21,8 +21,8 @@ public class Marnie extends Shop {
                 new ShopItem(ItemType.Hay,Integer.MAX_VALUE,50,"Dried grass used as animal food.")
         ));
         permanentTools = new ArrayList<>(List.of(
-                new ShopTool(new Tool(ToolType.MilkPail),1,1000,"Gather milk from your animals."),
-                new ShopTool(new Tool(ToolType.Shear),1,1000,"Use this to collect wool from sheep")
+                new ShopTool(ToolType.MilkPail,1,1000,"Gather milk from your animals."),
+                new ShopTool(ToolType.Shear,1,1000,"Use this to collect wool from sheep")
         ));
         permanentAnimals = new ArrayList<>(List.of(
                 new ShopAnimals(AnimalType.HEN, CageType.COOP,2,800,"Well cared-for chickens lay eggs every day. Lives in the coop."),
@@ -38,7 +38,33 @@ public class Marnie extends Shop {
 
     @Override
     public String showAllProducts() {
-        return "";
+        StringBuilder builder = new StringBuilder();
+        builder.append("permanent items:").append("\n");
+        for(ShopItem item : permanentItems) {
+            builder.append("Name: ")
+                    .append(item.getItem().getDisPlayName())
+                    .append(" | Price: ")
+                    .append(item.getPrice())
+                    .append("\n");
+        }
+        builder.append("permanent tools:").append("\n");
+        for(ShopTool tool : permanentTools) {
+            builder.append("Name: ")
+                    .append(tool.getTool().getTool())
+                    .append(" | Price: ")
+                    .append(tool.getPrice())
+                    .append("\n");
+        }
+        builder.append("permanent animals:").append("\n");
+        for(int i=0; i<permanentAnimals.size(); i++) {
+            ShopAnimals animal = permanentAnimals.get(i);
+            builder.append("Name: ")
+                    .append(animal.getAnimal().getDisplayName())
+                    .append(" | Price: ")
+                    .append(animal.getPrice());
+            if(i!=permanentAnimals.size()-1) builder.append("\n");
+        }
+        return builder.toString();
     }
 
 
