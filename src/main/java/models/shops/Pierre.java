@@ -1,20 +1,23 @@
 package models.shops;
 
+import models.building.Shop;
 import models.enums.BackpackType;
 import models.enums.ItemType;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pierre implements Mutual{
-    private final static Pierre instance = new Pierre();
+public class Pierre extends Shop {
     private final ArrayList<ShopItem> yearRoundItems;
     private final ArrayList<ShopItem> springItems;
     private final ArrayList<ShopItem> summerItems;
     private final ArrayList<ShopItem> fallItems;
     private final ArrayList<ShopBackpacks> shopBackpacks;
     private final float outOfSeasonCoefficient=1.5f;
-    private Pierre() {
+
+    public Pierre(String type, String name, int X, int Y) {
+        super(type, name, X, Y);
+        this.owner="Pierre";
         yearRoundItems = new ArrayList<>(List.of(
                 new ShopItem(ItemType.Rice, Integer.MAX_VALUE, 200, "A basic grain often served under vegetables."),
                 new ShopItem(ItemType.WheatFlour, Integer.MAX_VALUE, 100, "A common cooking ingredient made from crushed wheat seeds."),
@@ -78,9 +81,6 @@ public class Pierre implements Mutual{
                 new ShopItem(ItemType.WheatSeed, 5, 10, "Plant these in the summer or fall. Takes 4 days to mature. Harvest with the scythe."),
                 new ShopItem(ItemType.ArtichokeSeed, 5, 30, "Plant these in the fall. Takes 8 days to mature.")
         ));
-    }
-    public static Pierre getPierre() {
-        return instance;
     }
 
     public ArrayList<ShopItem> getYearRoundItems() {

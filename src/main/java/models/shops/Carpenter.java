@@ -1,6 +1,6 @@
 package models.shops;
 
-import models.Item;
+import models.building.Shop;
 import models.enums.CageType;
 import models.enums.ItemType;
 
@@ -8,11 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Carpenter implements Mutual{
-    private static final Carpenter instance = new Carpenter();
+public class Carpenter extends Shop {
     private final ArrayList<ShopItem> permanentItems;
     private final ArrayList<ShopCages> farmBuildings;
-    private Carpenter() {
+
+    public Carpenter(String type, String name, int X, int Y) {
+        super(type, name, X, Y);
+        this.owner="Robin";
         permanentItems = new ArrayList<>(List.of(
                 new ShopItem(ItemType.Wood,Integer.MAX_VALUE,10,"A sturdy, yet flexible plant material with a wide variety of uses."),
                 new ShopItem(ItemType.Stone,Integer.MAX_VALUE,20,"A common material with many uses in crafting and building.")
@@ -28,9 +30,27 @@ public class Carpenter implements Mutual{
                 new ShopCages(CageType.SHIPPING_BIN,1,250,Map.of(ItemType.Wood,150))
         ));
     }
-    public static Carpenter getCarpenter() {
-        return instance;
+
+    @Override
+    public String showAllProducts() {
+        StringBuilder builder = new StringBuilder();
+        for (ShopItem item : permanentItems) {
+            builder.append("Name: ")
+                    .append(item.getItem().getDisPlayName())
+                    .append(" | Price: ")
+                    .append(item.getPrice())
+                    .append("\n");
+        }
+        for(int i=0;i<farmBuildings.size();i++) {
+            ShopCages cage = farmBuildings.get(i);
+            builder.append("Name: ")
+                    .append(cage.getCageType().getDisplayName())
+                    .append(" | Price: ").append(cage.getPrice());
+            if(i!=farmBuildings.size()-1) builder.append("\n");
+        }
+        return builder.toString();
     }
+
     public ArrayList<ShopItem> getPermanentItems() {
         return permanentItems;
     }

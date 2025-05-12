@@ -1,15 +1,13 @@
 package models.building;
 
 
-import models.enums.ShopType;
-
-public class Shop extends Building {
-    private final ShopType shopType;
-    public Shop(String type, String name , int X, int Y,ShopType shopType) {
+public abstract class Shop extends Building {
+    protected String owner;
+    public Shop(String type, String name , int X, int Y) {
         super(String.valueOf(type), name, X, Y);
-        this.shopType = shopType;
     }
-    public ShopType getShopType() {
-        return shopType;
+    public String getOwnerName() {
+        return owner;
     }
+    abstract public String showAllProducts();
 }

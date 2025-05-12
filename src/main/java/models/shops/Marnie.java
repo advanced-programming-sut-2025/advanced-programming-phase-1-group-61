@@ -1,6 +1,6 @@
 package models.shops;
 
-import models.Item;
+import models.building.Shop;
 import models.enums.AnimalType;
 import models.enums.CageType;
 import models.enums.ItemType;
@@ -9,12 +9,14 @@ import models.tool.Tool;
 
 import java.util.*;
 
-public class Marnie implements Mutual{
-    private final static Marnie instance = new Marnie();
+public class Marnie extends Shop {
     private final ArrayList<ShopItem> permanentItems;
     private final ArrayList<ShopTool> permanentTools;
     private final ArrayList<ShopAnimals> permanentAnimals;
-    private Marnie() {
+
+    public Marnie(String type, String name, int X, int Y) {
+        super(type, name, X, Y);
+        this.owner="Marnie";
         permanentItems = new ArrayList<>(List.of(
                 new ShopItem(ItemType.Hay,Integer.MAX_VALUE,50,"Dried grass used as animal food.")
         ));
@@ -33,9 +35,13 @@ public class Marnie implements Mutual{
                 new ShopAnimals(AnimalType.PIG, CageType.DELUXE_BARN,2,16000,"These pigs are trained to find truffles! Lives in the barn.")
         ));
     }
-    public static Marnie getMarnie() {
-        return instance;
+
+    @Override
+    public String showAllProducts() {
+        return "";
     }
+
+
     public ArrayList<ShopItem> getPermanentItems() {
         return permanentItems;
     }
