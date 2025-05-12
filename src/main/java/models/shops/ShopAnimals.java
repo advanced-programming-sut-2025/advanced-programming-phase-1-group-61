@@ -9,12 +9,14 @@ public class ShopAnimals {
     private final int limit;
     private final int price;
     private final String description;
+    private int stock;
     public ShopAnimals(AnimalType animal, CageType cageType, int limit, int price, String description) {
         this.animal = animal;
         this.limit = limit;
         this.price = price;
         this.cageType = cageType;
         this.description = description;
+        stock=limit;
     }
     public AnimalType getAnimal() {
         return animal;
@@ -30,5 +32,11 @@ public class ShopAnimals {
     }
     public String getDescription() {
         return description;
+    }
+    public int getStock() {
+        return stock;
+    }
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 }

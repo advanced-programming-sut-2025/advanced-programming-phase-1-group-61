@@ -1,11 +1,15 @@
 package models.shops;
 
-public class FishShop implements Mutual{
-    private final static FishShop instance = new FishShop();
-    private FishShop() {
+import models.building.Shop;
 
+public class FishShop extends Shop {
+    public FishShop(String type, String name, int X, int Y) {
+        super(type, name, X, Y);
+        this.owner="Willy";
     }
-    public static FishShop getInstance() {
-        return instance;
+
+    @Override
+    public String showAllProducts() {
+        return "";
     }
 }

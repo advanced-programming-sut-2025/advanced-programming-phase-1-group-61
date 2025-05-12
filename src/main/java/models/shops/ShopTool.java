@@ -7,11 +7,13 @@ public class ShopTool {
     private final int limit;
     private final int price;
     private final String description;
+    private int stock;
     public ShopTool(Tool tool, int limit, int price, String description) {
         this.tool = tool;
         this.limit = limit;
         this.price = price;
         this.description = description;
+        stock=limit;
     }
     public Tool getTool() {
         return tool;
@@ -24,5 +26,11 @@ public class ShopTool {
     }
     public String getDescription() {
         return description;
+    }
+    public int getStock() {
+        return stock;
+    }
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 }

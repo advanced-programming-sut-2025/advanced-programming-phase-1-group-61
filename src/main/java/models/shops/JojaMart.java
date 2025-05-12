@@ -1,18 +1,21 @@
 package models.shops;
 
+import models.building.Shop;
 import models.enums.ItemType;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class JojaMart implements Mutual{
-    private static final JojaMart instance = new JojaMart();
+public class JojaMart extends Shop {
     private final ArrayList<ShopItem> permanentShopItems;
     private final ArrayList<ShopItem> springShopItems;
     private final ArrayList<ShopItem> summerShopItems;
     private final ArrayList<ShopItem> fallShopItems;
     private final ArrayList<ShopItem> winterShopItems;
-    private JojaMart() {
+
+    public JojaMart(String type, String name, int X, int Y) {
+        super(type, name, X, Y);
+        owner="Morris";
         permanentShopItems = new ArrayList<>(List.of(
                 new ShopItem(ItemType.JojaCola,Integer.MAX_VALUE,75,"The flagship product of Joja corporation."),
                 new ShopItem(ItemType.AncientSeed,1,500,"Could these still grow?"),
@@ -68,9 +71,54 @@ public class JojaMart implements Mutual{
                 new ShopItem(ItemType.PowderMelonSeed,10,20,"This special melon grows in the winter. Takes 7 days to grow.")
         ));
     }
-    public static JojaMart getJojaMart() {
-        return instance;
+
+    @Override
+    public String showAllProducts() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("permanent items:").append("\n");
+        for(ShopItem item : permanentShopItems){
+            builder.append("Name: ")
+                    .append(item.getItem().getDisPlayName())
+                    .append(" | Price: ")
+                    .append(item.getPrice())
+                    .append("\n");
+        }
+        builder.append("spring items:").append("\n");
+        for(ShopItem item : springShopItems){
+            builder.append("Name: ")
+                    .append(item.getItem().getDisPlayName())
+                    .append(" | Price: ")
+                    .append(item.getPrice())
+                    .append("\n");
+        }
+        builder.append("summer items:").append("\n");
+        for(ShopItem item : summerShopItems){
+            builder.append("Name: ")
+                    .append(item.getItem().getDisPlayName())
+                    .append(" | Price: ")
+                    .append(item.getPrice())
+                    .append("\n");
+        }
+        builder.append("fall items:").append("\n");
+        for(ShopItem item : fallShopItems){
+            builder.append("Name: ")
+                    .append(item.getItem().getDisPlayName())
+                    .append(" | Price: ")
+                    .append(item.getPrice())
+                    .append("\n");
+        }
+        builder.append("winter items:").append("\n");
+        for(int i=0; i<winterShopItems.size(); i++){
+            ShopItem item = winterShopItems.get(i);
+            builder.append("Name: ")
+                    .append(item.getItem().getDisPlayName())
+                    .append(" | Price: ")
+                    .append(item.getPrice());
+            if(i!=winterShopItems.size()-1) builder.append("\n");
+        }
+        return builder.toString();
     }
+
     public ArrayList<ShopItem> getPermanentShopItems() {
         return permanentShopItems;
     }

@@ -2,6 +2,7 @@ package controllers;
 
 import models.*;
 import models.animal.Animal;
+import models.building.Shop;
 import models.character.Character;
 import models.enums.*;
 import models.map.Map;
@@ -533,5 +534,11 @@ public class GameMenuController {
         }
         return new Result(false, "You don't have any " + animalName);
     }
-
+    public Result showShopProducts(){
+        Shop currentShop=App.getCurrentGame().getCurrentCharacter().getCurrentShop();
+        if(currentShop==null){
+            return new Result(false, "You are not in a shop!");
+        }
+        return new Result(true, currentShop.showAllProducts());
+    }
 }

@@ -7,11 +7,13 @@ public class ShopBackpacks {
     private final int price;
     private final int limit;
     private final String description;
+    private int stock;
     public ShopBackpacks(BackpackType backpackType, int limit, int price, String description) {
         this.backpackType = backpackType;
         this.limit = limit;
         this.price = price;
         this.description = description;
+        stock=limit;
     }
     public BackpackType getBackpackType() {
         return backpackType;
@@ -24,5 +26,11 @@ public class ShopBackpacks {
     }
     public String getDescription() {
         return description;
+    }
+    public int getStock() {
+        return stock;
+    }
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 }
