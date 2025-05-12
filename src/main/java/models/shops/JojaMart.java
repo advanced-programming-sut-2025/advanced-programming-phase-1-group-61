@@ -119,6 +119,107 @@ public class JojaMart extends Shop {
         return builder.toString();
     }
 
+    @Override
+    public String showAllAvailableProducts() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("permanent items:").append("\n");
+        for(ShopItem item : permanentShopItems){
+            if(item.getStock()>0) {
+                builder.append("Name: ")
+                        .append(item.getItem().getDisPlayName())
+                        .append(" | Price: ")
+                        .append(item.getPrice())
+                        .append("\n");
+            }
+        }
+        builder.append("\n");
+        builder.append("spring items:").append("\n");
+        for(ShopItem item : springShopItems){
+            if(item.getStock()>0) {
+                builder.append("Name: ")
+                        .append(item.getItem().getDisPlayName())
+                        .append(" | Price: ")
+                        .append(item.getPrice())
+                        .append("\n");
+            }
+        }
+        builder.append("\n");
+        builder.append("summer items:").append("\n");
+        for(ShopItem item : summerShopItems){
+            if(item.getStock()>0) {
+                builder.append("Name: ")
+                        .append(item.getItem().getDisPlayName())
+                        .append(" | Price: ")
+                        .append(item.getPrice())
+                        .append("\n");
+            }
+        }
+        builder.append("\n");
+        builder.append("fall items:").append("\n");
+        for(ShopItem item : fallShopItems){
+            if(item.getStock()>0) {
+                builder.append("Name: ")
+                        .append(item.getItem().getDisPlayName())
+                        .append(" | Price: ")
+                        .append(item.getPrice())
+                        .append("\n");
+            }
+        }
+        builder.append("\n");
+        builder.append("winter items:").append("\n");
+        for(int i=0; i<winterShopItems.size(); i++){
+            ShopItem item = winterShopItems.get(i);
+            if(item.getStock()>0) {
+                builder.append("Name: ")
+                        .append(item.getItem().getDisPlayName())
+                        .append(" | Price: ")
+                        .append(item.getPrice());
+                if (i != winterShopItems.size() - 1) builder.append("\n");
+            }
+        }
+        return builder.toString();
+    }
+
+    @Override
+    public String purchaseProduct(String product, int count) {
+        for(ShopItem item : permanentShopItems){
+            if(item.getItem().getDisPlayName().equals(product)){
+                if(count> item.getStock()) return "not enough stock!";
+                item.setStock(item.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        for(ShopItem item : summerShopItems){
+            if(item.getItem().getDisPlayName().equals(product)){
+                if(count> item.getStock()) return "not enough stock!";
+                item.setStock(item.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        for(ShopItem item : springShopItems){
+            if(item.getItem().getDisPlayName().equals(product)){
+                if(count> item.getStock()) return "not enough stock!";
+                item.setStock(item.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        for(ShopItem item : fallShopItems){
+            if(item.getItem().getDisPlayName().equals(product)){
+                if(count> item.getStock()) return "not enough stock!";
+                item.setStock(item.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        for(ShopItem item : winterShopItems){
+            if(item.getItem().getDisPlayName().equals(product)){
+                if(count> item.getStock()) return "not enough stock!";
+                item.setStock(item.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        return "successfully purchased!";
+    }
+
     public ArrayList<ShopItem> getPermanentShopItems() {
         return permanentShopItems;
     }
