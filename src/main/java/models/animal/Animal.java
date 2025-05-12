@@ -8,10 +8,9 @@ import models.building.Building;
 import models.character.Character;
 import models.enums.AnimalType;
 import models.enums.ItemType;
-import models.enums.TileType;
 import models.map.Map;
 import models.map.Tile;
-import models.resource.BuildingRefrence;
+import models.resource.BuildingReference;
 import models.resource.Resource;
 
 import java.util.*;
@@ -169,15 +168,15 @@ public class Animal {
         Building building = null;
         Resource resource =tile.getResource();
         if(resource != null){
-            if(tile.getResource() instanceof BuildingRefrence){
-                String name =  ((BuildingRefrence) tile.getResource()).getName();
+            if(tile.getResource() instanceof BuildingReference){
+                String name =  ((BuildingReference) tile.getResource()).getName();
                 building = game.getCurrentCharacter().getBuilding(name);
             }
         }else{
             // چریدن در چمن
         }
-      if(tile.getResource() instanceof BuildingRefrence){
-       String name =  ((BuildingRefrence) tile.getResource()).getName();
+      if(tile.getResource() instanceof BuildingReference){
+       String name =  ((BuildingReference) tile.getResource()).getName();
        building = game.getCurrentCharacter().getBuilding(name);
        }
         if (!tile.getType().isCollisionOn()) {

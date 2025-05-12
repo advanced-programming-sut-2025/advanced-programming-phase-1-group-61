@@ -1,6 +1,6 @@
 package models.shops;
 
-public class StarDrop implements Shops {
+public class StarDrop  {
     //needs recipe
     private final static StarDrop instance = new StarDrop();
     private StarDrop() {
