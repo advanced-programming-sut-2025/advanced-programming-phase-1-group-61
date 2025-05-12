@@ -45,10 +45,6 @@ public class Animal {
         AnimalType Type = TypeOf(type);
         Character Owner = App.getCurrentGame().getCurrentCharacter();
         if (Type != null) {
-            if (Owner.getMoney() < Type.getPrice()) {
-                System.out.println("You don't have enough money to buy this animal");
-                return false;
-            }
             String House = getHouse(Type, Owner);
             if (House != null) {
                     if (!Owner.getAnimals().containsKey(name)) {
@@ -80,7 +76,7 @@ public class Animal {
         return null;
     }
 
-    private static AnimalType TypeOf(String type) {
+    public static AnimalType TypeOf(String type) {
         return switch (type) {
             case "COW" -> AnimalType.COW;
             case "DINOSAUR" -> AnimalType.DINOSAUR;
