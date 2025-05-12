@@ -1,6 +1,5 @@
 package controllers;
 
-import com.sun.source.tree.PatternTree;
 import models.*;
 import models.animal.Animal;
 import models.character.Character;
@@ -17,7 +16,6 @@ import models.tool.Tool;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class GameMenuController {
     private int neededEnergy;
@@ -472,7 +470,7 @@ public class GameMenuController {
         int amount = Integer.parseInt(matcher.group("amount"));
         Character character = App.getCurrentGame().getCurrentCharacter();
         if (character.getAnimals().containsKey(animalName)) {
-            character.getAnimals().get(animalName).petbycheat(amount);
+            character.getAnimals().get(animalName).petByCheat(amount);
             return new Result(true, "Youre friendship with "+animalName+" is "+amount+" you cheater");
         }
         return new Result(false, "You don't have any " + animalName);
@@ -522,7 +520,7 @@ public class GameMenuController {
             if (character.getAnimals().get(animalName).getProducts()){
                 return new Result(true, "You have collected "+animalName+" products");
             }
-            return new Result(true, "Cannot collecte "+animalName+" products");
+            return new Result(true, "Cannot collect "+animalName+" products");
         }
         return new Result(false, "You don't have any " + animalName);
     }

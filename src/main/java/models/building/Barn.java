@@ -1,7 +1,6 @@
 package models.building;
 
 import models.animal.Animal;
-import models.character.Character;
 
 
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ public class Barn extends Building {
         super(type,name,X,Y);
         this.ownerId = ownerId;
         this.baseType="Barn";
-        this.Resourcetype="Barn";
+        this.resourceType ="Barn";
     }
 
     @Override
