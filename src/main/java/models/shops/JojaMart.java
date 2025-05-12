@@ -180,6 +180,46 @@ public class JojaMart extends Shop {
         return builder.toString();
     }
 
+    @Override
+    public String purchaseProduct(String product, int count) {
+        for(ShopItem item : permanentShopItems){
+            if(item.getItem().getDisPlayName().equals(product)){
+                if(count> item.getStock()) return "not enough stock!";
+                item.setStock(item.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        for(ShopItem item : summerShopItems){
+            if(item.getItem().getDisPlayName().equals(product)){
+                if(count> item.getStock()) return "not enough stock!";
+                item.setStock(item.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        for(ShopItem item : springShopItems){
+            if(item.getItem().getDisPlayName().equals(product)){
+                if(count> item.getStock()) return "not enough stock!";
+                item.setStock(item.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        for(ShopItem item : fallShopItems){
+            if(item.getItem().getDisPlayName().equals(product)){
+                if(count> item.getStock()) return "not enough stock!";
+                item.setStock(item.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        for(ShopItem item : winterShopItems){
+            if(item.getItem().getDisPlayName().equals(product)){
+                if(count> item.getStock()) return "not enough stock!";
+                item.setStock(item.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        return "successfully purchased!";
+    }
+
     public ArrayList<ShopItem> getPermanentShopItems() {
         return permanentShopItems;
     }

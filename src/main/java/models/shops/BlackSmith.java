@@ -109,6 +109,32 @@ public class BlackSmith extends Shop {
         return builder.toString();
     }
 
+    @Override
+    public String purchaseProduct(String product,int count) {
+        for(ShopItem item:items){
+            if(item.getItem().getDisPlayName().equals(product)){
+                if(count> item.getStock()) return "not enough stock!";
+                item.setStock(item.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        for(ShopToolUpgrades tool:toolUpgrades){
+            if(tool.getUpgradeName().equals(product)){
+                if(count> tool.getStock()) return "not enough stock!";
+                tool.setStock(tool.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        for(ShopTrashcanUpgrades trashcan:trashcanUpgrades){
+            if(trashcan.getTrashcanType().getDisplayName().equals(product)){
+                if(count> trashcan.getStock()) return "not enough stock!";
+                trashcan.setStock(trashcan.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        return "Please enter a valid product!";
+    }
+
     public ArrayList<ShopItem> getItems() {
         return items;
     }

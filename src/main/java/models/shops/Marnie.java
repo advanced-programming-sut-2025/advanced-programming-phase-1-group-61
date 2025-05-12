@@ -112,6 +112,32 @@ public class Marnie extends Shop {
         return builder.toString();
     }
 
+    @Override
+    public String purchaseProduct(String product, int count) {
+        for(ShopItem item : permanentItems){
+            if(item.getItem().getDisPlayName().equals(product)){
+                if(count> item.getStock()) return "not enough stock!";
+                item.setStock(item.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        for(ShopTool tool : permanentTools){
+            if(tool.getTool().getTool().equals(product)){
+                if(count> tool.getStock()) return "not enough stock!";
+                tool.setStock(tool.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        for(ShopAnimals animal : permanentAnimals){
+            if(animal.getAnimal().getDisplayName().equals(product)){
+                if(count> animal.getStock()) return "not enough stock!";
+                animal.setStock(animal.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        return "successfully purchased";
+    }
+
 
     public ArrayList<ShopItem> getPermanentItems() {
         return permanentItems;

@@ -80,6 +80,25 @@ public class Carpenter extends Shop {
         return builder.toString();
     }
 
+    @Override
+    public String purchaseProduct(String product, int count) {
+        for(ShopItem item : permanentItems) {
+            if(item.getItem().getDisPlayName().equals(product)) {
+                if(count>item.getStock()) return "not enough stock!";
+                item.setStock(item.getStock()-count);
+                return "successfully purchased!";
+            }
+        }
+        for(ShopCages cage : farmBuildings) {
+            if(cage.getCageType().getDisplayName().equals(product)) {
+                if(count>cage.getStock()) return "not enough stock!";
+                cage.setStock(cage.getStock()-count);
+                return "successfully purchased!";
+            }
+        }
+        return "please enter a valid product!";
+    }
+
     public ArrayList<ShopItem> getPermanentItems() {
         return permanentItems;
     }

@@ -11,4 +11,5 @@ public abstract class Shop extends Building {
     }
     abstract public String showAllProducts();
     abstract public String showAllAvailableProducts();
+    abstract public String purchaseProduct(String product,int count);
 }

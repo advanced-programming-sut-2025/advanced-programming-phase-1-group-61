@@ -197,6 +197,46 @@ public class Pierre extends Shop {
         return builder.toString();
     }
 
+    @Override
+    public String purchaseProduct(String product, int count) {
+        for(ShopItem item : yearRoundItems){
+            if(item.getItem().getDisPlayName().equals(product)){
+                if(count> item.getStock()) return "not enough stock!";
+                item.setStock(item.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        for(ShopItem item : springItems){
+            if(item.getItem().getDisPlayName().equals(product)){
+                if(count> item.getStock()) return "not enough stock!";
+                item.setStock(item.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        for(ShopItem item : summerItems){
+            if(item.getItem().getDisPlayName().equals(product)){
+                if(count> item.getStock()) return "not enough stock!";
+                item.setStock(item.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        for(ShopItem item : fallItems){
+            if(item.getItem().getDisPlayName().equals(product)){
+                if(count> item.getStock()) return "not enough stock!";
+                item.setStock(item.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        for(ShopBackpacks backpack : shopBackpacks){
+            if(backpack.getBackpackType().getDisplayName().equals(product)){
+                if(count> backpack.getStock()) return "not enough stock!";
+                backpack.setStock(backpack.getStock()-count);
+                return "Successfully purchased!";
+            }
+        }
+        return "successfully purchased";
+    }
+
     public ArrayList<ShopItem> getYearRoundItems() {
         return yearRoundItems;
     }
