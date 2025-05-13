@@ -1,10 +1,7 @@
 package models.food;
 
-import models.enums.FoodType;
+import models.enums.CookingRecipes;
 
 public class Food {
-    private final FoodType foodType;
-    public Food(FoodType foodType) {
-        this.foodType = foodType;
-    }
+
 }

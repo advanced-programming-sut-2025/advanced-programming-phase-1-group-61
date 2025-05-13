@@ -177,7 +177,6 @@ public class Character {
                     (cell1.getX()>cell2.getX() && cell1.getY()>cell2.getY()) ||
                     (cell1.getX()>cell2.getX() && cell1.getY()<cell2.getY())) numberOfTurns++;
         }
-//        System.out.println(lastPath.size());
         return (lastPath.size()+numberOfTurns*10)/20;
     }
     private Cell bfs(int targetX, int targetY,Map map){

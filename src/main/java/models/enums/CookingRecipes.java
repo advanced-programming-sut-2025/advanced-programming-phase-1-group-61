@@ -3,10 +3,9 @@ package models.enums;
 import models.Item;
 import models.character.Buff;
 
-import java.util.HashMap;
 import java.util.Map;
 
-public enum FoodType {
+public enum CookingRecipes {
     FRIED_EGG("fried egg", 35, 50,null, Map.of(new Item(ItemType.Egg), 1),"starter"),
     BAKED_FISH("baked fish", 100, 75,null, Map.of(
             new Item(ItemType.Sardine), 1,
@@ -89,7 +88,7 @@ public enum FoodType {
     private final Buff buff;
     private final String source;
 
-    FoodType(String name, int sellPrice, int energy,Buff buff, Map<Item, Integer> ingredients,String source) {
+    CookingRecipes(String name, int sellPrice, int energy, Buff buff, Map<Item, Integer> ingredients, String source) {
         this.name = name;
         this.sellPrice = sellPrice;
         this.energy = energy;
