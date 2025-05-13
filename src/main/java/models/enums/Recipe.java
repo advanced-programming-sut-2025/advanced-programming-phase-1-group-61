@@ -8,7 +8,7 @@ import java.util.List;
 public enum Recipe {
     AXE(List.of(new Item(ItemType.Iron)) , List.of(2));
 
-    private HashMap<Item , Integer> items = new HashMap<>();
+    private final HashMap<Item , Integer> items;
 
     Recipe(List<Item> resources,List<Integer> quantity) {
         HashMap<Item ,Integer> items = new HashMap<>();

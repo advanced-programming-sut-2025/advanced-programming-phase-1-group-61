@@ -13,7 +13,7 @@ public enum FishType {
     Tuna(Season.Winter , ItemType.Tuna,13),
     Perch(Season.Winter , ItemType.Perch,14),
     Flounder(Season.Spring , ItemType.Flounder,21),
-    Lionfish(Season.Spring , ItemType.LionFish,22),
+    LionFish(Season.Spring , ItemType.LionFish,22),
     Herring(Season.Spring , ItemType.Herring,23),
     GhostFish(Season.Spring , ItemType.GhostFish,24),
     Tilapia(Season.Summer , ItemType.Tilapia,31),
@@ -21,13 +21,12 @@ public enum FishType {
     Sunfish(Season.Summer,ItemType.Sunfish,33),
     RainbowTrout(Season.Summer , ItemType.RainbowTrout,34),
     Legend(Season.Spring , ItemType.Legend,25),
-    Glacierfish(Season.Winter , ItemType.Glacierfish,15),
+    GlacierFish(Season.Winter , ItemType.Glacierfish,15),
     Angler(Season.Fall , ItemType.Angler,5),
-    Crimsonfish(Season.Summer , ItemType.Crimsonfish,35),
-    ;
-    private Season season;
-    private ItemType fish;
-    private int fishId;
+    CrimsonFish(Season.Summer , ItemType.Crimsonfish,35);
+    private final Season season;
+    private final ItemType fish;
+    private final int fishId;
 
     FishType(Season season, ItemType fish,int id) {
         this.season = season;
