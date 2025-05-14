@@ -124,6 +124,14 @@ public class GameMenu implements AppMenu{
             Matcher craftInfo = GameMenuCommands.CRAFT_INFO.getMatcher(input);
             Matcher useAxeForSyrup = GameMenuCommands.USE_AXE_FOR_SYRUP.getMatcher(input);
             Matcher buyAnimal = GameMenuCommands.BUY_ANIMAL.getMatcher(input);
+            Matcher pet = GameMenuCommands.PET.getMatcher(input);
+            Matcher cheatFriendship = GameMenuCommands.CHEAT_SET_FRIENDSHIP.getMatcher(input);
+            Matcher Animals = GameMenuCommands.ANIMALS.getMatcher(input);
+            Matcher Sheperd = GameMenuCommands.SHEPERD_ANIMALS.getMatcher(input);
+            Matcher FeedAnimal = GameMenuCommands.FEED_HEY.getMatcher(input);
+            Matcher Produces = GameMenuCommands.PRODUCES.getMatcher(input);
+            Matcher collectProduces = GameMenuCommands.COLLECT_PRODUCES.getMatcher(input);
+            Matcher sellAnimal = GameMenuCommands.SELL_ANIMAL.getMatcher(input);
             Matcher showAllProducts = GameMenuCommands.SHOW_ALL_PRODUCTS.getMatcher(input);
             Matcher showAllAvailableProducts = GameMenuCommands.SHOW_ALL_AVAILABLE_PRODUCTS.getMatcher(input);
             Matcher purchaseProduct = GameMenuCommands.PURCHASE.getMatcher(input);
@@ -131,7 +139,31 @@ public class GameMenu implements AppMenu{
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
-            } else if (buyAnimal != null) {
+            }else if (sellAnimal != null) {
+                Result result = controller.sellAnimal(sellAnimal);
+                System.out.println(result.message());
+            }else if (collectProduces != null) {
+                Result result = controller.getAnimalProduct(collectProduces);
+                System.out.println(result.message());
+            }else if (Produces != null) {
+                Result result = controller.animalsProducts();
+                System.out.println(result.message());
+            }else if (FeedAnimal != null) {
+                Result result = controller.feedHay(FeedAnimal);
+                System.out.println(result.message());
+            }else if (Sheperd != null) {
+                Result result = controller.shepherd(Sheperd);
+                System.out.println(result.message());
+            }else if (Animals != null) {
+                Result result = controller.showAnimals();
+                System.out.println(result.message());
+            }else if (cheatFriendship != null) {
+                Result result = controller.cheatFriendship(cheatFriendship);
+                System.out.println(result.message());
+            } else if (pet != null) {
+                Result result = controller.pet(pet);
+                System.out.println(result.message());
+            }else if (buyAnimal != null) {
                 Result result = controller.buyAnimal(buyAnimal);
                 System.out.println(result.message());
             } else if (useAxeForSyrup != null) {
