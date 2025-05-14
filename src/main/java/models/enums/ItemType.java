@@ -161,6 +161,7 @@ public enum ItemType {
     MahoganySeed(0 , "mahogany seed",0,false),
     MushroomTreeSeed(0 , "mushroom tree seed" , 0 , false),
     Milk(125 , "milk" , 50 , true),
+    SilverMilk(125 , "milk" , 50 , true),
     BigMilk(190 , "big milk" , 75 , true),
     GoatMilk(225 , "goat milk" , 60 , true),
     BigGoatMilk(345 , "big goat milk" , 85 , true),
@@ -271,4 +272,9 @@ public enum ItemType {
         }
         return false;
     }
+    public ItemType getKind(String KIND){
+        String kind = KIND+this.toString();
+        return ItemType.valueOf(kind);
+    }
+
 }
