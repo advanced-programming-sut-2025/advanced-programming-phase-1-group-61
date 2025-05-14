@@ -17,13 +17,6 @@ public class Item {
         this.energy = itemType.getEnergy();
     }
 
-    public Item(ItemType itemType,double factor) {
-        this.itemType = itemType;
-        this.price = (int) (itemType.getPrice()*factor);
-        this.isEdible = itemType.isEdible();
-        this.energy = itemType.getEnergy();
-    }
-
     public ItemType getItemType() {
         return itemType;
     }

@@ -33,7 +33,7 @@ public enum GameMenuCommands {
     SHEPERD_ANIMALS("^sheper\\s+animals\\s+-n\\s+(?<animalname>.*)\\s+-l\\s+<(?<x>.\\d+),(?<y>.\\d+)>$"),
     FEED_HEY("^feed\\s+hey\\s+-n\\s+(?<animalname>.*)$"),
     PRODUCES("^produces$"),
-    COLLECT_PRODUCES("^collect\\s+produces\\s+-n\\s+(?<animal_name>.*)$"),
+    COLLECT_PRODUCES("^collect\\s+produces\\s+-n\\s+(?<animalname>.*)$"),
     SELL_ANIMAL("^sell\\s+animal\\s+-n\\s+(?<animalname>.*)$"),
     USE_AXE_FOR_SYRUP("^tools\\s+use\\s+-d\\s+(?<direction>.*)\\s+-syrup$"),
     SHOW_ALL_PRODUCTS("^show\\s+all\\s+products$"),
