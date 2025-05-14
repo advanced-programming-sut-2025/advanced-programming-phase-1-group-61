@@ -151,7 +151,7 @@ public class Animal {
         this.X = x;
         this.Y = y;
         if (this.isOut != isout) {
-            if (isout) {
+            if (isout)  {
                 friendship += 8;
                 if (friendship > 1000) {
                     friendship = 1000;
