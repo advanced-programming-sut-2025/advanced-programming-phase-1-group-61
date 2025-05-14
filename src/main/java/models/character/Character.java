@@ -220,11 +220,6 @@ public class Character {
         }
         return null;
     }
-    public void  showAnimals(){
-        for (Animal animal : animals.values()) {
-            animal.show();
-        }
-    }
 
     public int sellAnimal(String name){
         if(animals.containsKey(name)){

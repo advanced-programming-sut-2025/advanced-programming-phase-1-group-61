@@ -2,6 +2,7 @@ package controllers;
 
 import models.*;
 import models.animal.Animal;
+import models.building.Building;
 import models.building.Shop;
 import models.character.Character;
 import models.enums.*;
@@ -10,6 +11,8 @@ import models.map.MapCreator.MapBuilder;
 import models.map.Tile;
 import models.map.Weather;
 import models.character.Inventory;
+import models.resource.BuildingReference;
+import models.resource.Resource;
 import models.resource.Tree;
 import models.tool.Axe;
 import models.tool.Tool;
@@ -458,34 +461,42 @@ public class GameMenuController {
         if (character == null) {
             return new Result(false, "Error: No character found.");
         }
-       AnimalType Type = Animal.TypeOf(animalType);
+        AnimalType Type = Animal.TypeOf(animalType);
         if(Type == null){
             return new Result(false , "pls enter valid animal");
+        }
+        String House = Animal.getHouse(Type);
+        if(House == null){
+            return new Result(false , "no empty house for animal");
         }
         if(character.getMoney() < Type.getPrice()) {
             return new Result(false , "You don't have enough money to buy this animal");
         }
-        if (Animal.buy(animalType, App.getCurrentGame().getCurrentCharacter().getUserId(), animalName)) {
+        if (character.getAnimals().containsKey(animalName)) {
+            return new Result(false , "You already have this named " + animalName);
+        }
+
+        if (Animal.buy(Type,House, animalName)) {
             return new Result(true, "Animal created successfully.");
         }
         return new Result(false, "Error: Invalid animal type.");
     }
 
     public Result pet(Matcher matcher) {
-        String animalName = matcher.group("animal_name").trim();
+        String animalName = matcher.group("animalname").trim();
         Character character = App.getCurrentGame().getCurrentCharacter();
         if (character.getAnimals().containsKey(animalName)) {
             if (character.getAnimals().get(animalName).pet(character.getX(), character.getY())) {
-                return new Result(true, animalName + ": Yeeeeee comon do it");
+                return new Result(true, animalName + ": Yeeeeee common do it");
             }
 
-            return new Result(false, "Go near " + animalName + " you don't hands that long");
+            return new Result(false, "Go near " + animalName + " you don't have hands that long");
         }
         return new Result(false, "You don't have any " + animalName);
     }
 
     public Result cheatFriendship(Matcher matcher) {
-        String animalName = matcher.group("animal_name").trim();
+        String animalName = matcher.group("animalname").trim();
         int amount = Integer.parseInt(matcher.group("amount"));
         Character character = App.getCurrentGame().getCurrentCharacter();
         if (character.getAnimals().containsKey(animalName)) {
@@ -496,27 +507,57 @@ public class GameMenuController {
 
     }
 
-    public Result showAnimals(Matcher matcher) {
-        App.getCurrentGame().getCurrentCharacter().showAnimals();
-        return new Result(true, "\n");
+    public Result showAnimals() {
+        StringBuilder show = new StringBuilder();
+        for(Animal animal: App.getCurrentGame().getCurrentCharacter().getAnimals().values()){
+            show.append(animal.getType()).append(": ").append(animal.getName()).append(" || friendship: ").append(animal.getFriendship()).append(" || hunger: ").append(animal.isHunger()).append(" || isPet: ").append(animal.isPet());
+            show.append("------------------------------\n");
+        }
+        String massage = show.toString();
+        return new Result(true, massage);
     }
 
     public Result shepherd(Matcher matcher) {
-        String animalName = matcher.group("animal_name").trim();
+        String animalName = matcher.group("animalname").trim();
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
         Character character = App.getCurrentGame().getCurrentCharacter();
-        if (character.getAnimals().containsKey(animalName)) {
-            if(character.getAnimals().get(animalName).shepherd(x, y)){
-                return new Result(true, "");
+        Animal animal =character.getAnimals().get(animalName);
+        if(animal==null) {
+            return new Result(false, "You don't have any " + animalName);
+        } else {
+            Game game = App.getCurrentGame();
+            assert game != null;
+            Map map = game.getMap();
+            Tile tile = map.getTileByCordinate(x, y);
+            if(!tile.getType().isCollisionOn()){
+                Resource resource = tile.getResource();
+                if (resource instanceof BuildingReference){
+                    String name = ((BuildingReference) resource).getName();
+                    Building building = character.getBuilding(name);
+                    if(building==null){
+                        return new Result(false, "There is a building there with name "+name+" that is not yours");
+                    }
+                    if(building.getBaseType().equals(animal.getType().getHouse())&&
+                            animal.getType().getHouseSize()<=building.getSize()&&
+                    building.getSpace()>0){
+                        building.addInput(animal);
+                        animal.shepherd(x,y,false);
+                        return new Result(true, animalName+" is in "+name);
+                    }
+                    return new Result(false, animalName+"can't go in "+name);
+                } else {
+                    animal.shepherd(x,y,true);
+                    return new Result(true,animalName+"is out eating");
+                }
+            }else {
+                return new Result(false, "You can't go there");
             }
-            return new Result(false, animalName + " cannot go there");
         }
-        return new Result(false, "You don't have any " + animalName);
     }
 
     public Result feedHay(Matcher matcher) {
-        String animalName = matcher.group("animal_name").trim();
+        String animalName = matcher.group("animalname").trim();
         Character character = App.getCurrentGame().getCurrentCharacter();
         if (character.getAnimals().containsKey(animalName)) {
             character.getAnimals().get(animalName).feed();
@@ -525,33 +566,41 @@ public class GameMenuController {
         return new Result(false, "You don't have any " + animalName);
     }
 
-    public Result animalsProducts(Matcher matcher) {
+    public Result animalsProducts() {
+        StringBuilder show = new StringBuilder();
         for(Animal animal: App.getCurrentGame().getCurrentCharacter().getAnimals().values()){
-            animal.showproducts();
+            show.append(animal.getType()).append(animal.getName()).append(" : ").append("\n");
+            for(Item product : animal.products()){
+                show.append(product.getItemType().getDisPlayName());
+                show.append(" - ");
+            }
+            show.append("----------------------\n");
         }
-        return new Result(true, "\n");
+        String massage = show.toString();
+        return new Result(true, massage);
     }
 
     public Result getAnimalProduct(Matcher matcher) {
-        String animalName = matcher.group("animal_name").trim();
+        String animalName = matcher.group("animalname").trim();
         Character character = App.getCurrentGame().getCurrentCharacter();
         if (character.getAnimals().containsKey(animalName)) {
             if (character.getAnimals().get(animalName).getProducts()){
                 return new Result(true, "You have collected "+animalName+" products");
             }
-            return new Result(true, "Cannot collect "+animalName+" products");
+            return new Result(false, "Cannot collect "+animalName+" products");
         }
         return new Result(false, "You don't have any " + animalName);
     }
 
     public Result sellAnimal(Matcher matcher) {
-        String animalName = matcher.group("animal_name").trim();
+        String animalName = matcher.group("animalname").trim();
         int gained =App.getCurrentGame().getCurrentCharacter().sellAnimal(animalName);
         if(gained>0){
             return new Result(true, "You gained"+gained);
         }
         return new Result(false, "You don't have any " + animalName);
     }
+
     public Result showShopProducts(){
         Shop currentShop=App.getCurrentGame().getCurrentCharacter().getCurrentShop();
         if(currentShop==null){
@@ -559,6 +608,7 @@ public class GameMenuController {
         }
         return new Result(true, currentShop.showAllProducts());
     }
+
     public Result showShopAvailableProducts(){
         Shop currentShop=App.getCurrentGame().getCurrentCharacter().getCurrentShop();
         if(currentShop==null){
@@ -566,6 +616,7 @@ public class GameMenuController {
         }
         return new Result(true, currentShop.showAllAvailableProducts());
     }
+
     public Result purchaseProduct(Matcher matcher) {
         Shop currentShop=App.getCurrentGame().getCurrentCharacter().getCurrentShop();
         String productName = matcher.group("product_name").trim();
