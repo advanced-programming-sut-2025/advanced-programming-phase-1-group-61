@@ -29,6 +29,7 @@ public class Animal {
     private int price;
     private boolean isPet = false;
     private boolean outFed = false;
+    private boolean collected = false;
 
     public Animal(AnimalType type, String house, String name) {
         this.type = type;
@@ -43,7 +44,7 @@ public class Animal {
         return price;
     }
 
-    public static boolean buy(AnimalType Type ,String House, String name) {
+    public static boolean buy(AnimalType Type, String House, String name) {
         Character Owner = App.getCurrentGame().getCurrentCharacter();
         Animal animal = new Animal(Type, House, name);
         if (Owner.getBuilding(House).addInput(animal)) {
@@ -78,15 +79,8 @@ public class Animal {
             case "HEN" -> AnimalType.HEN;
             case "SHEEP" -> AnimalType.SHEEP;
             case "PIG" -> AnimalType.PIG;
-            default -> {
-                System.out.println("There is no such an animal here look somewhere else");
-                yield null;
-            }
+            default -> null;
         };
-    }
-
-    public AnimalType getType() {
-        return type;
     }
 
     public boolean pet(int x, int y) {
@@ -113,24 +107,26 @@ public class Animal {
     }
 
     private void setProduct() {
-        if (this.type.getOutNeed() == isOut && !hunger) {
-            ItemType itemType = null;
+        if(this.type.getOutNeed()){
+            if(!outFed){
+                return;
+            }
+        }
+        if (!hunger) {
+            ItemType itemType;
             for (int i = 1; i <= this.type.getProductPerDay(); i++) {
-                itemType = null;
+                itemType=this.type.getFirstProduct();
                 if (this.type.getSecondProduct() != null) {
                     float probability = (float) (this.friendship + (15 * RandomNumber.getRandomNumberWithBoundaries(5, 15))) / 1500;
                     if (10 * probability >= RandomNumber.getRandomNumberWithBoundaries(0, 10)) {
-                        itemType = this.type.getSecondProduct();
+                        itemType=this.type.getSecondProduct();
                     }
                 }
-                itemType = this.type.getFirstProduct();
-                double factor = 0.0;
                 double quality = ((double) this.friendship / 1000) * (0.5 + 0.05 * RandomNumber.getRandomNumberWithBoundaries(0, 10));
-                if (0 < quality && quality <= 0.5) factor = 1.0;
-                else if (0.5 < quality && quality <= 0.7) factor = 1.25;
-                else if (0.7 < quality && quality <= 0.9) factor = 2;
-                else if (0.9 < quality) factor = 2;
-                Item item = new Item(itemType, factor);
+                if (0.5 < quality && quality <= 0.7) itemType=itemType.getKind("Silver");
+                else if (0.7 < quality && quality <= 0.9) itemType=itemType.getKind("Gold");
+                else if (0.9 < quality) itemType=itemType.getKind("Irid");;
+                Item item = new Item(itemType);
                 products.add(item);
             }
 
@@ -152,6 +148,7 @@ public class Animal {
             products.remove(item);
         }
         products.clear();
+        collected = true;
         return true;
     }
 
@@ -175,9 +172,17 @@ public class Animal {
     }
 
     public void dayEND() {
+        if (hunger) friendship -= 20;
         if (isOut) friendship -= 10;
+        if (!isPet) {
+            friendship -= (friendship / 200) + 10;
+        }
         setProduct();
         isPet = false;
+        if (this.type == AnimalType.SHEEP || this.type == AnimalType.COW || this.type == AnimalType.GOAT) {
+            if (collected) friendship += 5;
+        }
+        collected = false;
 
     }
 
@@ -199,6 +204,10 @@ public class Animal {
 
     public List<Item> products() {
         return products;
+    }
+
+    public AnimalType getType() {
+        return type;
     }
 
 }
