@@ -214,13 +214,6 @@ public class Character {
         return null;
     }
 
-    public void shepherd(String name,int xx,int yy){
-        if(!animals.containsKey(name)){
-            System.out.println("You do not have "+name+" pet youre own animals");
-            return;
-        }
-        animals.get(name).shepherd(xx,yy);
-    }
     public Building getBuilding(String name){
         for (Building building : buildings) {
             if(building.getName().equals(name)) return building;
