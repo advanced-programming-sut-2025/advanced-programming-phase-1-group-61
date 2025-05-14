@@ -1,32 +1,27 @@
 package models.animal;
 
 import models.App;
-import models.Game;
+
 import models.Item;
 import models.RandomNumber;
 import models.building.Building;
 import models.character.Character;
 import models.enums.AnimalType;
 import models.enums.ItemType;
-import models.map.Map;
-import models.map.Tile;
-import models.resource.BuildingReference;
-import models.resource.Resource;
-
 import java.util.*;
 
 
 public class Animal {
-    private int X = 0;
-    private int Y = 0;
+    private int X ;
+    private int Y ;
     private final AnimalType type;
-    private String name = "";
+    private final String name;
     protected boolean hunger = true;
     protected String house;
     private int friendship = 0;
     private final List<Item> products = new ArrayList<>();
     private boolean isOut = false;
-    private int price;
+    private final int price;
     private boolean isPet = false;
     private boolean outFed = false;
     private boolean collected = false;
@@ -108,11 +103,11 @@ public class Animal {
 
     private void setProduct() {
         if(this.type.getOutNeed()){
-            if(!outFed){
+            if(!this.outFed){
                 return;
             }
         }
-        if (!hunger) {
+        if (!this.hunger) {
             ItemType itemType;
             for (int i = 1; i <= this.type.getProductPerDay(); i++) {
                 itemType=this.type.getFirstProduct();
@@ -125,14 +120,14 @@ public class Animal {
                 double quality = ((double) this.friendship / 1000) * (0.5 + 0.05 * RandomNumber.getRandomNumberWithBoundaries(0, 10));
                 if (0.5 < quality && quality <= 0.7) itemType=itemType.getKind("Silver");
                 else if (0.7 < quality && quality <= 0.9) itemType=itemType.getKind("Gold");
-                else if (0.9 < quality) itemType=itemType.getKind("Irid");;
+                else if (0.9 < quality) itemType=itemType.getKind("Irid");
                 Item item = new Item(itemType);
                 products.add(item);
             }
 
         }
-        if (!isOut) {
-            hunger = true;
+        if (!this.isOut) {
+            this.hunger = true;
         }
     }
 
@@ -161,6 +156,7 @@ public class Animal {
                 if (friendship > 1000) {
                     friendship = 1000;
                 }
+                this.outFed= true;
             }
             this.isOut = isout;
         }
