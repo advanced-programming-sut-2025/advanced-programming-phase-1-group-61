@@ -7,12 +7,19 @@ import java.util.ArrayList;
 
 public class Barn extends Building {
     private ArrayList<Animal> animals = new ArrayList<Animal>();
-    private int ownerId;
     public Barn(String type, String name, int X, int Y, int ownerId) {
         super(type,name,X,Y);
-        this.ownerId = ownerId;
+        this.space = getSpace(type);
+        this.size = this.space;
         this.baseType="Barn";
-        this.resourceType ="Barn";
+    }
+    private int getSpace(String type) {
+        return switch (type) {
+            case "Burn" -> 4;
+            case "Big Burn" -> 8;
+            case "Deluxe Burn" -> 12;
+            default -> -1;
+        };
     }
 
     @Override

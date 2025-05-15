@@ -17,9 +17,8 @@ public class Building extends Resource{
         this.name = name;
         this.X = X;
         this.Y = Y;
-        this.size = 10;
-        this.space = size;
     }
+
     public int getSize(){
         return size;
     }
