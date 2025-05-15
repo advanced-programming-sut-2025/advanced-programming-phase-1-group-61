@@ -3,10 +3,10 @@ package models.workBench;
 import models.enums.ItemType;
 
 public class Inprocess {
-    private int timeneeded;
-    private int startday;
-    private int starthour;
-    private ItemType type;
+    private final int timeneeded;
+    private final int startday;
+    private final int starthour;
+    private final ItemType type;
     public Inprocess( int Timeneeded,int startday, int starthour, ItemType type){
         this.timeneeded = Timeneeded;
         this.startday = startday;
