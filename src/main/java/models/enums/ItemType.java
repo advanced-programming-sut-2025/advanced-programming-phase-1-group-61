@@ -301,12 +301,23 @@ public enum ItemType {
         return isEdible;
     }
 
-    public static boolean isItem(String itemName){
-        for(ItemType type : ItemType.values()){
-            if(type.name().equalsIgnoreCase(itemName.toLowerCase())) return true;
+    public static boolean isItem(String itemName) {
+        try {
+            ItemType.valueOf(itemName.toUpperCase());
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
         }
-        return false;
     }
+
+    public static ItemType getItemType(String type) {
+        try {
+            return ItemType.valueOf(type);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
     public ItemType getKind(String KIND){
         String kind = KIND+this.toString();
         return ItemType.valueOf(kind);

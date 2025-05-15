@@ -1,11 +1,7 @@
 package models.resource;
 
 import models.enums.CropType;
-import models.enums.ItemType;
 import models.enums.WeatherState;
-
-import java.util.List;
-import java.util.regex.Pattern;
 
 public class Crop extends Resource{
     private CropType type;
@@ -14,6 +10,7 @@ public class Crop extends Resource{
     private int daysTillNextHarvest;
     private int daysWithOutWater ;
     private boolean isWatered;
+    private boolean hasSpeedGro , hasDeuxRetailingSoil;
 
     public Crop(CropType type) {
         this.type = type;
@@ -22,6 +19,8 @@ public class Crop extends Resource{
         this.daysTillNextHarvest = type.getTotalHarvestTime();
         this.isWatered = false;
         this.daysWithOutWater =0;
+        this.hasSpeedGro = false;
+        this.hasDeuxRetailingSoil = false;
     }
 
     public void setCropStage(int cropStage) {
@@ -52,14 +51,22 @@ public class Crop extends Resource{
         return isWatered;
     }
 
+
     public void dayCycleForCrops(WeatherState state){
-       if(isWatered){
-           this.cropAge++;
+       if(isWatered ){
+           int dTime = 1;
+           if(hasSpeedGro){
+               dTime = 2;
+           }
+           this.cropAge += dTime;
            setCropStage(type.getStageByCropAge(this.cropAge));
            if(daysTillNextHarvest >0){
-               daysTillNextHarvest--;
+               daysTillNextHarvest -= dTime;
+               if(daysTillNextHarvest < 0){
+                   daysTillNextHarvest = 0;
+               }
            }
-           if(!state.equals(WeatherState.Rain)){
+           if(!state.equals(WeatherState.Rain) && !hasDeuxRetailingSoil){
                this.isWatered = false;
            }
        }else {
@@ -69,5 +76,19 @@ public class Crop extends Resource{
 
     public void setDaysTillNextHarvest(int daysTillNextHarvest) {
         this.daysTillNextHarvest = daysTillNextHarvest;
+    }
+    public boolean isFertilized(){
+        if(hasSpeedGro || hasDeuxRetailingSoil){
+            return true;
+        }
+        return false;
+    }
+
+    public void setHasSpeedGro(boolean hasSpeedGro) {
+        this.hasSpeedGro = hasSpeedGro;
+    }
+
+    public void setHasDeuxRetailingSoil(boolean hasDeuxRetailingSoil) {
+        this.hasDeuxRetailingSoil = hasDeuxRetailingSoil;
     }
 }

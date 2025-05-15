@@ -43,6 +43,9 @@ public class Map {
     }
 
     public Tile getTileByCordinate(int x , int y){
+        if(x < 0 || y < 0 || x > tiles[0].length || y > tiles.length){
+            return null;
+        }
         return tiles[y][x];
     }
 
