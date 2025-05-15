@@ -21,6 +21,7 @@ import models.tool.Tool;
 import models.tool.WateringCan;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 
@@ -453,8 +454,36 @@ public class GameMenuController {
     }
 
     public Result craftInfo(Matcher matcher) {
+
         String craftName = matcher.group("craftName").trim();
-        return new Result(true, "");
+        CropType cropType = CropType.getCropType(craftName);
+        TreeType treeType = TreeType.getTreeType(craftName);
+        if(cropType != null){
+            StringBuilder message = new StringBuilder("Crop:\n");
+            message.append("Name: ").append(craftName).append("\n");
+            message.append("Source: ").append(cropType.getSource().getDisPlayName()).append("\n");
+            message.append("Stages: ").append(Arrays.toString(cropType.getStages())).append("\n");
+            if(cropType.getReGrowthTime() > 0){
+                message.append("total harvest time: ").append(cropType.getReGrowthTime()).append("\n");
+            }
+            message.append("Base sell price: ").append(cropType.getProduct().getPrice()).append("\n");
+            message.append("Is Edible: ").append(cropType.getProduct().isEdible()).append("\n");
+            message.append("Base Energy: ").append(cropType.getProduct().getEnergy()).append("\n");
+            message.append("Season: ").append(cropType.getSeason().getDisplayName()).append("\n");
+            message.append("Can become giant: ").append(cropType.canBecomeGiant()).append("\n");
+
+            return new Result(true , message.toString());
+        }
+        if(treeType != null){
+            StringBuilder message = new StringBuilder("Tree:\n");
+            message.append("Name: ").append(craftName).append("\n");
+            message.append("Source: ").append(treeType.getSource().getDisPlayName()).append("\n");
+            message.append("Stages: ").append("[7 , 7 , 7 , 7]").append("\n");
+            message.append("Base sell price: ").append(treeType.getFruit().getPrice()).append("\n");
+            message.append("Is Edible: ").append(treeType.getFruit().isEdible()).append("\n");
+
+        }
+        return new Result(false, "invalid crop/tree");
     }
 
     public Result buyAnimal(Matcher matcher) {
@@ -651,9 +680,6 @@ public class GameMenuController {
         if(tile == null){
             return new Result( false ,"where TF you want to plant tish shit");
         }
-        if(!tile.getType().equals(TileType.Soil)){
-            return new Result(false , "you cant plant here only on soil");
-        }
         if(tile.getResource() != null){
             return new Result(false ,"already some thing panted there");
         }
@@ -661,20 +687,29 @@ public class GameMenuController {
             return new Result(false , "is not a valid item");
         }
         ItemType seed = ItemType.getItemType(seedString);
+        TreeType treeType = TreeType.getTreeTypeBySource(seed);
         if(character.getInventory().getCountOfItem(seed) <= 0){
             return new Result(false , "you don't have the item to plant it here");
         }
-        character.getInventory().removeItem(seed , 1);
-        CropType cropType = CropType.getCropTypeBySource(seed);
-        TreeType treeType = TreeType.getTreeTypeBySource(seed);
-        if(cropType != null){
-            tile.setResource(new Crop(cropType));
-            return new Result(true , cropType.name()+" is now planted at : "+x + " "+y);
-        }
         if(treeType != null){
+            if(tile.getType().isCollisionOn() || !tile.getType().equals(TileType.Grass)){
+                return new Result(false , "you cant plant here only on grass");
+            }
             tile.setResource(new Tree(treeType));
             return new Result(true , treeType.name()+" is now planted at : "+x + " "+y);
         }
+
+        character.getInventory().removeItem(seed , 1);
+        CropType cropType = CropType.getCropTypeBySource(seed);
+
+        if(cropType != null){
+            if(!tile.getType().equals(TileType.Soil) || tile.getType().isCollisionOn()){
+                return new Result(false , "you cant plant here only on soil");
+            }
+            tile.setResource(new Crop(cropType));
+            return new Result(true , cropType.name()+" is now planted at : "+x + " "+y);
+        }
+
         return new Result(false ,"not a valid seed/sapling");
     }
 
