@@ -135,11 +135,26 @@ public class GameMenu implements AppMenu{
             Matcher showAllProducts = GameMenuCommands.SHOW_ALL_PRODUCTS.getMatcher(input);
             Matcher showAllAvailableProducts = GameMenuCommands.SHOW_ALL_AVAILABLE_PRODUCTS.getMatcher(input);
             Matcher purchaseProduct = GameMenuCommands.PURCHASE.getMatcher(input);
-
+            Matcher plant = GameMenuCommands.PLANT.getMatcher(input);
+            Matcher showPlant = GameMenuCommands.SHOW_PLANT.getMatcher(input);
+            Matcher fertilize = GameMenuCommands.FERTILIZE.getMatcher(input);
+            Matcher showWaterInBucket = GameMenuCommands.WATER_IN_BUCKET.getMatcher(input);
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
-            }else if (sellAnimal != null) {
+            } else if (showWaterInBucket != null) {
+                Result result = controller.showWaterInBucket();
+                System.out.println(result.message());
+            } else if (fertilize != null) {
+                Result result = controller.fertilize(fertilize);
+                System.out.println(result.message());
+            } else if (showPlant != null) {
+                Result result = controller.showPlant(showPlant);
+                System.out.println(result.message());
+            } else if (plant != null) {
+                Result result = controller.plant(plant);
+                System.out.println(result.message());
+            } else if (sellAnimal != null) {
                 Result result = controller.sellAnimal(sellAnimal);
                 System.out.println(result.message());
             }else if (collectProduces != null) {

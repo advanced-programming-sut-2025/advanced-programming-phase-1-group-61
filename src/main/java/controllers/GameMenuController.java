@@ -3,6 +3,7 @@ package controllers;
 import models.*;
 import models.animal.Animal;
 import models.building.Building;
+import models.building.Coop;
 import models.building.Shop;
 import models.character.Character;
 import models.enums.*;
@@ -12,10 +13,12 @@ import models.map.Tile;
 import models.map.Weather;
 import models.character.Inventory;
 import models.resource.BuildingReference;
+import models.resource.Crop;
 import models.resource.Resource;
 import models.resource.Tree;
 import models.tool.Axe;
 import models.tool.Tool;
+import models.tool.WateringCan;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -632,4 +635,134 @@ public class GameMenuController {
         }
         return new Result(true, currentShop.purchaseProduct(productName, count));
     }
+
+    public Result plant(Matcher matcher){
+        String directionString = matcher.group("direction");
+        String seedString = matcher.group("seed");
+        Direction direction = Direction.fromString(directionString);
+        if(direction == null){
+            return new Result(false , "not valid direction");
+        }
+        Game game = App.getCurrentGame();
+        Character character = game.getCurrentCharacter();
+        int x = character.getX() +direction.getDx();
+        int y = character.getY() + direction.getDy();
+        Tile tile = game.getMap().getTileByCordinate(x,y);
+        if(tile == null){
+            return new Result( false ,"where TF you want to plant tish shit");
+        }
+        if(!tile.getType().equals(TileType.Soil)){
+            return new Result(false , "you cant plant here only on soil");
+        }
+        if(tile.getResource() != null){
+            return new Result(false ,"already some thing panted there");
+        }
+        if(!ItemType.isItem(seedString)){
+            return new Result(false , "is not a valid item");
+        }
+        ItemType seed = ItemType.getItemType(seedString);
+        if(character.getInventory().getCountOfItem(seed) <= 0){
+            return new Result(false , "you don't have the item to plant it here");
+        }
+        character.getInventory().removeItem(seed , 1);
+        CropType cropType = CropType.getCropTypeBySource(seed);
+        TreeType treeType = TreeType.getTreeTypeBySource(seed);
+        if(cropType != null){
+            tile.setResource(new Crop(cropType));
+            return new Result(true , cropType.name()+" is now planted at : "+x + " "+y);
+        }
+        if(treeType != null){
+            tile.setResource(new Tree(treeType));
+            return new Result(true , treeType.name()+" is now planted at : "+x + " "+y);
+        }
+        return new Result(false ,"not a valid seed/sapling");
+    }
+
+    public Result showPlant(Matcher matcher){
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        Tile tile = App.getCurrentGame().getMap().getTileByCordinate(x,y);
+        if(tile == null){
+            return new Result(false , "not a valid coordinate");
+        }
+        Resource resource = tile.getResource();
+        if(resource == null){
+            return new Result(false , "not thing planted here");
+        }
+        if(resource instanceof Crop){
+            Crop crop =(Crop) resource;
+            StringBuilder message = new StringBuilder("Crop\n");
+            message.append("name: ").append(crop.getType().name()).append("\n");
+            message.append("stage: ").append(crop.getCropAge()).append("\n");
+            message.append("days until harvest: ").append(crop.getDaysTillNextHarvest()).append("\n");
+            message.append("crop age:").append(crop.getCropAge()).append("\n");
+            message.append("has water: ").append(crop.isWatered()).append("\n");
+            message.append("is fertilized: ").append(crop.isFertilized()).append("\n");
+            return new Result(true , message.toString());
+        } else if (resource instanceof Tree) {
+            Tree tree = (Tree) resource;
+            StringBuilder message = new StringBuilder("Tree\n");
+            message.append("name: ").append(tree.getType().name()).append("\n");
+            message.append("stage: ").append(tree.getTreeStage()).append("\n");
+            message.append("days until harvest: ").append(tree.getDaysUntilNextCycle()).append("\n");
+            message.append("tree age: ").append(tree.getTreeAge()).append("\n");
+            return new Result(true , message.toString());
+        }else {
+            return new Result(false,"resource in this tile is not a plant");
+        }
+    }
+
+    public Result fertilize(Matcher matcher){
+        String fertilizerString = matcher.group("fertilizer");
+        String directionString = matcher.group("direction");
+        Direction direction = Direction.fromString(directionString);
+        if(direction == null){
+            return new Result(false , "invalid direction");
+        }
+        ItemType fertilizer = ItemType.getItemType(fertilizerString);
+        if(fertilizer == null){
+            return new Result(false , fertilizerString+" is not a valid item");
+        }
+        Game game = App.getCurrentGame();
+        Character character = game.getCurrentCharacter();
+        Tile tile = game.getMap().getTileByCordinate(
+                character.getX() + direction.getDx(),character.getY()+direction.getDy());
+        if(tile == null){
+            return new Result( false , "pls stop trying to break our game");
+        }
+        Resource resource = tile.getResource();
+        if(resource == null){
+            return new Result(false , "not thing to fertilize");
+        }
+        if(!(resource instanceof Crop)){
+            return new Result(false , "not a plant what do you want to fertilize");
+        }
+        if(character.getInventory().getCountOfItem(fertilizer) <= 0){
+            return new Result(false , "you don't have the fertilizer");
+        }
+        if(fertilizer.equals(ItemType.DeluxeRetainingSoil)){
+            Crop crop = (Crop) resource;
+            crop.setHasDeuxRetailingSoil(true);
+            character.getInventory().removeItem(fertilizer , 1);
+            return new Result(true , "crop fertilized");
+        } else if (fertilizer.equals(ItemType.SpeedGro)) {
+            Crop crop = (Crop) resource;
+            crop.setHasSpeedGro(true);
+            character.getInventory().removeItem(fertilizer , 1);
+            return new Result(true , "crop fertilized");
+        }else {
+            return new Result(false , "not a valid fertilized");
+        }
+    }
+
+    public Result showWaterInBucket(){
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        Tool tool = character.getInventory().getToolByType(ToolType.WateringCan);
+        if(tool == null){
+            return new Result(false , "you don't have a water bucket");
+        }
+        WateringCan water = (WateringCan) tool;
+        return new Result(true , "you have "+water.getDurability()+" in your bucket.");
+    }
+
 }

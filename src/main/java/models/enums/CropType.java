@@ -90,4 +90,22 @@ public enum CropType {
     public int getReGrowthTime() {
         return reGrowthTime;
     }
+
+    public static CropType getCropType(String type) {
+        try {
+            return CropType.valueOf(type);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+    public static CropType getCropTypeBySource(ItemType source) {
+        for (CropType cropType : CropType.values()) {
+            if (cropType.getSource().equals(source)) {
+                return cropType;
+            }
+        }
+        return null;
+    }
+
+
 }
