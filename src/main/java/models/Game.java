@@ -7,6 +7,8 @@ import models.enums.*;
 import models.map.Map;
 import models.map.Tile;
 import models.map.Weather;
+import models.resource.Crop;
+import models.resource.Resource;
 import models.resource.Stone;
 import models.resource.Tree;
 
@@ -43,6 +45,20 @@ public class Game implements Runnable {
         date.setHour(9);
         ArrayList<Shop> shops=this.getAllShops();
         for(Shop shop:shops) shop.restoreStocks();
+        WeatherState weatherState = map.getWeather().getState();
+        for (Tile[] tiles : map.getTiles()) {
+            for (Tile tile : tiles) {
+               Resource resource = tile.getResource();
+               if(resource == null){
+                   continue;
+               }
+               if(resource instanceof Crop crop){
+                   crop.dayCycleForCrops(weatherState);
+               } else if (resource instanceof Tree tree) {
+                   tree.dayCycleForTrees();
+               }
+            }
+        }
     }
 
 

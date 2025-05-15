@@ -275,7 +275,8 @@ public class GameMenu implements AppMenu{
                 }
                 App.setCurrentMenu(Menu.EXIT_MENU);
             } else if(craftInfo != null){
-
+                Result result = controller.craftInfo(craftInfo);
+                System.out.println(result.message());
             } else if(showAllProducts != null){
                 Result result=controller.showShopProducts();
                 System.out.println(result.message());

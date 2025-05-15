@@ -1,6 +1,7 @@
 package models.enums;
 
 public enum ItemType {
+
     Wood(10,"wood",0 , false),
     HardWood(10,"hard wood" , 0 , false),
     Pony(0,"pony" , 0 , false) ,
