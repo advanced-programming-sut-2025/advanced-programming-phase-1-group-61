@@ -1,7 +1,5 @@
 package models.building;
 
-import models.character.Character;
-import models.character.NPC;
 import models.resource.Resource;
 
 public class Building extends Resource{
@@ -36,6 +34,8 @@ public class Building extends Resource{
     }
     public boolean addInput(Object input){
         return false;
+    }
+    public void removeInput(Object input){
     }
     public int getX(){
         return X;
