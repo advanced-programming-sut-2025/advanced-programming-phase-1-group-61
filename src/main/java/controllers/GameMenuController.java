@@ -19,6 +19,7 @@ import models.tool.Tool;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 
 public class GameMenuController {
@@ -538,16 +539,19 @@ public class GameMenuController {
                     if (building == null) {
                         return new Result(false, "There is a building there with name " + name + " that is not yours");
                     }
+                    if(Objects.equals(animal.getHouse(), name)){
+                        return new Result(false, animalName+" is alredy there");
+                    }
                     if (building.getBaseType().equals(animal.getType().getHouse()) &&
                             animal.getType().getHouseSize() <= building.getSize() &&
                             building.getSpace() > 0) {
                         building.addInput(animal);
-                        animal.shepherd(x, y, false);
+                        animal.shepherd(x, y, false, building.getName());
                         return new Result(true, animalName + " is in " + name);
                     }
                     return new Result(false, animalName + "can't go in " + name);
                 } else if (!(tile.getType().getTypeNum().equals("4") && tile.getType().getTypeNum().equals("8"))) {
-                    animal.shepherd(x, y, true);
+                    animal.shepherd(x, y, true,"");
                     return new Result(true, animalName + "is out eating");
                 }
                 return new Result(false, animalName + "can't go in the cabin");

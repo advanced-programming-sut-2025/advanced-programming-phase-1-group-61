@@ -6,7 +6,7 @@ import models.animal.Animal;
 import java.util.ArrayList;
 
 public class Barn extends Building {
-    private ArrayList<Animal> animals = new ArrayList<Animal>();
+    private ArrayList<Animal> animals = new ArrayList<>();
     public Barn(String type, String name, int X, int Y, int ownerId) {
         super(type,name,X,Y);
         this.space = getSpace(type);
@@ -30,5 +30,12 @@ public class Barn extends Building {
                 return true;
         }
         return false;
+    }
+    @Override
+    public void removeInput(Object input){
+        if (input instanceof Animal animal){
+            animals.remove(animal);
+            space++;
+        }
     }
 }
