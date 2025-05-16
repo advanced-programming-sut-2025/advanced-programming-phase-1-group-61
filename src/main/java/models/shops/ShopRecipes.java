@@ -1,21 +1,22 @@
 package models.shops;
 
+import models.enums.CookingRecipes;
 import models.enums.Recipe;
 
 public class ShopRecipes {
-    private final Recipe recipe;
+    private final CookingRecipes recipe;
     private final int limit;
     private final int price;
     private int stock;
     private final String description;
-    public ShopRecipes(Recipe recipe, int limit, int price, String description) {
+    public ShopRecipes(CookingRecipes recipe, int limit, int price, String description) {
         this.recipe = recipe;
         this.limit = limit;
         this.price = price;
         this.description = description;
         this.stock = limit;
     }
-    public Recipe getRecipe() {
+    public CookingRecipes getRecipe() {
         return recipe;
     }
     public int getLimit() {
