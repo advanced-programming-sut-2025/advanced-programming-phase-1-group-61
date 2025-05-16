@@ -140,7 +140,7 @@ public class GameMenu implements AppMenu{
             Matcher fertilize = GameMenuCommands.FERTILIZE.getMatcher(input);
             Matcher showWaterInBucket = GameMenuCommands.WATER_IN_BUCKET.getMatcher(input);
             Matcher putOrPickItemInRefrigerator = GameMenuCommands.Refrigerator.getMatcher(input);
-
+            Matcher meetNpc= GameMenuCommands.MEET_NPC.getMatcher(input);
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
@@ -290,6 +290,9 @@ public class GameMenu implements AppMenu{
                 System.out.println(result.message());
             } else if(purchaseProduct != null){
                 Result result = controller.purchaseProduct(purchaseProduct);
+                System.out.println(result.message());
+            } else if(meetNpc != null){
+                Result result = controller.meetNpc(meetNpc);
                 System.out.println(result.message());
             }
             else{

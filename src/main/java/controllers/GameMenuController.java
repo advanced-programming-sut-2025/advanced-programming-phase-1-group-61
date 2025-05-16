@@ -5,6 +5,7 @@ import models.animal.Animal;
 import models.building.Building;
 import models.building.Shop;
 import models.character.Character;
+import models.character.NPC;
 import models.enums.*;
 import models.food.FridgeItem;
 import models.food.Refrigerator;
@@ -138,7 +139,7 @@ public class GameMenuController {
             Character character = new Character(user.getId());
             characterList.add(character);
         }
-        Map<S, S1> map = MapBuilder.buildFullMap(mapNumbers[0], mapNumbers[1], mapNumbers[2], mapNumbers[3],characterList);
+        Map map = MapBuilder.buildFullMap(mapNumbers[0], mapNumbers[1], mapNumbers[2], mapNumbers[3],characterList);
         
         int i = 0;
         for (Character character : characterList) {
@@ -400,7 +401,7 @@ public class GameMenuController {
 
     public Result printMap(Matcher matcher) {
         Game game = App.getCurrentGame();
-        Map<S, S1> map = game.getMap();
+        Map map = game.getMap();
 
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
@@ -568,7 +569,7 @@ public class GameMenuController {
         } else {
             Game game = App.getCurrentGame();
             assert game != null;
-            Map<S, S1> map = game.getMap();
+            Map map = game.getMap();
             Tile tile = map.getTileByCordinate(x, y);
             if (!tile.getType().isCollisionOn()) {
                 Resource resource = tile.getResource();
@@ -854,5 +855,13 @@ public class GameMenuController {
             return new Result(false , "invalid command");
         }
     }
-
+    public Result meetNpc(Matcher matcher){
+        String name = matcher.group("name");
+        if(!NpcInfo.checkName(name)){
+            return new Result(false , "please enter a valid npc name!");
+        }
+        NPC npc=NPC.getNPC(name);
+        if(npc == null) return new Result(false , "npc not found");
+        return new Result(true,npc.getDialog());
+    }
 }

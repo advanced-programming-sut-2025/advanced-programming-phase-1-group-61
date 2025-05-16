@@ -64,4 +64,10 @@ public enum NpcInfo {
     public int getFriendshipIncrease() {
         return friendshipIncrease;
     }
+    public static boolean checkName(String name){
+        for(NpcInfo n : NpcInfo.values()){
+            if(n.name().equals(name)) return true;
+        }
+        return false;
+    }
 }

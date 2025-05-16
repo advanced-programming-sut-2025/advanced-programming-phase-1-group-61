@@ -22,7 +22,7 @@ public class FishingPole extends Tool{
         Character character= game.getCurrentCharacter();
         int targetX=character.getX()+direction.getDx();
         int targetY=character.getY()+direction.getDy();
-        Map<S, S1> map=game.getMap();
+        Map map=game.getMap();
         Tile tile = map.getTileByCordinate(targetX , targetY);
         if(targetY<0 || targetX<0 || targetY>=map.getHeightSize() || targetX>=map.getWidthSize())
             return "you cant fish void \n(pls stop trying to break our game)";
