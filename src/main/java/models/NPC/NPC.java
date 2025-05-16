@@ -7,6 +7,7 @@ import models.enums.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 public class NPC {
@@ -18,14 +19,18 @@ public class NPC {
     private int x;
     private int y;
 
-    public NPC(NpcInfo info, NpcDialog dialogs, models.character.Character character,int x, int y) {
+    public NPC(NpcInfo info, NpcDialog dialogs, List<Character> characters, int x, int y) {
         this.info = info;
         this.dialogs = dialogs;
-        friendships.add(new NPCFriendships(character));
+        for (Character character : characters) {
+            friendships.add(new NPCFriendships(character.getUserId()));
+        }
         allNPCs.add(this);
+        this.x = x;
+        this.y = y;
     }
     public String getDialog() {
-        models.character.Character currentCharacter= App.getCurrentGame().getCurrentCharacter();
+        Character currentCharacter= App.getCurrentGame().getCurrentCharacter();
         NPCFriendships friendship=getFriendships(currentCharacter);
         if(friendship==null) return "";
         WeatherState currentWeather=App.getCurrentGame().getMap().getWeather().getState();
@@ -159,5 +164,13 @@ public class NPC {
             character.getInventory().removeItem(item,count);
         }
         return "quest successfully finished!";
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 }
