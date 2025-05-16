@@ -821,6 +821,10 @@ public class GameMenuController {
         }
         Character character = App.getCurrentGame().getCurrentCharacter();
 
+        Tile characterTile = App.getCurrentGame().getMap().getTileByCordinate(character.getX(),character.getY());
+        if(!characterTile.getType().equals(TileType.CabinFloor)){
+            return new Result(false , "you need to be in a cabin to do this");
+        }
         if(action.equalsIgnoreCase("put")){
             int count =character.getInventory().getCountOfItem(itemType);
             if (count<= 0) {
