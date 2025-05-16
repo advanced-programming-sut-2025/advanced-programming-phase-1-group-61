@@ -864,4 +864,13 @@ public class GameMenuController {
         if(npc == null) return new Result(false , "npc not found");
         return new Result(true,npc.getDialog());
     }
+    public Result giftNPC(Matcher matcher){
+        String name = matcher.group("name");
+        String itemName = matcher.group("item");
+        ItemType itemType = ItemType.getItemType(itemName);
+        if(itemType == null){
+            return new Result(false , "please enter a valid item!");
+        }
+        return new Result(true,"");
+    }
 }

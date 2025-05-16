@@ -16,13 +16,13 @@ import models.workBench.WorkBench;
 import java.util.*;
 
 public class Character {
-    private int userId;
+    private final int userId;
     private final Inventory inventory ;
     private int energy;
     private boolean unlimitedEnergy=false;
     private int x;
     private int y;
-    private Skill skill;
+    private final Skill skill;
     private Tool currentTool;
     private java.util.Map<String,Animal> animals = new HashMap<>();
     private ArrayList<Building> buildings =new ArrayList<>();
