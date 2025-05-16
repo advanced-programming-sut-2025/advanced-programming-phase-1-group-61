@@ -141,6 +141,8 @@ public class GameMenu implements AppMenu{
             Matcher showWaterInBucket = GameMenuCommands.WATER_IN_BUCKET.getMatcher(input);
             Matcher putOrPickItemInRefrigerator = GameMenuCommands.Refrigerator.getMatcher(input);
             Matcher meetNpc= GameMenuCommands.MEET_NPC.getMatcher(input);
+            Matcher friendshipNPCList=GameMenuCommands.FRIENDSHIP_NPC_LIST.getMatcher(input);
+            Matcher cheatSetNpcFriendship=CheatCodes.CHEAT_SET_NPC_FRIENDSHIP.getMatcher(input);
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
@@ -294,6 +296,11 @@ public class GameMenu implements AppMenu{
             } else if(meetNpc != null){
                 Result result = controller.meetNpc(meetNpc);
                 System.out.println(result.message());
+            } else if(friendshipNPCList != null){
+                Result result=controller.friendshipNPCList();
+                System.out.println(result.message());
+            } else if(cheatSetNpcFriendship != null){
+
             }
             else{
                 System.out.println("invalid command");

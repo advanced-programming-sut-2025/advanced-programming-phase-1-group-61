@@ -418,7 +418,7 @@ public enum NpcDialog {
             )
     ));
 
-    private Map<Season, Map<FriendshipLevel, Map<WeatherState, String>>> dialogs;
+    private final Map<Season, Map<FriendshipLevel, Map<WeatherState, String>>> dialogs;
 
     NpcDialog(Map<Season, Map<FriendshipLevel, Map<WeatherState, String>>> dialogs) {
         this.dialogs = dialogs;
