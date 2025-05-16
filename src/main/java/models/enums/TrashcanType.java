@@ -18,4 +18,13 @@ public enum TrashcanType {
     public String getDisplayName() {
         return displayName;
     }
+    public String getNextLevel() {
+        return switch (this.displayName) {
+            case "Primary" -> "Copper";
+            case "Copper" -> "Iron";
+            case "Iron" -> "Golden";
+            case "Golden" -> "Iridium";
+            default -> null;
+        };
+    }
 }

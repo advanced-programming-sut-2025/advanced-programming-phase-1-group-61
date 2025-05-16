@@ -1,6 +1,8 @@
 package models.shops;
 
+import models.App;
 import models.building.Shop;
+import models.character.Character;
 import models.enums.CageType;
 import models.enums.ItemType;
 
@@ -82,16 +84,19 @@ public class Carpenter extends Shop {
 
     @Override
     public String purchaseProduct(String product, int count) {
+        Character character=App.getCurrentGame().getCurrentCharacter();
         for(ShopItem item : permanentItems) {
             if(item.getItem().getDisPlayName().equals(product)) {
                 if(count>item.getStock()) return "not enough stock!";
                 item.setStock(item.getStock()-count);
+                character.getInventory().addItem(item.getItem(),count);
                 return "successfully purchased!";
             }
         }
         for(ShopCages cage : farmBuildings) {
             if(cage.getCageType().getDisplayName().equals(product)) {
                 if(count>cage.getStock()) return "not enough stock!";
+                character.getInventory().addCage(cage.getCageType(),count);
                 cage.setStock(cage.getStock()-count);
                 return "successfully purchased!";
             }
