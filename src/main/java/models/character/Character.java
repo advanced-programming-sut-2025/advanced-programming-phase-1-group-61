@@ -78,6 +78,9 @@ public class Character {
     public ArrayList<CookingRecipes> getCookingRecipes() {
         return cookingRecipes;
     }
+    public ArrayList<Recipe> getRecipes() {
+        return recipes;
+    }
 
     public int getxRefrigerator() {
         return xRefrigerator;

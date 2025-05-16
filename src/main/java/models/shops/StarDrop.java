@@ -5,14 +5,13 @@ import models.building.Shop;
 import models.character.Character;
 import models.enums.CookingRecipes;
 import models.enums.ItemType;
-import models.enums.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class StarDrop extends Shop {
     private final ArrayList<ShopItem> items;
-    private final ArrayList<ShopRecipes> recipes;
+    private final ArrayList<ShopCookingRecipes> recipes;
 
     public StarDrop(String name, int X, int Y) {
         super(name, X, Y);
@@ -26,15 +25,15 @@ public class StarDrop extends Shop {
         ));
 
         this.recipes = new ArrayList<>(List.of(
-                new ShopRecipes(CookingRecipes.HashBrowns, 1, 50, "A recipe to make Hashbrowns"),
-                new ShopRecipes(CookingRecipes.Omelet, 1, 100, "A recipe to make Omelet"),
-                new ShopRecipes(CookingRecipes.Pancakes, 1, 100, "A recipe to make Pancakes"),
-                new ShopRecipes(CookingRecipes.Bread, 1, 100, "A recipe to make Bread"),
-                new ShopRecipes(CookingRecipes.Tortilla, 1, 100, "A recipe to make Tortilla"),
-                new ShopRecipes(CookingRecipes.Pizza, 1, 150, "A recipe to make Pizza"),
-                new ShopRecipes(CookingRecipes.MakiRoll, 1, 300, "A recipe to make Maki Roll"),
-                new ShopRecipes(CookingRecipes.TripleShotEspresso, 1, 5000, "A recipe to make Triple Shot Espresso"),
-                new ShopRecipes(CookingRecipes.Cookie, 1, 300, "A recipe to make Cookie")
+                new ShopCookingRecipes(CookingRecipes.HashBrowns, 1, 50, "A recipe to make Hashbrowns"),
+                new ShopCookingRecipes(CookingRecipes.Omelet, 1, 100, "A recipe to make Omelet"),
+                new ShopCookingRecipes(CookingRecipes.Pancakes, 1, 100, "A recipe to make Pancakes"),
+                new ShopCookingRecipes(CookingRecipes.Bread, 1, 100, "A recipe to make Bread"),
+                new ShopCookingRecipes(CookingRecipes.Tortilla, 1, 100, "A recipe to make Tortilla"),
+                new ShopCookingRecipes(CookingRecipes.Pizza, 1, 150, "A recipe to make Pizza"),
+                new ShopCookingRecipes(CookingRecipes.MakiRoll, 1, 300, "A recipe to make Maki Roll"),
+                new ShopCookingRecipes(CookingRecipes.TripleShotEspresso, 1, 5000, "A recipe to make Triple Shot Espresso"),
+                new ShopCookingRecipes(CookingRecipes.Cookie, 1, 300, "A recipe to make Cookie")
         ));
     }
 
@@ -51,7 +50,7 @@ public class StarDrop extends Shop {
         }
         builder.append("recipes:").append("\n");
         for(int i=0;i<recipes.size();i++){
-            ShopRecipes recipe=recipes.get(i);
+            ShopCookingRecipes recipe=recipes.get(i);
             builder.append("Name: ")
                     .append(recipe.getRecipe().name())
                     .append(" | Price: ")
@@ -76,7 +75,7 @@ public class StarDrop extends Shop {
         }
         builder.append("recipes:").append("\n");
         for(int i=0;i<recipes.size();i++){
-            ShopRecipes recipe=recipes.get(i);
+            ShopCookingRecipes recipe=recipes.get(i);
             if(recipe.getStock()>0) {
                 builder.append("Name: ")
                         .append(recipe.getRecipe().name())
@@ -99,7 +98,7 @@ public class StarDrop extends Shop {
                 return "Successfully purchased!";
             }
         }
-        for(ShopRecipes recipe:recipes){
+        for(ShopCookingRecipes recipe:recipes){
             if(recipe.getRecipe().name().equals(product)){
                 if(count> recipe.getStock()) return "not enough stock!";
                 recipe.setStock(recipe.getStock()-count);
@@ -113,6 +112,6 @@ public class StarDrop extends Shop {
     @Override
     public void restoreStocks() {
         for(ShopItem item:items) item.restoreStock();
-        for(ShopRecipes recipe:recipes) recipe.restoreStock();
+        for(ShopCookingRecipes recipe:recipes) recipe.restoreStock();
     }
 }
