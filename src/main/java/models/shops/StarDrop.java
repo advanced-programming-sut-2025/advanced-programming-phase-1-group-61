@@ -103,7 +103,7 @@ public class StarDrop extends Shop {
             if(recipe.getRecipe().name().equals(product)){
                 if(count> recipe.getStock()) return "not enough stock!";
                 recipe.setStock(recipe.getStock()-count);
-                //character.getInventory();
+                character.getCookingRecipes().add(recipe.getRecipe());
                 return "Successfully purchased!";
             }
         }
