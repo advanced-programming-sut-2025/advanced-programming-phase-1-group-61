@@ -21,7 +21,7 @@ public class Pickaxe extends Tool{
         Character character= App.getCurrentGame().getCurrentCharacter();
         int targetX=character.getX()+direction.getDx();
         int targetY=character.getY()+direction.getDy();
-        Map map=App.getCurrentGame().getMap();
+        Map<S, S1> map=App.getCurrentGame().getMap();
         Tile tile = map.getTileByCordinate(targetX , targetY);
         if(targetY<0 || targetX<0 || targetY>=map.getHeightSize() || targetX>=map.getWidthSize())
             return "you cant mine void \n(pls stop trying to break our game)";

@@ -19,7 +19,7 @@ public class Game implements Runnable {
 
 
     private int id;
-    private Map map;
+    private Map<S, S1> map;
     private List<Character> allCharacters;
     private int currentCharacter;
     private transient Thread gameThread;
@@ -29,7 +29,7 @@ public class Game implements Runnable {
     private ArrayList<Shop> shops = new ArrayList<>();
 
 
-    public Game(Map map, List<Character> characters) {
+    public Game(Map<S, S1> map, List<Character> characters) {
         id = App.getAllGames().size()+1;
         this.map = map;
         this.allCharacters = characters;
@@ -142,7 +142,7 @@ public class Game implements Runnable {
         return date;
     }
 
-    public Map getMap() {
+    public Map<S, S1> getMap() {
         return map;
     }
 

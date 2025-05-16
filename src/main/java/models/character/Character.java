@@ -176,7 +176,7 @@ public class Character {
     public void findPath(int targetX, int targetY){
         lastPath=new ArrayList<>();
         System.gc();
-        Map map= App.getCurrentGame().getMap();
+        Map<S, S1> map= App.getCurrentGame().getMap();
         if(map==null) return;
         if(map.getTiles()[targetY][targetX].getType().isCollisionOn()) return;
         Cell targetCell=bfs(targetX,targetY,map);
@@ -202,7 +202,7 @@ public class Character {
         }
         return (lastPath.size()+numberOfTurns*10)/20;
     }
-    private Cell bfs(int targetX, int targetY,Map map){
+    private Cell bfs(int targetX, int targetY,Map<S, S1> map){
         boolean[][] visited=new boolean[map.getHeightSize()][map.getWidthSize()];
         visited[getY()][getX()]=true;
         Character character=App.getCurrentGame().getCurrentCharacter();

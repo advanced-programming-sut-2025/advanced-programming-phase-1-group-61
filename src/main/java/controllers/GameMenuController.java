@@ -3,7 +3,6 @@ package controllers;
 import models.*;
 import models.animal.Animal;
 import models.building.Building;
-import models.building.Coop;
 import models.building.Shop;
 import models.character.Character;
 import models.enums.*;
@@ -139,7 +138,7 @@ public class GameMenuController {
             Character character = new Character(user.getId());
             characterList.add(character);
         }
-        Map map = MapBuilder.buildFullMap(mapNumbers[0], mapNumbers[1], mapNumbers[2], mapNumbers[3],characterList);
+        Map<S, S1> map = MapBuilder.buildFullMap(mapNumbers[0], mapNumbers[1], mapNumbers[2], mapNumbers[3],characterList);
         
         int i = 0;
         for (Character character : characterList) {
@@ -401,7 +400,7 @@ public class GameMenuController {
 
     public Result printMap(Matcher matcher) {
         Game game = App.getCurrentGame();
-        Map map = game.getMap();
+        Map<S, S1> map = game.getMap();
 
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
@@ -569,7 +568,7 @@ public class GameMenuController {
         } else {
             Game game = App.getCurrentGame();
             assert game != null;
-            Map map = game.getMap();
+            Map<S, S1> map = game.getMap();
             Tile tile = map.getTileByCordinate(x, y);
             if (!tile.getType().isCollisionOn()) {
                 Resource resource = tile.getResource();

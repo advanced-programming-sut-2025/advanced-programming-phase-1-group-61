@@ -1,6 +1,5 @@
 package models.map.MapCreator;
 
-import models.Game;
 import models.character.Character;
 import models.enums.TileType;
 import models.enums.WeatherState;
@@ -22,7 +21,7 @@ public class MapBuilder {
     private static int cityWidth = 7;
     private static int cityHeight = 7;
 
-    public static Map buildFullMap(int player1Farm , int player2Farm , int player3Farm , int player4Farm,List<Character> characters) {
+    public static Map<S, S1> buildFullMap(int player1Farm , int player2Farm , int player3Farm , int player4Farm, List<Character> characters) {
 
         int fullWidth = FARM_WIDTH * 2 + cityWidth;
         int fullHeight = FARM_HEIGHT * 2 + cityHeight;
@@ -63,7 +62,7 @@ public class MapBuilder {
 
             }
         }
-        Map map = new Map(tiles , new Weather(WeatherState.Sunny));
+        Map<S, S1> map = new Map<S, S1>(tiles , new Weather(WeatherState.Sunny));
         map.setXSpawnPoints(xSpawnPoints);
         map.setYSpawnPoints(ySpawnPoints);
         return map;

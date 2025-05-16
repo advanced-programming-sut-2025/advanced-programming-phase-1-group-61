@@ -52,7 +52,7 @@ public enum GameMenuCommands {
 
 
 
-    private String pattern;
+    private final String pattern;
     GameMenuCommands(String pattern) {
         this.pattern = pattern;
     }

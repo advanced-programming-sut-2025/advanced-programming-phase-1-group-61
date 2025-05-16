@@ -15,7 +15,7 @@ public class Hoe extends Tool{
 
     public String use(Direction direction){
         Character character = App.getCurrentGame().getCurrentCharacter();
-        Map map = App.getCurrentGame().getMap();
+        Map<S, S1> map = App.getCurrentGame().getMap();
         int x = character.getX() + direction.getDx();
         int y = character.getY() + direction.getDy();
 
