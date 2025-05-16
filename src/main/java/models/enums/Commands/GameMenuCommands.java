@@ -49,8 +49,8 @@ public enum GameMenuCommands {
     MEET_NPC("^meet\\s+NPC (?<name>.*)$"),
     GIFT_NPC("^gift\\s+NPC (?<name>.*) -i (?<item>.*)$"),
     FRIENDSHIP_NPC_LIST("friendship NPC list"),
-    NPC_QUESTS_LIST("quests list"),
-    NPC_QUEST_FINISH("quests finish -i (?<index>.*)"),
+    NPC_QUESTS_LIST("quests\\s+list"),
+    NPC_QUEST_FINISH("quests\\s+finish -i (?<index>.*)"),
     Refrigerator("^cooking\\s+refrigerator\\s+(?<action>put|pick)\\s+(?<item>.+)$");
 
 

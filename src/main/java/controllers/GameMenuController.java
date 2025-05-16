@@ -1025,6 +1025,21 @@ public class GameMenuController {
         return new Result(true,"friendship set successfully");
     }
     public Result questsList(){
-
+        return new Result(true,NPC.getQuests(App.getCurrentGame().getCurrentCharacter()));
+    }
+    public Result questsFinish(Matcher matcher){
+        Character character=App.getCurrentGame().getCurrentCharacter();
+        NPC npc=character.getNPC();
+        if(npc == null) return new Result(false , "you are not near a npc!");
+        int index;
+        try{
+            index=Integer.parseInt(matcher.group("index").trim());
+        } catch (NumberFormatException e){
+            return new Result(false , "please enter a valid number");
+        }
+        if(!npc.checkQuestAvailability(character,npc.getFriendships(character),index)){
+            return new Result(false , "this quest is not available for you yet!");
+        }
+        return new Result(true,npc.checkCharacterEnoughItems(character,index,npc.getFriendships(character)));
     }
 }

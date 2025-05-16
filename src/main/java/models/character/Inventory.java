@@ -91,8 +91,8 @@ public class Inventory {
     }
     public int getCountOfItem(ItemType item){
         for(int i=0;i<items.size();i++){
-            Item it=(Item) items.keySet().toArray()[i];
-            if(it.getItemType().equals(item)) return items.get(it);
+            ItemType it=(ItemType) items.keySet().toArray()[i];
+            if(it.equals(item)) return items.get(it);
         }
         return 0;
     }

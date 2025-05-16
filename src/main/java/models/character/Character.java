@@ -2,6 +2,8 @@ package models.character;
 
 import models.App;
 import models.Item;
+import models.NPC.NPC;
+import models.NPC.NPCFriendships;
 import models.animal.Animal;
 import models.building.Building;
 import models.building.Shop;
@@ -266,5 +268,18 @@ public class Character {
     }
     public List<WorkBench> getWorkBenches(){
         return workBenches;
+    }
+    public NPC getNPC(){
+        ArrayList<NPC> allNPCs=NPC.getAllNPCs();
+        for(NPC npc:allNPCs){
+            int delta_x=npc.getX()-this.getX();
+            int delta_y=npc.getY()-this.getY();
+            int[] dx={1,0,-1,0,1,1,-1,-1};
+            int[] dy={0,1,0,-1,1,-1,1,-1};
+            for(int i=0;i<dx.length;i++){
+                if(dx[i]==delta_x && dy[i]==delta_y) return npc;
+            }
+        }
+        return null;
     }
 }
