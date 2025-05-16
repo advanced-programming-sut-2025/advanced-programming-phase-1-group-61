@@ -48,14 +48,6 @@ public class NPC {
     public NpcInfo getInfo() {
         return info;
     }
-    public void addFriendshipPoints(int amount,Character character) {
-        for(NPCFriendships friendship : friendships) {
-            if(friendship.getCharacter().getUserId()==character.getUserId()) {
-                friendship.setFriendshipPoints(friendship.getFriendshipPoints()+amount);
-                break;
-            }
-        }
-    }
     public NPCFriendships getFriendships(Character character) {
         for(NPCFriendships npCfriendships: friendships){
             if(npCfriendships.getCharacter().getUserId()==character.getUserId()) return npCfriendships;
