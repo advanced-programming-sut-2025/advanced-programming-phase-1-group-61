@@ -802,6 +802,103 @@ public class GameMenuController {
         }
     }
 
+    public Result cooking(Matcher matcher) {
+        String recipeNameString = matcher.group("recipeName");
+        Game game = App.getCurrentGame();
+        Character character = game.getCurrentCharacter();
+        CookingRecipes recipe = CookingRecipes.getCookingRecipes(recipeNameString);
+
+        if (recipe == null) {
+            return new Result(false, "Recipe not found.");
+        }
+
+        if (!character.getCookingRecipes().contains(recipe)) {
+            return new Result(false, "You don't know how to cook this yet.");
+        }
+
+        Tile characterTile = game.getMap().getTileByCordinate(character.getX(), character.getY());
+        if (!characterTile.getType().equals(TileType.CabinFloor)) {
+            return new Result(false, "You need to be in the cabin to cook.");
+        }
+
+        Tile fridgeTile = game.getMap().getTileByCordinate(character.getxRefrigerator(), character.getyRefrigerator());
+        if (!(fridgeTile.getResource() instanceof Refrigerator refrigerator)) {
+            return new Result(false, "Cannot find your fridge.");
+        }
+
+        Inventory inventory = character.getInventory();
+
+        for (ItemType itemType : recipe.getIngredients().keySet()) {
+            int requiredCount = recipe.getIngredients().get(itemType);
+
+            int availableInInventory = inventory.getCountOfItem(itemType);
+            int availableInFridge = refrigerator.getCountOfItemInFridge(itemType);
+
+            if (availableInInventory + availableInFridge < requiredCount) {
+                return new Result(false, "Not enough " + itemType.getDisPlayName() + " to cook this.");
+            }
+        }
+
+        for (ItemType itemType : recipe.getIngredients().keySet()) {
+            int requiredCount = recipe.getIngredients().get(itemType);
+
+            int availableInInventory = inventory.getCountOfItem(itemType);
+
+            if (availableInInventory >= requiredCount) {
+                inventory.removeItem(itemType, requiredCount);
+            } else {
+                int remaining = requiredCount - availableInInventory;
+                inventory.removeItem(itemType, availableInInventory);
+                refrigerator.removeItemFromFridge(itemType, remaining);
+            }
+        }
+
+        inventory.addItem(ItemType.getItemType(recipe.name()), 1);
+
+        return new Result(true, "Successfully cooked " + recipe.getName() + ".");
+    }
+
+
+    public Result eatFood(Matcher matcher){
+        String foodString = matcher.group("foodName");
+        ItemType food = ItemType.getItemType(foodString);
+        if(food == null){
+            return new Result(false , "not a valid item");
+        }
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        if(character.getInventory().getCountOfItem(food) <= 0 ){
+            return new Result(false , "not in your inventory");
+        }
+        if(!food.isEdible()){
+            return new Result(false ,"you cant kill your self by eating "+ food.getDisPlayName());
+        }
+        if(CookingRecipes.getCookingRecipes(food.name()) != null){
+            CookingRecipes cookedFood = CookingRecipes.getCookingRecipes(food.name());
+            if(cookedFood.getBuff() != null){
+                character.setBuff(cookedFood.getBuff());
+            }
+            character.getInventory().removeItem(food , 1);
+            int newEnergy = character.getEnergy() + food.getEnergy();
+            character.setEnergy(newEnergy);
+            return new Result(true , "you ate "+foodString+" successfully.");
+        }else {
+            character.getInventory().removeItem(food , 1);
+            int newEnergy = character.getEnergy() + food.getEnergy();
+            character.setEnergy(newEnergy);
+            return new Result(true , "you ate "+foodString+" successfully.");
+        }
+    }
+
+    public Result showCookingRecipes(){
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        StringBuilder message = new StringBuilder("Cooking Recipes:\n");
+        for (CookingRecipes cookingRecipe : character.getCookingRecipes()) {
+            message.append(cookingRecipe.toString());
+        }
+
+        return new Result(true , message.toString());
+    }
+
     public Result showWaterInBucket(){
         Character character = App.getCurrentGame().getCurrentCharacter();
         Tool tool = character.getInventory().getToolByType(ToolType.WateringCan);
@@ -821,6 +918,10 @@ public class GameMenuController {
         }
         Character character = App.getCurrentGame().getCurrentCharacter();
 
+        Tile characterTile = App.getCurrentGame().getMap().getTileByCordinate(character.getX(),character.getY());
+        if(!characterTile.getType().equals(TileType.CabinFloor)){
+            return new Result(false , "you need to be in a cabin to do this");
+        }
         if(action.equalsIgnoreCase("put")){
             int count =character.getInventory().getCountOfItem(itemType);
             if (count<= 0) {

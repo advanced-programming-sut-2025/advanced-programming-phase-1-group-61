@@ -1,14 +1,12 @@
 package models.enums;
 
 public enum ItemType {
-
     Wood(10,"wood",0 , false),
     HardWood(10,"hard wood" , 0 , false),
     Pony(0,"pony" , 0 , false) ,
     Stone(20 , "stone" , 0 , false),
     Iron(20 , "iron" , 0 , false),
     Fur(0 , "fur" , 0 , false),
-    Pizza(300 , "pizza" , 150 , true),
     Sardine(40,"sardine" , 0 , false),
     DeluxeRetainingSoil(300,"deluxe retaining soil" , 0 , false),
     SpeedGro(123,"speed gro",0,false),
@@ -21,7 +19,7 @@ public enum ItemType {
     Pumpkin(320 , "pumpkin" , 0 , false),
     OrangeSapling(120,"orange sapling",0,false),
     BasicRetainingSoil(400,"basic retaining soil" , 0 , false),
-    PumpkinPie(385, "pumpkin pie" , 225 , true),
+
     WeddingRing(20000,"wedding ring" , 0 , false),
     PeachSapling(200,"peach sapling" , 0 , false),
     IronOre(10 , "iron ore" , 0 , false),
@@ -41,17 +39,12 @@ public enum ItemType {
     Amaranth(30,"amaranth" , 0 , false),
     Kale(35,  "kale" , 0 , false),
     Beet(20, "beet" , 0 , false),
-    Omelet(25, "omelet" , 0 , false),
     Parsnip(34, "parsnip" , 0 , false),
-    Bread(50, "bread" , 0 , false),
     EggPlant(10,"egg plant" , 0 , false),
-    HashBrowns(40,"hash browns" , 0 , false),
     Flounder(100,"flounder" , 0 , false),
     MidnightCarp(500,"midnight carp" , 0 , false),
     IridiumOre(100,"iridium ore" , 0 , false),
     BeeHouse(200,"bee house" , 0 , false),
-    Salad(110,"salad" , 113 , true),
-    Spaghetti(120 , "spaghetti" , 75, true),
     Wheat(50 , "wheat" , 0 , false),
     Gold(20 , "gold" , 0 , false),
     Quartz(25 , "quartz" , 0 , false),
@@ -286,7 +279,33 @@ public enum ItemType {
     Legend(5000 , "Legend" , 0 , false),
     Glacierfish(1000 , "Glacierfish" , 0 , false),
     Angler(900 , "Angler" , 0 , false),
-    Crimsonfish(1500 , "Crimsonfish" , 0 , false);
+    Crimsonfish(1500 , "Crimsonfish" , 0 , false),
+
+
+    FriedEgg(35,"fried egg" , 50 , true),
+    BackedFish(100,"backed fish" , 75,true),
+    Salad(110 , "salad" , 113 , true),
+    Omelet(125, "omelet" , 100 , false),
+    PumpkinPie(385, "pumpkin pie" , 225 , true),
+    Spaghetti(120 , "spaghetti" , 75, true),
+    Pizza(300 , "pizza" , 150 , true),
+    Tortilla(50 , "tortilla" , 50 , true),
+    MakiRoll(220 , "MakiRoll" , 110 , true),
+    TripleShotEspresso(450 , "TripleShotEspresso" , 200 , true),
+    Cookie(140 , "Cookie" , 90 , true),
+    HashBrowns(120 , "HashBrowns" , 90 , true),
+    Pancakes(80 , "Pancakes" , 90 , true),
+    FruitSalad(450 , "FruitSalad" , 263 , true),
+    RedPlate(400 , "RedPlate" , 240 , true),
+    Bread(60, "bread" , 50 , true),
+    SalmonDinner(300 , "SalmonDinner" , 125 , true),
+    VegetableMedley(120 , "VegetableMedley" , 165 , true),
+    FarmersLunch(150 , "FarmersLunch" , 200 , true),
+    SurvivalBurger(180 , "SurvivalBurger" , 125 , true),
+    DishOTheSea(220 , "DishOTheSea" , 150 , true),
+    SeaFormPudding(300 , "SeaFormPudding" , 175 , true),
+    MinersTreat(200 , "MinersTreat" , 125, true),
+    ;
 
 
 
