@@ -22,20 +22,14 @@ public class NPCFriendships {
     }
     public void setFriendshipLevel(int friendshipLevel) {
         this.friendshipLevel = friendshipLevel;
-        if(friendshipLevel>lvl.getCeiling()){
-            lvl=lvl.getNextLevel();
-        }
+        lvl=lvl.getLevel(friendshipLevel);
     }
     public int getFriendshipPoints() {
         return friendshipPoints;
     }
     public void setFriendshipPoints(int friendshipPoints) {
-        this.friendshipPoints = friendshipPoints;
-        if(this.friendshipPoints>200){
-            int levelIncrease=this.friendshipPoints/200;
-            setFriendshipLevel(getFriendshipLevel()+levelIncrease);
-            this.friendshipPoints%=200;
-        }
+        this.friendshipPoints = friendshipPoints%800;
+        setFriendshipLevel(this.friendshipPoints/200);
     }
     public boolean equals(NPCFriendships npcfriendships) {
         return this.character.getUserId() == npcfriendships.getCharacter().getUserId();

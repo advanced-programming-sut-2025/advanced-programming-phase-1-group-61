@@ -1024,4 +1024,7 @@ public class GameMenuController {
         npc.getFriendships(App.getCurrentGame().getCurrentCharacter()).setFriendshipLevel(count);
         return new Result(true,"friendship set successfully");
     }
+    public Result questsList(){
+
+    }
 }
