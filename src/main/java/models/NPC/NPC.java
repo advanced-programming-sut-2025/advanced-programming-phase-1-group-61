@@ -1,10 +1,13 @@
 package models.NPC;
 
 import models.App;
+import models.RandomNumber;
 import models.character.Character;
 import models.enums.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
 public class NPC {
     private final static ArrayList<NPC> allNPCs = new ArrayList<>();
@@ -63,7 +66,8 @@ public class NPC {
             NPC npc = allNPCs.get(i);
             for(NPCFriendships friendship:npc.friendships) {
                 if(friendship.getCharacter().getUserId()==character.getUserId()) {
-                    builder.append(npc.info.name()).append(":\n")
+                    builder.append(npc.info.name())
+                            .append(":\n")
                             .append("friendship level: ")
                             .append(friendship.getFriendshipLevel())
                             .append(" (")
@@ -81,5 +85,51 @@ public class NPC {
         for(NPC npc : allNPCs) {
             npc.setFirstGiftOfDay(true);
         }
+    }
+    public ItemType getRandomFavoriteItem() {
+        int bound=this.info.getFavorites().size();
+        int randomIndex=RandomNumber.getRandomNumber()%bound;
+        return this.info.getFavorites().get(randomIndex);
+    }
+    public static void changeDayActivities(){
+        resetFirstTimeInDay();
+        for(NPC npc : allNPCs) {
+            for(NPCFriendships friendship : npc.friendships) {
+                if(friendship.getLvl().equals(FriendshipLevel.HIGH)){
+                    boolean sendGift= RandomNumber.getRandomNumber() % 2 == 1;
+                    if(sendGift)
+                        friendship.getCharacter().getInventory().addItem(npc.getRandomFavoriteItem(),1);
+                }
+            }
+        }
+    }
+    public static String getQuests(Character character) {
+        StringBuilder builder = new StringBuilder();
+        for(NPC npc : allNPCs) {
+            HashMap<ItemType,Integer> requests=npc.info.getRequests();
+            for(NPCFriendships friendship : npc.friendships) {
+                if(friendship.getCharacter().getUserId()==character.getUserId()) {
+                    builder.append(npc.info.name()).append("'s active quests:\n");
+                    int index=0;
+                    for(ItemType item:requests.keySet()) {
+                        int count = requests.get(item);
+                        boolean condition = index == 0;
+                        if(index==1)
+                            if(friendship.getFriendshipLevel()>=1) condition=true;
+                        if(index==2)
+                            if(App.getCurrentGame().getDate().hasASeasonPassed()) condition=true;
+                        if(condition) {
+                            builder.append("delivering ")
+                                    .append(count)
+                                    .append(item.getDisPlayName())
+                                    .append("\n");
+                        }
+                        index++;
+                    }
+                    break;
+                }
+            }
+        }
+        return builder.toString();
     }
 }
