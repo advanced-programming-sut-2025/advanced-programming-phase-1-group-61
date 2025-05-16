@@ -11,6 +11,7 @@ import models.resource.Crop;
 import models.resource.Resource;
 import models.resource.Stone;
 import models.resource.Tree;
+import models.shops.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,13 @@ public class Game implements Runnable {
 
     public Game(Map map, List<Character> characters) {
         id = App.getAllGames().size()+1;
+        shops.add(new Carpenter("Carpenter" , -1 , -1));
+        shops.add(new BlackSmith("BlackSmith" , -1,-1));
+        shops.add(new FishShop("FishShop" , -1 , -1));
+        shops.add(new JojaMart( "JojaMart" , -1 , -1));
+        shops.add(new Marnie("Marnie",-1,-1));
+        shops.add(new Pierre("Pierre" , -1 , -1));
+        shops.add(new StarDrop("StarDrop" , -1 , -1));
         this.map = map;
         this.allCharacters = characters;
         this.date = new Date();
@@ -165,6 +173,7 @@ public class Game implements Runnable {
     public ArrayList<Shop> getAllShops() {
         return shops;
     }
+
 
     private void spawnRandomItemsOnMap(){
         for (Tile[] tiles : map.getTiles()) {
@@ -559,6 +568,15 @@ public class Game implements Runnable {
                 }
             }
         }
+    }
+
+    public Shop getShopByName(String name){
+        for (Shop shop : shops) {
+            if(shop.getName().equals(name)){
+                return shop;
+            }
+        }
+        return null;
     }
 
     private void spawnRandomResourceOnMap(){

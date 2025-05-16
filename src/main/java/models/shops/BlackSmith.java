@@ -16,8 +16,8 @@ public class BlackSmith extends Shop {
     private final ArrayList<ShopToolUpgrades> toolUpgrades;
     private final ArrayList<ShopTrashcanUpgrades> trashcanUpgrades;
 
-    public BlackSmith(String type, String name, int X, int Y) {
-        super(type, name, X, Y);
+    public BlackSmith(String name, int X, int Y) {
+        super( name, X, Y);
         this.owner="Clint";
         items=new ArrayList<>(List.of(
                 new ShopItem(ItemType.CopperOre,Integer.MAX_VALUE,75,"A common ore that can be smelted into bars."),
