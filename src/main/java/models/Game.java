@@ -59,6 +59,8 @@ public class Game implements Runnable {
                }
             }
         }
+        List<Character> characters=App.getCurrentGame().getAllCharacters();
+        for(Character character:characters) character.setBuff(null);
     }
 
 
