@@ -3,9 +3,9 @@ package controllers;
 import models.*;
 import models.animal.Animal;
 import models.building.Building;
-import models.building.Coop;
 import models.building.Shop;
 import models.character.Character;
+import models.NPC.NPC;
 import models.enums.*;
 import models.food.FridgeItem;
 import models.food.Refrigerator;
@@ -956,5 +956,46 @@ public class GameMenuController {
             return new Result(false , "invalid command");
         }
     }
-
+    public Result meetNpc(Matcher matcher){
+        String name = matcher.group("name");
+        if(!NpcInfo.checkName(name)){
+            return new Result(false , "please enter a valid npc name!");
+        }
+        NPC npc=NPC.getNPC(name);
+        if(npc == null) return new Result(false , "npc not found");
+        return new Result(true,npc.getDialog());
+    }
+    public Result giftNPC(Matcher matcher){
+        String name = matcher.group("name").trim();
+        String itemName = matcher.group("item").trim();
+        ItemType itemType = ItemType.getItemType(itemName);
+        if(itemType == null){
+            return new Result(false , "please enter a valid item!");
+        }
+        return new Result(true,"");
+    }
+    public Result friendshipNPCList(){
+        return new Result(true,NPC.getNPCFriendshipsDetails(App.getCurrentGame().getCurrentCharacter()));
+    }
+    public Result cheatSetNpcFriendship(Matcher matcher){
+        String npcName=matcher.group("name").trim();
+        int count;
+        try{
+            count=Integer.parseInt(matcher.group("count").trim());
+        } catch (NumberFormatException e){
+            return new Result(false , "please enter a valid number");
+        }
+        if(!NpcInfo.checkName(npcName)){
+            return new Result(false,"please enter a valid npc name!");
+        }
+        NPC npc=NPC.getNPC(npcName);
+        if(npc == null) return new Result(false , "npc not found");
+        if(count>799){
+            return new Result(false, "the max amount of level is 800");
+        } else if(count<0){
+            return new Result(false,"the level cannot be negative!");
+        }
+        npc.getFriendships(App.getCurrentGame().getCurrentCharacter()).setFriendshipLevel(count);
+        return new Result(true,"friendship set successfully");
+    }
 }

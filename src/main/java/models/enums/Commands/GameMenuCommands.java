@@ -46,11 +46,18 @@ public enum GameMenuCommands {
     Refrigerator("^cooking\\s+refrigerator\\s+(?<action>put|pick)\\s+(?<item>.+)$"),
     ShowCookingRecipes("^cooking\\s+show\\s+recipes$"),
     CookingPrepare("^cooking\\s+prepare\\s+(?<recipeName>.*)$"),
-    EatFood("^eat\\s+(?<foodName>.*)$");
+    EatFood("^eat\\s+(?<foodName>.*)$"),
+    MEET_NPC("^meet\\s+NPC (?<name>.*)$"),
+    GIFT_NPC("^gift\\s+NPC (?<name>.*) -i (?<item>.*)$"),
+    FRIENDSHIP_NPC_LIST("friendship NPC list"),
+    NPC_QUESTS_LIST("quests list"),
+    NPC_QUEST_FINISH("quests finish -i (?<index>.*)"),
+    Refrigerator("^cooking\\s+refrigerator\\s+(?<action>put|pick)\\s+(?<item>.+)$");
 
 
 
-    private String pattern;
+
+    private final String pattern;
     GameMenuCommands(String pattern) {
         this.pattern = pattern;
     }

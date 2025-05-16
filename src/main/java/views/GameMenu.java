@@ -143,6 +143,9 @@ public class GameMenu implements AppMenu{
             Matcher showCookingRecipe = GameMenuCommands.ShowCookingRecipes.getMatcher(input);
             Matcher cooking = GameMenuCommands.CookingPrepare.getMatcher(input);
             Matcher eatFood = GameMenuCommands.EatFood.getMatcher(input);
+            Matcher meetNpc= GameMenuCommands.MEET_NPC.getMatcher(input);
+            Matcher friendshipNPCList=GameMenuCommands.FRIENDSHIP_NPC_LIST.getMatcher(input);
+            Matcher cheatSetNpcFriendship=CheatCodes.CHEAT_SET_NPC_FRIENDSHIP.getMatcher(input);
 
 
             if (showCurrentMenu != null){
@@ -303,6 +306,14 @@ public class GameMenu implements AppMenu{
             } else if(purchaseProduct != null){
                 Result result = controller.purchaseProduct(purchaseProduct);
                 System.out.println(result.message());
+            } else if(meetNpc != null){
+                Result result = controller.meetNpc(meetNpc);
+                System.out.println(result.message());
+            } else if(friendshipNPCList != null){
+                Result result=controller.friendshipNPCList();
+                System.out.println(result.message());
+            } else if(cheatSetNpcFriendship != null){
+
             }
             else{
                 System.out.println("invalid command");

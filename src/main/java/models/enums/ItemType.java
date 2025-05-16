@@ -235,8 +235,6 @@ public enum ItemType {
     Powdermelon(20 , "Powdermelon" , 20 , true),
     PowdermelonSeed(100 , "PowdermelonSeed" , 0 , false),
     AncientFruit(20 , "AncientFruit" , 20 , true),
-    Grapes(20 , "Grapes" , 20 , true),
-
     Honey(350 , "Honey" , 75 , true),
     Cheese(230 , "Cheese" , 100 , true),
     BigCheese(345 , "Big Cheese" , 100 , true),

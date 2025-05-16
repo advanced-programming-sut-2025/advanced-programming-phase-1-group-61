@@ -1,7 +1,6 @@
 package models.tool;
 
 import models.App;
-import models.RandomNumber;
 import models.character.Character;
 import models.enums.Direction;
 import models.enums.TileType;
@@ -9,8 +8,6 @@ import models.enums.ToolType;
 import models.map.Map;
 import models.map.Tile;
 import models.resource.Crop;
-import models.resource.Resource;
-import models.resource.Tree;
 
 public class WateringCan extends Tool{
 
