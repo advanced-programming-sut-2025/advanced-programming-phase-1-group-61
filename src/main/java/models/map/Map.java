@@ -1,5 +1,10 @@
 package models.map;
 
+import models.App;
+import models.NPC.NPC;
+import models.enums.NpcDialog;
+import models.enums.NpcInfo;
+
 import java.util.List;
 
 public class Map {

@@ -1,13 +1,14 @@
-package models.character;
+package models.NPC;
 
+import models.character.Character;
 import models.enums.FriendshipLevel;
 
 public class NPCfriendships {
-    private final Character character;
+    private final models.character.Character character;
     private int friendshipLevel;
     private int friendshipPoints;
     private FriendshipLevel lvl;
-    public NPCfriendships(Character character) {
+    public NPCfriendships(models.character.Character character) {
         this.character = character;
         friendshipPoints=0;
         friendshipLevel=0;
