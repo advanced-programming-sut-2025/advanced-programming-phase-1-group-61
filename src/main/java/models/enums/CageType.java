@@ -31,4 +31,11 @@ public enum CageType {
     public String getDisplayName() {
         return displayName;
     }
+    public static CageType getCageType(String type) {
+        try {
+            return CageType.valueOf(type);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
 }
