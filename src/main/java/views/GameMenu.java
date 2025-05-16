@@ -319,7 +319,8 @@ public class GameMenu implements AppMenu{
                 Result result=controller.cheatSetNpcFriendship(cheatSetNpcFriendship);
                 System.out.println(result.message());
             } else if(npcQuestsList != null){
-
+                Result result=controller.questsList();
+                System.out.println(result.message());
             } else if(npcQuestFinish != null){
 
             } else if(giftNpc != null){

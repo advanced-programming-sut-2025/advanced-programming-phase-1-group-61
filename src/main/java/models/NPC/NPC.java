@@ -15,8 +15,10 @@ public class NPC {
     private final NpcDialog dialogs;
     private final ArrayList<NPCFriendships> friendships = new ArrayList<>();
     private boolean firstGiftOfDay=true;
+    private int x;
+    private int y;
 
-    public NPC(NpcInfo info, NpcDialog dialogs, models.character.Character character) {
+    public NPC(NpcInfo info, NpcDialog dialogs, models.character.Character character,int x, int y) {
         this.info = info;
         this.dialogs = dialogs;
         friendships.add(new NPCFriendships(character));
@@ -59,6 +61,12 @@ public class NPC {
             if(npCfriendships.getCharacter().getUserId()==character.getUserId()) return npCfriendships;
         }
         return null;
+    }
+    public int getX(){
+        return x;
+    }
+    public int getY(){
+        return y;
     }
     public static String getNPCFriendshipsDetails(Character character) {
         StringBuilder builder = new StringBuilder();
@@ -113,12 +121,7 @@ public class NPC {
                     int index=0;
                     for(ItemType item:requests.keySet()) {
                         int count = requests.get(item);
-                        boolean condition = index == 0;
-                        if(index==1)
-                            if(friendship.getFriendshipLevel()>=1) condition=true;
-                        if(index==2)
-                            if(App.getCurrentGame().getDate().hasASeasonPassed()) condition=true;
-                        if(condition) {
+                        if(npc.checkQuestAvailability(character,friendship,index)) {
                             builder.append("delivering ")
                                     .append(count)
                                     .append(item.getDisPlayName())
@@ -131,5 +134,30 @@ public class NPC {
             }
         }
         return builder.toString();
+    }
+    public boolean checkQuestAvailability(Character character,NPCFriendships friendship,int questIndex) {
+        if(questIndex==0) return true;
+        if(questIndex==1)
+            if(friendship.getFriendshipLevel()>=1) return true;
+        if(questIndex==2)
+            return App.getCurrentGame().getDate().hasASeasonPassed();
+        return false;
+    }
+    public static ArrayList<NPC> getAllNPCs(){
+        return allNPCs;
+    }
+    public String checkCharacterEnoughItems(Character character,int questIndex,NPCFriendships friendship) {
+        HashMap<ItemType,Integer> requests=this.info.getRequests();
+        for(ItemType item:requests.keySet()) {
+            int count = requests.get(item);
+            if(character.getInventory().getCountOfItem(item)<count){
+                return "you don't have enough items!";
+            }
+        }
+        for(ItemType item:requests.keySet()) {
+            int count = requests.get(item);
+            character.getInventory().removeItem(item,count);
+        }
+        return "quest successfully finished!";
     }
 }
