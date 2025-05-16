@@ -300,7 +300,8 @@ public class GameMenu implements AppMenu{
                 Result result=controller.friendshipNPCList();
                 System.out.println(result.message());
             } else if(cheatSetNpcFriendship != null){
-
+                Result result=controller.cheatSetNpcFriendship(cheatSetNpcFriendship);
+                System.out.println(result.message());
             }
             else{
                 System.out.println("invalid command");
