@@ -3,9 +3,9 @@ package controllers;
 import models.*;
 import models.animal.Animal;
 import models.building.Building;
-import models.building.Coop;
 import models.building.Shop;
 import models.character.Character;
+import models.character.NPC;
 import models.enums.*;
 import models.food.FridgeItem;
 import models.food.Refrigerator;
@@ -855,5 +855,13 @@ public class GameMenuController {
             return new Result(false , "invalid command");
         }
     }
-
+    public Result meetNpc(Matcher matcher){
+        String name = matcher.group("name");
+        if(!NpcInfo.checkName(name)){
+            return new Result(false , "please enter a valid npc name!");
+        }
+        NPC npc=NPC.getNPC(name);
+        if(npc == null) return new Result(false , "npc not found");
+        return new Result(true,npc.getDialog());
+    }
 }
