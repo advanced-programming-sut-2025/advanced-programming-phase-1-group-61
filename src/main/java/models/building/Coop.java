@@ -1,14 +1,17 @@
 package models.building;
 
 import models.animal.Animal;
+import models.enums.CageType;
 
 
 import java.util.ArrayList;
 
 public class Coop extends Building {
     private ArrayList<Animal> animals = new ArrayList<Animal>();
-    public Coop(String type, String name, int X, int Y, int owner) {
-        super(type, name, X, Y);
+    private CageType cageType ;
+    public Coop(CageType cageType,String type, String name, int X, int Y) {
+        super(name, X, Y);
+        this.cageType = cageType;
         this.space = getSpace(type);
         this.size = this.space;
         this.baseType="Coop";

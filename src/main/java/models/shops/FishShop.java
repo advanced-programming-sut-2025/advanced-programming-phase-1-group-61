@@ -7,8 +7,8 @@ import java.util.List;
 
 public class FishShop extends Shop {
     private final ArrayList<ShopFishingPoleUpgrades> fishingPoles;
-    public FishShop(String type, String name, int X, int Y) {
-        super(type, name, X, Y);
+    public FishShop( String name, int X, int Y) {
+        super( name, X, Y);
         this.owner="Willy";
         fishingPoles = new ArrayList<>(List.of(
                 new ShopFishingPoleUpgrades("training",25,1,1,"It's a lot easier to use than other rods, but can only catch basic fish.","Training Rod"),

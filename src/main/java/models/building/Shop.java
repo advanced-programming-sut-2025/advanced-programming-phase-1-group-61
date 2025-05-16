@@ -3,8 +3,8 @@ package models.building;
 
 public abstract class Shop extends Building {
     protected String owner;
-    public Shop(String type, String name , int X, int Y) {
-        super(String.valueOf(type), name, X, Y);
+    public Shop( String name , int X, int Y) {
+        super( name, X, Y);
     }
     public String getOwnerName() {
         return owner;

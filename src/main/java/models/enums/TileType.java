@@ -12,7 +12,16 @@ public enum TileType {
     Door(false , "8"),
     Shop(true , "B"),
     GreenHouse(true , "C"),
-    Barn(true , "D");
+    Barn(true , "D"),
+    Carpenter(false , "E"),
+    BlackSmith(false , "F"),
+    FishShop(false , "G"),
+    JojaMart(false,"H"),
+    Marnie(false , "I"),
+    Pierre(false , "J"),
+    StarDrop(false , "K"),
+    ShopWall(true , "L"),
+    Path(false , "M");
     private boolean collisionOn;
     private String  typeNum;
 
@@ -23,7 +32,7 @@ public enum TileType {
 
     public static TileType getTypeByNumber(String typeNum) {
         for (TileType type : TileType.values()) {
-            if(type.getTypeNum().equals(typeNum)){
+            if(type.getTypeNum().equalsIgnoreCase(typeNum)){
                 return type;
             }
         }
