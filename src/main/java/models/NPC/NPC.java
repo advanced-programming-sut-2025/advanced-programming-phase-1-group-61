@@ -10,22 +10,29 @@ public class NPC {
     private final static ArrayList<NPC> allNPCs = new ArrayList<>();
     private final NpcInfo info;
     private final NpcDialog dialogs;
-    private final ArrayList<NPCfriendships> friendships = new ArrayList<>();
+    private final ArrayList<NPCFriendships> friendships = new ArrayList<>();
+    private boolean firstGiftOfDay=true;
 
     public NPC(NpcInfo info, NpcDialog dialogs, models.character.Character character) {
         this.info = info;
         this.dialogs = dialogs;
-        friendships.add(new NPCfriendships(character));
+        friendships.add(new NPCFriendships(character));
         allNPCs.add(this);
     }
     public String getDialog() {
         models.character.Character currentCharacter= App.getCurrentGame().getCurrentCharacter();
-        NPCfriendships friendship=getFriendships(currentCharacter);
+        NPCFriendships friendship=getFriendships(currentCharacter);
         if(friendship==null) return "";
         WeatherState currentWeather=App.getCurrentGame().getMap().getWeather().getState();
         Season season=App.getCurrentGame().getDate().getSeason();
         FriendshipLevel level=friendship.getLvl();
         return this.dialogs.getDialogue(season,level,currentWeather);
+    }
+    public boolean isFirstGiftOfDay() {
+        return firstGiftOfDay;
+    }
+    public void setFirstGiftOfDay(boolean firstGiftOfDay) {
+        this.firstGiftOfDay = firstGiftOfDay;
     }
     public static NPC getNPC(String name) {
         for(NPC npc : allNPCs) {
@@ -33,8 +40,19 @@ public class NPC {
         }
         return null;
     }
-    public NPCfriendships getFriendships(Character character) {
-        for(NPCfriendships npCfriendships: friendships){
+    public NpcInfo getInfo() {
+        return info;
+    }
+    public void addFriendshipPoints(int amount,Character character) {
+        for(NPCFriendships friendship : friendships) {
+            if(friendship.getCharacter().getUserId()==character.getUserId()) {
+                friendship.setFriendshipPoints(friendship.getFriendshipPoints()+amount);
+                break;
+            }
+        }
+    }
+    public NPCFriendships getFriendships(Character character) {
+        for(NPCFriendships npCfriendships: friendships){
             if(npCfriendships.getCharacter().getUserId()==character.getUserId()) return npCfriendships;
         }
         return null;
@@ -43,7 +61,7 @@ public class NPC {
         StringBuilder builder = new StringBuilder();
         for(int i=0;i<allNPCs.size();i++) {
             NPC npc = allNPCs.get(i);
-            for(NPCfriendships friendship:npc.friendships) {
+            for(NPCFriendships friendship:npc.friendships) {
                 if(friendship.getCharacter().getUserId()==character.getUserId()) {
                     builder.append(npc.info.name()).append(":\n")
                             .append("friendship level: ")
@@ -58,5 +76,10 @@ public class NPC {
             }
         }
         return builder.toString();
+    }
+    public static void resetFirstTimeInDay(){
+        for(NPC npc : allNPCs) {
+            npc.setFirstGiftOfDay(true);
+        }
     }
 }

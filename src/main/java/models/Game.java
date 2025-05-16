@@ -1,5 +1,6 @@
 package models;
 
+import models.NPC.NPC;
 import models.building.Shop;
 import models.character.Character;
 import models.date.Date;
@@ -69,6 +70,7 @@ public class Game implements Runnable {
         }
         List<Character> characters=App.getCurrentGame().getAllCharacters();
         for(Character character:characters) character.setBuff(null);
+        NPC.resetFirstTimeInDay();
     }
 
 

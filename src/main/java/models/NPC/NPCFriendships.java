@@ -3,12 +3,12 @@ package models.NPC;
 import models.character.Character;
 import models.enums.FriendshipLevel;
 
-public class NPCfriendships {
-    private final models.character.Character character;
+public class NPCFriendships {
+    private final Character character;
     private int friendshipLevel;
     private int friendshipPoints;
     private FriendshipLevel lvl;
-    public NPCfriendships(models.character.Character character) {
+    public NPCFriendships(models.character.Character character) {
         this.character = character;
         friendshipPoints=0;
         friendshipLevel=0;
@@ -31,8 +31,13 @@ public class NPCfriendships {
     }
     public void setFriendshipPoints(int friendshipPoints) {
         this.friendshipPoints = friendshipPoints;
+        if(this.friendshipPoints>200){
+            int levelIncrease=this.friendshipPoints/200;
+            setFriendshipLevel(getFriendshipLevel()+levelIncrease);
+            this.friendshipPoints%=200;
+        }
     }
-    public boolean equals(NPCfriendships npcfriendships) {
+    public boolean equals(NPCFriendships npcfriendships) {
         return this.character.getUserId() == npcfriendships.getCharacter().getUserId();
     }
     public FriendshipLevel getLvl() {
