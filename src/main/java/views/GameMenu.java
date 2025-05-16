@@ -144,7 +144,7 @@ public class GameMenu implements AppMenu{
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
-            } else if (putOrPickItemInRefrigerator) {
+            } else if (putOrPickItemInRefrigerator != null) {
                 Result result = controller.putOrPickItemInRefrigerator(putOrPickItemInRefrigerator);
                 System.out.println(result.message());
             } else if (showWaterInBucket != null) {
