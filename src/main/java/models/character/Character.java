@@ -5,8 +5,10 @@ import models.Item;
 import models.animal.Animal;
 import models.building.Building;
 import models.building.Shop;
+import models.enums.CookingRecipes;
 import models.enums.Recipe;
 import models.enums.ToolType;
+
 import models.map.Map;
 import models.tool.Tool;
 import models.workBench.WorkBench;
@@ -26,7 +28,10 @@ public class Character {
     private ArrayList<Building> buildings =new ArrayList<>();
     private ArrayList<WorkBench> workBenches =new ArrayList<>();
     private ArrayList<Recipe> recipes=new ArrayList<>();
+    private ArrayList<CookingRecipes> cookingRecipes = new ArrayList<>();
     private ArrayList<Cell> lastPath;
+    private int xRefrigerator , yRefrigerator;
+
     private Buff buff=null;
     private int money;
     public Character(int userId){
@@ -52,6 +57,22 @@ public class Character {
     }
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public int getxRefrigerator() {
+        return xRefrigerator;
+    }
+
+    public void setxRefrigerator(int xRefrigerator) {
+        this.xRefrigerator = xRefrigerator;
+    }
+
+    public int getyRefrigerator() {
+        return yRefrigerator;
+    }
+
+    public void setyRefrigerator(int yRefrigerator) {
+        this.yRefrigerator = yRefrigerator;
     }
 
     public int getX() {

@@ -42,7 +42,9 @@ public enum GameMenuCommands {
     PLANT("^plant\\s+-s\\s+(?<seed>.*)\\s+-d\\s+(?<direction>.*)$"),
     SHOW_PLANT("^showplant\\s+-l\\s+<(?<x>.\\d+),(?<y>.\\d+)>$"),
     FERTILIZE("^fertilize\\s+-f\\s+(?<fertilizer>.*)\\s+-d\\s+(?<direction>.*)$"),
-    WATER_IN_BUCKET("^howmuch\\s+water$");
+    WATER_IN_BUCKET("^howmuch\\s+water$"),
+    Refrigerator("^cooking\\s+refrigerator\\s+(?<action>put|pick)\\s+(?<item>.+)$");
+
 
 
     private String pattern;
