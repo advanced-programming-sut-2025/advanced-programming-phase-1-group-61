@@ -43,7 +43,10 @@ public enum GameMenuCommands {
     SHOW_PLANT("^showplant\\s+-l\\s+<(?<x>.\\d+),(?<y>.\\d+)>$"),
     FERTILIZE("^fertilize\\s+-f\\s+(?<fertilizer>.*)\\s+-d\\s+(?<direction>.*)$"),
     WATER_IN_BUCKET("^howmuch\\s+water$"),
-    Refrigerator("^cooking\\s+refrigerator\\s+(?<action>put|pick)\\s+(?<item>.+)$");
+    Refrigerator("^cooking\\s+refrigerator\\s+(?<action>put|pick)\\s+(?<item>.+)$"),
+    ShowCookingRecipes("^cooking\\s+show\\s+recipes$"),
+    CookingPrepare("^cooking\\s+prepare\\s+(?<recipeName>.*)$"),
+    EatFood("^eat\\s+(?<foodName>.*)$");
 
 
 

@@ -1,6 +1,7 @@
 package models.character;
 
 import models.App;
+import models.enums.CookingRecipes;
 
 public class Skill {
     private int miningSkillXP;
@@ -74,6 +75,9 @@ public class Skill {
         this.farmingSkillXP +=amount;
         if(checkLVL(this.farmingSkillXP , this.farmingLVL)){
             this.farmingSkillXP = 0;
+            if(farmingLVL == 1){
+                App.getCurrentGame().getCurrentCharacter().getCookingRecipes().add(CookingRecipes.FarmersLunch);
+            }
             this.farmingLVL++;
         }
     }
@@ -82,6 +86,9 @@ public class Skill {
         this.miningSkillXP +=amount;
         if(checkLVL(this.miningSkillXP , this.miningLVL)){
             this.miningSkillXP =0;
+            if(miningLVL == 1){
+                App.getCurrentGame().getCurrentCharacter().getCookingRecipes().add(CookingRecipes.MinersTreat);
+            }
             this.miningLVL++;
         }
     }
@@ -91,6 +98,11 @@ public class Skill {
         if(checkLVL(this.fishingSkillXP , this.fishingLVL)){
             this.fishingSkillXP=0;
             this.fishingLVL++;
+            if(fishingLVL == 2){
+                App.getCurrentGame().getCurrentCharacter().getCookingRecipes().add(CookingRecipes.DishOTheSea);
+            } else if (fishingLVL == 3) {
+                App.getCurrentGame().getCurrentCharacter().getCookingRecipes().add(CookingRecipes.SeaFormPudding);
+            }
         }
     }
 
@@ -98,6 +110,11 @@ public class Skill {
         this.forgingSkillXP += amount;
         if(checkLVL(this.forgingSkillXP , this.foragingLVL)){
             this.foragingLVL++;
+            if(this.foragingLVL ==2){
+                App.getCurrentGame().getCurrentCharacter().getCookingRecipes().add(CookingRecipes.VegetableMedley);
+            } else if (this.foragingLVL == 3) {
+                App.getCurrentGame().getCurrentCharacter().getCookingRecipes().add(CookingRecipes.SurvivalBurger);
+            }
             this.forgingSkillXP = 0;
         }
     }

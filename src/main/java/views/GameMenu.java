@@ -140,10 +140,22 @@ public class GameMenu implements AppMenu{
             Matcher fertilize = GameMenuCommands.FERTILIZE.getMatcher(input);
             Matcher showWaterInBucket = GameMenuCommands.WATER_IN_BUCKET.getMatcher(input);
             Matcher putOrPickItemInRefrigerator = GameMenuCommands.Refrigerator.getMatcher(input);
+            Matcher showCookingRecipe = GameMenuCommands.ShowCookingRecipes.getMatcher(input);
+            Matcher cooking = GameMenuCommands.CookingPrepare.getMatcher(input);
+            Matcher eatFood = GameMenuCommands.EatFood.getMatcher(input);
 
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
+            } else if (eatFood != null) {
+                Result result = controller.eatFood(eatFood);
+                System.out.println(result.message());
+            } else if (cooking != null) {
+                Result result = controller.cooking(cooking);
+                System.out.println(result.message());
+            } else if (showCookingRecipe != null) {
+                Result result = controller.showCookingRecipes();
+                System.out.println(result.message());
             } else if (putOrPickItemInRefrigerator != null) {
                 Result result = controller.putOrPickItemInRefrigerator(putOrPickItemInRefrigerator);
                 System.out.println(result.message());

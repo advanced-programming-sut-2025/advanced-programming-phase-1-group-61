@@ -40,6 +40,9 @@ public class Character {
         this.energy = 200;
         this.skill = new Skill();
         this.inventory = new Inventory();
+        cookingRecipes.add(CookingRecipes.FriedEgg);
+        cookingRecipes.add(CookingRecipes.BakedFish);
+        cookingRecipes.add(CookingRecipes.Salad);
     }
 
     public void setTool(ToolType newTool){
@@ -57,6 +60,10 @@ public class Character {
     }
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public ArrayList<CookingRecipes> getCookingRecipes() {
+        return cookingRecipes;
     }
 
     public int getxRefrigerator() {
@@ -117,6 +124,10 @@ public class Character {
     }
     public void setEnergy(int energy) {
         this.energy = Math.min(200,energy);
+        if(this.energy <= 0 ){
+            this.energy = 0;
+            faint();
+        }
     }
     public boolean isUnlimitedEnergy() {
         return unlimitedEnergy;
