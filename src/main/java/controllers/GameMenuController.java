@@ -7,6 +7,8 @@ import models.building.Coop;
 import models.building.Shop;
 import models.character.Character;
 import models.enums.*;
+import models.food.FridgeItem;
+import models.food.Refrigerator;
 import models.map.Map;
 import models.map.MapCreator.MapBuilder;
 import models.map.Tile;
@@ -132,15 +134,18 @@ public class GameMenuController {
         for (String username : usernames) {
             userList.add(User.getUserByUsername(username));
         }
-        Map map = MapBuilder.buildFullMap(mapNumbers[0], mapNumbers[1], mapNumbers[2], mapNumbers[3]);
         List<Character> characterList = new ArrayList<>();
-        int i = 0;
         for (User user : userList) {
             Character character = new Character(user.getId());
+            characterList.add(character);
+        }
+        Map map = MapBuilder.buildFullMap(mapNumbers[0], mapNumbers[1], mapNumbers[2], mapNumbers[3],characterList);
+        
+        int i = 0;
+        for (Character character : characterList) {
             character.setX(map.getXSpawnPoints().get(i));
             character.setY(map.getYSpawnPoints().get(i));
             i++;
-            characterList.add(character);
         }
         for (User user : userList) {
             if (user.getGameId() != 0) {
@@ -434,7 +439,6 @@ public class GameMenuController {
 
         if (tile.getType().equals(TileType.Grass)) {
             if (tile.getResource() != null) {
-                Tree tree = (Tree) tile.getResource();
                 return BROWN + "T " + RESET;
             }
             return GREEN + "G " + RESET;
@@ -443,9 +447,13 @@ public class GameMenuController {
                 return WHITE + "S " + RESET;
             }
             return GRAY + "M " + RESET;
+        } else if (tile.getType().equals(TileType.CabinFloor)) {
+            if(tile.getResource() != null){
+                return BLUE + "R " + RESET;
+            }
+            return WHITE + "Cf" + RESET;
         }
         if (tile.getType().equals(TileType.Water)) return BLUE + "W " + RESET;
-        if (tile.getType().equals(TileType.CabinFloor)) return WHITE + "Cf" + RESET;
         if (tile.getType().equals(TileType.CabinWall)) return YELLOW + "Cw" + RESET;
         if (tile.getType().equals(TileType.BrokenGreenHouse)) return YELLOW + "Gf" + RESET;
         if (tile.getType().equals(TileType.BrokenGreenHouseWall)) return YELLOW + "GW" + RESET;
@@ -802,6 +810,50 @@ public class GameMenuController {
         }
         WateringCan water = (WateringCan) tool;
         return new Result(true , "you have "+water.getDurability()+" in your bucket.");
+    }
+
+    public Result putOrPickItemInRefrigerator(Matcher matcher){
+        String itemString = matcher.group("item");
+        String action = matcher.group("action");
+        ItemType itemType =ItemType.getItemType(itemString);
+        if(itemType == null){
+            return new Result(false , "not valid item");
+        }
+        Character character = App.getCurrentGame().getCurrentCharacter();
+
+        if(action.equalsIgnoreCase("put")){
+            int count =character.getInventory().getCountOfItem(itemType);
+            if (count<= 0) {
+                return new Result(false , "you dont have this item in your inventory");
+            }
+            character.getInventory().removeItem(itemType);
+            int x = character.getxRefrigerator();
+            int y = character.getyRefrigerator();
+            Tile tile = App.getCurrentGame().getMap().getTileByCordinate(x,y);
+            Refrigerator refrigerator = (Refrigerator) tile.getResource();
+            refrigerator.addItem(itemType , count);
+            return new Result(true , "is now in fridge");
+        } else if (action.equalsIgnoreCase("pick")) {
+            int x = character.getxRefrigerator();
+            int y = character.getyRefrigerator();
+            Tile tile = App.getCurrentGame().getMap().getTileByCordinate(x,y);
+            Refrigerator refrigerator = (Refrigerator) tile.getResource();
+            int count = 0;
+            for (FridgeItem fridgeItem : refrigerator.getItems()) {
+                if(fridgeItem.getItem().equals(itemType)){
+                    count = fridgeItem.getQuantity();
+                    fridgeItem.setQuantity(0);
+                }
+            }
+            if(count >0){
+                character.getInventory().addItem(itemType , count);
+                return new Result(true , "now in your inventory");
+            }else {
+                return new Result(false , "not in fridge");
+            }
+        }else {
+            return new Result(false , "invalid command");
+        }
     }
 
 }

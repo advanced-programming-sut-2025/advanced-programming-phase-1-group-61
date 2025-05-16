@@ -1,11 +1,14 @@
 package models.map.MapCreator;
 
 import models.Game;
+import models.character.Character;
 import models.enums.TileType;
 import models.enums.WeatherState;
+import models.food.Refrigerator;
 import models.map.Map;
 import models.map.Tile;
 import models.map.Weather;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,7 +22,7 @@ public class MapBuilder {
     private static int cityWidth = 7;
     private static int cityHeight = 7;
 
-    public static Map buildFullMap(int player1Farm , int player2Farm , int player3Farm , int player4Farm) {
+    public static Map buildFullMap(int player1Farm , int player2Farm , int player3Farm , int player4Farm,List<Character> characters) {
 
         int fullWidth = FARM_WIDTH * 2 + cityWidth;
         int fullHeight = FARM_HEIGHT * 2 + cityHeight;
@@ -40,14 +43,24 @@ public class MapBuilder {
         for (int y = 0; y < fullHeight; y++) {
             for (int x = 0; x < fullWidth; x++) {
                 String mapSymbole = fullMap[y][x].trim().toLowerCase();
+                boolean refrigerator = false;
                 if(mapSymbole.equals("s")){
                     ySpawnPoints.add(y);
                     xSpawnPoints.add(x);
                     mapSymbole = "4";
+                } else if (mapSymbole.equals("R")) {
+                    mapSymbole = "4";
+                    refrigerator = true;
                 }
                 TileType tileType = TileType.getTypeByNumber(mapSymbole);
                 int ownerId = getOwnerIdForPosition(x, y, FARM_WIDTH, FARM_HEIGHT, cityWidth, cityHeight);
                 tiles[y][x] = new Tile(x, y, tileType, null, ownerId);
+                if(refrigerator){
+                    tiles[y][x].setResource(new Refrigerator());
+                    characters.get(ownerId).setxRefrigerator(x);
+                    characters.get(ownerId).setyRefrigerator(y);
+                }
+
             }
         }
         Map map = new Map(tiles , new Weather(WeatherState.Sunny));
