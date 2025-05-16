@@ -5,6 +5,7 @@ import models.Item;
 import models.animal.Animal;
 import models.building.Building;
 import models.building.Shop;
+import models.enums.CookingRecipes;
 import models.enums.Recipe;
 import models.enums.ToolType;
 import models.map.Map;
@@ -24,6 +25,7 @@ public class Character {
     private java.util.Map<String,Animal> animals = new HashMap<>();
     private ArrayList<Building> buildings =new ArrayList<>();
     private ArrayList<Recipe> recipes=new ArrayList<>();
+    private ArrayList<CookingRecipes> cookingRecipes = new ArrayList<>();
     private ArrayList<Cell> lastPath;
     private Buff buff=null;
     private int money;
