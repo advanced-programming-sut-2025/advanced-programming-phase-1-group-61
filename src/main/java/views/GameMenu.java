@@ -12,6 +12,7 @@ import models.enums.Menu;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -150,9 +151,13 @@ public class GameMenu implements AppMenu{
             Matcher npcQuestFinish=GameMenuCommands.NPC_QUEST_FINISH.getMatcher(input);
             Matcher giftNpc=GameMenuCommands.GIFT_NPC.getMatcher(input);
             Matcher buildCage = GameMenuCommands.BuildCage.getMatcher(input);
-
+            Matcher showCraftingRecipes = GameMenuCommands.ShowCookingRecipes.getMatcher(input);
+            
+            
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
+            } else if (showCraftingRecipes != null) {
+                
             } else if (buildCage != null) {
                 Result result = controller.buildCage(buildCage);
                 System.out.println(result.message());
