@@ -15,6 +15,11 @@ public class Inprocess {
     }
 
     public ItemType isready(int day, int hour){
+        if(timeneeded<0){
+            if (day>startday){
+                return this.type;
+            }
+        }
         if(timeneeded<=(24*(day-startday)+(hour-starthour))){
             return this.type;
         }

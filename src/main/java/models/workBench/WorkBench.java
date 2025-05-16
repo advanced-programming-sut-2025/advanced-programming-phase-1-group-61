@@ -12,43 +12,12 @@ import java.util.*;
 public class WorkBench extends Resource {
     private final WorkBenchType Type;
     private final List<Inprocess> inprocesses = new ArrayList<>();
-    private final Map<String, List<String>> itemKinds = new HashMap<>();
+    private final Map<String, List<String>> itemKinds;
 
     public WorkBench(WorkBenchType type) {
         this.Type = type;
-        // لیست سبزیجات
-        List<String> vegetables = new ArrayList<>(Arrays.asList(
-                "Corn", "Tomato", "Potato", "Blueberry", "Melon",
-                "RedCabbage", "Radish", "Amaranth", "Kale", "Beet",
-                "Parsnip", "EggPlant", "Carrot", "CauliFlower", "SpringOnion",
-                "WildHorseradish", "Garlic", "GreenBean", "Rhubarb",
-                "Artichoke", "BokChoy", "Broccoli"
-        ));
-        itemKinds.put("Vegetable", vegetables);
+        this.itemKinds = new ItemKinds().getItemKinds();
 
-        // لیست میوه‌ها
-        List<String> fruits = new ArrayList<>(Arrays.asList(
-                "Apricot", "Apple", "Banana", "Cherry", "Mango",
-                "Orange", "Peach", "Pomegranate", "Starfruit", "AncientFruit", "Grapes"
-        ));
-        itemKinds.put("Fruit", fruits);
-
-        // حذف "Grapes" از لیست DryableFruit
-        fruits.remove("Grapes");
-        itemKinds.put("DryableFruit", fruits);
-
-        // لیست قارچ‌ها
-        List<String> mushrooms = new ArrayList<>(Arrays.asList(
-                "RedMushroom", "PurpleMushroom", "Chanterelle", "CommonMushroom"
-        ));
-        itemKinds.put("Mushroom", mushrooms);
-        List<String> fishes = new ArrayList<>(Arrays.asList(
-
-                "Squid", "Tuna", "Perch", "LionFish", "Herring", "GhostFish",
-                "Tilapia", "Dorado", "Sunfish", "RainbowTrout", "Legend", "Glacierfish",
-                "Angler", "Crimsonfish"
-        ));
-        itemKinds.put("Fish", fishes);
     }
 
     public WorkBenchType getType() {
@@ -243,7 +212,7 @@ public class WorkBench extends Resource {
 
             }
             case "LOOM": {
-                if (!type.name().equals(ItemType.Coal.name())) return null;
+                if (!type.name().equals(ItemType.Cloth.name())) return null;
                 Map<String, Integer> map = new HashMap<>();
                 map.put("Time", 4);
                 map.put(ItemType.Wood.toString(), 1);

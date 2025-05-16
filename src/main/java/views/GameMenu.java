@@ -135,10 +135,18 @@ public class GameMenu implements AppMenu{
             Matcher showAllProducts = GameMenuCommands.SHOW_ALL_PRODUCTS.getMatcher(input);
             Matcher showAllAvailableProducts = GameMenuCommands.SHOW_ALL_AVAILABLE_PRODUCTS.getMatcher(input);
             Matcher purchaseProduct = GameMenuCommands.PURCHASE.getMatcher(input);
+            Matcher artisanuse = GameMenuCommands.ARTISAN_USE.getMatcher(input);
+            Matcher artisancollect = GameMenuCommands.ARTISAN_GET.getMatcher(input);
 
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
+            }else if (artisanuse != null) {
+                Result result = controller.artisanUse(artisanuse);
+                System.out.println(result.message());
+            }else if (artisancollect != null) {
+                Result result = controller.artisancollect(artisancollect);
+                System.out.println(result.message());
             }else if (sellAnimal != null) {
                 Result result = controller.sellAnimal(sellAnimal);
                 System.out.println(result.message());

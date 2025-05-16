@@ -5,6 +5,7 @@ import models.animal.Animal;
 import models.building.Building;
 import models.building.Shop;
 import models.character.Character;
+import models.date.Date;
 import models.enums.*;
 import models.map.Map;
 import models.map.MapCreator.MapBuilder;
@@ -16,7 +17,8 @@ import models.resource.Resource;
 import models.resource.Tree;
 import models.tool.Axe;
 import models.tool.Tool;
-
+import models.workBench.ItemKinds;
+import models.workBench.WorkBench;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -518,6 +520,155 @@ public class GameMenuController {
         return new Result(true, massage);
     }
 
+    public Result artisanUse(Matcher matcher) {
+        String bench = matcher.group("bench").trim().replace("\\s+", "");
+        String nee1 = matcher.group("need1").trim().replace("\\s+", "");
+        String nee2 = matcher.group("need2").trim().replace("\\s+", "");
+        ItemType item = null;
+        ItemType Need1 = ItemType.getItembyname(nee1);
+        ItemType Need2 = ItemType.getItembyname(nee2);
+        Date date = App.getCurrentGame().getDate();
+        java.util.Map<String, List<String>> itemKinds = new ItemKinds().getItemKinds();
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        for (WorkBench Bench : character.getWorkBenches()) {
+            if (Bench.getType().name().equalsIgnoreCase(bench)) {
+                switch (bench.toUpperCase()) {
+                    case "BEEHOUSE": {
+                        item = ItemType.Honey;
+                        break;
+                    }
+                    case "CHEESPRESS": {
+                        if (Need1.name().toUpperCase().contains("BIGGOATMILK")) {
+                            item = ItemType.BigGoatCheese;
+                        }else if (Need1.name().toUpperCase().contains("GOATMILK")) {
+                            item = ItemType.GoatCheese;
+                        }else if (Need1.name().toUpperCase().contains("BIGMILK")) {
+                            item = ItemType.BigCheese;
+                        }else if (Need1.name().toUpperCase().contains("MILK")) {
+                            item = ItemType.Cheese;
+                        }
+                        break;
+                    }
+                    case "KEG": {
+                        if (Need1.name().contains(ItemType.Wheat.name())) {
+                            item = ItemType.Beer;
+                        }
+                        else if (Need1.name().contains(ItemType.Rice.name())) {
+                            item = ItemType.Vinegar;
+                        }
+                        else if (Need1.name().contains(ItemType.CoffeeBean.name())) {
+                            item = ItemType.Coffee;
+                        }
+                        else if (itemKinds.get("Vegetable").contains(Need1.name())) {
+                            item = ItemType.Juice;
+                        }
+                        else if (Need1.name().contains(ItemType.Honey.name())) {
+                            item = ItemType.Mead;
+                        }
+                        else if (Need1.name().contains(ItemType.Hops.name())) {
+                            item = ItemType.PaleAle;
+                        }
+                        else if (itemKinds.get("Fruit").contains(Need1.name())) {
+                            item = ItemType.Wine;
+                        }
+                        break;
+                    }
+                    case "DEHYDRATOR": {
+                        if (itemKinds.get("DryableFruit").contains(Need1.name())) {
+                            item = ItemType.DriedFruit;
+                        }
+                        else if (itemKinds.get("Mushroom").contains(Need1.name())) {
+                            item = ItemType.DriedMushrooms;
+                        }
+                        else if (Need1.name().contains(ItemType.Grapes.name())) {
+                            item = ItemType.Raisins;
+                        }
+                        break;
+                    }
+                    case "CHACOALKILN": {
+                        if (Need1.name().equals(ItemType.Coal.name())) item = ItemType.Coal;
+
+                    }
+                    case "LOOM": {
+                        if (Need1.name().equals(ItemType.Wood.name())) item = ItemType.Cloth;
+                        break;
+                    }
+                    case "MAYONNAISEMACHINE": {
+                        if (Need1.name().toUpperCase().contains(ItemType.DinosaurEgg.name().toUpperCase())) {
+                            item = ItemType.DinosaurMayonnaise;
+                        }else if (Need1.name().toUpperCase().contains(ItemType.DuckEgg.name().toUpperCase())) {
+                            item = ItemType.DuckMayonnaise;
+                        }else if (Need1.name().toUpperCase().contains(ItemType.BigEgg.name().toUpperCase())) {
+                            item = ItemType.BigMayonnaise;
+                        }else if (Need1.name().toUpperCase().contains(ItemType.Egg.name().toUpperCase())) {
+                            item = ItemType.Mayonnaise;
+                        }
+                        break;
+                    }
+                    case "OILMAKER": {
+                            if (Need1.name().toUpperCase().contains(ItemType.Truffle.name().toUpperCase())) {
+                                item = ItemType.TruffleOil;
+                            }else if (Need1.name().toUpperCase().contains(ItemType.Corn.name().toUpperCase())||
+                                    Need1.name().toUpperCase().contains(ItemType.SunflowerSeed.name().toUpperCase())||
+                                    Need1.name().toUpperCase().contains(ItemType.Sunflower.name().toUpperCase())) {
+                                item = ItemType.Oil;
+                            }
+                        break;
+                    }
+                    case "PERESERVESJAR": {
+                        if (itemKinds.get("Vegetable").contains(Need1.name())) {
+                            item = ItemType.Pickles;
+                        }else if (itemKinds.get("Fruit").contains(Need1.name())) {
+                            item = ItemType.Jelly;
+                        }
+                        break;
+                    }
+                    case "FISHSMOKER": {
+                        if (itemKinds.get("Fish").contains(Need1.name())) {
+                            item = ItemType.SmokedFish;
+                        }
+                        break;
+                    }
+                    case "FURNACE": {
+                        if (Need1.name().contains(ItemType.CopperOre.name())) {
+                            item = ItemType.CopperBar;
+                        }
+                        else if (Need1.name().contains(ItemType.IronOre.name())) {
+                            item = ItemType.IronBar;
+                        }
+                        else if (Need1.name().contains(ItemType.GoldOre.name())) {
+                            item = ItemType.GoldBar;
+                        }else if (Need1.name().contains(ItemType.IridiumOre.name())) {
+                            item = ItemType.IridiumBar;
+                        }
+                        break;
+                    }
+                }
+                if (item == null)  return new Result(false,"worng items");
+
+                if (Bench.addprocess(item, Need1, Need2)) {
+                    return new Result(true, item.name()+" is processing in " +bench);
+                }
+                return new Result(false,"not enough items");
+            }
+        }
+        return new Result(false,"you dont have any "+bench);
+    }
+
+    public Result artisancollect(Matcher matcher){
+        String bench = matcher.group("bench").trim().replace("\\s+", "");
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        for (WorkBench Bench : character.getWorkBenches()){
+            if (Bench.getType().name().equalsIgnoreCase(bench)){
+                if(Bench.Collect()){
+                    return new Result(true,bench+" is collected");
+                }
+                return new Result(false,bench+" has to item ready");
+            }
+        }
+        return new Result(false,"you dont have any "+bench);
+    }
+
     public Result shepherd(Matcher matcher) {
         String animalName = matcher.group("animalname").trim();
         int x = Integer.parseInt(matcher.group("x"));
@@ -539,8 +690,8 @@ public class GameMenuController {
                     if (building == null) {
                         return new Result(false, "There is a building there with name " + name + " that is not yours");
                     }
-                    if(Objects.equals(animal.getHouse(), name)){
-                        return new Result(false, animalName+" is alredy there");
+                    if (Objects.equals(animal.getHouse(), name)) {
+                        return new Result(false, animalName + " is alredy there");
                     }
                     if (building.getBaseType().equals(animal.getType().getHouse()) &&
                             animal.getType().getHouseSize() <= building.getSize() &&
@@ -551,7 +702,7 @@ public class GameMenuController {
                     }
                     return new Result(false, animalName + "can't go in " + name);
                 } else if (!(tile.getType().getTypeNum().equals("4") && tile.getType().getTypeNum().equals("8"))) {
-                    animal.shepherd(x, y, true,"");
+                    animal.shepherd(x, y, true, "");
                     return new Result(true, animalName + "is out eating");
                 }
                 return new Result(false, animalName + "can't go in the cabin");
