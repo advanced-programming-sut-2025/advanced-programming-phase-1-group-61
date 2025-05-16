@@ -75,19 +75,19 @@ public class Inventory {
     public ArrayList<Tool> getTools(){
         return tools;
     }
-    public void removeItem(ItemType item){
-        for (int i=0;i<items.size();i++){
-            Item it=(Item) items.keySet().toArray()[i];
-            if(it.getItemType().equals(item))
-                items.remove(it);
-        }
+    public void removeItem(ItemType item) {
+        items.remove(item);
     }
-    public void removeItem(ItemType item,int count){
-        for(int i=0;i<items.size();i++){
-            if(items.get(i).equals(item))
-                items.put(item,items.get(item) -count);
+    public void removeItem(ItemType item, int count) {
+        if (items.containsKey(item)) {
+            int current = items.get(item);
+            int newCount = current - count;
+            if (newCount > 0) {
+                items.put(item, newCount);
+            } else {
+                items.remove(item);
+            }
         }
-
     }
     public int getCountOfItem(ItemType item){
         for(int i=0;i<items.size();i++){

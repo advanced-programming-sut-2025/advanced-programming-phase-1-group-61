@@ -4,6 +4,7 @@ import models.*;
 import models.animal.Animal;
 import models.building.Building;
 import models.building.Shop;
+import models.character.Buff;
 import models.character.Character;
 import models.NPC.NPC;
 import models.enums.*;
@@ -874,8 +875,10 @@ public class GameMenuController {
         }
         if(CookingRecipes.getCookingRecipes(food.name()) != null){
             CookingRecipes cookedFood = CookingRecipes.getCookingRecipes(food.name());
-            if(cookedFood.getBuff() != null){
-                character.setBuff(cookedFood.getBuff());
+            Buff buff=cookedFood.getBuff();
+            if(buff != null){
+                character.setBuff(buff);
+                buff.use();
             }
             character.getInventory().removeItem(food , 1);
             int newEnergy = character.getEnergy() + food.getEnergy();
