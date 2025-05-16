@@ -2,7 +2,9 @@ package controllers;
 
 import models.*;
 import models.animal.Animal;
+import models.building.Barn;
 import models.building.Building;
+import models.building.Coop;
 import models.building.Shop;
 import models.character.Buff;
 import models.character.Character;
@@ -1041,5 +1043,56 @@ public class GameMenuController {
             return new Result(false , "this quest is not available for you yet!");
         }
         return new Result(true,npc.checkCharacterEnoughItems(character,index,npc.getFriendships(character)));
+    }
+
+    public Result buildCage(Matcher matcher){
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        String cageTypeString = matcher.group("cageType");
+        String name = matcher.group("name");
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        CageType cageType = CageType.getCageType(cageTypeString);
+        if(cageType == null){
+            return new Result(false , "cage type not valid");
+        }
+        Game game = App.getCurrentGame();
+        Map map = game.getMap();
+        Tile charachterTile = map.getTileByCordinate(character.getX() , character.getY());
+        if(!charachterTile.getType().equals(TileType.Carpenter)){
+            return new Result(false , "you have to be in carpenter shop.");
+        }
+        if(character.getInventory().getCageTypeNumber(cageType) <= 0){
+            return new Result(false , "you have not bough this cage in shop buy it first");
+        }
+
+        for(int height = y ; height < cageType.getHeight()+y ; height++){
+            for (int width = x ; width < cageType.getWidth()+x; width++){
+                Tile tile = map.getTileByCordinate(width , height);
+                if(tile==null){
+                    return new Result(false , "invalid coordinate");
+                }
+                if(game.getCharacterByTurnNumber(tile.getOwnerId()).getUserId() !=character.getUserId()){
+                    return new Result(true , "this tile is not yours");
+                }
+                if(tile.getType().isCollisionOn() || tile.getResource() != null){
+                    return new Result(false , "not valid tile to build on");
+                }
+            }
+        }
+
+        for(int height = y ; height < cageType.getHeight()+y ; height++){
+            for (int width = x ; width < cageType.getWidth()+x; width++){
+                Tile tile = map.getTileByCordinate(width , height);
+                tile.setResource(new BuildingReference(name));
+            }
+        }
+        if(cageType.equals(CageType.Barn) || cageType.equals(CageType.BigBarn) ||cageType.equals(CageType.DeluxeBarn) ){
+            character.getBuildings().add(new Barn(cageType , name , x , y));
+        }else {
+            character.getBuildings().add(new Coop(cageType , name , x , y));
+        }
+        character.getInventory().removeCage(1 , cageType);
+        return new Result(true , "cage built successfully");
+
     }
 }

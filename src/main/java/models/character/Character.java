@@ -12,6 +12,8 @@ import models.enums.Recipe;
 import models.enums.ToolType;
 
 import models.map.Map;
+import models.map.Tile;
+import models.resource.BuildingReference;
 import models.tool.Tool;
 import models.workBench.WorkBench;
 
@@ -55,6 +57,12 @@ public class Character {
         }
     }
     public Shop getCurrentShop(){
+       Map map = App.getCurrentGame().getMap();
+        Tile tile = map.getTileByCordinate(x,y);
+        if(tile.getResource() instanceof BuildingReference buildingReference){
+          String name = buildingReference.getName();
+          return App.getCurrentGame().getShopByName(name);
+        }
         return null;
     }
     public Tool getCurrentTool(){

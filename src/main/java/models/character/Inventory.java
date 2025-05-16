@@ -44,6 +44,16 @@ public class Inventory {
             }
         }
     }
+    public int getCageTypeNumber(CageType cageType){
+        if(allCages.containsKey(cageType)){
+            int count = allCages.get(cageType);
+            return count;
+        }
+        return 0;
+    }
+    public void removeCage(int amount,CageType cageType){
+        allCages.replace(cageType , getCageTypeNumber(cageType) -amount);
+    }
     public boolean checkToolInInventory(ToolType tool){
         for(Tool t : tools){
             if(t.getType().equals(tool)) return true;

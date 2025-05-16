@@ -149,10 +149,13 @@ public class GameMenu implements AppMenu{
             Matcher npcQuestsList=GameMenuCommands.NPC_QUESTS_LIST.getMatcher(input);
             Matcher npcQuestFinish=GameMenuCommands.NPC_QUEST_FINISH.getMatcher(input);
             Matcher giftNpc=GameMenuCommands.GIFT_NPC.getMatcher(input);
-
+            Matcher buildCage = GameMenuCommands.BuildCage.getMatcher(input);
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
+            } else if (buildCage != null) {
+                Result result = controller.buildCage(buildCage);
+                System.out.println(result.message());
             } else if (eatFood != null) {
                 Result result = controller.eatFood(eatFood);
                 System.out.println(result.message());

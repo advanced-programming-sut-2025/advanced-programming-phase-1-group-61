@@ -18,9 +18,9 @@ public class Barn extends Building {
     }
     private int getSpace(String type) {
         return switch (type) {
-            case "burn" -> 4;
-            case "bigBurn" -> 8;
-            case "deluxeBurn" -> 12;
+            case "Barn" -> 4;
+            case "BigBarn" -> 8;
+            case "DeluxeBarn" -> 12;
             default -> -1;
         };
     }
