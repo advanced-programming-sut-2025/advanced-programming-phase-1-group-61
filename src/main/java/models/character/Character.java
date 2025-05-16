@@ -10,6 +10,7 @@ import models.enums.Recipe;
 import models.enums.ToolType;
 import models.map.Map;
 import models.tool.Tool;
+import models.workBench.WorkBench;
 
 import java.util.*;
 
@@ -24,6 +25,7 @@ public class Character {
     private Tool currentTool;
     private java.util.Map<String,Animal> animals = new HashMap<>();
     private ArrayList<Building> buildings =new ArrayList<>();
+    private ArrayList<WorkBench> workBenches =new ArrayList<>();
     private ArrayList<Recipe> recipes=new ArrayList<>();
     private ArrayList<CookingRecipes> cookingRecipes = new ArrayList<>();
     private ArrayList<Cell> lastPath;
@@ -231,5 +233,8 @@ public class Character {
             return Animalprice;
         }
         return -1;
+    }
+    public List<WorkBench> getWorkBenches(){
+        return workBenches;
     }
 }
