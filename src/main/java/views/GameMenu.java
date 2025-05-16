@@ -146,6 +146,9 @@ public class GameMenu implements AppMenu{
             Matcher meetNpc= GameMenuCommands.MEET_NPC.getMatcher(input);
             Matcher friendshipNPCList=GameMenuCommands.FRIENDSHIP_NPC_LIST.getMatcher(input);
             Matcher cheatSetNpcFriendship=CheatCodes.CHEAT_SET_NPC_FRIENDSHIP.getMatcher(input);
+            Matcher npcQuestsList=GameMenuCommands.NPC_QUESTS_LIST.getMatcher(input);
+            Matcher npcQuestFinish=GameMenuCommands.NPC_QUEST_FINISH.getMatcher(input);
+            Matcher giftNpc=GameMenuCommands.GIFT_NPC.getMatcher(input);
 
 
             if (showCurrentMenu != null){
@@ -314,6 +317,13 @@ public class GameMenu implements AppMenu{
                 System.out.println(result.message());
             } else if(cheatSetNpcFriendship != null){
                 Result result=controller.cheatSetNpcFriendship(cheatSetNpcFriendship);
+                System.out.println(result.message());
+            } else if(npcQuestsList != null){
+
+            } else if(npcQuestFinish != null){
+
+            } else if(giftNpc != null){
+                Result result=controller.giftNPC(giftNpc);
                 System.out.println(result.message());
             }
             else{

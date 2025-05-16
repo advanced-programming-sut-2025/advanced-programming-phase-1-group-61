@@ -883,13 +883,12 @@ public class GameMenuController {
             character.getInventory().removeItem(food , 1);
             int newEnergy = character.getEnergy() + food.getEnergy();
             character.setEnergy(newEnergy);
-            return new Result(true , "you ate "+foodString+" successfully.");
         }else {
             character.getInventory().removeItem(food , 1);
             int newEnergy = character.getEnergy() + food.getEnergy();
             character.setEnergy(newEnergy);
-            return new Result(true , "you ate "+foodString+" successfully.");
         }
+        return new Result(true , "you ate "+foodString+" successfully.");
     }
 
     public Result showCookingRecipes(){
@@ -971,11 +970,35 @@ public class GameMenuController {
     public Result giftNPC(Matcher matcher){
         String name = matcher.group("name").trim();
         String itemName = matcher.group("item").trim();
-        ItemType itemType = ItemType.getItemType(itemName);
-        if(itemType == null){
+        ItemType item = ItemType.getItemType(itemName);
+        if(item == null){
             return new Result(false , "please enter a valid item!");
         }
-        return new Result(true,"");
+        if(!NpcInfo.checkName(name)){
+            return new Result(false , "please enter a valid npc name!");
+        }
+        NPC npc=NPC.getNPC(name);
+        if(npc == null) return new Result(false , "npc not found");
+        List<ItemType> favorites=npc.getInfo().getFavorites();
+        boolean found=false;
+        for(ItemType favorite : favorites){
+            if (favorite.equals(item)) {
+                found = true;
+                break;
+            }
+        }
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        App.getCurrentGame().changeDayActivities();
+        if(npc.isFirstGiftOfDay()){
+            npc.setFirstGiftOfDay(false);
+            if(found) {
+                npc.getFriendships(character).setFriendshipPoints(200);
+                return new Result(true,"You have gained 200 friendship points with "+name);
+            }
+            npc.getFriendships(character).setFriendshipPoints(50);
+            return new Result(true,"You have gained 50 friendship points with "+name);
+        }
+        return new Result(false , "you have not gained a point because this is not your first time in this day that you are giving "+name+" a gift!");
     }
     public Result friendshipNPCList(){
         return new Result(true,NPC.getNPCFriendshipsDetails(App.getCurrentGame().getCurrentCharacter()));
