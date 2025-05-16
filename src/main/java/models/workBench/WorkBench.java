@@ -17,7 +17,7 @@ public class WorkBench extends Resource {
     public WorkBench(WorkBenchType type) {
         this.type = type;
 
-        // لیست سبزیجات
+
         List<String> vegetables = new ArrayList<>(Arrays.asList(
                 "Corn", "Tomato", "Potato", "Blueberry", "Melon",
                 "RedCabbage", "Radish", "Amaranth", "Kale", "Beet",
@@ -27,18 +27,15 @@ public class WorkBench extends Resource {
         ));
         itemKinds.put("Vegetable", vegetables);
 
-        // لیست میوه‌ها
         List<String> fruits = new ArrayList<>(Arrays.asList(
                 "Apricot", "Apple", "Banana", "Cherry", "Mango",
                 "Orange", "Peach", "Pomegranate", "Starfruit", "AncientFruit", "Grapes"
         ));
         itemKinds.put("Fruit", fruits);
 
-        // حذف "Grapes" از لیست DryableFruit
         fruits.remove("Grapes");
         itemKinds.put("DryableFruit", fruits);
 
-        // لیست قارچ‌ها
         List<String> mushrooms = new ArrayList<>(Arrays.asList(
                 "RedMushroom", "PurpleMushroom", "Chanterelle", "CommonMushroom"
         ));

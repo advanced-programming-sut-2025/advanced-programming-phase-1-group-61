@@ -47,6 +47,9 @@ public class Character {
         cookingRecipes.add(CookingRecipes.FriedEgg);
         cookingRecipes.add(CookingRecipes.BakedFish);
         cookingRecipes.add(CookingRecipes.Salad);
+        recipes.add(Recipe.FURNACE);
+        recipes.add(Recipe.SPRINKLER);
+        recipes.add(Recipe.CHARCOAL_KILN);
     }
 
     public void setTool(ToolType newTool){
