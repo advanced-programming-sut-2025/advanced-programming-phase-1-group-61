@@ -1,21 +1,21 @@
 package models.shops;
 
-import models.enums.Recipe;
+import models.enums.CookingRecipes;
 
-public class ShopRecipes {
-    private final Recipe recipe;
+public class ShopCookingRecipes {
+    private final CookingRecipes recipe;
     private final int limit;
     private final int price;
-    private final String description;
     private int stock;
-    public ShopRecipes(Recipe recipe, int limit, int price, String description) {
+    private final String description;
+    public ShopCookingRecipes(CookingRecipes recipe, int limit, int price, String description) {
         this.recipe = recipe;
         this.limit = limit;
         this.price = price;
         this.description = description;
         this.stock = limit;
     }
-    public Recipe getRecipe() {
+    public CookingRecipes getRecipe() {
         return recipe;
     }
     public int getLimit() {
@@ -24,8 +24,8 @@ public class ShopRecipes {
     public int getPrice() {
         return price;
     }
-    public String getDescription() {
-        return description;
+    public void restoreStock(){
+        stock=limit;
     }
     public int getStock() {
         return stock;
@@ -33,7 +33,7 @@ public class ShopRecipes {
     public void setStock(int stock) {
         this.stock = stock;
     }
-    public void restoreStock(){
-        this.stock=0;
+    public String getDescription() {
+        return description;
     }
 }

@@ -2,8 +2,10 @@ package models.shops;
 
 import models.App;
 import models.building.Shop;
+import models.character.Character;
 import models.enums.BackpackType;
 import models.enums.ItemType;
+import models.enums.Recipe;
 import models.enums.Season;
 
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ public class Pierre extends Shop {
     private final ArrayList<ShopItem> summerItems;
     private final ArrayList<ShopItem> fallItems;
     private final ArrayList<ShopBackpacks> shopBackpacks;
+    private final ArrayList<ShopRecipes> shopRecipes;
     private final float outOfSeasonCoefficient=1.5f;
 
     public Pierre( String name, int X, int Y) {
@@ -83,6 +86,10 @@ public class Pierre extends Shop {
                 new ShopItem(ItemType.WheatSeed, 5, 10, "Plant these in the summer or fall. Takes 4 days to mature. Harvest with the scythe."),
                 new ShopItem(ItemType.ArtichokeSeed, 5, 30, "Plant these in the fall. Takes 8 days to mature.")
         ));
+        shopRecipes = new ArrayList<>(List.of(
+                new ShopRecipes(Recipe.DEHYDRATOR,1,10000,"A recipe to make Dehydrator"),
+                new ShopRecipes(Recipe.GRASS_STARTER,1,1000,"A recipe to make Grass Starter")
+        ));
     }
 
     @Override
@@ -123,6 +130,14 @@ public class Pierre extends Shop {
             if(season.equals(Season.Fall)) builder.append(item.getPrice());
             else builder.append((float)item.getPrice()*outOfSeasonCoefficient);
             builder.append("\n");
+        }
+        builder.append("recipes:\n");
+        for(ShopRecipes recipe:shopRecipes){
+            builder.append("Name: ")
+                    .append(recipe.getRecipe().name())
+                    .append(" | Price: ")
+                    .append(recipe.getPrice())
+                    .append("\n");
         }
         builder.append("backpacks:").append("\n");
         for(int i=0;i<shopBackpacks.size();i++){
@@ -187,6 +202,16 @@ public class Pierre extends Shop {
                         .append("\n");
             }
         }
+        builder.append("recipes:\n");
+        for(ShopRecipes recipe:shopRecipes){
+            if(recipe.getStock()>0) {
+                builder.append("Name: ")
+                        .append(recipe.getRecipe().name())
+                        .append(" | Price: ")
+                        .append(recipe.getPrice())
+                        .append("\n");
+            }
+        }
         builder.append("backpacks:").append("\n");
         for(int i=0;i<shopBackpacks.size();i++){
             ShopBackpacks backpack = shopBackpacks.get(i);
@@ -205,10 +230,12 @@ public class Pierre extends Shop {
 
     @Override
     public String purchaseProduct(String product, int count) {
+        Character character=App.getCurrentGame().getCurrentCharacter();
         for(ShopItem item : yearRoundItems){
             if(item.getItem().getDisPlayName().equals(product)){
                 if(count> item.getStock()) return "not enough stock!";
                 item.setStock(item.getStock()-count);
+                character.getInventory().addItem(item.getItem(),count);
                 return "Successfully purchased!";
             }
         }
@@ -216,6 +243,7 @@ public class Pierre extends Shop {
             if(item.getItem().getDisPlayName().equals(product)){
                 if(count> item.getStock()) return "not enough stock!";
                 item.setStock(item.getStock()-count);
+                character.getInventory().addItem(item.getItem(),count);
                 return "Successfully purchased!";
             }
         }
@@ -223,6 +251,7 @@ public class Pierre extends Shop {
             if(item.getItem().getDisPlayName().equals(product)){
                 if(count> item.getStock()) return "not enough stock!";
                 item.setStock(item.getStock()-count);
+                character.getInventory().addItem(item.getItem(),count);
                 return "Successfully purchased!";
             }
         }
@@ -230,6 +259,7 @@ public class Pierre extends Shop {
             if(item.getItem().getDisPlayName().equals(product)){
                 if(count> item.getStock()) return "not enough stock!";
                 item.setStock(item.getStock()-count);
+                character.getInventory().addItem(item.getItem(),count);
                 return "Successfully purchased!";
             }
         }
@@ -237,10 +267,19 @@ public class Pierre extends Shop {
             if(backpack.getBackpackType().getDisplayName().equals(product)){
                 if(count> backpack.getStock()) return "not enough stock!";
                 backpack.setStock(backpack.getStock()-count);
+                character.getInventory().setBackpackType(backpack.getBackpackType());
+                return "Successfully purchased! your current backpack is "+backpack.getBackpackType().getDisplayName();
+            }
+        }
+        for(ShopRecipes recipe : shopRecipes){
+            if(recipe.getRecipe().name().equals(product)){
+                if(count> recipe.getStock()) return "not enough stock!";
+                recipe.setStock(recipe.getStock()-count);
+                character.getRecipes().add(recipe.getRecipe());
                 return "Successfully purchased!";
             }
         }
-        return "successfully purchased";
+        return "please enter a valid product";
     }
 
     @Override
@@ -250,6 +289,7 @@ public class Pierre extends Shop {
         for(ShopBackpacks backpack : shopBackpacks) backpack.restoreStock();
         for(ShopItem item : summerItems) item.restoreStock();
         for(ShopItem item : fallItems) item.restoreStock();
+        for(ShopRecipes recipe : shopRecipes) recipe.restoreStock();
     }
 
     public ArrayList<ShopItem> getYearRoundItems() {
