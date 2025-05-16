@@ -147,9 +147,14 @@ public class Animal {
         return true;
     }
 
-    public void shepherd(int x, int y, boolean isout) {
+    public void shepherd(int x, int y, boolean isout,String House) {
         this.X = x;
         this.Y = y;
+        if(House!=null){
+            App.getCurrentGame().getCurrentCharacter().getBuilding(this.house).removeInput(this);
+            App.getCurrentGame().getCurrentCharacter().getBuilding(House).addInput(this);
+            this.house = House;
+        }
         if (this.isOut != isout) {
             if (isout)  {
                 friendship += 8;
@@ -204,6 +209,9 @@ public class Animal {
 
     public AnimalType getType() {
         return type;
+    }
+    public String getHouse() {
+        return house;
     }
 
 }

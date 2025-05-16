@@ -32,4 +32,11 @@ public class Coop extends Building {
         }
         return false;
     }
+    @Override
+    public void removeInput(Object input){
+        if (input instanceof Animal animal){
+            animals.remove(animal);
+            space++;
+        }
+    }
 }
