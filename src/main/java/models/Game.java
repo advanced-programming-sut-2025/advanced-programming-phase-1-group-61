@@ -1,6 +1,7 @@
 package models;
 
 import models.NPC.NPC;
+import models.animal.Animal;
 import models.building.Shop;
 import models.character.Character;
 import models.date.Date;
@@ -69,6 +70,7 @@ public class Game implements Runnable {
 
     public void changeDayActivities() {
         handleWeatherBeforeDayChange();
+        int count = 0;
         spawnRandomItemsOnMap();
         date.setHour(9);
         ArrayList<Shop> shops=this.getAllShops();
@@ -82,6 +84,7 @@ public class Game implements Runnable {
                }
                if(resource instanceof Crop crop){
                    crop.dayCycleForCrops(weatherState , tile);
+                   count++;
                } else if (resource instanceof Tree tree) {
                    tree.dayCycleForTrees();
                }
@@ -97,6 +100,13 @@ public class Game implements Runnable {
         for (Character character : allCharacters) {
             character.setFainted(false);
             character.setEnergy(150);
+            for (Animal animal : character.getAnimals().values()) {
+                animal.dayEND();
+            }
+        }
+        if(count >= 16){
+            map.getWeather().crowAttack(RandomNumber.getRandomNumberWithBoundaries(0,70 ),
+                    RandomNumber.getRandomNumberWithBoundaries(0 , 40));
         }
     }
 
@@ -175,6 +185,7 @@ public class Game implements Runnable {
         if(getCharacterByTurnNumber(turn).isFainted()){
             turn+=1;
         }
+        App.getCurrentGame().getCurrentCharacter().getIteractions().newInteracts();
         this.currentCharacter = turn % allCharacters.size();
         StringBuilder message =  new StringBuilder(User.getUSerById(allCharacters.get(currentCharacter).getUserId()).getNickName());
 
@@ -183,6 +194,7 @@ public class Game implements Runnable {
             message.append("time increased");
             date.increaseTime(1);
         }
+
         return message.toString();
     }
 
