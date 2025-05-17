@@ -81,7 +81,7 @@ public class Game implements Runnable {
                    continue;
                }
                if(resource instanceof Crop crop){
-                   crop.dayCycleForCrops(weatherState);
+                   crop.dayCycleForCrops(weatherState , tile);
                } else if (resource instanceof Tree tree) {
                    tree.dayCycleForTrees();
                }
@@ -90,6 +90,14 @@ public class Game implements Runnable {
         List<Character> characters=App.getCurrentGame().getAllCharacters();
         for(Character character:characters) character.setBuff(null);
         NPC.changeDayActivities();
+        if(weatherState.equals(WeatherState.Storm)){
+            map.getWeather().lightning(RandomNumber.getRandomNumberWithBoundaries(0,70 ),
+                    RandomNumber.getRandomNumberWithBoundaries(0 , 40));
+        }
+        for (Character character : allCharacters) {
+            character.setFainted(false);
+            character.setEnergy(150);
+        }
     }
 
     public Character getCharacterByID(int id) {
@@ -164,6 +172,9 @@ public class Game implements Runnable {
 
     public String changeTurn() {
         int turn = currentCharacter+1;
+        if(getCharacterByTurnNumber(turn).isFainted()){
+            turn+=1;
+        }
         this.currentCharacter = turn % allCharacters.size();
         StringBuilder message =  new StringBuilder(User.getUSerById(allCharacters.get(currentCharacter).getUserId()).getNickName());
 
