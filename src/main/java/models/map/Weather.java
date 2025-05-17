@@ -4,6 +4,7 @@ import models.App;
 import models.Game;
 import models.RandomNumber;
 import models.enums.Season;
+import models.enums.TileType;
 import models.enums.WeatherState;
 
 public class Weather {
@@ -68,7 +69,13 @@ public class Weather {
     }
 
     public void lightning(int x, int y){
-        //todo
+       Tile tile = App.getCurrentGame().getMap().getTileByCordinate(x,y);
+       if(tile == null){
+           return;
+       }
+       if(tile.getResource() != null && !tile.getType().equals(TileType.GreenHouse) &&!tile.getType().equals(TileType.CabinFloor)){
+           tile.setResource(null);
+       }
     }
 
     public void setCheatedWeatherState(WeatherState cheatedWeatherState) {

@@ -25,6 +25,10 @@ public class Tile {
         this.item = null;
     }
 
+    public void setCollisionOn(boolean collisionOn) {
+        this.collisionOn = collisionOn;
+    }
+
     public boolean isCollisionOn() {
         return collisionOn;
     }

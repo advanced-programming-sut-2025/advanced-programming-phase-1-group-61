@@ -57,7 +57,8 @@ public enum GameMenuCommands {
     BuildCage("^build\\s+-a\\s+(?<cageType>.*)\\s+-n\\s+(?<name>.*)\\s+-l\\s+<(?<x>.\\d+),(?<y>.\\d+)>$"),
     showCraftingRecipes$("^crafting\\s+show\\s+recipes$"),
     craftItem("^crafting\\s+craft\\s+(?<itemName>.*)$"),
-    placeItem("^place\\s+item\\s+-n\\s+(?<itemName>.*)\\s+-d\\s+(?<direction>.*)$");
+    placeItem("^place\\s+item\\s+-n\\s+(?<itemName>.*)\\s+-d\\s+(?<direction>.*)$"),
+    RepairGreenHouse("^repair\\s+green\\s+house<(?<x>.\\d+),(?<y>.\\d+)>$");
 
 
 

@@ -39,6 +39,7 @@ public class Character {
     private ArrayList<CookingRecipes> cookingRecipes = new ArrayList<>();
     private ArrayList<Cell> lastPath;
     private int xRefrigerator , yRefrigerator;
+    private boolean isFainted ;
 
     private Buff buff=null;
     private int money;
@@ -55,7 +56,15 @@ public class Character {
         recipes.add(Recipe.Furnace);
         recipes.add(Recipe.Sprinkler);
         recipes.add(Recipe.CharcoalKlin);
+        this.isFainted = false;
+    }
 
+    public boolean isFainted() {
+        return isFainted;
+    }
+
+    public void setFainted(boolean fainted) {
+        isFainted = fainted;
     }
 
     public Iteractions getIteractions() {
