@@ -1396,7 +1396,15 @@ public class GameMenuController {
         return new Result(false , "ask marriage");
     }
     public Result Flower(Matcher matcher){
-        return new Result(false , "ask marriage");
+        String friend = matcher.group("username");
+        int friendid = App.getIdByUserName(friend);
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        if(character.getIteractions().addInteract(
+                "flower","",friendid,null,null,null,null,null
+        )){
+            return new Result(true,"flower request is sent");
+        }
+        return new Result(false , "invalid input");
     }
     public Result Friendships(Matcher matcher){
         return new Result(false , "ask marriage");
