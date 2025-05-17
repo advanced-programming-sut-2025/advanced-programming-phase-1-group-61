@@ -10,14 +10,13 @@ import java.util.*;
 
 
 public class WorkBench extends Resource {
-    private final WorkBenchType type;
-    private final List<Inprocess> inprocesses=new ArrayList<>();
-    private final Map<String, List<String>> itemKinds = new HashMap<>();
+    private final WorkBenchType Type;
+    private final List<Inprocess> inprocesses = new ArrayList<>();
+    private final Map<String, List<String>> itemKinds;
 
     public WorkBench(WorkBenchType type) {
-        this.type = type;
-
-
+        this.Type = type;
+        this.itemKinds = new ItemKinds().getItemKinds();
         List<String> vegetables = new ArrayList<>(Arrays.asList(
                 "Corn", "Tomato", "Potato", "Blueberry", "Melon",
                 "RedCabbage", "Radish", "Amaranth", "Kale", "Beet",
@@ -40,10 +39,11 @@ public class WorkBench extends Resource {
                 "RedMushroom", "PurpleMushroom", "Chanterelle", "CommonMushroom"
         ));
         itemKinds.put("Mushroom", mushrooms);
+
     }
 
     public WorkBenchType getType() {
-        return type;
+        return Type;
     }
 
     public boolean addprocess(ItemType item, ItemType need1, ItemType need2) {
@@ -57,23 +57,22 @@ public class WorkBench extends Resource {
             inprocesses.add(new Inprocess(needed.get("Time"), date.getDayCounter(), date.getHour(), item));
             return true;
         }
-        ItemType Need1=null;
-        ItemType Need2=null;
+        ItemType Need1 = null;
+        ItemType Need2 = null;
         for (String key : needed.keySet()) {
             if (key.startsWith("?")) {
                 key = key.replaceFirst("\\?", "");
-                if(itemKinds.get(key).contains(need1.name())) {
+                if (itemKinds.get(key).contains(need1.name())) {
                     Need1 = need1;
                     Need2 = need2;
-                }
-                else if(itemKinds.get(key).contains(need2.name())) {
+                } else if (itemKinds.get(key).contains(need2.name())) {
                     Need1 = need2;
                     Need2 = need1;
-                }else return false;
+                } else return false;
                 break; // نیازی به بررسی بیشتر نیست
             }
         }
-        if(Need2==null&&Need1==null) {
+        if (Need2 == null && Need1 == null) {
             if (!needed.containsKey(need1.toString())) {
                 if (!needed.containsKey(need2.toString())) {
                     return false;
@@ -89,7 +88,7 @@ public class WorkBench extends Resource {
         if (character.getInventory().getCountOfItem(Need1) < needed.get(Need1.name())) {
             return false;
         }
-        if (Need2!=null && needed.containsKey("+" + Need2.name())) {
+        if (Need2 != null && needed.containsKey("+" + Need2.name())) {
             if (character.getInventory().getCountOfItem(Need2) < needed.get(Need2.name())) {
                 return false;
             }
@@ -100,213 +99,259 @@ public class WorkBench extends Resource {
         return true;
     }
 
-    public boolean Collect(){
+    public boolean Collect() {
         Date date = App.getCurrentGame().getDate();
         Character character = App.getCurrentGame().getCurrentCharacter();
         ItemType Item;
-        boolean added=false;
-        for(Inprocess inprocess : inprocesses) {
-            Item =inprocess.isready(date.getDayCounter(),date.getHour());
-            if(Item!=null){
-                character.getInventory().addItem(Item,1);
+        boolean added = false;
+        for (Inprocess inprocess : inprocesses) {
+            Item = inprocess.isready(date.getDayCounter(), date.getHour());
+            if (Item != null) {
+                character.getInventory().addItem(Item, 1);
                 inprocesses.remove(inprocess);
-                added=true;
+                added = true;
             }
         }
         return added;
     }
 
     private Map<String, Integer> getneeded(ItemType type) {
-        switch (type.toString()) {
-            case "Honey": {
+        switch (this.Type.name()) {
+            case "BEEHOUSE": {
+                if (!type.name().equals(ItemType.Honey.name())) return null;
                 Map<String, Integer> map = new HashMap<>();
                 map.put("Time", 96);
                 return map;
             }
-            case "Cheese": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", 3);
-                map.put(ItemType.Milk.toString(), 1);
-                return map;
+            case "CHEESPRESS": {
+                switch (type.name()) {
+                    case "Cheese": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", 3);
+                        map.put(ItemType.Milk.toString(), 1);
+                        return map;
+                    }
+                    case "BigCheese": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", 3);
+                        map.put(ItemType.BigMilk.toString(), 1);
+                        return map;
+                    }
+                    case "GoatCheese": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", 3);
+                        map.put(ItemType.GoatMilk.toString(), 1);
+                        return map;
+                    }
+                    case "BigGoatCheese": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", 3);
+                        map.put(ItemType.BigGoatMilk.toString(), 1);
+                        return map;
+                    }
+                    default:
+                        return null;
+                }
             }
-            case "BigCheese": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", 3);
-                map.put(ItemType.BigMilk.toString(), 1);
-                return map;
+            case "KEG": {
+                switch (type.name()) {
+                    case "Beer": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", 24);
+                        map.put(ItemType.Wheat.toString(), 1);
+                        return map;
+                    }
+                    case "Vinegar": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", 10);
+                        map.put(ItemType.Rice.toString(), 1);
+                        return map;
+                    }
+                    case "Coffee": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", 2);
+                        map.put(ItemType.CoffeeBean.toString(), 5);
+                        return map;
+                    }
+                    case "Juice": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", 96);
+                        map.put("?Vegetable", 1);
+                        return map;
+                    }
+                    case "Mead": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", 10);
+                        map.put(ItemType.Honey.toString(), 1);
+                        return map;
+                    }
+                    case "PaleAle": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", 72);
+                        map.put(ItemType.Hops.toString(), 1);
+                        return map;
+                    }
+                    case "Wine": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", 168);
+                        map.put("?Fruit", 1);
+                        return map;
+                    }
+                    default:
+                        return null;
+                }
             }
-            case "GoatCheese": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", 3);
-                map.put(ItemType.GoatMilk.toString(), 1);
-                return map;
+            case "DEHYDRATOR": {
+                switch (type.name()) {
+                    case "DriedFruit": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", -1);
+                        map.put("?DryableFruit", 5);
+                        return map;
+                    }
+                    case "DriedMushrooms": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", -1);
+                        map.put("?Mushroom", 5);
+                        return map;
+                    }
+                    case "Raisins": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", -1);
+                        map.put(ItemType.Grape.toString(), 5);
+                        return map;
+                    }
+                    default:
+                        return null;
+                }
             }
-            case "BigGoatCheese": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", 3);
-                map.put(ItemType.BigGoatMilk.toString(), 1);
-                return map;
-            }
-            case "Beer": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", 24);
-                map.put(ItemType.Wheat.toString(), 1);
-                return map;
-            }
-            case "Vinegar": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", 10);
-                map.put(ItemType.Rice.toString(), 1);
-                return map;
-            }
-            case "Coffee": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", 2);
-                map.put(ItemType.CoffeeBean.toString(), 5);
-                return map;
-            }
-            case "Juice": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", 96);
-                map.put("?Vegetable", 1);
-                return map;
-            }
-            case "Mead": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", 10);
-                map.put(ItemType.Honey.toString(), 1);
-                return map;
-            }
-            case "PaleAle": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", 72);
-                map.put(ItemType.Hops.toString(), 1);
-                return map;
-            }
-            case "Wine": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", 168);
-                map.put("?Fruit", 1);
-                return map;
-            }
-            case "DriedFruit": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", -1);
-                map.put("?DryableFruit", 5);
-                return map;
-            }
-            case "DriedMushrooms": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", -1);
-                map.put("?Mushroom", 5);
-                return map;
-            }
-            case "Raisins": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", -1);
-                map.put(ItemType.Grape.toString(), 5);
-                return map;
-            }
-            case "Coal": {
+            case "CHACOALKILN": {
+                if (!type.name().equals(ItemType.Coal.name())) return null;
                 Map<String, Integer> map = new HashMap<>();
                 map.put("Time", 1);
                 map.put(ItemType.Wood.toString(), 10);
                 return map;
+
             }
-            case "Cloth": {
+            case "LOOM": {
+                if (!type.name().equals(ItemType.Cloth.name())) return null;
                 Map<String, Integer> map = new HashMap<>();
                 map.put("Time", 4);
                 map.put(ItemType.Wood.toString(), 1);
                 return map;
+
             }
-            case "Mayonnaise": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", 3);
-                map.put(ItemType.Egg.toString(), 1);
-                return map;
+            case "MAYONNAISEMACHINE": {
+                switch (type.name()) {
+                    case "Mayonnaise": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", 3);
+                        map.put(ItemType.Egg.toString(), 1);
+                        return map;
+                    }
+                    case "BigMayonnaise": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", 3);
+                        map.put(ItemType.BigEgg.toString(), 1);
+                        return map;
+                    }
+                    case "DuckMayonnaise": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", 3);
+                        map.put(ItemType.DuckEgg.toString(), 1);
+                        return map;
+                    }
+                    case "DinosaurMayonnaise": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", 3);
+                        map.put(ItemType.DinosaurEgg.toString(), 1);
+                        return map;
+                    }
+                    default:
+                        return null;
+                }
             }
-            case "BigMayonnaise": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", 3);
-                map.put(ItemType.BigEgg.toString(), 1);
-                return map;
+            case "OILMAKER": {
+                switch (type.name()) {
+                    case "TruffleOil": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", 6);
+                        map.put(ItemType.Truffle.toString(), 1);
+                        return map;
+                    }
+                    case "Oil": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", 10);
+                        map.put(ItemType.Corn.toString(), 1);
+                        map.put(ItemType.SunflowerSeed.toString(), 1);
+                        map.put(ItemType.Sunflower.toString(), 1);
+                        return map;
+                    }
+                    default:
+                        return null;
+                }
             }
-            case "DuckMayonnaise": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", 3);
-                map.put(ItemType.DuckEgg.toString(), 1);
-                return map;
+            case "PERESERVESJAR": {
+                switch (type.name()) {
+                    case "Pickles": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", 6);
+                        map.put("?Vegetable", 1);
+                        return map;
+                    }
+                    case "Jelly": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", 72);
+                        map.put("?Fruit", 1);
+                        return map;
+                    }
+                    default:
+                        return null;
+                }
             }
-            case "DinosaurMayonnaise": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", 3);
-                map.put(ItemType.DinosaurEgg.toString(), 1);
-                return map;
-            }
-            case "TruffleOil": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", 6);
-                map.put(ItemType.Truffle.toString(), 1);
-                return map;
-            }
-            case "Oil": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", 10);
-                map.put(ItemType.Corn.toString(), 1);
-                map.put(ItemType.SunflowerSeed.toString(), 1);
-                map.put(ItemType.Sunflower.toString(), 1);
-                return map;
-            }
-            case "Pickles": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", 6);
-                map.put("?Vegetable", 1);
-                return map;
-            }
-            case "Jelly": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", 72);
-                map.put("?Fruit", 1);
-                return map;
-            }
-            case "SmokedFish": {
+            case "FISHSMOKER": {
+                if (!type.name().equals(ItemType.SmokedFish.name())) return null;
                 Map<String, Integer> map = new HashMap<>();
                 map.put("Time", 96);
                 map.put("?Fish", 1);
                 map.put("+" + ItemType.Coal.name(), 1);
                 return map;
             }
-            case "CopperBar": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", 4);
-                map.put(ItemType.CopperOre.name(), 5);
-                map.put("+" + ItemType.Coal.name(), 1);
-                return map;
+            case "FURNACE": {
+                switch (type.name()) {
+                    case "CopperBar": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", 4);
+                        map.put(ItemType.CopperOre.name(), 5);
+                        map.put("+" + ItemType.Coal.name(), 1);
+                        return map;
+                    }
+                    case "IronBar": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", 4);
+                        map.put(ItemType.IronOre.name(), 5);
+                        map.put("+" + ItemType.Coal.name(), 1);
+                        return map;
+                    }
+                    case "GoldBar": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", 4);
+                        map.put(ItemType.GoldOre.name(), 5);
+                        map.put("+" + ItemType.Coal.name(), 1);
+                        return map;
+                    }
+                    case "IridiumBar": {
+                        Map<String, Integer> map = new HashMap<>();
+                        map.put("Time", 4);
+                        map.put(ItemType.IridiumOre.name(), 5);
+                        map.put("+" + ItemType.Coal.name(), 1);
+                        return map;
+                    }
+                    default:
+                        return null;
+                }
             }
-            case "IronBar": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", 4);
-                map.put(ItemType.IronOre.name(), 5);
-                map.put("+" + ItemType.Coal.name(), 1);
-                return map;
-            }
-            case "GoldBar": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", 4);
-                map.put(ItemType.GoldOre.name(), 5);
-                map.put("+" + ItemType.Coal.name(), 1);
-                return map;
-            }
-            case "IridiumBar": {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("Time", 4);
-                map.put(ItemType.IridiumOre.name(), 5);
-                map.put("+" + ItemType.Coal.name(), 1);
-                return map;
-            }
-            default: {
-                return null;
-            }
+            default: return null;
         }
     }
 }

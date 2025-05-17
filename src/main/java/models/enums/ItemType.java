@@ -368,6 +368,15 @@ public enum ItemType {
         }
     }
 
+    public static ItemType getItembyname(String itemName){
+        if(itemName==null || itemName.isEmpty()) return null;
+        for(ItemType type : ItemType.values()){
+            if(type.name().equalsIgnoreCase(itemName.toLowerCase())) return type;
+        }
+        return null;
+    }
+
+
     public static ItemType getItemType(String type) {
         try {
             return ItemType.valueOf(type);
@@ -377,7 +386,7 @@ public enum ItemType {
     }
 
     public ItemType getKind(String KIND){
-        String kind = KIND+this.toString();
+        String kind = KIND+this.name();
         return ItemType.valueOf(kind);
     }
 

@@ -136,6 +136,8 @@ public class GameMenu implements AppMenu{
             Matcher showAllProducts = GameMenuCommands.SHOW_ALL_PRODUCTS.getMatcher(input);
             Matcher showAllAvailableProducts = GameMenuCommands.SHOW_ALL_AVAILABLE_PRODUCTS.getMatcher(input);
             Matcher purchaseProduct = GameMenuCommands.PURCHASE.getMatcher(input);
+            Matcher artisanuse = GameMenuCommands.ARTISAN_USE.getMatcher(input);
+            Matcher artisancollect = GameMenuCommands.ARTISAN_GET.getMatcher(input);
             Matcher plant = GameMenuCommands.PLANT.getMatcher(input);
             Matcher showPlant = GameMenuCommands.SHOW_PLANT.getMatcher(input);
             Matcher fertilize = GameMenuCommands.FERTILIZE.getMatcher(input);
@@ -156,9 +158,16 @@ public class GameMenu implements AppMenu{
             Matcher placeItem = GameMenuCommands.placeItem.getMatcher(input);
 
 
+
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
-            } else if (placeItem != null) {
+            }else if (artisanuse != null) {
+                Result result = controller.artisanUse(artisanuse);
+                System.out.println(result.message());
+            }else if (artisancollect != null) {
+                Result result = controller.artisancollect(artisancollect);
+                System.out.println(result.message());
+            }else if (placeItem != null) {
                 Result result = controller.placeItem(placeItem);
                 System.out.println(result.message());
             } else if (craft != null) {

@@ -35,6 +35,8 @@ public enum GameMenuCommands {
     PRODUCES("^produces$"),
     COLLECT_PRODUCES("^collect\\s+produces\\s+-n\\s+(?<animalname>.*)$"),
     SELL_ANIMAL("^sell\\s+animal\\s+-n\\s+(?<animalname>.*)$"),
+    ARTISAN_USE("^artisan\\s+use\\s+(?<bench>.*)\\s+(?<need1>.*)(\\s+(?<need2>.*))?$"),
+    ARTISAN_GET("^artisan\\s+get\\s+(?<bench>.*)$"),
     USE_AXE_FOR_SYRUP("^tools\\s+use\\s+-d\\s+(?<direction>.*)\\s+-syrup$"),
     SHOW_ALL_PRODUCTS("^show\\s+all\\s+products$"),
     SHOW_ALL_AVAILABLE_PRODUCTS("^show\\s+all\\s+available\\s+products$"),
@@ -56,7 +58,6 @@ public enum GameMenuCommands {
     showCraftingRecipes$("^crafting\\s+show\\s+recipes$"),
     craftItem("^crafting\\s+craft\\s+(?<itemName>.*)$"),
     placeItem("^place\\s+item\\s+-n\\s+(?<itemName>.*)\\s+-d\\s+(?<direction>.*)$");
-
 
 
 

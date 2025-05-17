@@ -11,6 +11,8 @@ import models.enums.CookingRecipes;
 import models.enums.Recipe;
 import models.enums.ToolType;
 
+import models.interactions.Iteractions;
+
 import models.map.Map;
 import models.map.Tile;
 import models.resource.BuildingReference;
@@ -24,6 +26,8 @@ public class Character {
     private final Inventory inventory ;
     private int energy;
     private boolean unlimitedEnergy=false;
+    private Iteractions iteractions;
+    private  Integer partner;
     private int x;
     private int y;
     private final Skill skill;
@@ -44,13 +48,20 @@ public class Character {
         this.energy = 200;
         this.skill = new Skill();
         this.inventory = new Inventory();
+        this.iteractions = new Iteractions();
         cookingRecipes.add(CookingRecipes.FriedEgg);
         cookingRecipes.add(CookingRecipes.BakedFish);
         cookingRecipes.add(CookingRecipes.Salad);
         recipes.add(Recipe.Furnace);
         recipes.add(Recipe.Sprinkler);
         recipes.add(Recipe.CharcoalKlin);
+
     }
+
+    public Iteractions getIteractions() {
+        return iteractions;
+    }
+
 
     public void setTool(ToolType newTool){
         for (Tool tool : this.inventory.getTools()) {
@@ -284,6 +295,14 @@ public class Character {
     }
     public List<WorkBench> getWorkBenches(){
         return workBenches;
+    }
+
+    public Integer getPartner() {
+        return partner;
+    }
+
+    public void setPartner(Integer partner) {
+        this.partner = partner;
     }
     public NPC getNPC(){
         ArrayList<NPC> allNPCs=NPC.getAllNPCs();
