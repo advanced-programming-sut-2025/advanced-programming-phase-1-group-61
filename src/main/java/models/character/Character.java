@@ -2,20 +2,27 @@ package models.character;
 
 import models.App;
 import models.Item;
+import models.NPC.NPC;
+import models.NPC.NPCFriendships;
 import models.animal.Animal;
 import models.building.Building;
 import models.building.Shop;
+import models.enums.CookingRecipes;
 import models.enums.Recipe;
 import models.enums.ToolType;
+
 import models.interactions.Iteractions;
+
 import models.map.Map;
+import models.map.Tile;
+import models.resource.BuildingReference;
 import models.tool.Tool;
 import models.workBench.WorkBench;
 
 import java.util.*;
 
 public class Character {
-    private int userId;
+    private final int userId;
     private final Inventory inventory ;
     private int energy;
     private boolean unlimitedEnergy=false;
@@ -23,13 +30,16 @@ public class Character {
     private  Integer partner;
     private int x;
     private int y;
-    private Skill skill;
+    private final Skill skill;
     private Tool currentTool;
     private java.util.Map<String,Animal> animals = new HashMap<>();
     private ArrayList<Building> buildings =new ArrayList<>();
     private ArrayList<WorkBench> workBenches =new ArrayList<>();
     private ArrayList<Recipe> recipes=new ArrayList<>();
+    private ArrayList<CookingRecipes> cookingRecipes = new ArrayList<>();
     private ArrayList<Cell> lastPath;
+    private int xRefrigerator , yRefrigerator;
+
     private Buff buff=null;
     private int money;
     public Character(int userId){
@@ -39,6 +49,13 @@ public class Character {
         this.skill = new Skill();
         this.inventory = new Inventory();
         this.iteractions = new Iteractions();
+        cookingRecipes.add(CookingRecipes.FriedEgg);
+        cookingRecipes.add(CookingRecipes.BakedFish);
+        cookingRecipes.add(CookingRecipes.Salad);
+        recipes.add(Recipe.Furnace);
+        recipes.add(Recipe.Sprinkler);
+        recipes.add(Recipe.CharcoalKlin);
+
     }
 
     public Iteractions getIteractions() {
@@ -54,13 +71,44 @@ public class Character {
         }
     }
     public Shop getCurrentShop(){
+       Map map = App.getCurrentGame().getMap();
+        Tile tile = map.getTileByCordinate(x,y);
+        if(tile.getResource() instanceof BuildingReference buildingReference){
+          String name = buildingReference.getName();
+          return App.getCurrentGame().getShopByName(name);
+        }
         return null;
     }
+
+    public ArrayList<Recipe> getRecipes() {
+        return recipes;
+    }
+
     public Tool getCurrentTool(){
         return currentTool;
     }
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public ArrayList<CookingRecipes> getCookingRecipes() {
+        return cookingRecipes;
+    }
+
+    public int getxRefrigerator() {
+        return xRefrigerator;
+    }
+
+    public void setxRefrigerator(int xRefrigerator) {
+        this.xRefrigerator = xRefrigerator;
+    }
+
+    public int getyRefrigerator() {
+        return yRefrigerator;
+    }
+
+    public void setyRefrigerator(int yRefrigerator) {
+        this.yRefrigerator = yRefrigerator;
     }
 
     public int getX() {
@@ -105,6 +153,10 @@ public class Character {
     }
     public void setEnergy(int energy) {
         this.energy = Math.min(200,energy);
+        if(this.energy <= 0 ){
+            this.energy = 0;
+            faint();
+        }
     }
     public boolean isUnlimitedEnergy() {
         return unlimitedEnergy;
@@ -251,5 +303,18 @@ public class Character {
 
     public void setPartner(Integer partner) {
         this.partner = partner;
+    }
+    public NPC getNPC(){
+        ArrayList<NPC> allNPCs=NPC.getAllNPCs();
+        for(NPC npc:allNPCs){
+            int delta_x=npc.getX()-this.getX();
+            int delta_y=npc.getY()-this.getY();
+            int[] dx={1,0,-1,0,1,1,-1,-1};
+            int[] dy={0,1,0,-1,1,-1,1,-1};
+            for(int i=0;i<dx.length;i++){
+                if(dx[i]==delta_x && dy[i]==delta_y) return npc;
+            }
+        }
+        return null;
     }
 }
