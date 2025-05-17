@@ -13,6 +13,7 @@ public class Date {
     private Season season;
     private int dayCounter = 0;
     private int hour ;
+    private boolean hasASeasonPassed = false;
     public Date(){
         this.hour = 9;
         day=DaysOfTheWeek.Sunday;
@@ -79,6 +80,7 @@ public class Date {
 
     public void changeSeason(Season newSeason){
         this.season=newSeason;
+        hasASeasonPassed=true;
     }
 
     public Season getSeason(){
@@ -87,6 +89,10 @@ public class Date {
 
     public DaysOfTheWeek getDay() {
         return day;
+    }
+
+    public boolean hasASeasonPassed() {
+        return hasASeasonPassed;
     }
 
 }

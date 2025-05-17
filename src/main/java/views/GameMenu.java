@@ -12,6 +12,7 @@ import models.enums.Menu;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -139,9 +140,48 @@ public class GameMenu implements AppMenu{
             Matcher showPlant = GameMenuCommands.SHOW_PLANT.getMatcher(input);
             Matcher fertilize = GameMenuCommands.FERTILIZE.getMatcher(input);
             Matcher showWaterInBucket = GameMenuCommands.WATER_IN_BUCKET.getMatcher(input);
+            Matcher putOrPickItemInRefrigerator = GameMenuCommands.Refrigerator.getMatcher(input);
+            Matcher showCookingRecipe = GameMenuCommands.ShowCookingRecipes.getMatcher(input);
+            Matcher cooking = GameMenuCommands.CookingPrepare.getMatcher(input);
+            Matcher eatFood = GameMenuCommands.EatFood.getMatcher(input);
+            Matcher meetNpc= GameMenuCommands.MEET_NPC.getMatcher(input);
+            Matcher friendshipNPCList=GameMenuCommands.FRIENDSHIP_NPC_LIST.getMatcher(input);
+            Matcher cheatSetNpcFriendship=CheatCodes.CHEAT_SET_NPC_FRIENDSHIP.getMatcher(input);
+            Matcher npcQuestsList=GameMenuCommands.NPC_QUESTS_LIST.getMatcher(input);
+            Matcher npcQuestFinish=GameMenuCommands.NPC_QUEST_FINISH.getMatcher(input);
+            Matcher giftNpc=GameMenuCommands.GIFT_NPC.getMatcher(input);
+            Matcher buildCage = GameMenuCommands.BuildCage.getMatcher(input);
+            Matcher showCraftingRecipes = GameMenuCommands.ShowCookingRecipes.getMatcher(input);
+            Matcher craft = GameMenuCommands.CRAFT_INFO.getMatcher(input);
+            Matcher placeItem = GameMenuCommands.placeItem.getMatcher(input);
+
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
+            } else if (placeItem != null) {
+                Result result = controller.placeItem(placeItem);
+                System.out.println(result.message());
+            } else if (craft != null) {
+                Result result = controller.craft(craft);
+                System.out.println(result.message());
+            } else if (showCraftingRecipes != null) {
+                Result result = controller.showRecipes();
+                System.out.println(result.message());
+            } else if (buildCage != null) {
+                Result result = controller.buildCage(buildCage);
+                System.out.println(result.message());
+            } else if (eatFood != null) {
+                Result result = controller.eatFood(eatFood);
+                System.out.println(result.message());
+            } else if (cooking != null) {
+                Result result = controller.cooking(cooking);
+                System.out.println(result.message());
+            } else if (showCookingRecipe != null) {
+                Result result = controller.showCookingRecipes();
+                System.out.println(result.message());
+            } else if (putOrPickItemInRefrigerator != null) {
+                Result result = controller.putOrPickItemInRefrigerator(putOrPickItemInRefrigerator);
+                System.out.println(result.message());
             } else if (showWaterInBucket != null) {
                 Result result = controller.showWaterInBucket();
                 System.out.println(result.message());
@@ -285,6 +325,24 @@ public class GameMenu implements AppMenu{
                 System.out.println(result.message());
             } else if(purchaseProduct != null){
                 Result result = controller.purchaseProduct(purchaseProduct);
+                System.out.println(result.message());
+            } else if(meetNpc != null){
+                Result result = controller.meetNpc(meetNpc);
+                System.out.println(result.message());
+            } else if(friendshipNPCList != null){
+                Result result=controller.friendshipNPCList();
+                System.out.println(result.message());
+            } else if(cheatSetNpcFriendship != null){
+                Result result=controller.cheatSetNpcFriendship(cheatSetNpcFriendship);
+                System.out.println(result.message());
+            } else if(npcQuestsList != null){
+                Result result=controller.questsList();
+                System.out.println(result.message());
+            } else if(npcQuestFinish != null){
+                Result result=controller.questsFinish(npcQuestFinish);
+                System.out.println(result.message());
+            } else if(giftNpc != null){
+                Result result=controller.giftNPC(giftNpc);
                 System.out.println(result.message());
             }
             else{

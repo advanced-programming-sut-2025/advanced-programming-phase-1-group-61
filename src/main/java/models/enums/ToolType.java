@@ -6,7 +6,7 @@ import java.util.Map;
 
 public enum ToolType {
     Axe("Axe",Map.of("primary",5,"copper",4,"iron",3,"gold",2,"iridium",1)),
-    FishingPole("FishingPole",Map.of("training",8,"bamboo",8,"fiberGlass",6,"iridium",4)),
+    FishingPole("FishingPole",Map.of("educational",8,"bamboo",8,"fiberGlass",6,"iridium",4)),
     Hoe("Hoe",Map.of("primary",5,"copper",4,"iron",3,"gold",2,"iridium",1)),
     MilkPail("MilkPail",Map.of("default",4)),
     PickAxe("PickAxe",Map.of("primary",5,"copper",4,"iron",3,"gold",2,"iridium",1)),

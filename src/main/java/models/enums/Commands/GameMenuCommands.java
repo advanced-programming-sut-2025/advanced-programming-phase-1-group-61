@@ -42,10 +42,25 @@ public enum GameMenuCommands {
     PLANT("^plant\\s+-s\\s+(?<seed>.*)\\s+-d\\s+(?<direction>.*)$"),
     SHOW_PLANT("^showplant\\s+-l\\s+<(?<x>.\\d+),(?<y>.\\d+)>$"),
     FERTILIZE("^fertilize\\s+-f\\s+(?<fertilizer>.*)\\s+-d\\s+(?<direction>.*)$"),
-    WATER_IN_BUCKET("^howmuch\\s+water$");
+    WATER_IN_BUCKET("^howmuch\\s+water$"),
+    ShowCookingRecipes("^cooking\\s+show\\s+recipes$"),
+    CookingPrepare("^cooking\\s+prepare\\s+(?<recipeName>.*)$"),
+    EatFood("^eat\\s+(?<foodName>.*)$"),
+    MEET_NPC("^meet\\s+NPC (?<name>.*)$"),
+    GIFT_NPC("^gift\\s+NPC (?<name>.*) -i (?<item>.*)$"),
+    FRIENDSHIP_NPC_LIST("friendship NPC list"),
+    NPC_QUESTS_LIST("quests\\s+list"),
+    NPC_QUEST_FINISH("quests\\s+finish -i (?<index>.*)"),
+    Refrigerator("^cooking\\s+refrigerator\\s+(?<action>put|pick)\\s+(?<item>.+)$"),
+    BuildCage("^build\\s+-a\\s+(?<cageType>.*)\\s+-n\\s+(?<name>.*)\\s+-l\\s+<(?<x>.\\d+),(?<y>.\\d+)>$"),
+    showCraftingRecipes$("^crafting\\s+show\\s+recipes$"),
+    craftItem("^crafting\\s+craft\\s+(?<itemName>.*)$"),
+    placeItem("^place\\s+item\\s+-n\\s+(?<itemName>.*)\\s+-d\\s+(?<direction>.*)$");
 
 
-    private String pattern;
+
+
+    private final String pattern;
     GameMenuCommands(String pattern) {
         this.pattern = pattern;
     }

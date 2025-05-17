@@ -1,11 +1,14 @@
 package models.map.MapCreator;
 
-import models.Game;
+import models.character.Character;
 import models.enums.TileType;
 import models.enums.WeatherState;
+import models.food.Refrigerator;
 import models.map.Map;
 import models.map.Tile;
 import models.map.Weather;
+import models.resource.BuildingReference;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,7 +22,7 @@ public class MapBuilder {
     private static int cityWidth = 7;
     private static int cityHeight = 7;
 
-    public static Map buildFullMap(int player1Farm , int player2Farm , int player3Farm , int player4Farm) {
+    public static Map buildFullMap(int player1Farm , int player2Farm , int player3Farm , int player4Farm, List<Character> characters) {
 
         int fullWidth = FARM_WIDTH * 2 + cityWidth;
         int fullHeight = FARM_HEIGHT * 2 + cityHeight;
@@ -40,14 +43,46 @@ public class MapBuilder {
         for (int y = 0; y < fullHeight; y++) {
             for (int x = 0; x < fullWidth; x++) {
                 String mapSymbole = fullMap[y][x].trim().toLowerCase();
+                boolean refrigerator = false;
                 if(mapSymbole.equals("s")){
                     ySpawnPoints.add(y);
                     xSpawnPoints.add(x);
                     mapSymbole = "4";
+                } else if (mapSymbole.equalsIgnoreCase("R")) {
+                    mapSymbole = "4";
+                    refrigerator = true;
                 }
                 TileType tileType = TileType.getTypeByNumber(mapSymbole);
                 int ownerId = getOwnerIdForPosition(x, y, FARM_WIDTH, FARM_HEIGHT, cityWidth, cityHeight);
                 tiles[y][x] = new Tile(x, y, tileType, null, ownerId);
+                if(tileType.equals(TileType.Carpenter)){
+                    tiles[y][x].setResource(new BuildingReference("Carpenter"));
+                } else if (tileType.equals(TileType.BlackSmith)) {
+                    tiles[y][x].setResource(new BuildingReference("BlackSmith"));
+                } else if (tileType.equals(TileType.FishShop)) {
+                    tiles[y][x].setResource(new BuildingReference("FishShop"));
+                } else if (tileType.equals(TileType.JojaMart)) {
+                    tiles[y][x].setResource(new BuildingReference("JojaMart"));
+                } else if (tileType.equals(TileType.Marnie)) {
+                    tiles[y][x].setResource(new BuildingReference("Marnie"));
+                } else if (tileType.equals(TileType.Pierre)) {
+                    tiles[y][x].setResource(new BuildingReference("Pierre"));
+                } else if (tileType.equals(TileType.StarDrop)) {
+                    tiles[y][x].setResource(new BuildingReference("StarDrop"));
+                }
+
+                if(refrigerator){
+                    tiles[y][x].setResource(new Refrigerator());
+                    try {
+                        characters.get(ownerId).setxRefrigerator(x);
+                        characters.get(ownerId).setyRefrigerator(y);
+                    } catch (Exception e) {
+                        refrigerator = false;
+                    }
+
+
+                }
+
             }
         }
         Map map = new Map(tiles , new Weather(WeatherState.Sunny));

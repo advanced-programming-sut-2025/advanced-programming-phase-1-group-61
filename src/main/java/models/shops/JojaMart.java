@@ -15,8 +15,8 @@ public class JojaMart extends Shop {
     private final ArrayList<ShopItem> fallShopItems;
     private final ArrayList<ShopItem> winterShopItems;
 
-    public JojaMart(String type, String name, int X, int Y) {
-        super(type, name, X, Y);
+    public JojaMart( String name, int X, int Y) {
+        super(name, X, Y);
         owner="Morris";
         permanentShopItems = new ArrayList<>(List.of(
                 new ShopItem(ItemType.JojaCola,Integer.MAX_VALUE,75,"The flagship product of Joja corporation."),
