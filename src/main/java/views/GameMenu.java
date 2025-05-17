@@ -156,12 +156,15 @@ public class GameMenu implements AppMenu{
             Matcher showCraftingRecipes = GameMenuCommands.ShowCookingRecipes.getMatcher(input);
             Matcher craft = GameMenuCommands.CRAFT_INFO.getMatcher(input);
             Matcher placeItem = GameMenuCommands.placeItem.getMatcher(input);
-
+            Matcher repairGreenHouse = GameMenuCommands.RepairGreenHouse.getMatcher(input);
 
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
-            }else if (artisanuse != null) {
+            } else if (repairGreenHouse != null) {
+                Result result = controller.repairGreenHouse(repairGreenHouse);
+                System.out.println(result.message());
+            } else if (artisanuse != null) {
                 Result result = controller.artisanUse(artisanuse);
                 System.out.println(result.message());
             }else if (artisancollect != null) {

@@ -140,4 +140,12 @@ public class Inventory {
     public void setTrashcan(Trashcan trashcan) {
         this.trashcan = trashcan;
     }
+    public void upgradeFishingPole(String upgradeName){
+        for(Tool t : tools){
+            if(t.getType().equals(ToolType.FishingPole)){
+                t.setLevel(upgradeName);
+                return;
+            }
+        }
+    }
 }

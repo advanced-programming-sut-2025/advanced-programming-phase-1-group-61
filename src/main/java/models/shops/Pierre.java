@@ -87,8 +87,8 @@ public class Pierre extends Shop {
                 new ShopItem(ItemType.ArtichokeSeed, 5, 30, "Plant these in the fall. Takes 8 days to mature.")
         ));
         shopRecipes = new ArrayList<>(List.of(
-                new ShopRecipes(Recipe.DEHYDRATOR,1,10000,"A recipe to make Dehydrator"),
-                new ShopRecipes(Recipe.GRASS_STARTER,1,1000,"A recipe to make Grass Starter")
+                new ShopRecipes(Recipe.Dehydrator,1,10000,"A recipe to make Dehydrator"),
+                new ShopRecipes(Recipe.GrassStarter,1,1000,"A recipe to make Grass Starter")
         ));
     }
 

@@ -38,6 +38,23 @@ import java.util.regex.Matcher;
 public class GameMenuController {
     private int neededEnergy;
 
+    public Result repairGreenHouse(Matcher matcher){
+        int x , y;
+        x = Integer.parseInt(matcher.group("x"));
+        y = Integer.parseInt(matcher.group("y"));
+        Tile tile = App.getCurrentGame().getMap().getTileByCordinate(x,y);
+        if(!tile.getType().equals(TileType.GreenHouse)){
+            return new Result(false , "not green house");
+        }
+        if(!tile.isCollisionOn()){
+            return new Result(false , "already fixed");
+        }
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        character.setMoney(character.getMoney() - 100);
+        tile.setCollisionOn(false);
+        return new Result(true , "successfully repaired");
+    }
+
     public Result equipTool(Matcher matcher) {
         Character character = App.getCurrentGame().getCurrentCharacter();
         String name = matcher.group("name").trim();

@@ -44,8 +44,10 @@ public class Animal {
         Animal animal = new Animal(Type, House, name);
         if (Owner.getBuilding(House).addInput(animal)) {
             Owner.addAnimal(animal, name);
+            Owner.getBuilding(House).addInput(animal);
             return true;
         }
+
         return false;
 
 

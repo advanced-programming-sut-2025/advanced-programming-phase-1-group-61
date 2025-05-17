@@ -1,7 +1,9 @@
 package models.resource;
 
 import models.enums.CropType;
+import models.enums.TileType;
 import models.enums.WeatherState;
+import models.map.Tile;
 
 public class Crop extends Resource{
     private CropType type;
@@ -52,7 +54,10 @@ public class Crop extends Resource{
     }
 
 
-    public void dayCycleForCrops(WeatherState state){
+    public void dayCycleForCrops(WeatherState state , Tile tile){
+        if(tile.getType().equals(TileType.GreenHouse)){
+            isWatered = true;
+        }
        if(isWatered ){
            int dTime = 1;
            if(hasSpeedGro){
