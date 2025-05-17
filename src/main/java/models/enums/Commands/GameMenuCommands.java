@@ -58,8 +58,6 @@ public enum GameMenuCommands {
     showCraftingRecipes$("^crafting\\s+show\\s+recipes$"),
     craftItem("^crafting\\s+craft\\s+(?<itemName>.*)$"),
     placeItem("^place\\s+item\\s+-n\\s+(?<itemName>.*)\\s+-d\\s+(?<direction>.*)$"),
-
-    RepairGreenHouse("^repair\\s+green\\s+house<(?<x>.\\d+),(?<y>.\\d+)>$"),
     Friendships("^friendships$"),
     Talk("^talk-u\\s+(?<username>.*)\\s+-m\\s+(?<message>.*)$"),
     TalkHistory("^talkhistory-u\\s+(?<username>.*)$"),
@@ -77,7 +75,7 @@ public enum GameMenuCommands {
                   "(?<price>\\d+)|\\s+-ti\\s+(?<targetItem>.*)\\s+-ta\\s+(?<targetAmount>\\d+))?$"),
     TradeList("^trade list$"),
     TradeResponse("^trade response\\s+(?:--accept|--reject)\\s+-i\\s+(?<tradeId>\\d+)$"),
-    TradeHistory("^trade history$");
+    TradeHistory("^trade history$"),
     RepairGreenHouse("^repair\\s+green\\s+house<(?<x>\\d+),(?<y>\\d+)>$"),
     SellItem("^sell\\s+item\\s+(?<itemName>.*)\\s+-n\\s+(?<count>\\d+)$");
 

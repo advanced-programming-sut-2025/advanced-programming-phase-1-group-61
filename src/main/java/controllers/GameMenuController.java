@@ -1464,12 +1464,12 @@ public class GameMenuController {
     public Result Gift(Matcher matcher){
         return new Result(false , "ask marriage");
     }
-    public Result GiftList(Matcher matcher){
-        return new Result(false , "ask marriage");
+    public Result GiftList(Matcher matcher) {
+        return new Result(false, "ask marriage");
+    }
     public Result cheatAddMoney(Matcher matcher){
         int amount = Integer.parseInt(matcher.group("count"));
         App.getCurrentGame().getCurrentCharacter().setMoney(App.getCurrentGame().getCurrentCharacter().getMoney() + amount);
         return new Result(true ,"you are rich now "+amount);
-
     }
 }
