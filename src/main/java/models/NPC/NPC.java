@@ -36,6 +36,7 @@ public class NPC {
         WeatherState currentWeather=App.getCurrentGame().getMap().getWeather().getState();
         Season season=App.getCurrentGame().getDate().getSeason();
         FriendshipLevel level=friendship.getLvl();
+        friendship.setFriendshipPoints(friendship.getFriendshipPoints() + 1);
         return this.dialogs.getDialogue(season,level,currentWeather);
     }
     public boolean isFirstGiftOfDay() {
