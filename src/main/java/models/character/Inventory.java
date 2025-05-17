@@ -2,6 +2,7 @@ package models.character;
 
 import models.Item;
 import models.enums.BackpackType;
+import models.enums.CageType;
 import models.enums.ItemType;
 import models.enums.ToolType;
 import models.tool.*;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 public class Inventory {
     private final HashMap<ItemType, Integer> items=new HashMap<>();
     private final ArrayList<Tool> tools=new ArrayList<>();
+    private final HashMap<CageType,Integer> allCages=new HashMap<>();
     private BackpackType backpackType=BackpackType.PRIMARY;
     private Trashcan trashcan=new Trashcan();
 
@@ -27,10 +29,30 @@ public class Inventory {
            int i = items.get(item);
            items.put(item , i+count);
        }else {
-           if(backpackType.getSize() > items.keySet().size()){
+           if(backpackType.getSize() > items.size()){
                items.put(item , count);
            }
        }
+    }
+    public void addCage(CageType cage, int count){
+        if(allCages.containsKey(cage)){
+            int i = allCages.get(cage);
+            allCages.put(cage , i+count);
+        }else {
+            if(backpackType.getSize() > allCages.size()){
+                allCages.put(cage , count);
+            }
+        }
+    }
+    public int getCageTypeNumber(CageType cageType){
+        if(allCages.containsKey(cageType)){
+            int count = allCages.get(cageType);
+            return count;
+        }
+        return 0;
+    }
+    public void removeCage(int amount,CageType cageType){
+        allCages.replace(cageType , getCageTypeNumber(cageType) -amount);
     }
     public boolean checkToolInInventory(ToolType tool){
         for(Tool t : tools){
@@ -63,24 +85,24 @@ public class Inventory {
     public ArrayList<Tool> getTools(){
         return tools;
     }
-    public void removeItem(ItemType item){
-        for (int i=0;i<items.size();i++){
-            Item it=(Item) items.keySet().toArray()[i];
-            if(it.getItemType().equals(item))
-                items.remove(it);
-        }
+    public void removeItem(ItemType item) {
+        items.remove(item);
     }
-    public void removeItem(ItemType item,int count){
-        for(int i=0;i<items.size();i++){
-            if(items.get(i).equals(item))
-                items.put(item,items.get(item) -count);
+    public void removeItem(ItemType item, int count) {
+        if (items.containsKey(item)) {
+            int current = items.get(item);
+            int newCount = current - count;
+            if (newCount > 0) {
+                items.put(item, newCount);
+            } else {
+                items.remove(item);
+            }
         }
-
     }
     public int getCountOfItem(ItemType item){
         for(int i=0;i<items.size();i++){
-            Item it=(Item) items.keySet().toArray()[i];
-            if(it.getItemType().equals(item)) return items.get(it);
+            ItemType it=(ItemType) items.keySet().toArray()[i];
+            if(it.equals(item)) return items.get(it);
         }
         return 0;
     }

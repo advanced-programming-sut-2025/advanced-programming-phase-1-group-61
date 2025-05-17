@@ -1,11 +1,11 @@
 package models.map;
 
-import models.workBench.WorkBench;
+import models.App;
+import models.NPC.NPC;
+import models.enums.NpcDialog;
+import models.enums.NpcInfo;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class Map {
    private Tile[][] tiles;
@@ -43,6 +43,9 @@ public class Map {
     }
 
     public Tile getTileByCordinate(int x , int y){
+        if(x < 0 || y < 0 || x > tiles[0].length || y > tiles.length){
+            return null;
+        }
         return tiles[y][x];
     }
 

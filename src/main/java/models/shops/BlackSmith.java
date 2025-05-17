@@ -1,8 +1,12 @@
 package models.shops;
 
+import models.App;
 import models.building.Shop;
+import models.character.Character;
+import models.character.Trashcan;
 import models.enums.ItemType;
 import models.enums.TrashcanType;
+import models.tool.Tool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +16,8 @@ public class BlackSmith extends Shop {
     private final ArrayList<ShopToolUpgrades> toolUpgrades;
     private final ArrayList<ShopTrashcanUpgrades> trashcanUpgrades;
 
-    public BlackSmith(String type, String name, int X, int Y) {
-        super(type, name, X, Y);
+    public BlackSmith(String name, int X, int Y) {
+        super( name, X, Y);
         this.owner="Clint";
         items=new ArrayList<>(List.of(
                 new ShopItem(ItemType.CopperOre,Integer.MAX_VALUE,75,"A common ore that can be smelted into bars."),
@@ -111,16 +115,29 @@ public class BlackSmith extends Shop {
 
     @Override
     public String purchaseProduct(String product,int count) {
+        Character character=App.getCurrentGame().getCurrentCharacter();
         for(ShopItem item:items){
             if(item.getItem().getDisPlayName().equals(product)){
                 if(count> item.getStock()) return "not enough stock!";
                 item.setStock(item.getStock()-count);
+                character.getInventory().addItem(item.getItem(),count);
                 return "Successfully purchased!";
             }
         }
         for(ShopToolUpgrades tool:toolUpgrades){
             if(tool.getUpgradeName().equals(product)){
                 if(count> tool.getStock()) return "not enough stock!";
+                Tool currentTool=character.getCurrentTool();
+                if(currentTool==null){
+                    return "you don't have a tool in your hand!";
+                }
+                if(currentTool.getType().getNextLevel(currentTool.getLevel())==null){
+                    return "your tool is already maxed out!";
+                }
+                if(!currentTool.getType().getNextLevel(currentTool.getLevel()).equals(tool.getUpgradeName())){
+                    return "you should buy "+currentTool.getType().getNextLevel(currentTool.getLevel())+" first!";
+                }
+                currentTool.setLevel(tool.getUpgradeName());
                 tool.setStock(tool.getStock()-count);
                 return "Successfully purchased!";
             }
@@ -128,6 +145,14 @@ public class BlackSmith extends Shop {
         for(ShopTrashcanUpgrades trashcan:trashcanUpgrades){
             if(trashcan.getTrashcanType().getDisplayName().equals(product)){
                 if(count> trashcan.getStock()) return "not enough stock!";
+                Trashcan currentTrashcan=character.getInventory().getTrashcan();
+                if(currentTrashcan.getType().getNextLevel()==null){
+                    return "your trashcan is already maxed out!";
+                }
+                if(!currentTrashcan.getType().getNextLevel().equals(trashcan.getTrashcanType().getDisplayName())){
+                    return "you should upgrade to "+currentTrashcan.getType().getNextLevel()+" first!";
+                }
+                currentTrashcan.setType(trashcan.getTrashcanType());
                 trashcan.setStock(trashcan.getStock()-count);
                 return "Successfully purchased!";
             }

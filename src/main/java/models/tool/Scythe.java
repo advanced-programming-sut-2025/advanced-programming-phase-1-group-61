@@ -1,7 +1,6 @@
 package models.tool;
 
 import models.App;
-import models.RandomNumber;
 import models.character.Character;
 import models.enums.Direction;
 import models.enums.ToolType;

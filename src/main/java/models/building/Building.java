@@ -6,12 +6,11 @@ public class Building extends Resource{
     protected int X;
     protected int Y;
     protected int space= 0;
-    protected String type;
+
     protected int size;
     protected String name;
     protected String baseType="";
-    public Building(String type, String name , int X, int Y) {
-        this.type = type;
+    public Building( String name , int X, int Y) {
         this.name = name;
         this.X = X;
         this.Y = Y;
@@ -22,9 +21,6 @@ public class Building extends Resource{
     }
     public String getBaseType(){
         return baseType;
-    }
-    public String getType(){
-        return type;
     }
     public String getName(){
         return name;

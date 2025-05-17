@@ -13,6 +13,7 @@ public enum CheatCodes {
     CHEAT_ADD_ITEM("^cheat\\s+add\\s+item\\s+-n (?<itemName>.*) -c (?<count>.*)$"),
     CHEAT_ADD_TOOL("^cheat\\s+add\\s+tool\\s+-n (?<toolName>.*)$"),
     CHEAT_SET_FRIENDSHIP("^cheat\\s+set\\s+friendship\\s+-n (?<animalName>.*) -c (?<amount>.*)$"),
+    CHEAT_SET_NPC_FRIENDSHIP("^cheat\\s+set\\s+friendship\\s+-n (?<name>.*) -c (?<amount>.*)$"),
     CHEAT_ADD_MONEY("^cheat\\s+add (?<count>.*) dollars$");
     private final String pattern;
     CheatCodes(String pattern) {

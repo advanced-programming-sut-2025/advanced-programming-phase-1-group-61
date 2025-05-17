@@ -1,15 +1,18 @@
 package models.building;
 
 import models.animal.Animal;
+import models.enums.CageType;
 
 
 import java.util.ArrayList;
 
 public class Coop extends Building {
     private ArrayList<Animal> animals = new ArrayList<Animal>();
-    public Coop(String type, String name, int X, int Y, int owner) {
-        super(type, name, X, Y);
-        this.space = getSpace(type);
+    private CageType cageType ;
+    public Coop(CageType cageType, String name, int X, int Y) {
+        super(name, X, Y);
+        this.cageType = cageType;
+        this.space = getSpace(cageType.name());
         this.size = this.space;
         this.baseType="Coop";
     }
@@ -17,8 +20,8 @@ public class Coop extends Building {
     private int getSpace(String type) {
         return switch (type) {
             case "Coop" -> 4;
-            case "Big Coop" -> 8;
-            case "Deluxe Coop" -> 12;
+            case "BigCoop" -> 8;
+            case "DeluxCoop" -> 12;
             default -> -1;
         };
     }
