@@ -837,7 +837,7 @@ public class GameMenuController {
 
     public Result purchaseProduct(Matcher matcher) {
         Shop currentShop = App.getCurrentGame().getCurrentCharacter().getCurrentShop();
-        String productName = matcher.group("product_name").trim();
+        String productName = matcher.group("productName").trim();
         int count;
         if (currentShop == null) {
             return new Result(false, "You are not in a shop!");

@@ -49,7 +49,7 @@ public class Character {
         this.energy = 200;
         this.skill = new Skill();
         this.inventory = new Inventory();
-        this.iteractions = new Iteractions();
+        this.iteractions = new Iteractions(userId);
         cookingRecipes.add(CookingRecipes.FriedEgg);
         cookingRecipes.add(CookingRecipes.BakedFish);
         cookingRecipes.add(CookingRecipes.Salad);
@@ -270,7 +270,9 @@ public class Character {
                 int newY=lastCell.getY()+dy[i];
                 if(newY<0 || newX<0 || newY>=map.getHeightSize() || newX>=map.getWidthSize()) continue;
                 if(map.getTiles()[newY][newX].getType().isCollisionOn() ||
-                        map.getTiles()[newY][newX].getResource()!=null) continue;
+                        (map.getTiles()[newY][newX].getResource()!=null &&
+                                !(map.getTiles()[newY][newX].getResource() instanceof BuildingReference) )){continue;
+                }
                 if(visited[newY][newX]) continue;
                 visited[newY][newX]=true;
                 Cell newCell=new Cell()
