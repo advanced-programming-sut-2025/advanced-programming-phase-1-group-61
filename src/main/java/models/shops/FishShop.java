@@ -4,6 +4,7 @@ import models.App;
 import models.building.Shop;
 import models.character.Character;
 import models.enums.Recipe;
+import models.enums.ToolType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +82,7 @@ public class FishShop extends Shop {
                 if(pole.getStock()<count) return "not enough stock!";
                 pole.setStock(pole.getStock()-count);
                 //not implemented
+
                 return "successfully purchased!";
             }
         }
