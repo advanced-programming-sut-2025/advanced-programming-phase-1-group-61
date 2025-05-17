@@ -47,9 +47,9 @@ public class Character {
         cookingRecipes.add(CookingRecipes.FriedEgg);
         cookingRecipes.add(CookingRecipes.BakedFish);
         cookingRecipes.add(CookingRecipes.Salad);
-        recipes.add(Recipe.FURNACE);
-        recipes.add(Recipe.SPRINKLER);
-        recipes.add(Recipe.CHARCOAL_KILN);
+        recipes.add(Recipe.Furnace);
+        recipes.add(Recipe.Sprinkler);
+        recipes.add(Recipe.CharcoalKlin);
     }
 
     public void setTool(ToolType newTool){
@@ -68,6 +68,11 @@ public class Character {
         }
         return null;
     }
+
+    public ArrayList<Recipe> getRecipes() {
+        return recipes;
+    }
+
     public Tool getCurrentTool(){
         return currentTool;
     }

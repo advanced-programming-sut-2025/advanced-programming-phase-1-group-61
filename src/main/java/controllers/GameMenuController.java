@@ -24,6 +24,7 @@ import models.resource.Tree;
 import models.tool.Axe;
 import models.tool.Tool;
 import models.tool.WateringCan;
+import models.workBench.WorkBench;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1094,5 +1095,59 @@ public class GameMenuController {
         character.getInventory().removeCage(1 , cageType);
         return new Result(true , "cage built successfully");
 
+    }
+
+    public Result showRecipes(){
+        StringBuilder message = new StringBuilder("Recipes:\n");
+        for (Recipe recipe : App.getCurrentGame().getCurrentCharacter().getRecipes()) {
+            message.append(recipe.toString()).append("\n");
+        }
+        return new Result(true , message.toString());
+    }
+    public Result craft(Matcher matcher){
+        String item = matcher.group("itemName");
+        Recipe recipe = Recipe.getRecipe(item);
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        if(recipe == null){
+            return new Result( false , "invalid item");
+        }
+        for (ItemType itemRequired : recipe.getRecipe().keySet()) {
+            if(character.getInventory().getCountOfItem(itemRequired) <= recipe.getRecipe().get(itemRequired)){
+                return new Result(false , "you don't have enough "+itemRequired.getDisPlayName());
+            }
+        }
+        for (ItemType itemRequired : recipe.getRecipe().keySet()) {
+            character.getInventory().removeItem(itemRequired , recipe.getRecipe().get(itemRequired));
+        }
+        character.getInventory().addItem(ItemType.getItemType(recipe.name()),1);
+        return new Result(true , "item built successfully");
+    }
+    public Result placeItem(Matcher matcher){
+        Direction direction = Direction.fromString(matcher.group("direction"));
+        if(direction == null){
+            return new Result(false , "invalid direction");
+        }
+        ItemType itemType = ItemType.getItemType(matcher.group("itemName"));
+        if(itemType == null){
+            return new Result(false , "invalid item");
+        }
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        Tile tile = App.getCurrentGame().getMap().getTileByCordinate(character.getX()+direction.getDx() , character.getY()+direction.getDy());
+        if(tile.getResource() != null || tile.isCollisionOn()){
+            return new Result(false ,"you cant place item here");
+        }
+        int count = character.getInventory().getCountOfItem(itemType);
+        if(count <= 0){
+            return new Result(false , "you don't have this item in your inventory");
+        }
+
+        character.getInventory().removeItem(itemType , 1);
+        WorkBenchType workBenchType = WorkBenchType.getWorkBenchType(itemType.name());
+        if(workBenchType != null){
+            tile.setResource(new WorkBench(workBenchType));
+            return new Result(true , "successfully placed your work bench");
+        }
+        tile.setItem(new Item(itemType));
+        return new Result(true , "successfully placed your item");
     }
 }

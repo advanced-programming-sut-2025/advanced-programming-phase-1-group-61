@@ -56,7 +56,6 @@ public enum ItemType {
     Carrot(35,"carrot" , 75 , true),
     Fish(400 , "fish" , 0 , false),
     JojaCola(0,"joja cola" , 0 , false),
-    GrassStarter(0,"grass starter" , 0 , false),
     Sugar(0,"sugar" , 0 , false),
     WheatFlour(0,"wheat flour" , 0 , false),
     Rice(0,"rice" , 0 , false),
@@ -305,6 +304,28 @@ public enum ItemType {
     DishOTheSea(220 , "DishOTheSea" , 150 , true),
     SeaFormPudding(300 , "SeaFormPudding" , 175 , true),
     MinersTreat(200 , "MinersTreat" , 125, true),
+
+
+    CherryBomb(50 , "cherry bomb" , 0 , false),
+    Bomb(50 , "bomb" , 0 , false),
+    MegaBomb(50 , "mega bomb" , 0 , false),
+    Sprinkler(0 , "sprinkler" , 0 , false),
+    QualitySprinkler(0 , "quality sprinkler" , 0 , false),
+    IridiumSprinkler(0 , "iridium sprinkler" , 0 , false),
+    CharcoalKlin(0 , "charcoal klin" , 0 , false),
+    Furnace(0 , "furnace" , 0 , false),
+    Scarecrow(0 , "scarecrow" , 0 , false),
+    DeluxeScarecrow(0 , "deluxe scarecrow" , 0 , false),
+    CheesePress(0 , "cheese press" , 0 , false),
+    Keg(0 , "keg" , 0 , false),
+    Loom(0 , "loom" , 0 , false),
+    MayonnaiseMachine(0 , "mayonnaise machine" , 0 , false),
+    OilMaker(0 , "oil maker" , 0 , false),
+    PreservesJar(0 , "preserves jar" , 0 , false),
+    Dehydrator(0 , "dehydrator" , 0 , false),
+    GrassStarter(0 , "grass starter" , 0 , false),
+    FishSmoker(0 , "fish smoker" , 0 , false),
+
     ;
 
 
