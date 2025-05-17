@@ -1195,10 +1195,10 @@ public class GameMenuController {
         if(npc.isFirstGiftOfDay()){
             npc.setFirstGiftOfDay(false);
             if(found) {
-                npc.getFriendships(character).setFriendshipPoints(200);
+                npc.getFriendships(character).setFriendshipPoints(200+npc.getInfo().getFriendshipIncrease());
                 return new Result(true,"You have gained 200 friendship points with "+name);
             }
-            npc.getFriendships(character).setFriendshipPoints(50);
+            npc.getFriendships(character).setFriendshipPoints(50+npc.getInfo().getFriendshipIncrease());
             return new Result(true,"You have gained 50 friendship points with "+name);
         }
         return new Result(false , "you have not gained a point because this is not your first time in this day that you are giving "+name+" a gift!");
