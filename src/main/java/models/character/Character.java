@@ -57,6 +57,7 @@ public class Character {
         recipes.add(Recipe.Sprinkler);
         recipes.add(Recipe.CharcoalKlin);
         this.isFainted = false;
+        this.money = 10000;
     }
 
     public boolean isFainted() {

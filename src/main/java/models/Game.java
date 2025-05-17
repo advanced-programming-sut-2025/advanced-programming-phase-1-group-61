@@ -177,7 +177,11 @@ public class Game implements Runnable {
     }
 
     public Character getCharacterByTurnNumber(int turn) {
-        return allCharacters.get(turn);
+        try {
+            return allCharacters.get(turn);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public String changeTurn() {

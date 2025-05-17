@@ -531,6 +531,8 @@ public class GameMenuController {
             return new Result(false, "pls enter valid animal");
         }
         String House = Animal.getHouse(Type);
+        System.out.println(Type);
+        System.out.println(House);
         if (House == null) {
             return new Result(false, "no empty house for animal");
         }
@@ -764,7 +766,7 @@ public class GameMenuController {
                     }
                     return new Result(false, animalName + "can't go in " + name);
                 } else if (!(tile.getType().getTypeNum().equals("4") && tile.getType().getTypeNum().equals("8"))) {
-                    animal.shepherd(x, y, true, "");
+                    animal.shepherd(x, y, true, null);
                     return new Result(true, animalName + "is out eating");
                 }
                 return new Result(false, animalName + "can't go in the cabin");
@@ -1247,11 +1249,15 @@ public class GameMenuController {
             return new Result(false , "you have not bough this cage in shop buy it first");
         }
 
+
         for(int height = y ; height < cageType.getHeight()+y ; height++){
             for (int width = x ; width < cageType.getWidth()+x; width++){
                 Tile tile = map.getTileByCordinate(width , height);
                 if(tile==null){
                     return new Result(false , "invalid coordinate");
+                }
+                if(game.getCharacterByTurnNumber(tile.getOwnerId()) == null){
+                    return new Result(false , "you cant build in city");
                 }
                 if(game.getCharacterByTurnNumber(tile.getOwnerId()).getUserId() !=character.getUserId()){
                     return new Result(true , "this tile is not yours");
@@ -1330,5 +1336,10 @@ public class GameMenuController {
         }
         tile.setItem(new Item(itemType));
         return new Result(true , "successfully placed your item");
+    }
+    public Result cheatAddMoney(Matcher matcher){
+        int amount = Integer.parseInt(matcher.group("count"));
+        App.getCurrentGame().getCurrentCharacter().setMoney(App.getCurrentGame().getCurrentCharacter().getMoney() + amount);
+        return new Result(true ,"you are rich now "+amount);
     }
 }
