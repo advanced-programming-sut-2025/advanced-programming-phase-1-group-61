@@ -140,4 +140,7 @@ public class Inventory {
     public void setTrashcan(Trashcan trashcan) {
         this.trashcan = trashcan;
     }
+    public void upgradeFishingPole(String upgradeName){
+        ToolType.FishingPole.getNextLevel(upgradeName);
+    }
 }
