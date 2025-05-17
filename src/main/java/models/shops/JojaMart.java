@@ -2,6 +2,7 @@ package models.shops;
 
 import models.App;
 import models.building.Shop;
+import models.character.Character;
 import models.enums.ItemType;
 import models.enums.Season;
 
@@ -184,10 +185,12 @@ public class JojaMart extends Shop {
 
     @Override
     public String purchaseProduct(String product, int count) {
+        Character character=App.getCurrentGame().getCurrentCharacter();
         for(ShopItem item : permanentShopItems){
             if(item.getItem().getDisPlayName().equals(product)){
                 if(count> item.getStock()) return "not enough stock!";
                 item.setStock(item.getStock()-count);
+                character.getInventory().addItem(item.getItem(),count);
                 return "Successfully purchased!";
             }
         }
@@ -197,6 +200,7 @@ public class JojaMart extends Shop {
                 if (item.getItem().getDisPlayName().equals(product)) {
                     if (count > item.getStock()) return "not enough stock!";
                     item.setStock(item.getStock() - count);
+                    character.getInventory().addItem(item.getItem(),count);
                     return "Successfully purchased!";
                 }
             }
@@ -206,6 +210,7 @@ public class JojaMart extends Shop {
                 if (item.getItem().getDisPlayName().equals(product)) {
                     if (count > item.getStock()) return "not enough stock!";
                     item.setStock(item.getStock() - count);
+                    character.getInventory().addItem(item.getItem(),count);
                     return "Successfully purchased!";
                 }
             }
@@ -215,6 +220,7 @@ public class JojaMart extends Shop {
                 if (item.getItem().getDisPlayName().equals(product)) {
                     if (count > item.getStock()) return "not enough stock!";
                     item.setStock(item.getStock() - count);
+                    character.getInventory().addItem(item.getItem(),count);
                     return "Successfully purchased!";
                 }
             }
@@ -224,6 +230,7 @@ public class JojaMart extends Shop {
                 if (item.getItem().getDisPlayName().equals(product)) {
                     if (count > item.getStock()) return "not enough stock!";
                     item.setStock(item.getStock() - count);
+                    character.getInventory().addItem(item.getItem(),count);
                     return "Successfully purchased!";
                 }
             }

@@ -81,8 +81,7 @@ public class FishShop extends Shop {
             if(pole.getDisplayName().equals(product)) {
                 if(pole.getStock()<count) return "not enough stock!";
                 pole.setStock(pole.getStock()-count);
-                //not implemented
-
+                character.getInventory().upgradeFishingPole(product);
                 return "successfully purchased!";
             }
         }

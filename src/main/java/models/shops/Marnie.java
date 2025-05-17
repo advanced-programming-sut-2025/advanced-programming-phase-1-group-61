@@ -1,6 +1,8 @@
 package models.shops;
 
+import models.App;
 import models.building.Shop;
+import models.character.Character;
 import models.enums.AnimalType;
 import models.enums.CageType;
 import models.enums.ItemType;
@@ -113,10 +115,12 @@ public class Marnie extends Shop {
 
     @Override
     public String purchaseProduct(String product, int count) {
+        Character character= App.getCurrentGame().getCurrentCharacter();
         for(ShopItem item : permanentItems){
             if(item.getItem().getDisPlayName().equals(product)){
                 if(count> item.getStock()) return "not enough stock!";
                 item.setStock(item.getStock()-count);
+                character.getInventory().addItem(item.getItem(),count);
                 return "Successfully purchased!";
             }
         }
@@ -124,6 +128,7 @@ public class Marnie extends Shop {
             if(tool.getTool().getTool().equals(product)){
                 if(count> tool.getStock()) return "not enough stock!";
                 tool.setStock(tool.getStock()-count);
+                character.getInventory().addTool(tool.getTool());
                 return "Successfully purchased!";
             }
         }
