@@ -16,9 +16,10 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
-public class GameMenu implements AppMenu{
+public class GameMenu implements AppMenu {
     private final GameMenuController controller = new GameMenuController();
     private boolean inGame = false;
+
     @Override
     public void check(Scanner scanner) {
         String input = scanner.nextLine().trim();
@@ -26,18 +27,17 @@ public class GameMenu implements AppMenu{
         Matcher showCurrentMenu = RegisterMenuCommands.SHOW_CURRENT_MENU.getMatcher(input);
 
 
-
-        if(!inGame){
+        if (!inGame) {
             Matcher start = GameMenuCommands.START_GAME.getMatcher(input);
             Matcher loadGame = GameMenuCommands.LOAD_GAME.getMatcher(input);
-            if (showCurrentMenu != null){
+            if (showCurrentMenu != null) {
                 System.out.println("you are in game menu start a game to enter game");
             }
-            if(start!= null){
+            if (start != null) {
                 List<String> usernames = new ArrayList<>();
                 usernames.add(App.getLoggedInUser().getUsername());
                 String user1 = start.group(1);
-                if(user1 == null){
+                if (user1 == null) {
                     System.out.println("you need at least one more player to start game");
                     return;
                 }
@@ -48,49 +48,47 @@ public class GameMenu implements AppMenu{
                         usernames.add(user);
                     }
                 }
-                Result res=controller.startGameErrors(usernames);
-                if(!res.isSuccessful()) {
+                Result res = controller.startGameErrors(usernames);
+                if (!res.isSuccessful()) {
                     System.out.println(res.message());
                     return;
                 }
 
                 Result userValidation = controller.userListIsValid(usernames);
-                if(userValidation.isSuccessful()){
+                if (userValidation.isSuccessful()) {
                     int[] mapNumber = new int[4];
                     int i = 0;
-                    while (i<usernames.size()){
-                        System.out.println("choosing map for "+usernames.get(i));
+                    while (i < usernames.size()) {
+                        System.out.println("choosing map for " + usernames.get(i));
                         String mapChoosing = scanner.nextLine();
                         Matcher chooseMap = GameMenuCommands.CHOOSE_MAP.getMatcher(mapChoosing);
-                        if(chooseMap != null){
+                        if (chooseMap != null) {
                             int number = Integer.parseInt(chooseMap.group("number"));
-                            if(number>2 || number <= 0){
+                            if (number > 2 || number <= 0) {
                                 System.out.println("unavailable map number");
-                            }else {
+                            } else {
                                 mapNumber[i] = number;
                                 i++;
                             }
-                        }else {
+                        } else {
                             System.out.println("you have to choose map using command: game map <number>");
                         }
                     }
 
-                    while (i < 4){
-                        mapNumber[i++] = RandomNumber.getRandomNumberWithBoundaries(1,3);
+                    while (i < 4) {
+                        mapNumber[i++] = RandomNumber.getRandomNumberWithBoundaries(1, 3);
                     }
-                    Result result = controller.startGame(usernames,mapNumber);
+                    Result result = controller.startGame(usernames, mapNumber);
                     System.out.println(result.message());
-                    if(result.isSuccessful()){
+                    if (result.isSuccessful()) {
                         inGame = true;
                     }
                 }
-            }
-            else if (loadGame != null){
+            } else if (loadGame != null) {
                 Result result = controller.loadGame();
                 System.out.println(result.message());
-                if(result.isSuccessful()) inGame = true;
-            }
-            else{
+                if (result.isSuccessful()) inGame = true;
+            } else {
                 System.out.println("invalid command");
             }
         } else {
@@ -152,7 +150,7 @@ public class GameMenu implements AppMenu{
             Matcher npcQuestFinish = GameMenuCommands.NPC_QUEST_FINISH.getMatcher(input);
             Matcher giftNpc = GameMenuCommands.GIFT_NPC.getMatcher(input);
             Matcher buildCage = GameMenuCommands.BuildCage.getMatcher(input);
-            Matcher showCraftingRecipes = GameMenuCommands.ShowCookingRecipes.getMatcher(input);
+            Matcher showCraftingRecipes = GameMenuCommands.ShowCraftingRecipes.getMatcher(input);
             Matcher craft = GameMenuCommands.CRAFT_INFO.getMatcher(input);
             Matcher placeItem = GameMenuCommands.placeItem.getMatcher(input);
             Matcher repairGreenHouse = GameMenuCommands.RepairGreenHouse.getMatcher(input);
@@ -172,6 +170,9 @@ public class GameMenu implements AppMenu{
             Matcher TradeList = GameMenuCommands.TradeList.getMatcher(input);
             Matcher TradeResponse = GameMenuCommands.TradeResponse.getMatcher(input);
             Matcher TradeHistory = GameMenuCommands.TradeHistory.getMatcher(input);
+            Matcher cheatAddMoney = CheatCodes.CHEAT_ADD_MONEY.getMatcher(input);
+            Matcher sellItem = GameMenuCommands.SellItem.getMatcher(input);
+
 
             if (showCurrentMenu != null) {
                 System.out.println("you are in game");
@@ -192,6 +193,9 @@ public class GameMenu implements AppMenu{
                 System.out.println(result.message());
             } else if (TradeResponse != null) {
                 Result result = controller.TradeResponse(TradeResponse);
+                System.out.println(result.message());
+            } else if (cheatFriendship != null) {
+                Result result =controller.cheatFriendship(cheatFriendship);
                 System.out.println(result.message());
             } else if (TradeHistory != null) {
                 Result result = controller.TradeHistory(TradeHistory);
@@ -223,220 +227,211 @@ public class GameMenu implements AppMenu{
             } else if (GiftList != null) {
                 Result result = controller.repairGreenHouse(GiftList);
                 System.out.println(result.message());
+            } else if (sellItem != null) {
+                Result result = controller.sellItem(sellItem);
+                System.out.println(result.message());
+            } else if (cheatAddMoney != null) {
+                Result result = controller.cheatAddMoney(cheatAddMoney);
+                System.out.println(result.message());
             } else if (repairGreenHouse != null) {
-
-                Matcher cheatAddMoney = CheatCodes.CHEAT_ADD_MONEY.getMatcher(input);
-                Matcher sellItem = GameMenuCommands.SellItem.getMatcher(input);
-
-
-                if (showCurrentMenu != null) {
-                    System.out.println("you are in game");
-                } else if (sellItem != null) {
-                    Result result = controller.sellItem(sellItem);
+                Result result = controller.repairGreenHouse(repairGreenHouse);
+                System.out.println(result.message());
+            } else if (artisanuse != null) {
+                Result result = controller.artisanUse(artisanuse);
+                System.out.println(result.message());
+            } else if (artisancollect != null) {
+                Result result = controller.artisancollect(artisancollect);
+                System.out.println(result.message());
+            } else if (placeItem != null) {
+                Result result = controller.placeItem(placeItem);
+                System.out.println(result.message());
+            } else if (craft != null) {
+                Result result = controller.craft(craft);
+                System.out.println(result.message());
+            } else if (showCraftingRecipes != null) {
+                Result result = controller.showRecipes();
+                System.out.println(result.message());
+            } else if (buildCage != null) {
+                Result result = controller.buildCage(buildCage);
+                System.out.println(result.message());
+            } else if (eatFood != null) {
+                Result result = controller.eatFood(eatFood);
+                System.out.println(result.message());
+            } else if (cooking != null) {
+                Result result = controller.cooking(cooking);
+                System.out.println(result.message());
+            } else if (showCookingRecipe != null) {
+                Result result = controller.showCookingRecipes();
+                System.out.println(result.message());
+            } else if (putOrPickItemInRefrigerator != null) {
+                Result result = controller.putOrPickItemInRefrigerator(putOrPickItemInRefrigerator);
+                System.out.println(result.message());
+            } else if (showWaterInBucket != null) {
+                Result result = controller.showWaterInBucket();
+                System.out.println(result.message());
+            } else if (fertilize != null) {
+                Result result = controller.fertilize(fertilize);
+                System.out.println(result.message());
+            } else if (showPlant != null) {
+                Result result = controller.showPlant(showPlant);
+                System.out.println(result.message());
+            } else if (plant != null) {
+                Result result = controller.plant(plant);
+                System.out.println(result.message());
+            } else if (sellAnimal != null) {
+                Result result = controller.sellAnimal(sellAnimal);
+                System.out.println(result.message());
+            } else if (collectProduces != null) {
+                Result result = controller.getAnimalProduct(collectProduces);
+                System.out.println(result.message());
+            } else if (Produces != null) {
+                Result result = controller.animalsProducts();
+                System.out.println(result.message());
+            } else if (FeedAnimal != null) {
+                Result result = controller.feedHay(FeedAnimal);
+                System.out.println(result.message());
+            } else if (Sheperd != null) {
+                Result result = controller.shepherd(Sheperd);
+                System.out.println(result.message());
+            } else if (Animals != null) {
+                Result result = controller.showAnimals();
+                System.out.println(result.message());
+            } else if (cheatFriendship != null) {
+                Result result = controller.cheatFriendship(cheatFriendship);
+                System.out.println(result.message());
+            } else if (pet != null) {
+                Result result = controller.pet(pet);
+                System.out.println(result.message());
+            } else if (buyAnimal != null) {
+                Result result = controller.buyAnimal(buyAnimal);
+                System.out.println(result.message());
+            } else if (useAxeForSyrup != null) {
+                Result result = controller.useAxeForSyrup(useAxeForSyrup);
+                System.out.println(result.message());
+            } else if (showEnergy != null) {
+                Result result = controller.showEnergy();
+                System.out.println(result.message());
+            } else if (printMap != null) {
+                Result result = controller.printMap(printMap);
+                System.out.println(result.message());
+            } else if (helpReadingMap != null) {
+                Result result = controller.helpRead();
+                System.out.println(result.message());
+            } else if (cheatWeather != null) {
+                Result result = controller.cheatWeatherState(cheatWeather);
+                System.out.println(result.message());
+            } else if (weatherForeCast != null) {
+                Result result = controller.foreCastWeather();
+                System.out.println(result.message());
+            } else if (showWeather != null) {
+                String state = App.getCurrentGame().getMap().getWeather().getState().getDisplayName();
+                System.out.println("weather is now " + state);
+            } else if (cheatThor != null) {
+                Result result = controller.cheatThor(cheatThor);
+                System.out.println(result.message());
+            } else if (cheatDay != null) {
+                Result result = controller.cheatDay(cheatDay);
+                System.out.println(result.message());
+            } else if (showHour != null) {
+                Result result = controller.showHour();
+                System.out.println(result.message());
+            } else if (showDate != null) {
+                Result result = controller.showDate();
+                System.out.println(result.message());
+            } else if (showDateAndTime != null) {
+                Result result = controller.showDateAndTime();
+                System.out.println(result.message());
+            } else if (showWeekDay != null) {
+                Result result = controller.showWeekDay();
+                System.out.println(result.message());
+            } else if (changePlayerTurn != null) {
+                Result result = controller.changeTurn();
+                System.out.println(result.message());
+            } else if (cheatHour != null) {
+                Result result = controller.cheatHour(cheatHour);
+                System.out.println(result.message());
+            } else if (energySet != null) {
+                Result result = controller.energySet(energySet);
+                System.out.println(result.message());
+            } else if (unlimitedEnergy != null) {
+                Result result = controller.unlimitedEnergySet();
+                System.out.println(result.message());
+            } else if (cheatAddItem != null) {
+                Result result = controller.cheatAddItem(cheatAddItem);
+                System.out.println(result.message());
+            } else if (cheatAddTool != null) {
+                Result result = controller.cheatAddTool(cheatAddTool);
+                System.out.println(result.message());
+            } else if (walk != null) {
+                Result res = controller.energyResult(walk);
+                System.out.println(res.message());
+                if (res.isSuccessful()) {
+                    String confirmation = scanner.nextLine();
+                    Result result = controller.walk(confirmation);
                     System.out.println(result.message());
-                } else if (cheatAddMoney != null) {
-                    Result result = controller.cheatAddMoney(cheatAddMoney);
-                    System.out.println(result.message());
-                } else if (repairGreenHouse != null) {
-                    Result result = controller.repairGreenHouse(repairGreenHouse);
-                    System.out.println(result.message());
-                } else if (artisanuse != null) {
-                    Result result = controller.artisanUse(artisanuse);
-                    System.out.println(result.message());
-                } else if (artisancollect != null) {
-                    Result result = controller.artisancollect(artisancollect);
-                    System.out.println(result.message());
-                } else if (placeItem != null) {
-                    Result result = controller.placeItem(placeItem);
-                    System.out.println(result.message());
-                } else if (craft != null) {
-                    Result result = controller.craft(craft);
-                    System.out.println(result.message());
-                } else if (showCraftingRecipes != null) {
-                    Result result = controller.showRecipes();
-                    System.out.println(result.message());
-                } else if (buildCage != null) {
-                    Result result = controller.buildCage(buildCage);
-                    System.out.println(result.message());
-                } else if (eatFood != null) {
-                    Result result = controller.eatFood(eatFood);
-                    System.out.println(result.message());
-                } else if (cooking != null) {
-                    Result result = controller.cooking(cooking);
-                    System.out.println(result.message());
-                } else if (showCookingRecipe != null) {
-                    Result result = controller.showCookingRecipes();
-                    System.out.println(result.message());
-                } else if (putOrPickItemInRefrigerator != null) {
-                    Result result = controller.putOrPickItemInRefrigerator(putOrPickItemInRefrigerator);
-                    System.out.println(result.message());
-                } else if (showWaterInBucket != null) {
-                    Result result = controller.showWaterInBucket();
-                    System.out.println(result.message());
-                } else if (fertilize != null) {
-                    Result result = controller.fertilize(fertilize);
-                    System.out.println(result.message());
-                } else if (showPlant != null) {
-                    Result result = controller.showPlant(showPlant);
-                    System.out.println(result.message());
-                } else if (plant != null) {
-                    Result result = controller.plant(plant);
-                    System.out.println(result.message());
-                } else if (sellAnimal != null) {
-                    Result result = controller.sellAnimal(sellAnimal);
-                    System.out.println(result.message());
-                } else if (collectProduces != null) {
-                    Result result = controller.getAnimalProduct(collectProduces);
-                    System.out.println(result.message());
-                } else if (Produces != null) {
-                    Result result = controller.animalsProducts();
-                    System.out.println(result.message());
-                } else if (FeedAnimal != null) {
-                    Result result = controller.feedHay(FeedAnimal);
-                    System.out.println(result.message());
-                } else if (Sheperd != null) {
-                    Result result = controller.shepherd(Sheperd);
-                    System.out.println(result.message());
-                } else if (Animals != null) {
-                    Result result = controller.showAnimals();
-                    System.out.println(result.message());
-                } else if (cheatFriendship != null) {
-                    Result result = controller.cheatFriendship(cheatFriendship);
-                    System.out.println(result.message());
-                } else if (pet != null) {
-                    Result result = controller.pet(pet);
-                    System.out.println(result.message());
-                } else if (buyAnimal != null) {
-                    Result result = controller.buyAnimal(buyAnimal);
-                    System.out.println(result.message());
-                } else if (useAxeForSyrup != null) {
-                    Result result = controller.useAxeForSyrup(useAxeForSyrup);
-                    System.out.println(result.message());
-                } else if (showEnergy != null) {
-                    Result result = controller.showEnergy();
-                    System.out.println(result.message());
-                } else if (printMap != null) {
-                    Result result = controller.printMap(printMap);
-                    System.out.println(result.message());
-                } else if (helpReadingMap != null) {
-                    Result result = controller.helpRead();
-                    System.out.println(result.message());
-                } else if (cheatWeather != null) {
-                    Result result = controller.cheatWeatherState(cheatWeather);
-                    System.out.println(result.message());
-                } else if (weatherForeCast != null) {
-                    Result result = controller.foreCastWeather();
-                    System.out.println(result.message());
-                } else if (showWeather != null) {
-                    String state = App.getCurrentGame().getMap().getWeather().getState().getDisplayName();
-                    System.out.println("weather is now " + state);
-                } else if (cheatThor != null) {
-                    Result result = controller.cheatThor(cheatThor);
-                    System.out.println(result.message());
-                } else if (cheatDay != null) {
-                    Result result = controller.cheatDay(cheatDay);
-                    System.out.println(result.message());
-                } else if (showHour != null) {
-                    Result result = controller.showHour();
-                    System.out.println(result.message());
-                } else if (showDate != null) {
-                    Result result = controller.showDate();
-                    System.out.println(result.message());
-                } else if (showDateAndTime != null) {
-                    Result result = controller.showDateAndTime();
-                    System.out.println(result.message());
-                } else if (showWeekDay != null) {
-                    Result result = controller.showWeekDay();
-                    System.out.println(result.message());
-                } else if (changePlayerTurn != null) {
-                    Result result = controller.changeTurn();
-                    System.out.println(result.message());
-                } else if (cheatHour != null) {
-                    Result result = controller.cheatHour(cheatHour);
-                    System.out.println(result.message());
-                } else if (energySet != null) {
-                    Result result = controller.energySet(energySet);
-                    System.out.println(result.message());
-                } else if (unlimitedEnergy != null) {
-                    Result result = controller.unlimitedEnergySet();
-                    System.out.println(result.message());
-                } else if (cheatAddItem != null) {
-                    Result result = controller.cheatAddItem(cheatAddItem);
-                    System.out.println(result.message());
-                } else if (cheatAddTool != null) {
-                    Result result = controller.cheatAddTool(cheatAddTool);
-                    System.out.println(result.message());
-                } else if (walk != null) {
-                    Result res = controller.energyResult(walk);
-                    System.out.println(res.message());
-                    if (res.isSuccessful()) {
-                        String confirmation = scanner.nextLine();
-                        Result result = controller.walk(confirmation);
-                        System.out.println(result.message());
-                    }
-                } else if (equipTool != null) {
-                    Result result = controller.equipTool(equipTool);
-                    System.out.println(result.message());
-                } else if (showCurrentTool != null) {
-                    Result result = controller.showCurrentTool();
-                    System.out.println(result.message());
-                } else if (toolsUpgrade != null) {
-                    Result result = controller.upgradeTool(toolsUpgrade);
-                    System.out.println(result.message());
-                } else if (toolsShowAvailable != null) {
-                    Result result = controller.showAvailableTools();
-                    System.out.println(result.message());
-                } else if (toolsUse != null) {
-                    Result result = controller.useTool(toolsUse);
-                    System.out.println(result.message());
-                } else if (inventoryShow != null) {
-                    Result result = controller.inventoryShow();
-                    System.out.println(result.message());
-                } else if (inventoryTrash != null) {
-                    Result result = controller.inventoryTrash(inventoryTrash);
-                    System.out.println(result.message());
-                } else if (exitGame != null) {
-                    try {
-                        App.saveApp();
-                    } catch (IOException e) {
-                        System.out.println("failed to save app");
-                    }
-                    App.setCurrentMenu(Menu.EXIT_MENU);
-                } else if (craftInfo != null) {
-                    Result result = controller.craftInfo(craftInfo);
-                    System.out.println(result.message());
-                } else if (showAllProducts != null) {
-                    Result result = controller.showShopProducts();
-                    System.out.println(result.message());
-                } else if (showAllAvailableProducts != null) {
-                    Result result = controller.showShopAvailableProducts();
-                    System.out.println(result.message());
-                } else if (purchaseProduct != null) {
-                    Result result = controller.purchaseProduct(purchaseProduct);
-                    System.out.println(result.message());
-                } else if (meetNpc != null) {
-                    Result result = controller.meetNpc(meetNpc);
-                    System.out.println(result.message());
-                } else if (friendshipNPCList != null) {
-                    Result result = controller.friendshipNPCList();
-                    System.out.println(result.message());
-                } else if (cheatSetNpcFriendship != null) {
-                    Result result = controller.cheatSetNpcFriendship(cheatSetNpcFriendship);
-                    System.out.println(result.message());
-                } else if (npcQuestsList != null) {
-                    Result result = controller.questsList();
-                    System.out.println(result.message());
-                } else if (npcQuestFinish != null) {
-                    Result result = controller.questsFinish(npcQuestFinish);
-                    System.out.println(result.message());
-                } else if (giftNpc != null) {
-                    Result result = controller.giftNPC(giftNpc);
-                    System.out.println(result.message());
-                } else {
-                    System.out.println("invalid command");
                 }
+            } else if (equipTool != null) {
+                Result result = controller.equipTool(equipTool);
+                System.out.println(result.message());
+            } else if (showCurrentTool != null) {
+                Result result = controller.showCurrentTool();
+                System.out.println(result.message());
+            } else if (toolsUpgrade != null) {
+                Result result = controller.upgradeTool(toolsUpgrade);
+                System.out.println(result.message());
+            } else if (toolsShowAvailable != null) {
+                Result result = controller.showAvailableTools();
+                System.out.println(result.message());
+            } else if (toolsUse != null) {
+                Result result = controller.useTool(toolsUse);
+                System.out.println(result.message());
+            } else if (inventoryShow != null) {
+                Result result = controller.inventoryShow();
+                System.out.println(result.message());
+            } else if (inventoryTrash != null) {
+                Result result = controller.inventoryTrash(inventoryTrash);
+                System.out.println(result.message());
+            } else if (exitGame != null) {
+                try {
+                    App.saveApp();
+                } catch (IOException e) {
+                    System.out.println("failed to save app");
+                }
+                App.setCurrentMenu(Menu.EXIT_MENU);
+            } else if (craftInfo != null) {
+                Result result = controller.craftInfo(craftInfo);
+                System.out.println(result.message());
+            } else if (showAllProducts != null) {
+                Result result = controller.showShopProducts();
+                System.out.println(result.message());
+            } else if (showAllAvailableProducts != null) {
+                Result result = controller.showShopAvailableProducts();
+                System.out.println(result.message());
+            } else if (purchaseProduct != null) {
+                Result result = controller.purchaseProduct(purchaseProduct);
+                System.out.println(result.message());
+            } else if (meetNpc != null) {
+                Result result = controller.meetNpc(meetNpc);
+                System.out.println(result.message());
+            } else if (friendshipNPCList != null) {
+                Result result = controller.friendshipNPCList();
+                System.out.println(result.message());
+            } else if (cheatSetNpcFriendship != null) {
+                Result result = controller.cheatSetNpcFriendship(cheatSetNpcFriendship);
+                System.out.println(result.message());
+            } else if (npcQuestsList != null) {
+                Result result = controller.questsList();
+                System.out.println(result.message());
+            } else if (npcQuestFinish != null) {
+                Result result = controller.questsFinish(npcQuestFinish);
+                System.out.println(result.message());
+            } else if (giftNpc != null) {
+                Result result = controller.giftNPC(giftNpc);
+                System.out.println(result.message());
+            } else {
+                System.out.println("invalid command");
             }
+        }
+    }
 
-        }
-        }
 }

@@ -361,7 +361,7 @@ public enum ItemType {
 
     public static boolean isItem(String itemName) {
         try {
-            ItemType.valueOf(itemName.toUpperCase());
+            ItemType.valueOf(itemName);
             return true;
         } catch (IllegalArgumentException e) {
             return false;
