@@ -45,6 +45,12 @@ public class Game implements Runnable {
         for(Shop shop:shops) shop.restoreStocks();
     }
 
+    public Character getCharacterByID(int id) {
+        for(Character character:allCharacters) {
+            if(character.getUserId()==id) return character;
+        }
+        return null;
+    }
 
     public void startGameThread() {
         if (gameThread == null || !running) {

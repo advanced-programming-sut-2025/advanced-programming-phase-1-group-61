@@ -7,6 +7,7 @@ import models.building.Building;
 import models.building.Shop;
 import models.enums.Recipe;
 import models.enums.ToolType;
+import models.interactions.Iteractions;
 import models.map.Map;
 import models.tool.Tool;
 import models.workBench.WorkBench;
@@ -18,6 +19,8 @@ public class Character {
     private final Inventory inventory ;
     private int energy;
     private boolean unlimitedEnergy=false;
+    private Iteractions iteractions;
+    private  Integer partner;
     private int x;
     private int y;
     private Skill skill;
@@ -35,7 +38,13 @@ public class Character {
         this.energy = 200;
         this.skill = new Skill();
         this.inventory = new Inventory();
+        this.iteractions = new Iteractions();
     }
+
+    public Iteractions getIteractions() {
+        return iteractions;
+    }
+
 
     public void setTool(ToolType newTool){
         for (Tool tool : this.inventory.getTools()) {
@@ -234,5 +243,13 @@ public class Character {
     }
     public List<WorkBench> getWorkBenches(){
         return workBenches;
+    }
+
+    public Integer getPartner() {
+        return partner;
+    }
+
+    public void setPartner(Integer partner) {
+        this.partner = partner;
     }
 }
