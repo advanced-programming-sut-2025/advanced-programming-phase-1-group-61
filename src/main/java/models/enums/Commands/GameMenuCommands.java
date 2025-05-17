@@ -58,8 +58,29 @@ public enum GameMenuCommands {
     showCraftingRecipes$("^crafting\\s+show\\s+recipes$"),
     craftItem("^crafting\\s+craft\\s+(?<itemName>.*)$"),
     placeItem("^place\\s+item\\s+-n\\s+(?<itemName>.*)\\s+-d\\s+(?<direction>.*)$"),
+
+    RepairGreenHouse("^repair\\s+green\\s+house<(?<x>.\\d+),(?<y>.\\d+)>$"),
+    Friendships("^friendships$"),
+    Talk("^talk-u\\s+(?<username>.*)\\s+-m\\s+(?<message>.*)$"),
+    TalkHistory("^talkhistory-u\\s+(?<username>.*)$"),
+    Gift("^gift-u\\s+(?<username>.*)\\s+-i\\s+(?<item>.*)\\s+-a\\s+(?<amount>\\d+)$"),
+    GiftList("^gift list$"),
+    GiftRate("^gift rate-i\\s+(?<giftNumber>\\d+)\\s+-r\\s+(?<rate>\\d+)$"),
+    GiftHistory("^gift history-u\\s+(?<username>.*)$"),
+    Hug("^hug-u\\s+(?<username>.*)$"),
+    Flower("^flower-u\\s+(?<username>.*)$"),
+    AskMarriage("^ask marriage-u\\s+(?<username>.*)\\s+-r\\s+(?<ring>.*)$"),
+    RespondMarriage("^respond\\s+-(?<answer>accept|reject)\\s+-u\\s+(?<username>.*)$"),
+    StartTrade("^start trade$"),
+    Trade("^trade-u\\s+(?<username>.*)\\s+-t\\s+(?<tradeType>.*)\\s+-i\\s+(?<item>.*)" +
+                  "\\s+-a\\s+(?<amount>\\d+)(?:\\s+-p\\s+" +
+                  "(?<price>\\d+)|\\s+-ti\\s+(?<targetItem>.*)\\s+-ta\\s+(?<targetAmount>\\d+))?$"),
+    TradeList("^trade list$"),
+    TradeResponse("^trade response\\s+(?:--accept|--reject)\\s+-i\\s+(?<tradeId>\\d+)$"),
+    TradeHistory("^trade history$");
     RepairGreenHouse("^repair\\s+green\\s+house<(?<x>\\d+),(?<y>\\d+)>$"),
     SellItem("^sell\\s+item\\s+(?<itemName>.*)\\s+-n\\s+(?<count>\\d+)$");
+
 
 
 

@@ -157,6 +157,75 @@ public class GameMenu implements AppMenu{
             Matcher craft = GameMenuCommands.CRAFT_INFO.getMatcher(input);
             Matcher placeItem = GameMenuCommands.placeItem.getMatcher(input);
             Matcher repairGreenHouse = GameMenuCommands.RepairGreenHouse.getMatcher(input);
+            Matcher Friendships = GameMenuCommands.Friendships.getMatcher(input);
+            Matcher Talk = GameMenuCommands.Talk.getMatcher(input);
+            Matcher TalkHistory = GameMenuCommands.TalkHistory.getMatcher(input);
+            Matcher Gift = GameMenuCommands.Gift.getMatcher(input);
+            Matcher GiftList = GameMenuCommands.GiftList.getMatcher(input);
+            Matcher GiftRate = GameMenuCommands.GiftRate.getMatcher(input);
+            Matcher GiftHistory = GameMenuCommands.GiftHistory.getMatcher(input);
+            Matcher Hug = GameMenuCommands.Hug.getMatcher(input);
+            Matcher Flower = GameMenuCommands.Flower.getMatcher(input);
+            Matcher AskMarriage = GameMenuCommands.AskMarriage.getMatcher(input);
+            Matcher RespondMarriage = GameMenuCommands.RespondMarriage.getMatcher(input);
+            Matcher StartTrade = GameMenuCommands.StartTrade.getMatcher(input);
+            Matcher Trade = GameMenuCommands.Trade.getMatcher(input);
+            Matcher TradeList = GameMenuCommands.TradeList.getMatcher(input);
+            Matcher TradeResponse = GameMenuCommands.TradeResponse.getMatcher(input);
+            Matcher TradeHistory = GameMenuCommands.TradeHistory.getMatcher(input);
+
+            if (showCurrentMenu != null){
+                System.out.println("you are in game");
+            }  else if (AskMarriage != null) {
+                Result result = controller.AskMarriage(AskMarriage);
+                System.out.println(result.message());
+            } else if (RespondMarriage != null) {
+                Result result = controller.RespondMarriage(RespondMarriage);
+                System.out.println(result.message());
+            } else if (StartTrade != null) {
+                Result result = controller.StartTrade(StartTrade);
+                System.out.println(result.message());
+            } else if (Trade != null) {
+                Result result = controller.Trade(Trade);
+                System.out.println(result.message());
+            } else if (TradeList != null) {
+                Result result = controller.TradeList(TradeList);
+                System.out.println(result.message());
+            } else if (TradeResponse != null) {
+                Result result = controller.TradeResponse(TradeResponse);
+                System.out.println(result.message());
+            } else if (TradeHistory != null) {
+                Result result = controller.TradeHistory(TradeHistory);
+                System.out.println(result.message());
+            }else if (Flower != null) {
+                Result result = controller.Flower(Flower);
+                System.out.println(result.message());
+            }else if (Friendships != null) {
+                Result result = controller.Friendships(Friendships);
+                System.out.println(result.message());
+            }else if (GiftRate != null) {
+                Result result = controller.GiftRate(GiftRate);
+                System.out.println(result.message());
+            }else if (GiftHistory != null) {
+                Result result = controller.GiftHistory(GiftHistory);
+                System.out.println(result.message());
+            }else if (Hug != null) {
+                Result result = controller.Hug(Hug);
+                System.out.println(result.message());
+            }else if (Talk != null) {
+                Result result = controller.Talk(Talk);
+                System.out.println(result.message());
+            }else if (TalkHistory != null) {
+                Result result = controller.TalkHistory(TalkHistory);
+                System.out.println(result.message());
+            }else if (Gift != null) {
+                Result result = controller.Gift(Gift);
+                System.out.println(result.message());
+            }else if (GiftList != null) {
+                Result result = controller.repairGreenHouse(GiftList);
+                System.out.println(result.message());
+            }else if (repairGreenHouse != null) {
+
             Matcher cheatAddMoney = CheatCodes.CHEAT_ADD_MONEY.getMatcher(input);
             Matcher sellItem = GameMenuCommands.SellItem.getMatcher(input);
 
@@ -170,6 +239,7 @@ public class GameMenu implements AppMenu{
                 Result result =controller.cheatAddMoney(cheatAddMoney);
                 System.out.println(result.message());
             } else if (repairGreenHouse != null) {
+
                 Result result = controller.repairGreenHouse(repairGreenHouse);
                 System.out.println(result.message());
             } else if (artisanuse != null) {
