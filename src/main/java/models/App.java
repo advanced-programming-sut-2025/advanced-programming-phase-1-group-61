@@ -3,6 +3,7 @@ package models;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import jdk.dynalink.beans.StaticClass;
 import models.character.Character;
 import models.enums.Menu;
 import models.enums.TileType;
@@ -155,6 +156,14 @@ public class App {
     }
     public static Menu getCurrentMenu() {
         return currentMenu;
+    }
+    public static int getIdByUserName(String username){
+        for (User user : allUsers) {
+            if(user.getUsername().equals(username)){
+                return user.getId();
+            }
+        }
+        return 0;
     }
 
 }
