@@ -67,4 +67,22 @@ public enum TreeType {
     public Season getSeasonToGrowIn() {
         return seasonToGrowIn;
     }
+
+    public static TreeType getTreeType(String type) {
+        try {
+            return TreeType.valueOf(type);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+    public static TreeType getTreeTypeBySource(ItemType source) {
+        for (TreeType treeType : TreeType.values()) {
+            if (treeType.getSource().equals(source)) {
+                return treeType;
+            }
+        }
+        return null;
+    }
+
+
 }

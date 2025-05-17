@@ -17,8 +17,8 @@ public class Pierre extends Shop {
     private final ArrayList<ShopBackpacks> shopBackpacks;
     private final float outOfSeasonCoefficient=1.5f;
 
-    public Pierre(String type, String name, int X, int Y) {
-        super(type, name, X, Y);
+    public Pierre( String name, int X, int Y) {
+        super( name, X, Y);
         this.owner="Pierre";
         yearRoundItems = new ArrayList<>(List.of(
                 new ShopItem(ItemType.Rice, Integer.MAX_VALUE, 200, "A basic grain often served under vegetables."),

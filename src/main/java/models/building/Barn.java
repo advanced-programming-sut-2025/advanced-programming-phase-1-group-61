@@ -1,23 +1,26 @@
 package models.building;
 
 import models.animal.Animal;
+import models.enums.CageType;
 
 
 import java.util.ArrayList;
 
 public class Barn extends Building {
     private ArrayList<Animal> animals = new ArrayList<>();
-    public Barn(String type, String name, int X, int Y, int ownerId) {
-        super(type,name,X,Y);
-        this.space = getSpace(type);
+    private CageType cageType;
+    public Barn( CageType cageType,String name, int X, int Y) {
+        super(name,X,Y);
+        this.cageType = cageType;
+        this.space = getSpace(cageType.name());
         this.size = this.space;
         this.baseType="Barn";
     }
     private int getSpace(String type) {
         return switch (type) {
-            case "Burn" -> 4;
-            case "Big Burn" -> 8;
-            case "Deluxe Burn" -> 12;
+            case "Barn" -> 4;
+            case "BigBarn" -> 8;
+            case "DeluxeBarn" -> 12;
             default -> -1;
         };
     }

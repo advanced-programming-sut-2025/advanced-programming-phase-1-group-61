@@ -1,50 +1,73 @@
 package models.enums;
 
-import models.Item;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public enum NpcInfo {
-    //friendship increase is for when the request is done
-    Sebastian(List.of(new Item(ItemType.Fur),new Item(ItemType.PumpkinPie),new Item(ItemType.Pizza)),
-            new HashMap<>(Map.of(new Item(ItemType.Iron),50,new Item(ItemType.PumpkinPie),1,new Item(ItemType.Stone),150)),
-            new HashMap<>(Map.of(new Item(ItemType.Diamond),2,new Item(ItemType.Gold),5000,new Item(ItemType.Quartz),50)),0),
-    Abigail(List.of(new Item(ItemType.Stone),new Item(ItemType.IronOre),new Item(ItemType.Coffee)),
-            new HashMap<>(Map.of(new Item(ItemType.Gold),1,new Item(ItemType.Pumpkin),1,new Item(ItemType.Wheat),50)),
-            new HashMap<>(Map.of(new Item(ItemType.Gold),500,new Item(ItemType.WaterSprinkler),1)),0),
-    Harvi(List.of(new Item(ItemType.Coffee),new Item(ItemType.Pickle),new Item(ItemType.Wine)),
-            new HashMap<>(Map.of(new Item(ItemType.Plant),12,new Item(ItemType.Salmon),1,new Item(ItemType.WineBottle),1)),
-            new HashMap<>(Map.of(new Item(ItemType.Gold),750,new Item(ItemType.Salad),5)),0),
-    Lia(List.of(new Item(ItemType.Salad),new Item(ItemType.Grape),new Item(ItemType.Wine)),
-            new HashMap<>(Map.of(new Item(ItemType.HardWood),10,new Item(ItemType.Salmon),1,new Item(ItemType.Wood),200)),
-            new HashMap<>(Map.of(new Item(ItemType.Gold),500)),0),
-    Robin(List.of(new Item(ItemType.Spaghetti),new Item(ItemType.Wood),new Item(ItemType.Iron)),
-            new HashMap<>(Map.of(new Item(ItemType.Wood),80,new Item(ItemType.Iron),10,new Item(ItemType.Wood),1000)),
-            new HashMap<>(Map.of(new Item(ItemType.Gold),1000,new Item(ItemType.BeeHouse),3,new Item(ItemType.Pony),25000)),0);
-    private final List<Item> favorites;
-    private final HashMap<Item, Integer> requests;
-    private final HashMap<Item, Integer> rewards;
+    // Friendship increase is for when the request is done
+    Sebastian(
+            List.of(ItemType.Fur, ItemType.PumpkinPie, ItemType.Pizza),
+            new HashMap<>(Map.of(ItemType.Iron, 50, ItemType.PumpkinPie, 1, ItemType.Stone, 150)),
+            new HashMap<>(Map.of(ItemType.Diamond, 2, ItemType.Gold, 5000, ItemType.Quartz, 50)),
+            0
+    ),
+    Abigail(
+            List.of(ItemType.Stone, ItemType.IronOre, ItemType.Coffee),
+            new HashMap<>(Map.of(ItemType.Gold, 1, ItemType.Pumpkin, 1, ItemType.Wheat, 50)),
+            new HashMap<>(Map.of(ItemType.Gold, 500, ItemType.WaterSprinkler, 1)),
+            0
+    ),
+    Harvi(
+            List.of(ItemType.Coffee, ItemType.Pickle, ItemType.Wine),
+            new HashMap<>(Map.of(ItemType.Plant, 12, ItemType.Salmon, 1, ItemType.WineBottle, 1)),
+            new HashMap<>(Map.of(ItemType.Gold, 750, ItemType.Salad, 5)),
+            0
+    ),
+    Lia(
+            List.of(ItemType.Salad, ItemType.Grape, ItemType.Wine),
+            new HashMap<>(Map.of(ItemType.HardWood, 10, ItemType.Salmon, 1, ItemType.Wood, 200)),
+            new HashMap<>(Map.of(ItemType.Gold, 500)),
+            0
+    ),
+    Robin(
+            List.of(ItemType.Spaghetti, ItemType.Wood, ItemType.Iron),
+            new HashMap<>(Map.of(ItemType.Wood, 1000, ItemType.Iron, 10)),
+            new HashMap<>(Map.of(ItemType.Gold, 1000, ItemType.BeeHouse, 3, ItemType.Pony, 25000)),
+            0
+    );
+
+    private final List<ItemType> favorites;
+    private final HashMap<ItemType, Integer> requests;
+    private final HashMap<ItemType, Integer> rewards;
     private final int friendshipIncrease;
-    NpcInfo(List<Item> favorites, HashMap<Item, Integer> requests, HashMap<Item, Integer> rewards,int friendshipIncrease) {
+
+    NpcInfo(List<ItemType> favorites, HashMap<ItemType, Integer> requests, HashMap<ItemType, Integer> rewards, int friendshipIncrease) {
         this.favorites = favorites;
         this.requests = requests;
         this.rewards = rewards;
         this.friendshipIncrease = friendshipIncrease;
     }
-    public List<Item> getFavorites() {
+
+    public List<ItemType> getFavorites() {
         return favorites;
     }
-    public HashMap<Item, Integer> getRequests() {
+
+    public HashMap<ItemType, Integer> getRequests() {
         return requests;
     }
-    public HashMap<Item, Integer> getRewards() {
+
+    public HashMap<ItemType, Integer> getRewards() {
         return rewards;
     }
+
     public int getFriendshipIncrease() {
         return friendshipIncrease;
     }
-
-
+    public static boolean checkName(String name){
+        for(NpcInfo n : NpcInfo.values()){
+            if(n.name().equals(name)) return true;
+        }
+        return false;
+    }
 }

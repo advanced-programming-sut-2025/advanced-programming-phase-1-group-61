@@ -6,8 +6,8 @@ import models.building.Shop;
 public class StarDrop extends Shop {
     //needs recipe
 
-    public StarDrop(String type, String name, int X, int Y) {
-        super(type, name, X, Y);
+    public StarDrop( String name, int X, int Y) {
+        super( name, X, Y);
     }
 
     @Override

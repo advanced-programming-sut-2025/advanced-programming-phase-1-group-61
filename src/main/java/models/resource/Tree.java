@@ -18,6 +18,10 @@ public class Tree extends Resource{
         this.source = type.getSource();
     }
 
+    public int getTreeAge() {
+        return treeAge;
+    }
+
     public TreeType getType() {
         return type;
     }
