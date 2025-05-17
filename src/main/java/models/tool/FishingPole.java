@@ -63,7 +63,8 @@ public class FishingPole extends Tool{
                         break;
                     }
                 }
-                character.getInventory().addItem(fish , (int) (m * R *(skill+2)));
+                int count = (int) (m * R *(skill+2));
+                character.getInventory().addItem(fish , count);
                 return "you caught a fish";
             }else {
                 if(character.getCurrentTool().getLevel().equals("bamboo")){
