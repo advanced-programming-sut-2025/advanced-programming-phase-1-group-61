@@ -62,10 +62,8 @@ public class Game implements Runnable {
         }
         this.allCharacters = characters;
         this.date = new Date();
-//        spawnRandomResourceOnMap();
+        spawnRandomResourceOnMap();
         spawnRandomItemsOnMap();
-
-
     }
 
 
