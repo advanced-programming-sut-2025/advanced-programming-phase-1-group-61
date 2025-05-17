@@ -1095,4 +1095,20 @@ public class GameMenuController {
         return new Result(true , "cage built successfully");
 
     }
+
+    public Result showRecipes(){
+        StringBuilder message = new StringBuilder("Recipes:\n");
+        for (Recipe recipe : App.getCurrentGame().getCurrentCharacter().getRecipes()) {
+            message.append(recipe.toString()).append("\n");
+        }
+        return new Result(true , message.toString());
+    }
+    public Result craft(Matcher matcher){
+        String item = matcher.group("itemName");
+        Recipe recipe = Recipe.getRecipe(item);
+        if(recipe == null){
+            return new Result( false , "invalid item");
+        }
+        return new Result(true , "item built successfully");
+    }
 }

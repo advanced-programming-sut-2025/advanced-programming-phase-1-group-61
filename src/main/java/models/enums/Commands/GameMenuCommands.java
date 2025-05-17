@@ -53,7 +53,8 @@ public enum GameMenuCommands {
     NPC_QUEST_FINISH("quests\\s+finish -i (?<index>.*)"),
     Refrigerator("^cooking\\s+refrigerator\\s+(?<action>put|pick)\\s+(?<item>.+)$"),
     BuildCage("^build\\s+-a\\s+(?<cageType>.*)\\s+-n\\s+(?<name>.*)\\s+-l\\s+<(?<x>.\\d+),(?<y>.\\d+)>$"),
-    showCraftingRecipes$("^crafting\\s+show\\s+recipes$");
+    showCraftingRecipes$("^crafting\\s+show\\s+recipes$"),
+    craftItem("^crafting\\s+craft\\s+(?<itemName>.*)$");
 
 
 
