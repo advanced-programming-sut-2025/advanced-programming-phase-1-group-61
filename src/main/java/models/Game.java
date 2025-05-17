@@ -9,10 +9,7 @@ import models.enums.*;
 import models.map.Map;
 import models.map.Tile;
 import models.map.Weather;
-import models.resource.Crop;
-import models.resource.Resource;
-import models.resource.Stone;
-import models.resource.Tree;
+import models.resource.*;
 import models.shops.*;
 
 import java.util.ArrayList;
@@ -31,6 +28,7 @@ public class Game implements Runnable {
     private volatile boolean running = false;
     private ArrayList<Shop> shops = new ArrayList<>();
     private List<NPC> npcList = new ArrayList<>();
+    private List<ShippingBin> shippingBins = new ArrayList<>();
 
 
     public Game(Map map, List<Character> characters) {
@@ -45,6 +43,9 @@ public class Game implements Runnable {
         this.map = map;
         for (int i = 0; i < map.getTiles().length; i++) {
             for (int j = 0; j < map.getTiles()[0].length; j++) {
+                if(map.getTiles()[i][j].getResource() instanceof ShippingBin shippingBin){
+                    shippingBins.add(shippingBin);
+                }
                 if(map.getTiles()[i][j].getType().equals(TileType.RobinSpawnPoint)){
                     npcList.add(new NPC(NpcInfo.Robin , NpcDialog.Robin ,allCharacters , j,i ));
                     map.getTiles()[i][j].setType(TileType.Carpenter);
@@ -108,6 +109,13 @@ public class Game implements Runnable {
             map.getWeather().crowAttack(RandomNumber.getRandomNumberWithBoundaries(0,70 ),
                     RandomNumber.getRandomNumberWithBoundaries(0 , 40));
         }
+        for (ShippingBin shippingBin : shippingBins) {
+            shippingBin.changeDayActivity();
+        }
+    }
+
+    public List<ShippingBin> getShippingBins() {
+        return shippingBins;
     }
 
     public Character getCharacterByID(int id) {

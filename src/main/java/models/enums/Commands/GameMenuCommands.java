@@ -42,7 +42,7 @@ public enum GameMenuCommands {
     SHOW_ALL_AVAILABLE_PRODUCTS("^show\\s+all\\s+available\\s+products$"),
     PURCHASE("^purchase\\s+(?<productName>.*)\\s+-n\\s+(?<count>.*)$"),
     PLANT("^plant\\s+-s\\s+(?<seed>.*)\\s+-d\\s+(?<direction>.*)$"),
-    SHOW_PLANT("^showplant\\s+-l\\s+<(?<x>.\\d+),(?<y>.\\d+)>$"),
+    SHOW_PLANT("^showplant\\s+-l\\s+<(?<x>\\d+),(?<y>\\d+)>$"),
     FERTILIZE("^fertilize\\s+-f\\s+(?<fertilizer>.*)\\s+-d\\s+(?<direction>.*)$"),
     WATER_IN_BUCKET("^howmuch\\s+water$"),
     ShowCookingRecipes("^cooking\\s+show\\s+recipes$"),
@@ -54,11 +54,12 @@ public enum GameMenuCommands {
     NPC_QUESTS_LIST("quests\\s+list"),
     NPC_QUEST_FINISH("quests\\s+finish -i (?<index>.*)"),
     Refrigerator("^cooking\\s+refrigerator\\s+(?<action>put|pick)\\s+(?<item>.+)$"),
-    BuildCage("^build\\s+-a\\s+(?<cageType>.*)\\s+-n\\s+(?<name>.*)\\s+-l\\s+<(?<x>.\\d+),(?<y>.\\d+)>$"),
+    BuildCage("^build\\s+-a\\s+(?<cageType>.*)\\s+-n\\s+(?<name>.*)\\s+-l\\s+<(?<x>\\d+),(?<y>\\d+)>$"),
     showCraftingRecipes$("^crafting\\s+show\\s+recipes$"),
     craftItem("^crafting\\s+craft\\s+(?<itemName>.*)$"),
     placeItem("^place\\s+item\\s+-n\\s+(?<itemName>.*)\\s+-d\\s+(?<direction>.*)$"),
-    RepairGreenHouse("^repair\\s+green\\s+house<(?<x>.\\d+),(?<y>.\\d+)>$");
+    RepairGreenHouse("^repair\\s+green\\s+house<(?<x>\\d+),(?<y>\\d+)>$"),
+    SellItem("^sell\\s+item\\s+(?<itemName>.*)\\s+-n\\s+(?<count>\\d+)$");
 
 
 

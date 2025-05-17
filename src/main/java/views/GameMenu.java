@@ -158,10 +158,14 @@ public class GameMenu implements AppMenu{
             Matcher placeItem = GameMenuCommands.placeItem.getMatcher(input);
             Matcher repairGreenHouse = GameMenuCommands.RepairGreenHouse.getMatcher(input);
             Matcher cheatAddMoney = CheatCodes.CHEAT_ADD_MONEY.getMatcher(input);
+            Matcher sellItem = GameMenuCommands.SellItem.getMatcher(input);
 
 
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
+            } else if (sellItem != null) {
+                Result result =controller.sellItem(sellItem);
+                System.out.println(result.message());
             } else if (cheatAddMoney != null) {
                 Result result =controller.cheatAddMoney(cheatAddMoney);
                 System.out.println(result.message());
