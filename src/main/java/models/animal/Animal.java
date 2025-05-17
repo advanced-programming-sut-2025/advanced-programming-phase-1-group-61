@@ -19,7 +19,7 @@ public class Animal {
     protected boolean hunger = true;
     protected String house;
     private int friendship = 0;
-    private final List<Item> products = new ArrayList<>();
+    private final List<ItemType> products = new ArrayList<>();
     private boolean isOut = false;
     private final int price;
     private boolean isPet = false;
@@ -124,7 +124,7 @@ public class Animal {
                 else if (0.7 < quality && quality <= 0.9) itemType=itemType.getKind("Gold");
                 else if (0.9 < quality) itemType=itemType.getKind("Irid");
                 Item item = new Item(itemType);
-                products.add(item);
+                products.add(itemType);
             }
 
         }
@@ -140,11 +140,9 @@ public class Animal {
                 return false;
             }
         }
-        for (Item item : products) {
-            Owner.getInventory().addItem(item.getItemType(), 1);
-            products.remove(item);
+        for (ItemType item : products) {
+            Owner.getInventory().addItem(item, 1);
         }
-        products.clear();
         collected = true;
         return true;
     }
@@ -205,7 +203,7 @@ public class Animal {
         return isPet;
     }
 
-    public List<Item> products() {
+    public List<ItemType> products() {
         return products;
     }
 

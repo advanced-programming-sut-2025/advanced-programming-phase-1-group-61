@@ -47,22 +47,22 @@ public class Game implements Runnable {
                     shippingBins.add(shippingBin);
                 }
                 if(map.getTiles()[i][j].getType().equals(TileType.RobinSpawnPoint)){
-                    npcList.add(new NPC(NpcInfo.Robin , NpcDialog.Robin ,allCharacters , j,i ));
+                    npcList.add(new NPC(NpcInfo.Robin , NpcDialog.Robin ,characters , j,i ));
                     map.getTiles()[i][j].setType(TileType.Carpenter);
                 } else if (map.getTiles()[i][j].getType().equals(TileType.LiaSpawnPoint)) {
-                    npcList.add(new NPC(NpcInfo.Lia , NpcDialog.Lia , allCharacters , j , i));
+                    npcList.add(new NPC(NpcInfo.Lia , NpcDialog.Lia , characters , j , i));
                 } else if (map.getTiles()[i][j].getType().equals(TileType.Abigail)) {
-                    npcList.add(new NPC(NpcInfo.Abigail, NpcDialog.Abigail, allCharacters, j, i));
+                    npcList.add(new NPC(NpcInfo.Abigail, NpcDialog.Abigail, characters, j, i));
                 } else if (map.getTiles()[i][j].getType().equals(TileType.Harvi)) {
-                    npcList.add(new NPC(NpcInfo.Harvi , NpcDialog.Harvi , allCharacters , j ,i ));
+                    npcList.add(new NPC(NpcInfo.Harvi , NpcDialog.Harvi , characters , j ,i ));
                 } else if (map.getTiles()[i][j].getType().equals(TileType.Sebastian)) {
-                    npcList.add(new NPC(NpcInfo.Sebastian , NpcDialog.Sebastian , allCharacters , j,i));
+                    npcList.add(new NPC(NpcInfo.Sebastian , NpcDialog.Sebastian , characters , j,i));
                 }
             }
         }
         this.allCharacters = characters;
         this.date = new Date();
-        spawnRandomResourceOnMap();
+//        spawnRandomResourceOnMap();
         spawnRandomItemsOnMap();
 
 
@@ -194,9 +194,6 @@ public class Game implements Runnable {
 
     public String changeTurn() {
         int turn = currentCharacter+1;
-        if(getCharacterByTurnNumber(turn).isFainted()){
-            turn+=1;
-        }
         App.getCurrentGame().getCurrentCharacter().getIteractions().newInteracts();
         this.currentCharacter = turn % allCharacters.size();
         StringBuilder message =  new StringBuilder(User.getUSerById(allCharacters.get(currentCharacter).getUserId()).getNickName());

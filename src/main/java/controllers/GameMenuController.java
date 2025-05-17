@@ -41,7 +41,7 @@ public class GameMenuController {
         x = Integer.parseInt(matcher.group("x"));
         y = Integer.parseInt(matcher.group("y"));
         Tile tile = App.getCurrentGame().getMap().getTileByCordinate(x,y);
-        if(!tile.getType().equals(TileType.GreenHouse)){
+        if(!tile.getType().equals(TileType.BrokenGreenHouse)){
             return new Result(false , "not green house");
         }
         if(!tile.isCollisionOn()){
@@ -788,8 +788,8 @@ public class GameMenuController {
         StringBuilder show = new StringBuilder();
         for (Animal animal : App.getCurrentGame().getCurrentCharacter().getAnimals().values()) {
             show.append(animal.getType()).append(animal.getName()).append(" : ").append("\n");
-            for (Item product : animal.products()) {
-                show.append(product.getItemType().getDisPlayName());
+            for (ItemType product : animal.products()) {
+                show.append(product.getDisPlayName());
                 show.append(" - ");
             }
             show.append("----------------------\n");
@@ -903,6 +903,7 @@ public class GameMenuController {
             return new Result(false , "is not a valid item");
         }
         ItemType seed = ItemType.getItemType(seedString);
+
         TreeType treeType = TreeType.getTreeTypeBySource(seed);
         if(character.getInventory().getCountOfItem(seed) <= 0){
             return new Result(false , "you don't have the item to plant it here");
@@ -1025,10 +1026,10 @@ public class GameMenuController {
             return new Result(false, "You need to be in the cabin to cook.");
         }
 
-        Tile fridgeTile = game.getMap().getTileByCordinate(character.getxRefrigerator(), character.getyRefrigerator());
-        if (!(fridgeTile.getResource() instanceof Refrigerator refrigerator)) {
-            return new Result(false, "Cannot find your fridge.");
-        }
+//        Tile fridgeTile = game.getMap().getTileByCordinate(character.getxRefrigerator(), character.getyRefrigerator());
+//        if (!(fridgeTile.getResource() instanceof Refrigerator refrigerator)) {
+//            return new Result(false, "Cannot find your fridge.");
+//        }
 
         Inventory inventory = character.getInventory();
 
@@ -1036,9 +1037,9 @@ public class GameMenuController {
             int requiredCount = recipe.getIngredients().get(itemType);
 
             int availableInInventory = inventory.getCountOfItem(itemType);
-            int availableInFridge = refrigerator.getCountOfItemInFridge(itemType);
+//            int availableInFridge = refrigerator.getCountOfItemInFridge(itemType);
 
-            if (availableInInventory + availableInFridge < requiredCount) {
+            if (availableInInventory  < requiredCount) {
                 return new Result(false, "Not enough " + itemType.getDisPlayName() + " to cook this.");
             }
         }
@@ -1053,7 +1054,7 @@ public class GameMenuController {
             } else {
                 int remaining = requiredCount - availableInInventory;
                 inventory.removeItem(itemType, availableInInventory);
-                refrigerator.removeItemFromFridge(itemType, remaining);
+//                refrigerator.removeItemFromFridge(itemType, remaining);
             }
         }
 
@@ -1309,7 +1310,7 @@ public class GameMenuController {
         return new Result(true , message.toString());
     }
     public Result craft(Matcher matcher){
-        String item = matcher.group("itemName");
+        String item = matcher.group("craftName");
         Recipe recipe = Recipe.getRecipe(item);
         Character character = App.getCurrentGame().getCurrentCharacter();
         if(recipe == null){

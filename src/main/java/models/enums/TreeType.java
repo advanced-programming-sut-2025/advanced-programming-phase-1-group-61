@@ -77,8 +77,10 @@ public enum TreeType {
     }
     public static TreeType getTreeTypeBySource(ItemType source) {
         for (TreeType treeType : TreeType.values()) {
-            if (treeType.getSource().equals(source)) {
-                return treeType;
+            if(treeType.getSource() != null){
+                if (treeType.getSource().equals(source)) {
+                    return treeType;
+                }
             }
         }
         return null;

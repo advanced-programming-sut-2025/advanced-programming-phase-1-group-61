@@ -73,10 +73,10 @@ public class MapBuilder {
                 }
 
                 if(refrigerator){
-                    tiles[y][x].setResource(new Refrigerator());
+//                    tiles[y][x].setResource(new Refrigerator());
+//                    characters.get(ownerId).setxRefrigerator(x);
+//                    characters.get(ownerId).setyRefrigerator(y);
                     try {
-                        characters.get(ownerId).setxRefrigerator(x);
-                        characters.get(ownerId).setyRefrigerator(y);
                         tiles[y][x+1].setResource(new ShippingBin(ownerId));
                     } catch (Exception e) {
                         refrigerator = false;
