@@ -153,9 +153,14 @@ public class GameMenu implements AppMenu{
             Matcher buildCage = GameMenuCommands.BuildCage.getMatcher(input);
             Matcher showCraftingRecipes = GameMenuCommands.ShowCookingRecipes.getMatcher(input);
             Matcher craft = GameMenuCommands.CRAFT_INFO.getMatcher(input);
-            
+            Matcher placeItem = GameMenuCommands.placeItem.getMatcher(input);
+
+
             if (showCurrentMenu != null){
                 System.out.println("you are in game");
+            } else if (placeItem != null) {
+                Result result = controller.placeItem(placeItem);
+                System.out.println(result.message());
             } else if (craft != null) {
                 Result result = controller.craft(craft);
                 System.out.println(result.message());

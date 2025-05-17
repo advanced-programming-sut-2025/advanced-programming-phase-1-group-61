@@ -54,7 +54,8 @@ public enum GameMenuCommands {
     Refrigerator("^cooking\\s+refrigerator\\s+(?<action>put|pick)\\s+(?<item>.+)$"),
     BuildCage("^build\\s+-a\\s+(?<cageType>.*)\\s+-n\\s+(?<name>.*)\\s+-l\\s+<(?<x>.\\d+),(?<y>.\\d+)>$"),
     showCraftingRecipes$("^crafting\\s+show\\s+recipes$"),
-    craftItem("^crafting\\s+craft\\s+(?<itemName>.*)$");
+    craftItem("^crafting\\s+craft\\s+(?<itemName>.*)$"),
+    placeItem("^place\\s+item\\s+-n\\s+(?<itemName>.*)\\s+-d\\s+(?<direction>.*)$");
 
 
 
