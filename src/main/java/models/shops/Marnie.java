@@ -157,7 +157,12 @@ public class Marnie extends Shop {
         for(ShopAnimals animal : permanentAnimals) animal.restoreStock();
     }
 
-
+    public int getOpenHour(){
+        return 9;
+    }
+    public int getCloseHour(){
+        return 15;
+    }
     public ArrayList<ShopItem> getPermanentItems() {
         return permanentItems;
     }

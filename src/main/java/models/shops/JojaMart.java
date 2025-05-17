@@ -246,7 +246,12 @@ public class JojaMart extends Shop {
         for(ShopItem item : winterShopItems) item.restoreStock();
         for(ShopItem item : springShopItems) item.restoreStock();
     }
-
+    public int getOpenHour(){
+        return 9;
+    }
+    public int getCloseHour(){
+        return 22;
+    }
     public ArrayList<ShopItem> getPermanentShopItems() {
         return permanentShopItems;
     }

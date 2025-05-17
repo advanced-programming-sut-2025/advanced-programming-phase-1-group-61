@@ -824,6 +824,10 @@ public class GameMenuController {
         if (currentShop == null) {
             return new Result(false, "You are not in a shop!");
         }
+        Date date=App.getCurrentGame().getDate();
+        if(!(date.getHour()>=currentShop.getOpenHour() && date.getHour()<currentShop.getCloseHour())){
+            return new Result(false,"shop is now closed!");
+        }
         return new Result(true, currentShop.showAllProducts());
     }
 
