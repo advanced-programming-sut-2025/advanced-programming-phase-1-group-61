@@ -1382,10 +1382,15 @@ public class GameMenuController {
             return new Result(true,"successfully added trade");
         }
 
-        return new Result(false , "ask marriage");
+        return new Result(false , "rong inputes");
     }
     public Result TradeList(Matcher matcher){
-        return new Result(false , "ask marriage");
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        StringBuilder massage = new StringBuilder();
+        for (Interact interact:character.getIteractions().tradelist()) {
+            massage.append(interact.getValue()).append("\\n");
+        }
+        return new Result(true , massage.toString());
     }
     public Result TradeResponse(Matcher matcher){
         return new Result(false , "ask marriage");
