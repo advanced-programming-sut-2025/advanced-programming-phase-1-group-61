@@ -1,6 +1,7 @@
 package models.shops;
 
 import models.App;
+import models.animal.Animal;
 import models.building.Shop;
 import models.character.Character;
 import models.enums.AnimalType;
@@ -135,8 +136,15 @@ public class Marnie extends Shop {
         for(ShopAnimals animal : permanentAnimals){
             if(animal.getAnimal().getDisplayName().equals(product)){
                 if(count> animal.getStock()) return "not enough stock!";
-                animal.setStock(animal.getStock()-count);
-                return "Successfully purchased!";
+                AnimalType type=animal.getAnimal();
+                String house=Animal.getHouse(type);
+                String animalName="bought animal";
+                if(house==null) return "no empty house for this animal";
+                if(character.getMoney()<animal.getPrice()) return "not enough money!";
+                if(Animal.buy(type,house,animalName)) {
+                    animal.setStock(animal.getStock() - count);
+                    return "Successfully purchased!";
+                }
             }
         }
         return "successfully purchased";
@@ -149,14 +157,10 @@ public class Marnie extends Shop {
         for(ShopAnimals animal : permanentAnimals) animal.restoreStock();
     }
 
-
-    public ArrayList<ShopItem> getPermanentItems() {
-        return permanentItems;
+    public int getOpenHour(){
+        return 9;
     }
-    public ArrayList<ShopTool> getPermanentTools() {
-        return permanentTools;
-    }
-    public ArrayList<ShopAnimals> getPermanentAnimals() {
-        return permanentAnimals;
+    public int getCloseHour(){
+        return 15;
     }
 }

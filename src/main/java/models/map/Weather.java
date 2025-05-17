@@ -3,9 +3,11 @@ package models.map;
 import models.App;
 import models.Game;
 import models.RandomNumber;
+import models.enums.ItemType;
 import models.enums.Season;
 import models.enums.TileType;
 import models.enums.WeatherState;
+import models.resource.Crop;
 
 public class Weather {
    private WeatherState state;
@@ -65,6 +67,30 @@ public class Weather {
         }else {
             tomorrowWeatherState = cheatedWeatherState;
             cheatedWeatherState = null;
+        }
+    }
+    public void crowAttack(int x, int y) {
+        Tile tile = App.getCurrentGame().getMap().getTileByCordinate(x, y);
+        if (tile == null) {
+            return;
+        }
+
+        if (tile.getResource() != null && !tile.getType().equals(TileType.GreenHouse) && !tile.getType().equals(TileType.CabinFloor)) {
+            Map map = App.getCurrentGame().getMap();
+
+
+            int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+            for (int[] dir : directions) {
+                Tile adjacentTile = map.getTileByCordinate(x + dir[0], y + dir[1]);
+                if (adjacentTile != null && adjacentTile.getItem() != null && adjacentTile.getItem().equals(ItemType.Scarecrow)) {
+                    return;
+                }
+            }
+
+            if (tile.getResource() instanceof Crop && !tile.getType().equals(TileType.GreenHouse)) {
+                tile.setResource(null);
+            }
         }
     }
 

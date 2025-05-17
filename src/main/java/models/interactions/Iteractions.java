@@ -11,8 +11,8 @@ public class Iteractions {
     private final Map<Integer, Integer> friendships = new HashMap<>();
     private final Integer owner;
 
-    public Iteractions() {
-        this.owner = App.getCurrentGame().getCurrentCharacter().getUserId();
+    public Iteractions(int userId) {
+        this.owner = userId;
     }
 
     public void addnew(Interact interact) {

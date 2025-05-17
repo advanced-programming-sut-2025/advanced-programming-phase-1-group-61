@@ -19,10 +19,7 @@ import models.map.MapCreator.MapBuilder;
 import models.map.Tile;
 import models.map.Weather;
 import models.character.Inventory;
-import models.resource.BuildingReference;
-import models.resource.Crop;
-import models.resource.Resource;
-import models.resource.Tree;
+import models.resource.*;
 import models.tool.Axe;
 import models.tool.Tool;
 import models.workBench.ItemKinds;
@@ -532,6 +529,8 @@ public class GameMenuController {
             return new Result(false, "pls enter valid animal");
         }
         String House = Animal.getHouse(Type);
+        System.out.println(Type);
+        System.out.println(House);
         if (House == null) {
             return new Result(false, "no empty house for animal");
         }
@@ -765,7 +764,7 @@ public class GameMenuController {
                     }
                     return new Result(false, animalName + "can't go in " + name);
                 } else if (!(tile.getType().getTypeNum().equals("4") && tile.getType().getTypeNum().equals("8"))) {
-                    animal.shepherd(x, y, true, "");
+                    animal.shepherd(x, y, true, null);
                     return new Result(true, animalName + "is out eating");
                 }
                 return new Result(false, animalName + "can't go in the cabin");
@@ -798,7 +797,26 @@ public class GameMenuController {
         String massage = show.toString();
         return new Result(true, massage);
     }
-
+    public Result sellItem(Matcher matcher){
+            int count = Integer.parseInt(matcher.group("count"));
+            String ItemString = matcher.group("itemName");
+            ItemType itemType = ItemType.getItemType(ItemString);
+            Character character = App.getCurrentGame().getCurrentCharacter();
+            if(character.getInventory().getCountOfItem(itemType) < count){
+                return new Result(false , "not in inventory");
+            }
+            ShippingBin shippingBin1 = null;
+        for (ShippingBin shippingBin : App.getCurrentGame().getShippingBins()) {
+            if(App.getCurrentGame().getCharacterByTurnNumber(shippingBin.getOwner()).getUserId() ==
+                    App.getCurrentGame().getCurrentCharacter().getUserId()){
+                shippingBin1 = shippingBin;
+            }
+        }
+        if(shippingBin1 != null){
+            shippingBin1.addItemType(itemType);
+        }
+        return new Result(true,"item is now in shipping bin");
+    }
     public Result getAnimalProduct(Matcher matcher) {
         String animalName = matcher.group("animalname").trim();
         Character character = App.getCurrentGame().getCurrentCharacter();
@@ -825,6 +843,10 @@ public class GameMenuController {
         if (currentShop == null) {
             return new Result(false, "You are not in a shop!");
         }
+        Date date=App.getCurrentGame().getDate();
+        if(!(date.getHour()>=currentShop.getOpenHour() && date.getHour()<currentShop.getCloseHour())){
+            return new Result(false,"shop is now closed!");
+        }
         return new Result(true, currentShop.showAllProducts());
     }
 
@@ -833,12 +855,16 @@ public class GameMenuController {
         if (currentShop == null) {
             return new Result(false, "You are not in a shop!");
         }
+        Date date=App.getCurrentGame().getDate();
+        if(!(date.getHour()>=currentShop.getOpenHour() && date.getHour()<currentShop.getCloseHour())){
+            return new Result(false,"shop is now closed!");
+        }
         return new Result(true, currentShop.showAllAvailableProducts());
     }
 
     public Result purchaseProduct(Matcher matcher) {
         Shop currentShop = App.getCurrentGame().getCurrentCharacter().getCurrentShop();
-        String productName = matcher.group("product_name").trim();
+        String productName = matcher.group("productName").trim();
         int count;
         if (currentShop == null) {
             return new Result(false, "You are not in a shop!");
@@ -847,6 +873,10 @@ public class GameMenuController {
             count = Integer.parseInt(matcher.group("count"));
         } catch (Exception e) {
             return new Result(false, "please enter a valid number!");
+        }
+        Date date=App.getCurrentGame().getDate();
+        if(!(date.getHour()>=currentShop.getOpenHour() && date.getHour()<currentShop.getCloseHour())){
+            return new Result(false,"shop is now closed!");
         }
         return new Result(true, currentShop.purchaseProduct(productName, count));
     }
@@ -1236,11 +1266,15 @@ public class GameMenuController {
             return new Result(false , "you have not bough this cage in shop buy it first");
         }
 
+
         for(int height = y ; height < cageType.getHeight()+y ; height++){
             for (int width = x ; width < cageType.getWidth()+x; width++){
                 Tile tile = map.getTileByCordinate(width , height);
                 if(tile==null){
                     return new Result(false , "invalid coordinate");
+                }
+                if(game.getCharacterByTurnNumber(tile.getOwnerId()) == null){
+                    return new Result(false , "you cant build in city");
                 }
                 if(game.getCharacterByTurnNumber(tile.getOwnerId()).getUserId() !=character.getUserId()){
                     return new Result(true , "this tile is not yours");
@@ -1432,5 +1466,10 @@ public class GameMenuController {
     }
     public Result GiftList(Matcher matcher){
         return new Result(false , "ask marriage");
+    public Result cheatAddMoney(Matcher matcher){
+        int amount = Integer.parseInt(matcher.group("count"));
+        App.getCurrentGame().getCurrentCharacter().setMoney(App.getCurrentGame().getCurrentCharacter().getMoney() + amount);
+        return new Result(true ,"you are rich now "+amount);
+
     }
 }

@@ -8,6 +8,7 @@ import models.map.Map;
 import models.map.Tile;
 import models.map.Weather;
 import models.resource.BuildingReference;
+import models.resource.ShippingBin;
 
 
 import java.io.File;
@@ -76,6 +77,7 @@ public class MapBuilder {
                     try {
                         characters.get(ownerId).setxRefrigerator(x);
                         characters.get(ownerId).setyRefrigerator(y);
+                        tiles[y][x+1].setResource(new ShippingBin(ownerId));
                     } catch (Exception e) {
                         refrigerator = false;
                     }

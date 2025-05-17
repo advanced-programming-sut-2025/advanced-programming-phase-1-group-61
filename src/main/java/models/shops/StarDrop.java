@@ -114,4 +114,10 @@ public class StarDrop extends Shop {
         for(ShopItem item:items) item.restoreStock();
         for(ShopCookingRecipes recipe:recipes) recipe.restoreStock();
     }
+    public int getOpenHour(){
+        return 12;
+    }
+    public int getCloseHour(){
+        return 22;
+    }
 }

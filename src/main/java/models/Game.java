@@ -1,6 +1,7 @@
 package models;
 
 import models.NPC.NPC;
+import models.animal.Animal;
 import models.building.Shop;
 import models.character.Character;
 import models.date.Date;
@@ -8,10 +9,7 @@ import models.enums.*;
 import models.map.Map;
 import models.map.Tile;
 import models.map.Weather;
-import models.resource.Crop;
-import models.resource.Resource;
-import models.resource.Stone;
-import models.resource.Tree;
+import models.resource.*;
 import models.shops.*;
 
 import java.util.ArrayList;
@@ -30,6 +28,7 @@ public class Game implements Runnable {
     private volatile boolean running = false;
     private ArrayList<Shop> shops = new ArrayList<>();
     private List<NPC> npcList = new ArrayList<>();
+    private List<ShippingBin> shippingBins = new ArrayList<>();
 
 
     public Game(Map map, List<Character> characters) {
@@ -44,6 +43,9 @@ public class Game implements Runnable {
         this.map = map;
         for (int i = 0; i < map.getTiles().length; i++) {
             for (int j = 0; j < map.getTiles()[0].length; j++) {
+                if(map.getTiles()[i][j].getResource() instanceof ShippingBin shippingBin){
+                    shippingBins.add(shippingBin);
+                }
                 if(map.getTiles()[i][j].getType().equals(TileType.RobinSpawnPoint)){
                     npcList.add(new NPC(NpcInfo.Robin , NpcDialog.Robin ,allCharacters , j,i ));
                     map.getTiles()[i][j].setType(TileType.Carpenter);
@@ -69,6 +71,7 @@ public class Game implements Runnable {
 
     public void changeDayActivities() {
         handleWeatherBeforeDayChange();
+        int count = 0;
         spawnRandomItemsOnMap();
         date.setHour(9);
         ArrayList<Shop> shops=this.getAllShops();
@@ -82,6 +85,7 @@ public class Game implements Runnable {
                }
                if(resource instanceof Crop crop){
                    crop.dayCycleForCrops(weatherState , tile);
+                   count++;
                } else if (resource instanceof Tree tree) {
                    tree.dayCycleForTrees();
                }
@@ -97,7 +101,21 @@ public class Game implements Runnable {
         for (Character character : allCharacters) {
             character.setFainted(false);
             character.setEnergy(150);
+            for (Animal animal : character.getAnimals().values()) {
+                animal.dayEND();
+            }
         }
+        if(count >= 16){
+            map.getWeather().crowAttack(RandomNumber.getRandomNumberWithBoundaries(0,70 ),
+                    RandomNumber.getRandomNumberWithBoundaries(0 , 40));
+        }
+        for (ShippingBin shippingBin : shippingBins) {
+            shippingBin.changeDayActivity();
+        }
+    }
+
+    public List<ShippingBin> getShippingBins() {
+        return shippingBins;
     }
 
     public Character getCharacterByID(int id) {
@@ -167,7 +185,11 @@ public class Game implements Runnable {
     }
 
     public Character getCharacterByTurnNumber(int turn) {
-        return allCharacters.get(turn);
+        try {
+            return allCharacters.get(turn);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public String changeTurn() {
@@ -175,6 +197,7 @@ public class Game implements Runnable {
         if(getCharacterByTurnNumber(turn).isFainted()){
             turn+=1;
         }
+        App.getCurrentGame().getCurrentCharacter().getIteractions().newInteracts();
         this.currentCharacter = turn % allCharacters.size();
         StringBuilder message =  new StringBuilder(User.getUSerById(allCharacters.get(currentCharacter).getUserId()).getNickName());
 
@@ -183,6 +206,7 @@ public class Game implements Runnable {
             message.append("time increased");
             date.increaseTime(1);
         }
+
         return message.toString();
     }
 

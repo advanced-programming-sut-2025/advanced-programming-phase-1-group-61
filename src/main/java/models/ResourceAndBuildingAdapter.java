@@ -45,6 +45,7 @@ public class ResourceAndBuildingAdapter implements JsonSerializer<Resource>, Jso
             case "StarDrop" -> context.deserialize(dataElement , StarDrop.class);
             case "BuildingReference" -> context.deserialize(dataElement , BuildingReference.class);
             case "Refrigerator" -> context.deserialize(dataElement,BuildingReference.class);
+            case "ShippingBin" -> context.deserialize(dataElement , ShippingBin.class);
             default -> throw new JsonParseException("Unknown Resource/Building type: " + type);
         };
     }
