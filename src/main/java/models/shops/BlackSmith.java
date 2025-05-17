@@ -172,7 +172,4 @@ public class BlackSmith extends Shop {
     public int getCloseHour(){
         return 15;
     }
-    public ArrayList<ShopItem> getItems() {
-        return items;
-    }
 }

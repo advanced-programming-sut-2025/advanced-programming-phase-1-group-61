@@ -305,13 +305,4 @@ public class Pierre extends Shop {
     public int getCloseHour(){
         return 16;
     }
-    public ArrayList<ShopItem> getSpringItems(){
-        return springItems;
-    }
-    public ArrayList<ShopItem> getSummerItems(){
-        return summerItems;
-    }
-    public ArrayList<ShopBackpacks> getShopBackpacks(){
-        return shopBackpacks;
-    }
 }

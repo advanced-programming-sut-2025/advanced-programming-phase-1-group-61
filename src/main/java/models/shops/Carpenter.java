@@ -115,10 +115,4 @@ public class Carpenter extends Shop {
     public int getCloseHour(){
         return 19;
     }
-    public ArrayList<ShopItem> getPermanentItems() {
-        return permanentItems;
-    }
-    public ArrayList<ShopCages> getFarmBuildings() {
-        return farmBuildings;
-    }
 }
