@@ -155,6 +155,10 @@ public class NPC {
             int count = requests.get(item);
             character.getInventory().removeItem(item,count);
         }
+        for(ItemType item:info.getRewards().keySet()) {
+            int count = requests.get(item);
+            character.getInventory().addItem(item,count);
+        }
         return "quest successfully finished!";
     }
 
