@@ -2,7 +2,9 @@ package controllers;
 
 import models.*;
 import models.animal.Animal;
+import models.building.Barn;
 import models.building.Building;
+import models.building.Coop;
 import models.building.Shop;
 import models.character.Buff;
 import models.character.Character;
@@ -22,6 +24,7 @@ import models.resource.Tree;
 import models.tool.Axe;
 import models.tool.Tool;
 import models.tool.WateringCan;
+import models.workBench.WorkBench;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1041,5 +1044,110 @@ public class GameMenuController {
             return new Result(false , "this quest is not available for you yet!");
         }
         return new Result(true,npc.checkCharacterEnoughItems(character,index,npc.getFriendships(character)));
+    }
+
+    public Result buildCage(Matcher matcher){
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        String cageTypeString = matcher.group("cageType");
+        String name = matcher.group("name");
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        CageType cageType = CageType.getCageType(cageTypeString);
+        if(cageType == null){
+            return new Result(false , "cage type not valid");
+        }
+        Game game = App.getCurrentGame();
+        Map map = game.getMap();
+        Tile charachterTile = map.getTileByCordinate(character.getX() , character.getY());
+        if(!charachterTile.getType().equals(TileType.Carpenter)){
+            return new Result(false , "you have to be in carpenter shop.");
+        }
+        if(character.getInventory().getCageTypeNumber(cageType) <= 0){
+            return new Result(false , "you have not bough this cage in shop buy it first");
+        }
+
+        for(int height = y ; height < cageType.getHeight()+y ; height++){
+            for (int width = x ; width < cageType.getWidth()+x; width++){
+                Tile tile = map.getTileByCordinate(width , height);
+                if(tile==null){
+                    return new Result(false , "invalid coordinate");
+                }
+                if(game.getCharacterByTurnNumber(tile.getOwnerId()).getUserId() !=character.getUserId()){
+                    return new Result(true , "this tile is not yours");
+                }
+                if(tile.getType().isCollisionOn() || tile.getResource() != null){
+                    return new Result(false , "not valid tile to build on");
+                }
+            }
+        }
+
+        for(int height = y ; height < cageType.getHeight()+y ; height++){
+            for (int width = x ; width < cageType.getWidth()+x; width++){
+                Tile tile = map.getTileByCordinate(width , height);
+                tile.setResource(new BuildingReference(name));
+            }
+        }
+        if(cageType.equals(CageType.Barn) || cageType.equals(CageType.BigBarn) ||cageType.equals(CageType.DeluxeBarn) ){
+            character.getBuildings().add(new Barn(cageType , name , x , y));
+        }else {
+            character.getBuildings().add(new Coop(cageType , name , x , y));
+        }
+        character.getInventory().removeCage(1 , cageType);
+        return new Result(true , "cage built successfully");
+
+    }
+
+    public Result showRecipes(){
+        StringBuilder message = new StringBuilder("Recipes:\n");
+        for (Recipe recipe : App.getCurrentGame().getCurrentCharacter().getRecipes()) {
+            message.append(recipe.toString()).append("\n");
+        }
+        return new Result(true , message.toString());
+    }
+    public Result craft(Matcher matcher){
+        String item = matcher.group("itemName");
+        Recipe recipe = Recipe.getRecipe(item);
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        if(recipe == null){
+            return new Result( false , "invalid item");
+        }
+        for (ItemType itemRequired : recipe.getRecipe().keySet()) {
+            if(character.getInventory().getCountOfItem(itemRequired) <= recipe.getRecipe().get(itemRequired)){
+                return new Result(false , "you don't have enough "+itemRequired.getDisPlayName());
+            }
+        }
+        for (ItemType itemRequired : recipe.getRecipe().keySet()) {
+            character.getInventory().removeItem(itemRequired , recipe.getRecipe().get(itemRequired));
+        }
+        character.getInventory().addItem(ItemType.getItemType(recipe.name()),1);
+        return new Result(true , "item built successfully");
+    }
+    public Result placeItem(Matcher matcher){
+        Direction direction = Direction.fromString(matcher.group("direction"));
+        if(direction == null){
+            return new Result(false , "invalid direction");
+        }
+        ItemType itemType = ItemType.getItemType(matcher.group("itemName"));
+        if(itemType == null){
+            return new Result(false , "invalid item");
+        }
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        Tile tile = App.getCurrentGame().getMap().getTileByCordinate(character.getX()+direction.getDx() , character.getY()+direction.getDy());
+        if(tile.getResource() != null || tile.isCollisionOn()){
+            return new Result(false ,"you cant place item here");
+        }
+        int count = character.getInventory().getCountOfItem(itemType);
+        if(count <= 0){
+            return new Result(false , "you don't have this item in your inventory");
+        }
+
+        character.getInventory().removeItem(itemType , 1);
+        WorkBenchType workBenchType = WorkBenchType.getWorkBenchType(itemType.name());
+        if(workBenchType != null){
+            tile.setResource(new WorkBench(workBenchType));
+            return new Result(true , "successfully placed your work bench");
+        }
+        tile.setItem(new Item(itemType));
+        return new Result(true , "successfully placed your item");
     }
 }

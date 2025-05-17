@@ -21,7 +21,13 @@ public enum TileType {
     Pierre(false , "J"),
     StarDrop(false , "K"),
     ShopWall(true , "L"),
-    Path(false , "M");
+    Path(false , "M"),
+    RobinSpawnPoint(false , "N"),
+    LiaSpawnPoint(false , "O"),
+    Abigail(false , "P"),
+    Harvi(false , "Q"),
+    Sebastian(false , "R")
+    ;
     private boolean collisionOn;
     private String  typeNum;
 

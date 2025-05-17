@@ -4,6 +4,8 @@ import models.App;
 import models.Game;
 import models.RandomNumber;
 import models.character.Character;
+import models.character.Inventory;
+import models.character.InventorySlot;
 import models.enums.*;
 import models.map.Map;
 import models.map.Tile;
@@ -32,7 +34,20 @@ public class FishingPole extends Tool{
         }else {
             Season season =game.getDate().getSeason();
             ItemType fish = null;
+            double pole = 1;
             if(character.getCurrentTool().getLevel().equals("educational")){
+                pole = 0.1;
+                double m = 1;
+                if(map.getWeather().getState().equals(WeatherState.Rain)){
+                    m = 1.2;
+                } else if (map.getWeather().equals(WeatherState.Storm)) {
+                    m = 0.5;
+                }else {
+                    m=1.5;
+                }
+                int r = RandomNumber.getRandomNumberWithBoundaries(1,11);
+                double R = (double) r / 10;
+                int skill = character.getSkill().getFishingLVL();
                 switch (season){
                     case Spring:{
                         fish = FishType.Herring.getFish();
@@ -48,10 +63,18 @@ public class FishingPole extends Tool{
                         break;
                     }
                 }
-                character.getInventory().addItem(fish , 1);
+                character.getInventory().addItem(fish , (int) (m * R *(skill+2)));
                 return "you caught a fish";
             }else {
-               List<FishType> fishTypes = FishType.getFishTypeListBySeason(season);
+                if(character.getCurrentTool().getLevel().equals("bamboo")){
+                    pole = 0.5;
+                } else if (character.getCurrentTool().getLevel().equals("fiberGlass")) {
+                    pole = 1;
+                } else if (character.getCurrentTool().getLevel().equals("iridium")) {
+                    pole = 1.5;
+                }
+
+                List<FishType> fishTypes = FishType.getFishTypeListBySeason(season);
                fishTypes.sort(Comparator.comparing(fishType -> fishType.getFish().getPrice()));
                int randNumber = RandomNumber.getRandomNumber() % 100;
                 if(randNumber < 30){
@@ -65,8 +88,22 @@ public class FishingPole extends Tool{
                 } else if (randNumber <65 && character.getSkill().getFishingLVL() >= 4) {
                     fish = fishTypes.get(4).getFish();
                 }
+                double m = 1;
+                if(map.getWeather().getState().equals(WeatherState.Rain)){
+                    m = 1.2;
+                } else if (map.getWeather().equals(WeatherState.Storm)) {
+                    m = 0.5;
+                }else {
+                    m=1.5;
+                }
+                int r = RandomNumber.getRandomNumberWithBoundaries(1,11);
+                double R = (double) r / 10;
+                int skill = character.getSkill().getFishingLVL();
                 if(fish != null){
-                    character.getInventory().addItem(fish , 1);
+                    character.getInventory().addItem(fish , (int) (m * R *(skill+2)));
+                    int quality = (int) ((R*(skill +2)*pole)/(7-m));
+                    Quality qualityNum = Quality.getQualityByNumber(quality);
+                    InventorySlot slot = new InventorySlot((int) (m * R *(skill+2)) , qualityNum);
                     character.getSkill().addFishingSkillXP(10);
                     int dEnergy  = type.getEnergyConsumption(level)-character.getSkill().getFishingLVL();
                     if(dEnergy <0){

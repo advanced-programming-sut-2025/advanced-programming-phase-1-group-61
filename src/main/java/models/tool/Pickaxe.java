@@ -55,6 +55,16 @@ public class Pickaxe extends Tool{
                 return "Removed the item placed in this tile";
             }
         }
+        if(tile.getItem()!= null){
+            character.getInventory().addItem(tile.getItem().getItemType() , 1);
+            int dEnergy  = type.getEnergyConsumption(level)-character.getSkill().getMiningLVL();
+            if(dEnergy <0){
+                dEnergy = 0;
+            }
+            int newEnergy=character.getEnergy()-dEnergy;
+            character.setEnergy(newEnergy);
+            tile.setItem(null);
+        }
         if(tile.getType().equals(TileType.Soil)){
             tile.setResource(null);
             tile.setType(TileType.Grass);

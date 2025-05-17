@@ -29,6 +29,7 @@ public class Game implements Runnable {
     private final Date date;
     private volatile boolean running = false;
     private ArrayList<Shop> shops = new ArrayList<>();
+    private List<NPC> npcList = new ArrayList<>();
 
 
     public Game(Map map, List<Character> characters) {
@@ -41,10 +42,28 @@ public class Game implements Runnable {
         shops.add(new Pierre("Pierre" , -1 , -1));
         shops.add(new StarDrop("StarDrop" , -1 , -1));
         this.map = map;
+        for (int i = 0; i < map.getTiles().length; i++) {
+            for (int j = 0; j < map.getTiles()[0].length; j++) {
+                if(map.getTiles()[i][j].getType().equals(TileType.RobinSpawnPoint)){
+                    npcList.add(new NPC(NpcInfo.Robin , NpcDialog.Robin ,allCharacters , j,i ));
+                    map.getTiles()[i][j].setType(TileType.Carpenter);
+                } else if (map.getTiles()[i][j].getType().equals(TileType.LiaSpawnPoint)) {
+                    npcList.add(new NPC(NpcInfo.Lia , NpcDialog.Lia , allCharacters , j , i));
+                } else if (map.getTiles()[i][j].getType().equals(TileType.Abigail)) {
+                    npcList.add(new NPC(NpcInfo.Abigail, NpcDialog.Abigail, allCharacters, j, i));
+                } else if (map.getTiles()[i][j].getType().equals(TileType.Harvi)) {
+                    npcList.add(new NPC(NpcInfo.Harvi , NpcDialog.Harvi , allCharacters , j ,i ));
+                } else if (map.getTiles()[i][j].getType().equals(TileType.Sebastian)) {
+                    npcList.add(new NPC(NpcInfo.Sebastian , NpcDialog.Sebastian , allCharacters , j,i));
+                }
+            }
+        }
         this.allCharacters = characters;
         this.date = new Date();
         spawnRandomResourceOnMap();
         spawnRandomItemsOnMap();
+
+
     }
 
 
@@ -176,6 +195,14 @@ public class Game implements Runnable {
         return shops;
     }
 
+    public Character getCharachterByUserId(int id){
+        for (Character character : allCharacters) {
+            if(character.getUserId() == id){
+                return character;
+            }
+        }
+        return null;
+    }
 
     private void spawnRandomItemsOnMap(){
         for (Tile[] tiles : map.getTiles()) {
