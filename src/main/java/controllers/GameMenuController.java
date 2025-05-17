@@ -766,7 +766,7 @@ public class GameMenuController {
                     }
                     return new Result(false, animalName + "can't go in " + name);
                 } else if (!(tile.getType().getTypeNum().equals("4") && tile.getType().getTypeNum().equals("8"))) {
-                    animal.shepherd(x, y, true, "");
+                    animal.shepherd(x, y, true, null);
                     return new Result(true, animalName + "is out eating");
                 }
                 return new Result(false, animalName + "can't go in the cabin");
