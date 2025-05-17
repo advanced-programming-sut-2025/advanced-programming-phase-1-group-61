@@ -58,7 +58,7 @@ public class Animal {
         ArrayList<Building> buildings = owner.getBuildings();
         String house = type.getHouse();
         for (Building building : buildings) {
-            if (building.getBaseType().equals(house) && building.getSize() > type.getHouseSize()) {
+            if (building.getBaseType().equals(house) && building.getSize() >= type.getHouseSize()) {
                 if (building.getSpace() > 0) {
                     return building.getName();
                 }
