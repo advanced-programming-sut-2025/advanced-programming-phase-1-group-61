@@ -625,7 +625,7 @@ public class GameMenuController {
                         else if (itemKinds.get("Mushroom").contains(Need1.name())) {
                             item = ItemType.DriedMushrooms;
                         }
-                        else if (Need1.name().contains(ItemType.Grapes.name())) {
+                        else if (Need1.name().contains(ItemType.Grape.name())) {
                             item = ItemType.Raisins;
                         }
                         break;
