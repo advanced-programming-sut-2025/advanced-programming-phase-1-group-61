@@ -18,10 +18,7 @@ import models.map.MapCreator.MapBuilder;
 import models.map.Tile;
 import models.map.Weather;
 import models.character.Inventory;
-import models.resource.BuildingReference;
-import models.resource.Crop;
-import models.resource.Resource;
-import models.resource.Tree;
+import models.resource.*;
 import models.tool.Axe;
 import models.tool.Tool;
 import models.workBench.ItemKinds;
@@ -799,7 +796,26 @@ public class GameMenuController {
         String massage = show.toString();
         return new Result(true, massage);
     }
-
+    public Result sellItem(Matcher matcher){
+            int count = Integer.parseInt(matcher.group("count"));
+            String ItemString = matcher.group("itemName");
+            ItemType itemType = ItemType.getItemType(ItemString);
+            Character character = App.getCurrentGame().getCurrentCharacter();
+            if(character.getInventory().getCountOfItem(itemType) < count){
+                return new Result(false , "not in inventory");
+            }
+            ShippingBin shippingBin1 = null;
+        for (ShippingBin shippingBin : App.getCurrentGame().getShippingBins()) {
+            if(App.getCurrentGame().getCharacterByTurnNumber(shippingBin.getOwner()).getUserId() ==
+                    App.getCurrentGame().getCurrentCharacter().getUserId()){
+                shippingBin1 = shippingBin;
+            }
+        }
+        if(shippingBin1 != null){
+            shippingBin1.addItemType(itemType);
+        }
+        return new Result(true,"item is now in shipping bin");
+    }
     public Result getAnimalProduct(Matcher matcher) {
         String animalName = matcher.group("animalname").trim();
         Character character = App.getCurrentGame().getCurrentCharacter();
