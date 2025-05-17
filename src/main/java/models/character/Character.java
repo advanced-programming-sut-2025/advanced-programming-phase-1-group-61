@@ -236,21 +236,34 @@ public class Character {
             targetCell=targetCell.getPreviousCell();
         }
         Collections.reverse(lastPath);
-        lastPath.remove(0); //remove the cell where user stands at the moment
+        lastPath.remove(0);
     }
-    public int getNeededEnergy(int targetX, int targetY){
-        findPath(targetX,targetY);
-        int numberOfTurns=0;
-        for(int i=0;i<lastPath.size();i++){
-            if(i==lastPath.size()-1) break;
-            Cell cell1=lastPath.get(i);
-            Cell cell2=lastPath.get(i+1);
-            if((cell2.getX()>cell1.getX() && cell2.getY()>cell1.getY()) ||
-                    (cell2.getX()>cell1.getX() && cell2.getY()<cell1.getY()) ||
-                    (cell1.getX()>cell2.getX() && cell1.getY()>cell2.getY()) ||
-                    (cell1.getX()>cell2.getX() && cell1.getY()<cell2.getY())) numberOfTurns++;
+    public int getNeededEnergy(int targetX, int targetY) {
+        findPath(targetX, targetY);
+        if (lastPath == null || lastPath.isEmpty()) return -1;
+
+        int numberOfTurns = 0;
+
+        for (int i = 1; i < lastPath.size() - 1; i++) {
+            Cell prev = lastPath.get(i - 1);
+            Cell current = lastPath.get(i);
+            Cell next = lastPath.get(i + 1);
+
+            int dx1 = current.getX() - prev.getX();
+            int dy1 = current.getY() - prev.getY();
+
+            int dx2 = next.getX() - current.getX();
+            int dy2 = next.getY() - current.getY();
+
+            if (dx1 != dx2 || dy1 != dy2) {
+                numberOfTurns++;
+            }
         }
-        return (lastPath.size()+numberOfTurns*10)/20;
+
+        System.out.println(numberOfTurns);
+        System.out.println(lastPath.size());
+        int energyRequired = (lastPath.size() + 10 * numberOfTurns) / 20;
+        return energyRequired;
     }
     private Cell bfs(int targetX, int targetY,Map map){
         boolean[][] visited=new boolean[map.getHeightSize()][map.getWidthSize()];
@@ -262,8 +275,8 @@ public class Character {
                 .setPreviousCell(null);
         Queue<Cell> cells=new ArrayDeque<>();
         cells.add(cell);
-        int[] dx={1,0,-1,0,1,1,-1,-1};
-        int[] dy={0,1,0,-1,1,-1,1,-1};
+        int[] dx={1,0,-1,0};
+        int[] dy={0,1,0,-1};
         while(!cells.isEmpty()){
             Cell lastCell=cells.poll();
             for(int i=0;i<dx.length;i++){
