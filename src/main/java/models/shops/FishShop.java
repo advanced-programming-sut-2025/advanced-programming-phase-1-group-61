@@ -21,7 +21,7 @@ public class FishShop extends Shop {
                 new ShopFishingPoleUpgrades("iridium",7500,1,1,"Use in the water to catch fish.","Iridium Rod")
         ));
         shopRecipes = new ArrayList<>(List.of(
-                new ShopRecipes(Recipe.FISH_SMOKER,1,10000,"A recipe to make Fish Smoker")
+                new ShopRecipes(Recipe.FishSmoker,1,10000,"A recipe to make Fish Smoker")
         ));
     }
 
