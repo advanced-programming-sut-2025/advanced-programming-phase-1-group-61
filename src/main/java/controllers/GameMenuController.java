@@ -13,6 +13,7 @@ import models.NPC.NPC;
 import models.enums.*;
 import models.food.FridgeItem;
 import models.food.Refrigerator;
+import models.interactions.Interact;
 import models.map.Map;
 import models.map.MapCreator.MapBuilder;
 import models.map.Tile;
@@ -1318,5 +1319,105 @@ public class GameMenuController {
         }
         tile.setItem(new Item(itemType));
         return new Result(true , "successfully placed your item");
+    }
+
+    public Result AskMarriage(Matcher matcher){
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        String friend = matcher.group("username");
+        String ringName = matcher.group("ring");
+        int frienfid = App.getIdByUserName(friend);
+
+
+        if(character.getIteractions().addInteract("marrige","",frienfid,character.getUserId()+"is askind"+friend,
+                ItemType.WeddingRing,null,null,null)){
+            return new Result(true,"marrife request is sent");
+        }
+        return new Result(false , "ask marriage");
+    }
+    public Result RespondMarriage(Matcher matcher){
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        String friend = matcher.group("username");
+        String answer = matcher.group("answer");
+        boolean ans ;
+        if(answer.equals("accept")){
+            ans = true;
+        }else if(answer.equals("reject")){
+            ans = false;
+        }else return new Result(false , "invalid answer");
+        if(character.getIteractions().marriagerate(ans)){
+            return new Result(ans,"you are marriaged to "+friend);
+        }
+        return new Result(false , "invalid command");
+    }
+    public Result StartTrade(Matcher matcher){
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        List<Interact> interacts = character.getIteractions().tradelist();
+        if (interacts.isEmpty()) {
+            return new Result(true , "invalid command");
+        }
+        StringBuilder trades= new StringBuilder();
+        for(Interact interact : interacts){
+            trades.append(interact.getValue()).append("\\n");
+        }
+        return new Result(true , trades.toString());
+    }
+    public Result Trade(Matcher matcher){
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        String friend = matcher.group("username");
+        String kind = matcher.group("tradeType");
+        String item1 = matcher.group("item");
+        String item2 = matcher.group("targetItem");
+        ItemType Item1 = ItemType.getItemType(item1);
+        ItemType Item2 = ItemType.getItemType(item2);
+        int frienfid = App.getIdByUserName(friend);
+        int amount1 =Integer.parseInt(matcher.group("amount"));
+        int amount2;
+        if(item2 != null){
+            amount2 = Integer.parseInt(matcher.group("price"));
+        }else {
+            amount2 = Integer.parseInt(matcher.group("targetAmount"));
+        }
+        if( character.getIteractions().addInteract("trade",kind,frienfid,"you "+kind+friend+
+                item1+amount1+item2+amount2,Item1,amount1,Item2,amount2)){
+            return new Result(true,"successfully added trade");
+        }
+
+        return new Result(false , "ask marriage");
+    }
+    public Result TradeList(Matcher matcher){
+        return new Result(false , "ask marriage");
+    }
+    public Result TradeResponse(Matcher matcher){
+        return new Result(false , "ask marriage");
+    }
+    public Result Flower(Matcher matcher){
+        return new Result(false , "ask marriage");
+    }
+    public Result Friendships(Matcher matcher){
+        return new Result(false , "ask marriage");
+    }
+    public Result GiftRate(Matcher matcher){
+        return new Result(false , "ask marriage");
+    }
+    public Result TradeHistory(Matcher matcher){
+        return new Result(false , "ask marriage");
+    }
+    public Result GiftHistory(Matcher matcher){
+        return new Result(false , "ask marriage");
+    }
+    public Result Hug(Matcher matcher){
+        return new Result(false , "ask marriage");
+    }
+    public Result Talk(Matcher matcher){
+        return new Result(false , "ask marriage");
+    }
+    public Result TalkHistory(Matcher matcher){
+        return new Result(false , "ask marriage");
+    }
+    public Result Gift(Matcher matcher){
+        return new Result(false , "ask marriage");
+    }
+    public Result GiftList(Matcher matcher){
+        return new Result(false , "ask marriage");
     }
 }

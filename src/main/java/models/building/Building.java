@@ -9,7 +9,7 @@ public class Building extends Resource{
 
     protected int size;
     protected String name;
-    protected String baseType="";
+    protected String baseType;
     public Building( String name , int X, int Y) {
         this.name = name;
         this.X = X;

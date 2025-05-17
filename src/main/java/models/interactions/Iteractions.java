@@ -29,7 +29,7 @@ public class Iteractions {
     }
 
     public boolean addInteract(String type,String kind, Integer friend, String value, ItemType item1, Integer amount1,
-                               ItemType item2, Integer amount2, Integer money) {
+                               ItemType item2, Integer amount2) {
         Character Friend = App.getCurrentGame().getCharacterByID(friend);
         Character Owner = App.getCurrentGame().getCurrentCharacter();
         int id = this.Interacts.size()+1;
@@ -85,7 +85,7 @@ public class Iteractions {
                         return false;
                     }
                     Owner.getInventory().removeItem(item1, 1);
-                    Interact interact =new InteractMARRIGE("gift", this.owner, friend,item1, value,id);
+                    Interact interact =new InteractMARRIGE("marrige", this.owner, friend,item1, value,id);
                     Interacts.add(interact);
                     Friend.getIteractions().addnew(interact);
                     return true;
