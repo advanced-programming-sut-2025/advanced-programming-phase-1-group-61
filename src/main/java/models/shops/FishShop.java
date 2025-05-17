@@ -101,4 +101,11 @@ public class FishShop extends Shop {
         for(ShopFishingPoleUpgrades pole : fishingPoles) pole.restoreStock();
         for(ShopRecipes recipe : shopRecipes) recipe.restoreStock();
     }
+
+    public int getOpenHour(){
+        return 9;
+    }
+    public int getCloseHour(){
+        return 16;
+    }
 }

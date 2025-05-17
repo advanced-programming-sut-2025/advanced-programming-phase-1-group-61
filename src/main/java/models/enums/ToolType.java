@@ -40,12 +40,4 @@ public enum ToolType {
         }
         return null;
     }
-    public static boolean checkLevelValidity(String level){
-        for(ToolType type : ToolType.values()){
-            for(String lvl: type.getEnergyPerLevel().keySet()){
-                if(level.equals(lvl)) return true;
-            }
-        }
-        return false;
-    }
 }

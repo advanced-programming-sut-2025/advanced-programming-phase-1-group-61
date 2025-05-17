@@ -109,11 +109,10 @@ public class Carpenter extends Shop {
         for(ShopCages cage : farmBuildings) cage.restoreStock();
         for(ShopItem item : permanentItems) item.restoreStock();
     }
-
-    public ArrayList<ShopItem> getPermanentItems() {
-        return permanentItems;
+    public int getOpenHour(){
+        return 9;
     }
-    public ArrayList<ShopCages> getFarmBuildings() {
-        return farmBuildings;
+    public int getCloseHour(){
+        return 19;
     }
 }

@@ -166,8 +166,10 @@ public class BlackSmith extends Shop {
         for(ShopToolUpgrades tool:toolUpgrades) tool.restoreStock();
         for(ShopTrashcanUpgrades trashcan:trashcanUpgrades) trashcan.restoreStock();
     }
-
-    public ArrayList<ShopItem> getItems() {
-        return items;
+    public int getOpenHour(){
+        return 9;
+    }
+    public int getCloseHour(){
+        return 15;
     }
 }
