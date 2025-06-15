@@ -16,13 +16,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegisterMenuController {
-    public static Result register(Matcher register){
-        String username=register.group("username").trim();
-        String password=register.group("password").trim();
-        String confirmPassword=register.group("passwordConfirm").trim();
-        String nickname=register.group("nickname").trim();
-        String email=register.group("email").trim();
-        String gender=register.group("gender").trim();
+    private Gender gender;
+    private String username , password , confirmPassword , nickname , email;
+    public Result register(){
         User user=User.getUserByUsername(username);
         if(user!=null){
             return new Result(false , "Username already exists");
@@ -59,41 +55,11 @@ public class RegisterMenuController {
             return new Result(false , "repeated password is wrong");
         }
 
-        Gender gender1 = Gender.getGender(gender);
 
-        if(gender1==null){
-            return new Result(false , "you cant choose "+gender+" as your gender!\n(male\\female)");
-        }
         User newUser=new User(username , email , SHA256.toSHA256(password) ,gender,nickname);
         App.addUserToList(newUser);
         App.setRegisteredUser(newUser);
-        String securityQuestions=SecurityQuestion.getQuestions();
-        return new Result(true , username+" successfully registered!"+securityQuestions);
-    }
-    public static Result registerWithRandomPassword(Matcher register){
-        String username=register.group("username").trim();
-        String password=generatePassword();
-        String nickname=register.group("nickname").trim();
-        String email=register.group("email").trim();
-        String gender=register.group("gender").trim();
-        User user=User.getUserByUsername(username);
-        if(user!=null) {
-            return new Result(false, "Username already exists");
-        }
-        if(username.length() > 8){
-            return new Result(false , "username too long");
-        }
-        if(!Pattern.matches(RegisterMenuCommands.USERNAME_PATTERN.getPattern(),username)){
-            return new Result(false , "username format is invalid!");
-        }
-        if(!Pattern.matches(RegisterMenuCommands.EMAIL_PATTERN.getPattern(), email)){
-            return new Result(false , "email format is invalid!");
-        }
-        User newUser=new User(username , email , SHA256.toSHA256(password) ,gender,nickname);
-        App.addUserToList(newUser);
-        App.setRegisteredUser(newUser);
-        String securityQuestions=SecurityQuestion.getQuestions();
-        return new Result(true , "your password is: "+password+"!\nsuccessfully registered!"+securityQuestions);
+        return new Result(true , username+" successfully registered!");
     }
     public static Result pickQuestion(Matcher matcher,User user){
         String answer=matcher.group("answer").trim();
@@ -113,14 +79,30 @@ public class RegisterMenuController {
         }
         return new Result(true,"question successfully picked!");
     }
-    public static Result exitGame(){
-        try {
-            App.saveApp();
-        } catch (IOException e) {
-            return new Result(false , "failed to save App :)");
-        }
-        return new Result(true , "App saved successfully(hopefully)");
+    public  void setGender(Gender gender) {
+        this.gender = gender;
     }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public static boolean checkPasswordLowerCaseLetter(String password){
         return password.matches("^.*[a-z].*$");
     }
@@ -133,7 +115,7 @@ public class RegisterMenuController {
     public static boolean checkPasswordUniqueLetters(String password){
         return password.matches("^.*[()!@#$%^&*?<>\\[\\]/+=}{].*$");
     }
-    public static String generatePassword(){
+    public String generatePassword(){
         final String UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         final String LOWER = "abcdefghijklmnopqrstuvwxyz";
         final String DIGITS = "0123456789";

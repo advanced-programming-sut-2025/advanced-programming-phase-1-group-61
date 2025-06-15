@@ -3,15 +3,34 @@ package controllers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import models.*;
+import views.LoginMenu;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.regex.Matcher;
 
 public class LoginMenuController {
-    public Result login(Matcher login){
-        String username=login.group("username");
-        String password=login.group("password").trim();
-        String stayLoggedIn = login.group("stayLoggedIn");
+    private LoginMenu view;
+    private boolean stayLoggedIn;
+    private String username , password;
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setView(LoginMenu view) {
+        this.view = view;
+    }
+
+    public void setStayLoggedIn(boolean stayLoggedIn) {
+        this.stayLoggedIn = stayLoggedIn;
+    }
+
+    public Result login(){
         User user=User.getUserByUsername(username);
         if(user==null){
             return new Result(false , username+" dose not exist");
@@ -19,7 +38,7 @@ public class LoginMenuController {
         if(!user.getPassword().equals(SHA256.toSHA256(password))){
             return new Result(false , "password is wrong");
         }
-        if(stayLoggedIn != null){
+        if(stayLoggedIn){
             try {
                 saveLoggedInUser(user);
             } catch (IOException e) {

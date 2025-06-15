@@ -15,12 +15,12 @@ public class User {
     private String nickName;
     private int gamesPlayed=0;
     private Question question;
-    public User(String username, String email, String password, String gender,String nickName) {
+    public User(String username, String email, String password, Gender gender,String nickName) {
         this.nickName = nickName;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.gender = Gender.getGender(gender);
+        this.gender =gender;
         numberOfUsers = App.getAllUsers().size();
         this.id = numberOfUsers+1;
         this.gameId = 0;

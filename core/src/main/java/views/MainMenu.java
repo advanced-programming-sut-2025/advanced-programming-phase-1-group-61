@@ -1,40 +1,97 @@
 package views;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.ScreenUtils;
 import controllers.MainMenuController;
-import models.App;
-import models.Result;
-import models.enums.Commands.MainMenuCommands;
-import models.enums.Commands.RegisterMenuCommands;
-import models.enums.MenuEnum;
+import io.github.camera.Main;
+import models.AssetManager;
 
-import java.util.Scanner;
-import java.util.regex.Matcher;
 
-public class MainMenu implements AppMenu{
+public class MainMenu implements Screen {
 
-    private final MainMenuController controller = new MainMenuController();
+    private final MainMenuController controller;
+    private Stage stage;
+    private Skin skin = AssetManager.getSkin();
+    private final TextButton registerButton;
+    private final TextButton loginButton;
+    private Table table;
+
+
+    public MainMenu(MainMenuController controller) {
+        this.controller = controller;
+        this.stage = new Stage();
+        loginButton = new TextButton("LOGIN",skin);
+        registerButton = new TextButton("REGISTER",skin);
+    }
+
+
+
     @Override
-    public void check(Scanner scanner) {
-            String input = scanner.nextLine().trim();
-
-            Matcher changeMenu= MainMenuCommands.ChangeMenu.getMatcher(input);
-            Matcher showCurrentMenu = RegisterMenuCommands.SHOW_CURRENT_MENU.getMatcher(input);
-            Matcher logOut = MainMenuCommands.LOG_OUT.getMatcher(input);
-
-            if(changeMenu != null){
-               Result result=controller.changeMenu(changeMenu);
-               System.out.println(result.message());
-            } else if (showCurrentMenu != null) {
-                System.out.println("you are in main menu");
-            } else if (logOut != null) {
-               Result result = controller.logout();
-               if(result.isSuccessful()){
-                   App.setCurrentMenu(MenuEnum.LOGIN_MENU);
-               }
-            } else {
-                System.out.println("Invalid input");
+    public void show() {
+        table = new Table();
+        table.setFillParent(true);
+        table.center();
+        table.add(loginButton).padBottom(20).row();
+        table.add(registerButton).padBottom(20).row();
+        stage.addActor(table);
+        Gdx.input.setInputProcessor(stage);
+        controller.setView(this);
+        loginButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                controller.logIn();
             }
-        }
+        });
+
+        registerButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                controller.register();
+            }
+        });
+
+    }
 
 
+    @Override
+    public void render(float v) {
+        ScreenUtils.clear(Color.CORAL);
+        Main.getBatch().begin();
+        stage.act();
+        stage.draw();
+        Main.getBatch().end();
+    }
+
+    @Override
+    public void resize(int i, int i1) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public void dispose() {
+
+    }
 }

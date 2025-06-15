@@ -1,37 +1,56 @@
 package io.github.camera;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.google.gson.Gson;
+import controllers.MainMenuController;
+import models.App;
+import models.AssetManager;
+import views.MainMenu;
+
+import java.io.IOException;
 
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
-public class Main extends ApplicationAdapter {
-    private SpriteBatch batch;
-    private Texture image;
+public class Main extends Game {
+
+    private static SpriteBatch batch;
+    private static Main main;
 
 
 
     @Override
     public void create() {
+        App.loadApp();
         batch = new SpriteBatch();
-        image = new Texture("libgdx.png");
-        Gson gson = new Gson();
+        AssetManager.load();
+        main = this;
+        main.setScreen(new MainMenu(new MainMenuController()));
     }
 
     @Override
     public void render() {
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
         batch.begin();
-        batch.draw(image, 140, 210);
         batch.end();
+        super.render();
     }
 
     @Override
     public void dispose() {
+       try {
+           App.saveApp();
+       } catch (IOException e) {
+           throw new RuntimeException(e);
+       }
         batch.dispose();
-        image.dispose();
+    }
+
+    public static Main getMain() {
+        return main;
+    }
+
+    public static SpriteBatch getBatch() {
+        return batch;
     }
 }

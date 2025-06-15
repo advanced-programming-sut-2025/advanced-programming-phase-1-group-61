@@ -3,7 +3,7 @@ package models;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import models.enums.MenuEnum;
+
 
 import java.io.File;
 import java.io.FileReader;
@@ -17,7 +17,7 @@ public class App {
 
     private static int loggedInUser;
     private static models.User registeredUser;
-    private static MenuEnum currentMenuEnum = MenuEnum.REGISTER_MENU;
+
     private static List<models.User> allUsers = new ArrayList<>();
     private static ArrayList<models.Game> allGames = new ArrayList<>();
     private static int currentGameId;
@@ -109,7 +109,7 @@ public class App {
                     loggedInUser = gson.fromJson(loggedInUserFileReader, loggedInUserType);
                     if(gson == null){
                     }
-                    App.setCurrentMenu(MenuEnum.MAIN_MENU);
+//                    App.setCurrentMenu(MenuEnum.MAIN_MENU);
                     System.out.println("welcome back "+getLoggedInUser().getUsername());
                 }
             }
@@ -142,15 +142,11 @@ public class App {
     public static List<models.User> getAllUsers() {
         return allUsers;
     }
-    public static void setCurrentMenu(MenuEnum menuEnum) {
-        currentMenuEnum = menuEnum;
-    }
+
     public static void addUserToList(models.User user){
         allUsers.add(user);
     }
-    public static MenuEnum getCurrentMenu() {
-        return currentMenuEnum;
-    }
+
     public static int getIdByUserName(String username){
         for (models.User user : allUsers) {
             if(user.getUsername().equals(username)){
