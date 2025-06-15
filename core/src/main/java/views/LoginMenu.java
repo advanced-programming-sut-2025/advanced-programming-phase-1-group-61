@@ -1,39 +1,128 @@
 package views;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.ScreenUtils;
 import controllers.LoginMenuController;
-import models.App;
+import controllers.RegisterMenuController;
+import io.github.camera.Main;
+import models.AssetManager;
 import models.Result;
-import models.enums.Commands.LoginMenuCommands;
-import models.enums.Commands.RegisterMenuCommands;
-import models.enums.MenuEnum;
 
-import java.util.Scanner;
-import java.util.regex.Matcher;
+public class LoginMenu implements Screen {
+    private LoginMenuController controller;
+    private Stage stage;
+    private Skin skin = AssetManager.getSkin();
+    private Table table;
+    private Table buttonTable;
+    private TextButton login;
+    private TextButton forgetPassword;
+    private TextButton registerMenu;
+    private TextField username;
+    private TextField password;
+    private CheckBox stayLoggedIn;
+    private String resultMessage = "";
+    private BitmapFont font;
 
-public class LoginMenu implements AppMenu{
-    LoginMenuController controller = new LoginMenuController();
+    public LoginMenu(LoginMenuController controller) {
+        this.controller = controller;
+        stage = new Stage();
+        login = new TextButton("LOGIN",skin);
+        forgetPassword = new TextButton("FORGET PASSWORD",skin);
+        username = new TextField("username",skin);
+        password = new TextField("password",skin);
+        stayLoggedIn = new CheckBox("stay logged in",skin);
+        registerMenu = new TextButton("REGISTER MENU",skin);
+        controller.setView(this);
+        font = AssetManager.getFont();
+    }
 
     @Override
-    public void check(Scanner scanner) {
-            String input = scanner.nextLine();
-            Matcher login= LoginMenuCommands.LOGIN.getMatcher(input);
-            Matcher showCurrentMenu = RegisterMenuCommands.SHOW_CURRENT_MENU.getMatcher(input);
-            Matcher goToRegisterMenu = LoginMenuCommands.GO_BACK.getMatcher(input);
+    public void show() {
+        table = new Table();
+        table.setFillParent(true);
+        table.center();
+        table.add(username).width(480).pad(20);
+        table.row();
+        table.add(password).width(480).pad(20);
+        table.row();
+        table.add(stayLoggedIn).pad(20);
+        table.row();
 
-            if(login != null){
-                Result result = controller.login(login);
-                System.out.println(result.message());
+        stage.addActor(table);
+
+        buttonTable = new Table();
+        buttonTable.setFillParent(true);
+        buttonTable.add(forgetPassword).width(540).pad(20);
+        buttonTable.add(login).width(240).pad(20);
+        buttonTable.add(registerMenu).width(480).pad(20);
+        buttonTable.bottom().padBottom(20);
+        stage.addActor(buttonTable);
+        Gdx.input.setInputProcessor(stage);
+
+
+        login.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                controller.setStayLoggedIn(stayLoggedIn.isChecked());
+                controller.setPassword(password.getText());
+                controller.setUsername(username.getText());
+
+             Result result = controller.login();
+             resultMessage = result.message();
                 if(result.isSuccessful()){
-                    App.setCurrentMenu(MenuEnum.MAIN_MENU);
+                //TODO
                 }
-            } else if (showCurrentMenu != null) {
-                System.out.println("you are in login menu");
-            } else if (goToRegisterMenu != null) {
-                App.setCurrentMenu(MenuEnum.REGISTER_MENU);
-                System.out.println("you are now in register menu");
-            } else {
-                System.out.println("invalid input");
             }
+        });
+        registerMenu.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(new RegisterMenu(new RegisterMenuController()));
+            }
+        });
+    }
+
+    @Override
+    public void render(float v) {
+        ScreenUtils.clear(Color.CORAL);
+        Main.getBatch().begin();
+        stage.act();
+        font.draw(Main.getBatch(), resultMessage, 50, Gdx.graphics.getHeight() - 50);
+        stage.draw();
+
+        Main.getBatch().end();
+    }
+
+    @Override
+    public void resize(int i, int i1) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public void dispose() {
 
     }
 }

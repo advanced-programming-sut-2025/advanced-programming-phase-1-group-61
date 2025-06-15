@@ -1,25 +1,28 @@
 package controllers;
 
-import models.App;
+import io.github.camera.Main;
 import models.Result;
-import models.enums.MenuEnum;
+import views.LoginMenu;
+import views.MainMenu;
+import views.RegisterMenu;
 
-import java.util.regex.Matcher;
+
 
 public class MainMenuController {
-    public Result logout(){
-        App.setLoggedInUser(-1);
+    private MainMenu view;
+
+    public void setView(MainMenu view) {
+        this.view = view;
+    }
+
+    public Result register(){
+        Main.getMain().getScreen().dispose();
+        Main.getMain().setScreen(new RegisterMenu(new RegisterMenuController()));
         return new Result(true , "successfully logged out");
     }
-    public Result changeMenu(Matcher matcher){
-        String name= matcher.group("menu");
-        if(name.equals("game")){
-            App.setCurrentMenu(MenuEnum.GAME_MENU);
-            return new Result(true , "Redirecting to gameMenu...");
-        } else if (name.equals("profile")) {
-            App.setCurrentMenu(MenuEnum.PROFILE_MENU);
-            return new Result(true , "Redirecting to profileMenu...");
-        }
+    public Result logIn(){
+        Main.getMain().getScreen().dispose();
+        Main.getMain().setScreen(new LoginMenu(new LoginMenuController()));
         return new Result(true , "invalid menu");
     }
 }
