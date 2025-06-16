@@ -3,6 +3,9 @@ package models;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import controllers.PreGameMenuController;
+import io.github.camera.Main;
+import views.PreGameMenu;
 
 
 import java.io.File;
@@ -109,7 +112,8 @@ public class App {
                     loggedInUser = gson.fromJson(loggedInUserFileReader, loggedInUserType);
                     if(gson == null){
                     }
-//                    App.setCurrentMenu(MenuEnum.MAIN_MENU);
+                    Main.getMain().getScreen().dispose();
+                    Main.getMain().setScreen(new PreGameMenu(new PreGameMenuController()));
                     System.out.println("welcome back "+getLoggedInUser().getUsername());
                 }
             }

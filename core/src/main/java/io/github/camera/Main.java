@@ -21,11 +21,11 @@ public class Main extends Game {
 
     @Override
     public void create() {
-        App.loadApp();
         batch = new SpriteBatch();
         AssetManager.load();
         main = this;
         main.setScreen(new MainMenu(new MainMenuController()));
+        App.loadApp();
     }
 
     @Override
