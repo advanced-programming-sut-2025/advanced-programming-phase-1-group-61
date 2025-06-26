@@ -120,7 +120,7 @@ public class MapBuilder {
         File middleCity ;
         Scanner middleCityScanner;
         try {
-         middleCity = new File("src/main/java/models/map/MapCreator/middleCity.txt");
+         middleCity = new File("assets/Map/middleCity.txt");
          middleCityScanner = new Scanner(middleCity);
 
             int row = (height/2)-3;
@@ -144,7 +144,7 @@ public class MapBuilder {
         File upperCity ;
         Scanner upperCityScanner ;
         try {
-            upperCity = new File("src/main/java/models/map/MapCreator/upperCity.txt");
+            upperCity = new File("assets/Map/upperCity.txt");
             upperCityScanner = new Scanner(upperCity);
             int row = 0;
             while (upperCityScanner.hasNextLine() && row<(height/2)-3){
@@ -166,7 +166,7 @@ public class MapBuilder {
         File lowerCity ;
         Scanner lowerCityScanner;
         try {
-         lowerCity = new File("src/main/java/models/map/MapCreator/lowerCity.txt");
+         lowerCity = new File("assets/Map/lowerCity.txt");
          lowerCityScanner = new Scanner(lowerCity);
             int row = (height/2) + 4;
             while (lowerCityScanner.hasNextLine() && row<height){

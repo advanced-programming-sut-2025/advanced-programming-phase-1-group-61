@@ -14,7 +14,7 @@ public class TileBuilder {
             String[][] farm = new String[HEIGHT][WIDTH];
             if(mapNumber==1) {
                 try {
-                    map = new File("src/main/java/models/map/MapCreator/map1.txt");
+                    map = new File("assets/Map/map1.txt");
                     mapScanner = new Scanner(map);
                     int row = 0;
                     while (mapScanner.hasNextLine() && row < HEIGHT) {
@@ -32,7 +32,7 @@ public class TileBuilder {
                 }
             } else if (mapNumber==2) {
                 try {
-                    map = new File("src/main/java/models/map/MapCreator/map2.txt");
+                    map = new File("assets/Map/map2.txt");
                     mapScanner = new Scanner(map);
                     int row = 0;
                     while (mapScanner.hasNextLine() && row < HEIGHT) {

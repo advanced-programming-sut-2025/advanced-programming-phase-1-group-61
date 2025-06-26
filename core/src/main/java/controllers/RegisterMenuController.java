@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 public class RegisterMenuController {
     private Gender gender;
     private String username , password , confirmPassword , nickname , email;
+
     public Result register(){
         User user=User.getUserByUsername(username);
         if(user!=null){
@@ -58,9 +59,10 @@ public class RegisterMenuController {
 
         User newUser=new User(username , email , SHA256.toSHA256(password) ,gender,nickname);
         App.addUserToList(newUser);
-        App.setRegisteredUser(newUser);
+        App.setLoggedInUser(newUser.getId());
         return new Result(true , username+" successfully registered!");
     }
+
     public static Result pickQuestion(Matcher matcher,User user){
         String answer=matcher.group("answer").trim();
         String answerConfirm=matcher.group("answerConfirm").trim();
@@ -79,6 +81,7 @@ public class RegisterMenuController {
         }
         return new Result(true,"question successfully picked!");
     }
+
     public  void setGender(Gender gender) {
         this.gender = gender;
     }

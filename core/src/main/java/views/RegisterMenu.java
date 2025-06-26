@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import controllers.LoginMenuController;
 import controllers.MainMenuController;
+import controllers.PreGameMenuController;
 import controllers.RegisterMenuController;
 import io.github.camera.Main;
 import models.AssetManager;
@@ -170,7 +171,8 @@ public class RegisterMenu implements Screen {
                 Result result = controller.register();
                 resultMessage = result.message();
                 if(result.isSuccessful()){
-//                  TODO
+                    Main.getMain().getScreen().dispose();
+                    Main.getMain().setScreen(new PreGameMenu(new PreGameMenuController()));
                 }
             }
         });
