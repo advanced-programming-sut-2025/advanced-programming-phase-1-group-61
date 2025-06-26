@@ -35,26 +35,31 @@ import java.util.regex.Matcher;
 
 public class GameMenuController {
     private int neededEnergy;
+    private Game game;
+
+    public GameMenuController(Game game) {
+        this.game = game;
+    }
 
     public Result repairGreenHouse(Matcher matcher){
         int x , y;
         x = Integer.parseInt(matcher.group("x"));
         y = Integer.parseInt(matcher.group("y"));
-        Tile tile = App.getCurrentGame().getMap().getTileByCordinate(x,y);
+        Tile tile = game.getMap().getTileByCordinate(x,y);
         if(!tile.getType().equals(TileType.BrokenGreenHouse)){
             return new Result(false , "not green house");
         }
         if(!tile.isCollisionOn()){
             return new Result(false , "already fixed");
         }
-        Character character = App.getCurrentGame().getCurrentCharacter();
+        Character character = game.getCurrentCharacter();
         character.setMoney(character.getMoney() - 100);
         tile.setCollisionOn(false);
         return new Result(true , "successfully repaired");
     }
 
     public Result equipTool(Matcher matcher) {
-        Character character = App.getCurrentGame().getCurrentCharacter();
+        Character character = game.getCurrentCharacter();
         String name = matcher.group("name").trim();
         ToolType tool = Tool.fromString(name);
         if (tool == null) {
@@ -69,7 +74,7 @@ public class GameMenuController {
     }
 
     public Result showCurrentTool() {
-        Character character = App.getCurrentGame().getCurrentCharacter();
+        Character character = game.getCurrentCharacter();
         Tool tool = character.getCurrentTool();
         if (tool == null) {
             return new Result(false, "No tool is in your hand!");
@@ -78,13 +83,13 @@ public class GameMenuController {
     }
 
     public Result showAvailableTools() {
-        Character character = App.getCurrentGame().getCurrentCharacter();
+        Character character = game.getCurrentCharacter();
         Inventory inventory = character.getInventory();
         return new Result(true, "you have (" + inventory.getAllTools() + ") in your backpack!");
     }
 
     public Result upgradeTool(Matcher matcher) {
-        Character character = App.getCurrentGame().getCurrentCharacter();
+        Character character = game.getCurrentCharacter();
         String name = matcher.group("name").trim();
         ToolType toolEx = Tool.fromString(name);
         if (toolEx == null) {
@@ -101,7 +106,7 @@ public class GameMenuController {
 
     public Result cheatAddTool(Matcher matcher) {
         String toolName = matcher.group("toolName").trim();
-        Inventory inventory = App.getCurrentGame().getCurrentCharacter().getInventory();
+        Inventory inventory = game.getCurrentCharacter().getInventory();
         ToolType tool = Tool.fromString(toolName);
         if (tool == null) {
             return new Result(false, "Please enter a valid tool!");
@@ -112,7 +117,7 @@ public class GameMenuController {
 
     public Result useTool(Matcher matcher) {
         String directionStr = matcher.group("direction").trim();
-        Character character = App.getCurrentGame().getCurrentCharacter();
+        Character character = game.getCurrentCharacter();
         Direction direction = Direction.fromString(directionStr);
         if (direction == null) {
             return new Result(false, "Please enter a valid direction!(right/left/up/bottom/up_right/up_left/bottom_right/bottom_left)");
@@ -133,7 +138,7 @@ public class GameMenuController {
         if (direction == null) {
             return new Result(false, directionString + " is not a valid direction.");
         }
-        Character character = App.getCurrentGame().getCurrentCharacter();
+        Character character = game.getCurrentCharacter();
         Tool tool = character.getCurrentTool();
         if (tool == null) {
             return new Result(false, "equip an axe first");
@@ -143,70 +148,6 @@ public class GameMenuController {
         }
         Axe axe = (Axe) tool;
         return new Result(true, axe.useForSyrup(direction));
-    }
-
-    public Result startGame(List<String> usernames, int[] mapNumbers) {
-        List<User> userList = new ArrayList<>();
-
-        if (usernames.isEmpty()) {
-            return new Result(false, "uou need at least one other player");
-        }
-
-
-        for (String username : usernames) {
-            userList.add(User.getUserByUsername(username));
-        }
-        List<Character> characterList = new ArrayList<>();
-        for (User user : userList) {
-            Character character = new Character(user.getId());
-            characterList.add(character);
-        }
-        Map map = MapBuilder.buildFullMap(mapNumbers[0], mapNumbers[1], mapNumbers[2], mapNumbers[3],characterList);
-        
-        int i = 0;
-        for (Character character : characterList) {
-            character.setX(map.getXSpawnPoints().get(i));
-            character.setY(map.getYSpawnPoints().get(i));
-            i++;
-        }
-        for (User user : userList) {
-            if (user.getGameId() != 0) {
-                return new Result(false, user.getUsername() + " is already in another game.");
-            }
-        }
-        Game game = new Game(map, characterList);
-        for (User user : userList) {
-            user.setGameId(game.getId());
-        }
-        App.addGame(game);
-        App.setCurrentGame(game.getId());
-        return new Result(true, "game started successfully");
-    }
-
-    public Result startGameErrors(List<String> usernames) {
-        for (int i = 1; i < usernames.size(); i++) {
-            String username = usernames.get(i);
-            if (username.equals(App.getLoggedInUser().getUsername())) {
-                return new Result(false, "you can't pick yourself!");
-            }
-        }
-        StringBuilder names = new StringBuilder();
-        for (String username : usernames) {
-            User user = User.getUserByUsername(username.trim());
-            if (user == null) names.append(username).append(" is invalid!").append("\n");
-        }
-        if (!names.isEmpty()) names.deleteCharAt(names.length() - 1);
-        if (!names.isEmpty()) return new Result(false, names.toString());
-        return new Result(true, "");
-    }
-
-    public Result userListIsValid(List<String> usernames) {
-        for (String username : usernames) {
-            if (User.getUserByUsername(username) == null) {
-                return new Result(false, username + "is not valid username");
-            }
-        }
-        return new Result(true, "all players are available");
     }
 
     public Result loadGame() {
@@ -224,19 +165,16 @@ public class GameMenuController {
     }
 
     public Result changeTurn() {
-        Game game = App.getCurrentGame();
         String string = game.changeTurn();
         return new Result(true, string);
     }
 
     public Result showHour() {
-        Game game = App.getCurrentGame();
         int hour = game.getDate().getHour();
         return new Result(true, "hour: " + hour);
     }
 
     public Result showDate() {
-        Game game = App.getCurrentGame();
         int dayCount = game.getDate().getDayCounter();
         DaysOfTheWeek day = game.getDate().getDay();
         Season season = game.getDate().getSeason();
@@ -245,7 +183,6 @@ public class GameMenuController {
     }
 
     public Result showDateAndTime() {
-        Game game = App.getCurrentGame();
         int dayCount = game.getDate().getDayCounter();
         DaysOfTheWeek day = game.getDate().getDay();
         Season season = game.getDate().getSeason();
@@ -255,7 +192,6 @@ public class GameMenuController {
     }
 
     public Result showWeekDay() {
-        Game game = App.getCurrentGame();
         DaysOfTheWeek day = game.getDate().getDay();
         return new Result(true, day.getDisplayName());
     }
@@ -266,7 +202,7 @@ public class GameMenuController {
             return new Result(false, "number has to be positive");
         }
 
-        Game game = App.getCurrentGame();
+
         if (amount >= 24) {
             game.getDate().changeDay(amount / 24);
         }
@@ -276,7 +212,6 @@ public class GameMenuController {
 
     public Result cheatDay(Matcher matcher) {
         int amount = Integer.parseInt(matcher.group("day"));
-        Game game = App.getCurrentGame();
         game.getDate().changeDay(amount);
         return new Result(true, amount + "went by.");
     }
@@ -284,12 +219,12 @@ public class GameMenuController {
     public Result cheatThor(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
-        App.getCurrentGame().getMap().getWeather().lightning(x, y);
+        game.getMap().getWeather().lightning(x, y);
         return new Result(true, "lightning hit at x: " + x + " y: " + y);
     }
 
     public Result foreCastWeather() {
-        WeatherState state = App.getCurrentGame().getMap().getWeather().getTomorrowWeatherState();
+        WeatherState state = game.getMap().getWeather().getTomorrowWeatherState();
         return new Result(true, "tomorrow we expect : " + state.getDisplayName());
     }
 
@@ -299,13 +234,12 @@ public class GameMenuController {
         if (state == null) {
             return new Result(false, "you cant set weather as " + type);
         }
-        Weather weather = App.getCurrentGame().getMap().getWeather();
+        Weather weather = game.getMap().getWeather();
         weather.setCheatedWeatherState(state);
         return new Result(true, "you can expect " + state.getDisplayName() + " tomorrow.");
     }
 
     public Result energyResult(Matcher matcher) {
-        Game game = App.getCurrentGame();
         Character currentCharacter = game.getCurrentCharacter();
         if (currentCharacter == null) {
             return new Result(false, "no current character");
@@ -341,7 +275,7 @@ public class GameMenuController {
 
     public Result walk(String confirmation) {
         if (confirmation.equals("yes")) {
-            Character character = App.getCurrentGame().getCurrentCharacter();
+            Character character = game.getCurrentCharacter();
             if (neededEnergy > character.getEnergy()) {
                 character.faint();
                 return new Result(false, "character fainted!");
@@ -360,12 +294,12 @@ public class GameMenuController {
         } catch (Exception e) {
             return new Result(false, "please enter a valid value!");
         }
-        App.getCurrentGame().getCurrentCharacter().setEnergy(value);
+        game.getCurrentCharacter().setEnergy(value);
         return new Result(true, "energy set to: " + value);
     }
 
     public Result unlimitedEnergySet() {
-        Character character = App.getCurrentGame().getCurrentCharacter();
+        Character character = game.getCurrentCharacter();
         character.setUnlimitedEnergy(true);
         return new Result(true, "energy set to unlimited!");
     }
@@ -380,18 +314,18 @@ public class GameMenuController {
         }
         ItemType item = Item.getItem(itemName);
         if (item == null) return new Result(false, "please enter a valid item!");
-        App.getCurrentGame().getCurrentCharacter().getInventory().addItem(item, count);
+        game.getCurrentCharacter().getInventory().addItem(item, count);
         return new Result(true, count + " " + item.getDisPlayName() + "s added to Inventory!");
     }
 
     public Result inventoryShow() {
-        Inventory inventory = App.getCurrentGame().getCurrentCharacter().getInventory();
+        Inventory inventory = game.getCurrentCharacter().getInventory();
         if (inventory.getItems().isEmpty()) return new Result(false, "you have no items in your inventory!");
         return new Result(true, inventory.getItemsInfo());
     }
 
     public Result inventoryTrash(Matcher matcher) {
-        Inventory inventory = App.getCurrentGame().getCurrentCharacter().getInventory();
+        Inventory inventory = game.getCurrentCharacter().getInventory();
         String itemName = matcher.group("itemName").trim();
         int number = -1;
         if (matcher.group("number") != null) {
@@ -422,7 +356,6 @@ public class GameMenuController {
     }
 
     public Result printMap(Matcher matcher) {
-        Game game = App.getCurrentGame();
         Map map = game.getMap();
 
         int x = Integer.parseInt(matcher.group("x"));
@@ -446,7 +379,7 @@ public class GameMenuController {
     }
 
     public Result showEnergy() {
-        return new Result(true, "energy: " + App.getCurrentGame().getCurrentCharacter().getEnergy());
+        return new Result(true, "energy: " +game.getCurrentCharacter().getEnergy());
     }
 
     private String getColoredTile(Tile tile) {
@@ -549,7 +482,7 @@ public class GameMenuController {
 
     public Result pet(Matcher matcher) {
         String animalName = matcher.group("animalname").trim();
-        Character character = App.getCurrentGame().getCurrentCharacter();
+        Character character =game.getCurrentCharacter();
         if (character.getAnimals().containsKey(animalName)) {
             if (character.getAnimals().get(animalName).pet(character.getX(), character.getY())) {
                 return new Result(true, animalName + ": Yeeeeee common do it");
@@ -563,7 +496,7 @@ public class GameMenuController {
     public Result cheatFriendship(Matcher matcher) {
         String animalName = matcher.group("animalname").trim();
         int amount = Integer.parseInt(matcher.group("amount"));
-        Character character = App.getCurrentGame().getCurrentCharacter();
+        Character character = game.getCurrentCharacter();
         if (character.getAnimals().containsKey(animalName)) {
             character.getAnimals().get(animalName).petByCheat(amount);
             return new Result(true, "Youre friendship with " + animalName + " is " + amount + " you cheater");
@@ -574,7 +507,7 @@ public class GameMenuController {
 
     public Result showAnimals() {
         StringBuilder show = new StringBuilder();
-        for (Animal animal : App.getCurrentGame().getCurrentCharacter().getAnimals().values()) {
+        for (Animal animal : game.getCurrentCharacter().getAnimals().values()) {
             show.append(animal.getType()).append(": ").append(animal.getName()).append(" || friendship: ").append(animal.getFriendship()).append(" || hunger: ").append(animal.isHunger()).append(" || isPet: ").append(animal.isPet());
             show.append("------------------------------\n");
         }
@@ -589,9 +522,9 @@ public class GameMenuController {
         ItemType item = null;
         ItemType Need1 = ItemType.getItembyname(nee1);
         ItemType Need2 = ItemType.getItembyname(nee2);
-        Date date = App.getCurrentGame().getDate();
+        Date date = game.getDate();
         java.util.Map<String, List<String>> itemKinds = new ItemKinds().getItemKinds();
-        Character character = App.getCurrentGame().getCurrentCharacter();
+        Character character = game.getCurrentCharacter();
         for (WorkBench Bench : character.getWorkBenches()) {
             if (Bench.getType().name().equalsIgnoreCase(bench)) {
                 switch (bench.toUpperCase()) {

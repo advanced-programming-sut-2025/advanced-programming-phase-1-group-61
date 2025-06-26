@@ -2,10 +2,13 @@ package views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import controllers.NewGameController;
 import controllers.PreGameMenuController;
 import io.github.camera.Main;
 import models.AssetManager;
@@ -30,6 +33,7 @@ public class PreGameMenu implements Screen {
         loadGame = new TextButton("LOAD GAME",skin);
         profileMenu = new TextButton("PROFILE",skin);
         setting = new TextButton("SETTING",skin);
+        controller.setView(this);
     }
 
     @Override
@@ -52,6 +56,8 @@ public class PreGameMenu implements Screen {
 
         stage.addActor(table);
 
+
+        addListener();
     }
 
     @Override
@@ -85,5 +91,38 @@ public class PreGameMenu implements Screen {
     @Override
     public void dispose() {
 
+    }
+    private void addListener(){
+        newGame.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(new NewGameView(new NewGameController()));
+            }
+        });
+        loadGame.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //TODO
+            }
+        });
+        profileMenu.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //TODO
+            }
+        });
+        profileMenu.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+            }
+        });
+        logout.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //TODO
+            }
+        });
     }
 }
