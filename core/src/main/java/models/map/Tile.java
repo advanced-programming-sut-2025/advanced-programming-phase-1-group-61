@@ -1,5 +1,7 @@
 package models.map;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import models.AssetManager;
 import models.Item;
 import models.enums.TileType;
 import models.resource.Resource;
@@ -14,6 +16,7 @@ public class Tile {
     private boolean collisionOn;
     private int ownerId ;
     private Item item;
+    private transient Sprite sprite;
 
     public Tile(int x, int y, TileType type, Resource resource, int ownerId) {
         this.x = x;
@@ -23,6 +26,10 @@ public class Tile {
         this.collisionOn = type.isCollisionOn();
         this.ownerId = ownerId;
         this.item = null;
+        sprite = new Sprite(type.getTexture());
+        sprite.setX(x);
+        sprite.setY(y);
+        sprite.setSize(AssetManager.getTileSize(),AssetManager.getTileSize());
     }
 
     public void setCollisionOn(boolean collisionOn) {
@@ -59,5 +66,24 @@ public class Tile {
 
     public int getOwnerId() {
         return ownerId;
+    }
+
+    public Sprite getSprite(){
+        if(sprite == null){
+            sprite = new Sprite(type.getTexture());
+            sprite.setX(x);
+            sprite.setY(y);
+            int tileSize = AssetManager.getTileSize();
+            sprite.setSize(tileSize,tileSize);
+        }
+        return sprite;
+    }
+
+    public int getX() {
+        return x*AssetManager.getTileSize();
+    }
+
+    public int getY() {
+        return y*AssetManager.getTileSize();
     }
 }

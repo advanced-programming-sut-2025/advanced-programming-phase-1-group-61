@@ -1,6 +1,8 @@
 package models.character;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import models.App;
+import models.AssetManager;
 import models.Item;
 import models.NPC.NPC;
 import models.NPC.NPCFriendships;
@@ -30,6 +32,7 @@ public class Character {
     private  Integer partner;
     private int x;
     private int y;
+    private int speed;
     private final Skill skill;
     private Tool currentTool;
     private java.util.Map<String,Animal> animals = new HashMap<>();
@@ -40,10 +43,19 @@ public class Character {
     private ArrayList<Cell> lastPath;
     private int xRefrigerator , yRefrigerator;
     private boolean isFainted ;
+    private transient Sprite playerSprite;
+    private int spriteX;
+    private int spriteY;
 
     private Buff buff=null;
     private int money;
     public Character(int userId){
+        playerSprite = new Sprite(AssetManager.getPlayerTexture());
+        playerSprite.setSize(96,128);
+        spriteX = x*AssetManager.getTileSize();
+        spriteY = y*AssetManager.getTileSize();
+        playerSprite.setX(spriteX);
+        playerSprite.setY(spriteY);
         this.userId=userId;
         this.currentTool=null;
         this.energy = 200;
@@ -58,6 +70,7 @@ public class Character {
         recipes.add(Recipe.CharcoalKlin);
         this.isFainted = false;
         this.money = 10000;
+        this.speed = 10;
     }
 
     public boolean isFainted() {
@@ -152,9 +165,7 @@ public class Character {
     public Item fish(){
         return null;
     }
-    public void trade(Character character,Item item,int quantity){
-        //TODO
-    }
+
     public void artisanUse(){}
     public void craft(){}
     public void cook(){}
@@ -341,5 +352,37 @@ public class Character {
             }
         }
         return null;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public Sprite getPlayerSprite() {
+        if(playerSprite==null){
+            playerSprite = new Sprite(AssetManager.getPlayerTexture());
+            playerSprite.setSize(96,128);
+            playerSprite.setX(x);
+            playerSprite.setY(y);
+        }
+        return playerSprite;
+    }
+
+    public int getSpriteX() {
+        return spriteX;
+    }
+
+    public int getSpriteY() {
+        return spriteY;
+    }
+
+    public void setSpriteX(int spriteX) {
+        this.spriteX = spriteX;
+        this.x = spriteX/AssetManager.getTileSize();
+    }
+
+    public void setSpriteY(int spriteY) {
+        this.spriteY = spriteY;
+        this.y= spriteY/AssetManager.getTileSize();
     }
 }

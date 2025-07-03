@@ -8,10 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import controllers.GameMenuController;
 import controllers.NewGameController;
 import controllers.PreGameMenuController;
 import io.github.camera.Main;
-import models.AssetManager;
+import models.*;
 
 public class PreGameMenu implements Screen {
     private PreGameMenuController controller;
@@ -103,7 +104,22 @@ public class PreGameMenu implements Screen {
         loadGame.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //TODO
+                User user = App.getLoggedInUser();
+                if (user.getGameId() == 0) {
+                   Main.getMain().getScreen().dispose();
+                   Main.getMain().setScreen(new NewGameView(new NewGameController()));
+                   return;
+                }
+                Game game = App.getGameByID(user.getGameId());
+                if (game == null) {
+                    Main.getMain().getScreen().dispose();
+                    Main.getMain().setScreen(new NewGameView(new NewGameController()));
+                    return;
+                }
+                App.setCurrentGame(user.getGameId());
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(new GameView(new GameMenuController(App.getCurrentGame())));
+
             }
         });
         profileMenu.addListener(new ClickListener(){
