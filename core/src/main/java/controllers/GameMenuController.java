@@ -1,5 +1,8 @@
 package controllers;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import controllers.GameControllers.PlayerController;
+import controllers.GameControllers.WorldController;
 import models.*;
 import models.animal.Animal;
 import models.building.Barn;
@@ -26,6 +29,7 @@ import models.workBench.ItemKinds;
 import models.workBench.WorkBench;
 import models.tool.WateringCan;
 import models.workBench.WorkBench;
+import views.GameView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,9 +40,24 @@ import java.util.regex.Matcher;
 public class GameMenuController {
     private int neededEnergy;
     private Game game;
+    private OrthographicCamera camera;
+    private GameView view;
+    private PlayerController playerController;
+    private WorldController worldController;
 
     public GameMenuController(Game game) {
         this.game = game;
+    }
+
+    public void setView(GameView view, OrthographicCamera camera) {
+        this.view = view;
+        this.camera = camera;
+        playerController = new PlayerController(camera);
+        worldController = new WorldController(camera);
+    }
+    public void updateGame(){
+        worldController.update();
+        playerController.update();
     }
 
     public Result repairGreenHouse(Matcher matcher){

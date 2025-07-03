@@ -15,7 +15,7 @@ import models.shops.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game implements Runnable {
+public class Game {
 
 
     private int id;
@@ -123,51 +123,7 @@ public class Game implements Runnable {
         return null;
     }
 
-    public void startGameThread() {
-        if (gameThread == null || !running) {
-            running = true;
-            gameThread = new Thread(this, "GameThread-" + id);
-            gameThread.start();
-        }
-    }
 
-    public void stopGameThread() {
-        running = false;
-        try {
-            if (gameThread != null) {
-                gameThread.join();
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void run() {
-        double drawInterval = 1000000000.0 / FPS;
-        double nextDrawTime = System.nanoTime() + drawInterval;
-
-        while (running) {
-            update();
-
-            try {
-                double remainingTime = nextDrawTime - System.nanoTime();
-                remainingTime = remainingTime / 1000000;
-                if (remainingTime < 0) {
-                    remainingTime = 0;
-                }
-                Thread.sleep((long) remainingTime);
-
-                nextDrawTime += drawInterval;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void update() {
-
-    }
 
     public int getId() {
         return id;
