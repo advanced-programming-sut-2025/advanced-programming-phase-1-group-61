@@ -1,0 +1,22 @@
+[
+  {
+    "username": "mahed",
+    "id": 1,
+    "gameId": 1,
+    "email": "lasdflasdj@gmail.com",
+    "password": "ebba4398790bfec48b6b72dd8b9933af28535ee3dd2175b3af9e26b42f3b00e2",
+    "gender": "Male",
+    "nickName": "mahi",
+    "gamesPlayed": 0
+  },
+  {
+    "username": "behzad",
+    "id": 2,
+    "gameId": 1,
+    "email": "alhdsflka@gmail.com",
+    "password": "70ef91577cb579e5af6ff5dc2651ec2f00e3ce54097e816e4412e5dc5a84edac",
+    "gender": "Male",
+    "nickName": "behi",
+    "gamesPlayed": 0
+  }
+]
