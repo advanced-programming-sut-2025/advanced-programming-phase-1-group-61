@@ -147,6 +147,9 @@ public class RegisterMenu implements Screen {
                     genders[1].setChecked(false);
                     controller.setGender(Gender.Male);
                 }
+                else if(genders[0].isChecked()){
+                    genders[0].setChecked(true);
+                }
             }
         });
         genders[1].addListener(new ClickListener(){
@@ -155,6 +158,9 @@ public class RegisterMenu implements Screen {
                 if(genders[0].isChecked()){
                     genders[0].setChecked(false);
                     controller.setGender(Gender.Female);
+                }
+                else if(genders[1].isChecked()){
+                    genders[1].setChecked(true);
                 }
             }
         });
