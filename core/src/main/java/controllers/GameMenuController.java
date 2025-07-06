@@ -296,7 +296,7 @@ public class GameMenuController {
         if (confirmation.equals("yes")) {
             Character character = game.getCurrentCharacter();
             if (neededEnergy > character.getEnergy()) {
-                character.faint();
+
                 return new Result(false, "character fainted!");
             }
             character.moveCharacter();
