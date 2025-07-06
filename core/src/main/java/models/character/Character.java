@@ -3,6 +3,7 @@ package models.character;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import models.App;
 import models.AssetManager;
+import models.CollisionRect;
 import models.Item;
 import models.NPC.NPC;
 import models.NPC.NPCFriendships;
@@ -46,6 +47,7 @@ public class Character {
     private transient Sprite playerSprite;
     private int spriteX;
     private int spriteY;
+    private CollisionRect collisionRect;
 
     private Buff buff=null;
     private int money;
@@ -71,6 +73,7 @@ public class Character {
         this.isFainted = false;
         this.money = 10000;
         this.speed = 10;
+
     }
 
     public boolean isFainted() {
@@ -142,13 +145,6 @@ public class Character {
         return y;
     }
 
-    public void moveX(int x){
-        this.x+=x;
-    }
-
-    public void moveY(int y){
-        this.y+=y;
-    }
 
     public void setX(int x) {
         this.x = x;
@@ -158,17 +154,6 @@ public class Character {
         this.y = y;
     }
 
-    public void faint(){
-        //TODO
-
-    }
-    public Item fish(){
-        return null;
-    }
-
-    public void artisanUse(){}
-    public void craft(){}
-    public void cook(){}
     public int getEnergy() {
         return energy;
     }
@@ -176,7 +161,7 @@ public class Character {
         this.energy = Math.min(200,energy);
         if(this.energy <= 0 ){
             this.energy = 0;
-            faint();
+
         }
     }
     public boolean isUnlimitedEnergy() {
@@ -379,10 +364,23 @@ public class Character {
     public void setSpriteX(int spriteX) {
         this.spriteX = spriteX;
         this.x = spriteX/AssetManager.getTileSize();
+        collisionRect.setX(spriteX);
     }
 
     public void setSpriteY(int spriteY) {
         this.spriteY = spriteY;
         this.y= spriteY/AssetManager.getTileSize();
+        collisionRect.setY(spriteY);
+    }
+
+    public CollisionRect getCollisionRect() {
+        return collisionRect;
+    }
+    public void spawnCharacter(int x , int y){
+        this.spriteX = x*AssetManager.getTileSize();
+        this.spriteY = y*AssetManager.getTileSize();
+        playerSprite.setX(spriteX);
+        playerSprite.setY(spriteY);
+        this.collisionRect = new CollisionRect(spriteX , spriteY , 96 , 64);
     }
 }

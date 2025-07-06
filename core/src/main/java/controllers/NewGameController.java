@@ -89,6 +89,7 @@ public class NewGameController {
         for (Character character : characterList) {
             character.setX(map.getXSpawnPoints().get(i));
             character.setY(map.getYSpawnPoints().get(i));
+            character.spawnCharacter(map.getXSpawnPoints().get(i) , map.getYSpawnPoints().get(i));
             i++;
         }
 

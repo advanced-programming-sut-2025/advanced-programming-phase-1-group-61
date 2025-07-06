@@ -2,6 +2,7 @@ package models.map;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import models.AssetManager;
+import models.CollisionRect;
 import models.Item;
 import models.enums.TileType;
 import models.resource.Resource;
@@ -17,6 +18,7 @@ public class Tile {
     private int ownerId ;
     private Item item;
     private transient Sprite sprite;
+    private CollisionRect collisionRect;
 
     public Tile(int x, int y, TileType type, Resource resource, int ownerId) {
         this.x = x;
@@ -30,6 +32,8 @@ public class Tile {
         sprite.setX(x);
         sprite.setY(y);
         sprite.setSize(AssetManager.getTileSize(),AssetManager.getTileSize());
+        int tileSize = AssetManager.getTileSize();
+        collisionRect = new CollisionRect(x*tileSize,y*tileSize,tileSize , tileSize);
     }
 
     public void setCollisionOn(boolean collisionOn) {
@@ -85,5 +89,9 @@ public class Tile {
 
     public int getY() {
         return y*AssetManager.getTileSize();
+    }
+
+    public CollisionRect getCollisionRect() {
+        return collisionRect;
     }
 }
