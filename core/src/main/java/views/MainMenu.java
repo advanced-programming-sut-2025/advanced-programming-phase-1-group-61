@@ -3,6 +3,8 @@ package views;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -10,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import controllers.MainMenuController;
 import io.github.camera.Main;
 import models.AssetManager;
@@ -22,14 +25,16 @@ public class MainMenu implements Screen {
     private Skin skin = AssetManager.getSkin();
     private final TextButton registerButton;
     private final TextButton loginButton;
+    private Texture background;
     private Table table;
 
 
     public MainMenu(MainMenuController controller) {
         this.controller = controller;
-        this.stage = new Stage();
+        this.stage = new Stage(new FitViewport(1920,1080));
         loginButton = new TextButton("LOGIN",skin);
         registerButton = new TextButton("REGISTER",skin);
+        background = AssetManager.getMainMenuBackground();
     }
 
 
@@ -63,11 +68,12 @@ public class MainMenu implements Screen {
 
     @Override
     public void render(float v) {
-        ScreenUtils.clear(Color.CORAL);
-        Main.getBatch().begin();
-        stage.act();
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.getBatch().begin();
+        stage.getBatch().draw(background,0,0,stage.getViewport().getWorldWidth(),stage.getViewport().getWorldHeight());
+        stage.getBatch().end();
+        stage.act(v);
         stage.draw();
-        Main.getBatch().end();
     }
 
     @Override
