@@ -4,10 +4,7 @@ import models.App;
 import models.animal.Animal;
 import models.building.Shop;
 import models.character.Character;
-import models.enums.AnimalType;
-import models.enums.CageType;
-import models.enums.ItemType;
-import models.enums.ToolType;
+import models.enums.*;
 
 import java.util.*;
 
@@ -17,7 +14,7 @@ public class Marnie extends Shop {
     private final ArrayList<ShopAnimals> permanentAnimals;
 
     public Marnie( String name, int X, int Y) {
-        super( name, X, Y);
+        super( name, X, Y,ShopType.Marnie);
         this.owner="Marnie";
         permanentItems = new ArrayList<>(List.of(
                 new ShopItem(ItemType.Hay,Integer.MAX_VALUE,50,"Dried grass used as animal food.")

@@ -10,6 +10,7 @@ public class Tree extends Resource{
     private int daysUntilNextCycle;
     private ItemType fruit , source;
     public Tree(TreeType type) {
+        super("Crops/Blue_Jazz_Stage_5.png");
         this.type = type;
         this.treeStage = 1;
         this.treeAge = 0;

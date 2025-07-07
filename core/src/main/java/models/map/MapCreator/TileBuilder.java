@@ -5,8 +5,8 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class TileBuilder {
-    public static int WIDTH = 36;
-    public static int HEIGHT = 20;
+    public static int WIDTH = 48;
+    public static int HEIGHT = 32;
 
     public static String[][] buildMap(int mapNumber)  {
             File map;

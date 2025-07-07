@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import io.github.camera.Main;
 import models.App;
 import models.AssetManager;
+import models.building.Shop;
 import models.character.Character;
 import models.map.Map;
 import models.map.Tile;
@@ -41,5 +42,6 @@ public class WorldController {
                 }
             }
         }
+
     }
 }

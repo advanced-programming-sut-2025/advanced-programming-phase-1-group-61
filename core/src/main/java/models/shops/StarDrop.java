@@ -5,6 +5,7 @@ import models.building.Shop;
 import models.character.Character;
 import models.enums.CookingRecipes;
 import models.enums.ItemType;
+import models.enums.ShopType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,8 @@ public class StarDrop extends Shop {
     private final ArrayList<ShopCookingRecipes> recipes;
 
     public StarDrop(String name, int X, int Y) {
-        super(name, X, Y);
+        super(name, X, Y,ShopType.StarDrop);
+
         this.items = new ArrayList<>(List.of(
                 new ShopItem(ItemType.Beer, Integer.MAX_VALUE, 400, "Drink in moderation."),
                 new ShopItem(ItemType.Salad, Integer.MAX_VALUE, 220, "A healthy garden salad."),

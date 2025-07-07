@@ -20,8 +20,8 @@ import java.util.Scanner;
 public class MapBuilder {
     private static final int FARM_WIDTH = TileBuilder.WIDTH;
     private static final int FARM_HEIGHT = TileBuilder.HEIGHT;
-    private static int cityWidth = 7;
-    private static int cityHeight = 7;
+    private static int cityWidth = 17;
+    private static int cityHeight = 17;
 
     public static Map buildFullMap(int player1Farm , int player2Farm , int player3Farm , int player4Farm, List<Character> characters) {
 
@@ -43,6 +43,7 @@ public class MapBuilder {
         List<Integer> ySpawnPoints = new ArrayList<>();
         for (int y = 0; y < fullHeight; y++) {
             for (int x = 0; x < fullWidth; x++) {
+                System.out.println(x + " "+y);
                 String mapSymbole = fullMap[y][x].trim().toLowerCase();
                 boolean refrigerator = false;
                 if(mapSymbole.equals("s")){
@@ -70,19 +71,6 @@ public class MapBuilder {
                     tiles[y][x].setResource(new BuildingReference("Pierre"));
                 } else if (tileType.equals(TileType.StarDrop)) {
                     tiles[y][x].setResource(new BuildingReference("StarDrop"));
-                }
-
-                if(refrigerator){
-//                    tiles[y][x].setResource(new Refrigerator());
-//                    characters.get(ownerId).setxRefrigerator(x);
-//                    characters.get(ownerId).setyRefrigerator(y);
-                    try {
-                        tiles[y][x+1].setResource(new ShippingBin(ownerId));
-                    } catch (Exception e) {
-                        refrigerator = false;
-                    }
-
-
                 }
 
             }
@@ -123,9 +111,9 @@ public class MapBuilder {
          middleCity = new File("assets/Map/middleCity.txt");
          middleCityScanner = new Scanner(middleCity);
 
-            int row = (height/2)-3;
+            int row = (height/2)-(cityHeight/2);
 
-            while (middleCityScanner.hasNextLine() && row < (height/2)+4) {
+            while (middleCityScanner.hasNextLine() && row < (height/2)+(cityHeight/2)+1) {
                 String line = middleCityScanner.nextLine().trim();
                 String[] cells = line.split("\\s+");
 
@@ -151,8 +139,8 @@ public class MapBuilder {
                 String line = upperCityScanner.nextLine().trim();
                 String[] cells = line.split("\\s+");
 
-                for (int col = 0; col < 7; col++) {
-                    fullMap[row][col+(width/2)-3] = cells[col];
+                for (int col = 0; col < cityWidth; col++) {
+                    fullMap[row][col+(width/2)-(cityWidth/2)] = cells[col];
                 }
 
                 row++;
@@ -168,13 +156,13 @@ public class MapBuilder {
         try {
          lowerCity = new File("assets/Map/lowerCity.txt");
          lowerCityScanner = new Scanner(lowerCity);
-            int row = (height/2) + 4;
+            int row = (height/2) + (cityHeight/2)+1;
             while (lowerCityScanner.hasNextLine() && row<height){
                 String line = lowerCityScanner.nextLine().trim();
                 String[] cells = line.split("\\s+");
 
-                for (int col = 0; col < 7; col++) {
-                    fullMap[row][col+(width/2)-3] = cells[col];
+                for (int col = 0; col < cityWidth; col++) {
+                    fullMap[row][col+(width/2)-(cityWidth/2)] = cells[col];
                 }
 
                 row++;
@@ -186,4 +174,5 @@ public class MapBuilder {
         }
         return fullMap;
     }
+
 }

@@ -1,10 +1,12 @@
 package models.resource;
 
 public class Resource {
-    protected String resourceType;
     protected int health;
-
-    public String getResourceType() {
-        return resourceType;
+    protected String texturePath;
+    public Resource(String texturePath) {
+        this.texturePath = texturePath;
     }
+    public void draw(){}
+
+
 }

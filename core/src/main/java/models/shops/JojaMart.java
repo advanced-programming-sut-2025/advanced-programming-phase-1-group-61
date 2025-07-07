@@ -5,6 +5,7 @@ import models.building.Shop;
 import models.character.Character;
 import models.enums.ItemType;
 import models.enums.Season;
+import models.enums.ShopType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ public class JojaMart extends Shop {
     private final ArrayList<ShopItem> winterShopItems;
 
     public JojaMart( String name, int X, int Y) {
-        super(name, X, Y);
+        super(name, X, Y,ShopType.JojaMart);
         owner="Morris";
         permanentShopItems = new ArrayList<>(List.of(
                 new ShopItem(ItemType.JojaCola,Integer.MAX_VALUE,75,"The flagship product of Joja corporation."),

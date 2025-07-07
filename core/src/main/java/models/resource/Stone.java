@@ -11,6 +11,7 @@ public class Stone extends Resource{
 
 
     public Stone(StoneType type) {
+        super("Crops/Blue_Jazz_Stage_5.png");
         this.type = type;
         this.harvestAbleAmount = type.getHarvestAbleAmount();
         this.oreType = type.getOreType();

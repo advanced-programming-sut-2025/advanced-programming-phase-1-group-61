@@ -5,6 +5,7 @@ import models.building.Shop;
 import models.character.Character;
 import models.character.Trashcan;
 import models.enums.ItemType;
+import models.enums.ShopType;
 import models.enums.TrashcanType;
 import models.tool.Tool;
 
@@ -17,7 +18,7 @@ public class BlackSmith extends Shop {
     private final ArrayList<ShopTrashcanUpgrades> trashcanUpgrades;
 
     public BlackSmith(String name, int X, int Y) {
-        super( name, X, Y);
+        super( name, X, Y, ShopType.BlackSmith);
         this.owner="Clint";
         items=new ArrayList<>(List.of(
                 new ShopItem(ItemType.CopperOre,Integer.MAX_VALUE,75,"A common ore that can be smelted into bars."),

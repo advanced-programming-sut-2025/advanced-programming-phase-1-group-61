@@ -364,7 +364,7 @@ public class Character {
     public void setSpriteX(int spriteX) {
         this.spriteX = spriteX;
         this.x = spriteX/AssetManager.getTileSize();
-        collisionRect.setX(spriteX);
+        collisionRect.setX(spriteX+32);
     }
 
     public void setSpriteY(int spriteY) {
@@ -381,6 +381,6 @@ public class Character {
         this.spriteY = y*AssetManager.getTileSize();
         playerSprite.setX(spriteX);
         playerSprite.setY(spriteY);
-        this.collisionRect = new CollisionRect(spriteX , spriteY , 96 , 64);
+        this.collisionRect = new CollisionRect(spriteX , spriteY , 48 , 64);
     }
 }
