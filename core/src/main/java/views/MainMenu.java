@@ -58,26 +58,7 @@ public class MainMenu implements Screen {
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
         controller.setView(this);
-        loginButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                controller.logIn();
-            }
-        });
-
-        registerButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                controller.register();
-            }
-        });
-        settings.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Main.getMain().getScreen().dispose();
-                Main.getMain().setScreen(new SettingsMenu());
-            }
-        });
+        controller.addListeners();
     }
 
 
@@ -119,5 +100,17 @@ public class MainMenu implements Screen {
     @Override
     public void dispose() {
 
+    }
+    public TextButton getRegisterButton() {
+        return registerButton;
+    }
+    public TextButton getLoginButton() {
+        return loginButton;
+    }
+    public TextButton getSettings() {
+        return settings;
+    }
+    public Stage getStage() {
+        return stage;
     }
 }
