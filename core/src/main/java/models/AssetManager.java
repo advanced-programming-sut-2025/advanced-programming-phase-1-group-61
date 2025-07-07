@@ -33,6 +33,9 @@ public class AssetManager {
         font = new BitmapFont(Gdx.files.internal("skin/bitmap_font.fnt"));
     }
     public static Texture getMainMenuBackground() {
-        return new Texture(Gdx.files.internal("images/backgrounds/main_background.jpg"));
+        return new Texture(Gdx.files.internal("images/backgrounds/Panorama.png"));
+    }
+    public static Texture getStardewLogo(){
+        return new Texture("images/backgrounds/logo.png");
     }
 }

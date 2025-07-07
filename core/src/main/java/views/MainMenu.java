@@ -25,8 +25,10 @@ public class MainMenu implements Screen {
     private Skin skin = AssetManager.getSkin();
     private final TextButton registerButton;
     private final TextButton loginButton;
-    private Texture background;
+    private final Texture background;
+    private final Texture logo;
     private Table table;
+    private float stateTime;
 
 
     public MainMenu(MainMenuController controller) {
@@ -35,6 +37,7 @@ public class MainMenu implements Screen {
         loginButton = new TextButton("LOGIN",skin);
         registerButton = new TextButton("REGISTER",skin);
         background = AssetManager.getMainMenuBackground();
+        logo=AssetManager.getStardewLogo();
     }
 
 
@@ -44,8 +47,11 @@ public class MainMenu implements Screen {
         table = new Table();
         table.setFillParent(true);
         table.center();
-        table.add(loginButton).padBottom(20).row();
-        table.add(registerButton).padBottom(20).row();
+        float spacing=10f;
+        float width=400f;
+        float height=60f;
+        table.add(registerButton).width(width).height(height).padBottom(spacing).row();
+        table.add(loginButton).width(width).height(height).padBottom(spacing).row();
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
         controller.setView(this);
@@ -67,12 +73,17 @@ public class MainMenu implements Screen {
 
 
     @Override
-    public void render(float v) {
+    public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getBatch().begin();
         stage.getBatch().draw(background,0,0,stage.getViewport().getWorldWidth(),stage.getViewport().getWorldHeight());
+        stateTime += delta;
+        //set logo x and y
+        float logo_x=(stage.getViewport().getWorldWidth()-logo.getWidth()*2.5f)/2 + (float)Math.cos(stateTime*2.5f)*10f;
+        float logo_y=750f + (float)Math.sin(stateTime*2.5f)*10f;
+        stage.getBatch().draw(logo,logo_x,logo_y,logo.getWidth()*2.5f,logo.getHeight()*2.5f);
         stage.getBatch().end();
-        stage.act(v);
+        stage.act(delta);
         stage.draw();
     }
 
