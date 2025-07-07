@@ -4,7 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 
 public enum BackgroundMusic {
-    TEST("","");
+    KHARMALE("SFX/backgroundMusics/Kharmale.mp3","KHARMALE"),
+    EMBER("SFX/backgroundMusics/Ember.mp3","EMBER"),
+    PARADOX("SFX/backgroundMusics/Paradox.mp3","PARADOX"),
+    WITHOUT_LOVE("SFX/backgroundMusics/Without Love.mp3","WITHOUT LOVE");
     private final String internalPath;
     private final Music music;
     private final String displayName;

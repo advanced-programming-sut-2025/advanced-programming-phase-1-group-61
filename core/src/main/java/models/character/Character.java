@@ -14,6 +14,7 @@ import models.enums.CookingRecipes;
 import models.enums.Recipe;
 import models.enums.ToolType;
 
+import models.enums.graphic.BackgroundMusic;
 import models.interactions.Iteractions;
 
 import models.map.Map;
@@ -48,6 +49,7 @@ public class Character {
     private int spriteX;
     private int spriteY;
     private CollisionRect collisionRect;
+    private BackgroundMusic backgroundMusic=BackgroundMusic.WITHOUT_LOVE;
 
     private Buff buff=null;
     private int money;
@@ -382,5 +384,11 @@ public class Character {
         playerSprite.setX(spriteX);
         playerSprite.setY(spriteY);
         this.collisionRect = new CollisionRect(spriteX , spriteY , 96 , 64);
+    }
+    public void setBackgroundMusic(BackgroundMusic backgroundMusic) {
+        this.backgroundMusic = backgroundMusic;
+    }
+    public BackgroundMusic getBackgroundMusic() {
+        return backgroundMusic;
     }
 }
