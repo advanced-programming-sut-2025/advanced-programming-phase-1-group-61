@@ -1,11 +1,16 @@
 package controllers;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import io.github.camera.Main;
+import models.AlertGenerator;
+import models.App;
+import models.Game;
 import models.Result;
 import views.LoginMenu;
 import views.MainMenu;
 import views.RegisterMenu;
-
+import views.SettingsMenu;
 
 
 public class MainMenuController {
@@ -24,5 +29,36 @@ public class MainMenuController {
         Main.getMain().getScreen().dispose();
         Main.getMain().setScreen(new LoginMenu(new LoginMenuController()));
         return new Result(true , "invalid menu");
+    }
+    public void addListeners(){
+        view.getLoginButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                logIn();
+            }
+        });
+
+        view.getRegisterButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                register();
+            }
+        });
+        view.getSettings().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Game game= App.getCurrentGame();
+                if(game==null) {
+                    AlertGenerator.showAlert("error","Please login first",view.getStage());
+                    return;
+                }
+                if(game.getCurrentCharacter()==null){
+                    AlertGenerator.showAlert("error","please login first",view.getStage());
+                    return;
+                }
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(new SettingsMenu());
+            }
+        });
     }
 }

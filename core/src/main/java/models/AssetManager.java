@@ -1,6 +1,7 @@
 package models;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -11,6 +12,7 @@ public class AssetManager {
     private static BitmapFont font;
     private static Texture playerTexture = new Texture("T_Raven_Idle_0.png");
     private static int tileSize = 128;
+    private static Music uiClicks=Gdx.audio.newMusic(Gdx.files.internal("SFX/others/UI Click 36.wav"));
 
 
     public static int getTileSize() {
@@ -37,5 +39,8 @@ public class AssetManager {
     }
     public static Texture getStardewLogo(){
         return new Texture("images/backgrounds/logo.png");
+    }
+    public static Music getUiClicks() {
+        return uiClicks;
     }
 }
