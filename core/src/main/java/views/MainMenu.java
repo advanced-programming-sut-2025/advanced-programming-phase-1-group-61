@@ -26,6 +26,7 @@ public class MainMenu implements Screen {
     private final TextButton registerButton;
     private final TextButton loginButton;
     private final TextButton settings;
+    private final TextButton exitButton;
     private final Texture background;
     private final Texture logo;
     private Table table;
@@ -38,6 +39,7 @@ public class MainMenu implements Screen {
         loginButton = new TextButton("LOGIN",skin);
         registerButton = new TextButton("REGISTER",skin);
         settings = new TextButton("SETTINGS",skin);
+        exitButton = new TextButton("EXIT",skin);
         background = AssetManager.getMainMenuBackground();
         logo=AssetManager.getStardewLogo();
     }
@@ -55,6 +57,7 @@ public class MainMenu implements Screen {
         table.add(registerButton).width(width).height(height).padBottom(spacing).row();
         table.add(loginButton).width(width).height(height).padBottom(spacing).row();
         table.add(settings).width(width).height(height).padBottom(spacing).row();
+        table.add(exitButton).width(width).height(height).padBottom(spacing);
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
         controller.setView(this);
@@ -109,6 +112,9 @@ public class MainMenu implements Screen {
     }
     public TextButton getSettings() {
         return settings;
+    }
+    public TextButton getExitButton() {
+        return exitButton;
     }
     public Stage getStage() {
         return stage;
