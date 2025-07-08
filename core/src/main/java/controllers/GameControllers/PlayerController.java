@@ -7,7 +7,6 @@ import io.github.camera.Main;
 import models.App;
 import models.AssetManager;
 import models.CollisionRect;
-import models.Game;
 import models.character.Character;
 import models.map.Tile;
 
