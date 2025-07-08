@@ -43,5 +43,8 @@ public class WorldController {
             }
         }
 
+        for (Shop shop : App.getCurrentGame().getShops()) {
+            shop.draw();
+        }
     }
 }

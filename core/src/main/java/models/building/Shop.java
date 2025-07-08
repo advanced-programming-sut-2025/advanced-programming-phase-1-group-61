@@ -35,6 +35,14 @@ public class Shop extends Building {
         return 0;
     }
 
+    public void draw(){
+        if(type.equals(ShopType.BlackSmith)){
+            Main.getBatch().draw(type.getTexture() , getX()-AssetManager.getTileSize() , getY()-AssetManager.getTileSize() , AssetManager.getTileSize()*6 , AssetManager.getTileSize()*5);
+        }else {
+            Main.getBatch().draw(type.getTexture() , getX()-AssetManager.getTileSize() , getY()-AssetManager.getTileSize() , AssetManager.getTileSize()*5 , AssetManager.getTileSize()*5);
+        }
+    }
+
     public ShopType getType() {
         return type;
     }

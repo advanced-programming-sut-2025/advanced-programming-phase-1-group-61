@@ -24,10 +24,7 @@ public class Game {
     private Map map;
     private List<Character> allCharacters;
     private int currentCharacter;
-    private transient Thread gameThread;
-    private final int FPS = 60;
     private final Date date;
-    private volatile boolean running = false;
     private ArrayList<Shop> shops = new ArrayList<>();
     private List<NPC> npcList = new ArrayList<>();
     private List<ShippingBin> shippingBins = new ArrayList<>();
@@ -673,7 +670,6 @@ public class Game {
         for (Tile[] tiles : map.getTiles()) {
             for (Tile tile : tiles) {
                 TileType type = tile.getType();
-
                 if (type.equals(TileType.Carpenter) && !createdShopTypes.contains(ShopType.Carpenter)) {
                     shops.add(new Carpenter("Carpenter", tile.getX(), tile.getY()));
                     createdShopTypes.add(ShopType.Carpenter);

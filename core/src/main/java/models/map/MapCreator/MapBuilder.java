@@ -43,7 +43,6 @@ public class MapBuilder {
         List<Integer> ySpawnPoints = new ArrayList<>();
         for (int y = 0; y < fullHeight; y++) {
             for (int x = 0; x < fullWidth; x++) {
-                System.out.println(x + " "+y);
                 String mapSymbole = fullMap[y][x].trim().toLowerCase();
                 boolean refrigerator = false;
                 if(mapSymbole.equals("s")){
