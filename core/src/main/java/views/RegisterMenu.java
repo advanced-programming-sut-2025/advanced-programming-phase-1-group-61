@@ -3,12 +3,15 @@ package views;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import controllers.LoginMenuController;
 import controllers.MainMenuController;
 import controllers.PreGameMenuController;
@@ -36,12 +39,13 @@ public class RegisterMenu implements Screen {
     private TextButton login;
     private TextButton back;
     private BitmapFont font;
+    private Texture background;
     private String resultMessage = "";
 
 
     public RegisterMenu(RegisterMenuController controller) {
         this.controller = controller;
-        this.stage = new Stage();
+        this.stage = new Stage(new FitViewport(1920,1080));
         randomPassword = new TextButton("random",skin);
         register = new TextButton("register",skin);
         login = new TextButton("Login Menu",skin);
@@ -57,6 +61,7 @@ public class RegisterMenu implements Screen {
         email = new TextField("",skin);
         email.setMessageText("EMAIL");
         font = AssetManager.getFont();
+        background = AssetManager.getMainMenuBackground();
     }
 
     @Override
@@ -107,20 +112,18 @@ public class RegisterMenu implements Screen {
         addListenerForRegisterButton(register);
         addListenerForRandomPassword(randomPassword);
         addListenerLoginMenu(login);
+        addListenerForBackButton(back);
     }
 
     @Override
     public void render(float v) {
-        ScreenUtils.clear(Color.CORAL);
-        Main.getBatch().begin();
-
-
-        font.draw(Main.getBatch(), resultMessage, 50, Gdx.graphics.getHeight() - 50);
-
-        stage.act();
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.getBatch().begin();
+        stage.getBatch().draw(background, 0, 0, stage.getViewport().getWorldWidth(), stage.getViewport().getWorldHeight());
+        font.draw(stage.getBatch(), resultMessage, 50, Gdx.graphics.getHeight() - 50);
+        stage.getBatch().end();
+        stage.act(v);
         stage.draw();
-
-        Main.getBatch().end();
     }
 
 
@@ -190,6 +193,7 @@ public class RegisterMenu implements Screen {
         randomPassword.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                AssetManager.getUiClicks().play();
                 String randomPassword = controller.generatePassword();
                 password.setText(randomPassword);
             }
@@ -199,8 +203,19 @@ public class RegisterMenu implements Screen {
         login.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            Main.getMain().getScreen().dispose();
-            Main.getMain().setScreen(new LoginMenu(new LoginMenuController()));
+                AssetManager.getUiClicks().play();
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(new LoginMenu(new LoginMenuController()));
+            }
+        });
+    }
+    private void addListenerForBackButton(TextButton back){
+        back.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                AssetManager.getUiClicks().play();
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(new MainMenu(new MainMenuController()));
             }
         });
     }
