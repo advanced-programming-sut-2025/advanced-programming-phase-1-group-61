@@ -1,10 +1,15 @@
 package controllers;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import io.github.camera.Main;
 import models.*;
 import models.character.Question;
 import models.enums.Commands.RegisterMenuCommands;
 import models.enums.Gender;
 import models.enums.SecurityQuestion;
+import views.LoginMenu;
+import views.RegisterMenu;
 
 import java.io.IOException;
 import java.security.SecureRandom;

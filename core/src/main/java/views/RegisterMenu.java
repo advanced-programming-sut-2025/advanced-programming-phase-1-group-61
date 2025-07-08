@@ -34,6 +34,7 @@ public class RegisterMenu implements Screen {
     private TextButton randomPassword;
     private TextButton register;
     private TextButton login;
+    private TextButton back;
     private BitmapFont font;
     private String resultMessage = "";
 
@@ -44,6 +45,7 @@ public class RegisterMenu implements Screen {
         randomPassword = new TextButton("random",skin);
         register = new TextButton("register",skin);
         login = new TextButton("Login Menu",skin);
+        back = new TextButton("BACK",skin);
         usernameField = new TextField("",skin);
         usernameField.setMessageText("USERNAME");
         password = new TextField("",skin);
@@ -95,6 +97,8 @@ public class RegisterMenu implements Screen {
         buttonTable.add(login).pad(20);
         buttonTable.add(register).pad(20);
         buttonTable.add(randomPassword).pad(20);
+        buttonTable.row();
+        buttonTable.add(back).pad(20);
 
 
         stage.addActor(buttonTable);
