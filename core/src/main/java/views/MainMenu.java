@@ -69,8 +69,8 @@ public class MainMenu implements Screen {
         stage.getBatch().draw(background,0,0,stage.getViewport().getWorldWidth(),stage.getViewport().getWorldHeight());
         stateTime += delta;
         //set logo x and y
-        float logo_x=(stage.getViewport().getWorldWidth()-logo.getWidth()*2.5f)/2 + (float)Math.cos(stateTime*2.5f)*10f;
-        float logo_y=750f + (float)Math.sin(stateTime*2.5f)*10f;
+        float logo_x=(stage.getViewport().getWorldWidth()-logo.getWidth()*2.5f)/2 + (float)Math.cos(stateTime*2.5f)*50f;
+        float logo_y=750f + (float)Math.sin(stateTime*2.5f)*15f;
         stage.getBatch().draw(logo,logo_x,logo_y,logo.getWidth()*2.5f,logo.getHeight()*2.5f);
         stage.getBatch().end();
         stage.act(delta);
