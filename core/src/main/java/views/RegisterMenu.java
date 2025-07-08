@@ -62,6 +62,7 @@ public class RegisterMenu implements Screen {
         email.setMessageText("EMAIL");
         font = AssetManager.getFont();
         background = AssetManager.getMainMenuBackground();
+        controller.setView(this);
     }
 
     @Override
@@ -98,12 +99,12 @@ public class RegisterMenu implements Screen {
 
         buttonTable = new Table();
         buttonTable.setFillParent(true);
-        buttonTable.bottom().padBottom(20);
+        buttonTable.bottom().padBottom(50);
         buttonTable.add(login).pad(20);
         buttonTable.add(register).pad(20);
         buttonTable.add(randomPassword).pad(20);
         buttonTable.row();
-        buttonTable.add(back).pad(20);
+        buttonTable.add(back).colspan(3).pad(20);
 
 
         stage.addActor(buttonTable);
@@ -218,5 +219,8 @@ public class RegisterMenu implements Screen {
                 Main.getMain().setScreen(new MainMenu(new MainMenuController()));
             }
         });
+    }
+    public Stage getStage() {
+        return stage;
     }
 }

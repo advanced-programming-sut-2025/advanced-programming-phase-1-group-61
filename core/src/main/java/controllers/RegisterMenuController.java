@@ -23,41 +23,52 @@ import java.util.regex.Pattern;
 public class RegisterMenuController {
     private Gender gender;
     private String username , password , confirmPassword , nickname , email;
-
+    private RegisterMenu view;
     public Result register(){
         User user=User.getUserByUsername(username);
         if(user!=null){
-            return new Result(false , "Username already exists");
+            AlertGenerator.showAlert("error!","Username already exists",view.getStage());
+            return new Result(false , "Username already exists!");
         }
         if(username.length() > 8){
-            return new Result(false , "username too long");
+            AlertGenerator.showAlert("error!","Username too long",view.getStage());
+            return new Result(false , "username is too long!");
         }
         if(!Pattern.matches(RegisterMenuCommands.USERNAME_PATTERN.getPattern(),username)){
+            AlertGenerator.showAlert("error!","Invalid username!",view.getStage());
             return new Result(false , "username format is invalid!");
         }
         if(!Pattern.matches(RegisterMenuCommands.EMAIL_PATTERN.getPattern(), email)){
+            AlertGenerator.showAlert("error!","Invalid email!",view.getStage());
             return new Result(false , "email format is invalid!");
         }
         if(password.length()<8){
-            return new Result(false , "password is too short!");
+            AlertGenerator.showAlert("error!","Password is too short!",view.getStage());
+            return new Result(false , "Invalid password!");
         }
         if(!checkPasswordLowerCaseLetter(password)){
+            AlertGenerator.showAlert("error!","Invalid password!",view.getStage());
             return new Result(false , "password does not contain lowercase letters!");
         }
         if(!checkPasswordUpperCaseLetter(password)){
+            AlertGenerator.showAlert("error!","Invalid password!",view.getStage());
             return new Result(false , "password does not contain uppercase letters!");
         }
         if(!checkPasswordDigit(password)){
+            AlertGenerator.showAlert("error!","Invalid password!",view.getStage());
             return new Result(false , "password does not contain any numbers!");
         }
         if(!checkPasswordUniqueLetters(password)){
+            AlertGenerator.showAlert("error!","Invalid password!",view.getStage());
             return new Result(false , "password does not contain unique letters!");
         }
         if(!Pattern.matches(RegisterMenuCommands.PASSWORD_PATTERN.getPattern(), password)){
+            AlertGenerator.showAlert("error!","Invalid password!",view.getStage());
             return new Result(false , "password has invalid format");
         }
 
         if(!password.equals(confirmPassword)){
+            AlertGenerator.showAlert("error!","Passwords do not match!",view.getStage());
             return new Result(false , "repeated password is wrong");
         }
 
@@ -151,5 +162,8 @@ public class RegisterMenuController {
         }
 
         return password.toString();
+    }
+    public void setView(RegisterMenu view){
+        this.view = view;
     }
 }
