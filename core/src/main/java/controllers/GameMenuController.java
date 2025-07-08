@@ -864,7 +864,7 @@ public class GameMenuController {
             if(tile.getType().isCollisionOn() || !tile.getType().equals(TileType.Grass)){
                 return new Result(false , "you cant plant here only on grass");
             }
-            tile.setResource(new Tree(treeType));
+            tile.setResource(new Tree(treeType , tile.getX() , tile.getY()));
             return new Result(true , treeType.name()+" is now planted at : "+x + " "+y);
         }
 
