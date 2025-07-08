@@ -44,11 +44,16 @@ public class RegisterMenu implements Screen {
         randomPassword = new TextButton("random",skin);
         register = new TextButton("register",skin);
         login = new TextButton("Login Menu",skin);
-        usernameField = new TextField("username",skin);
-        password = new TextField("password",skin);
-        passwordConfirm = new TextField("confirm password",skin);
-        nickName = new TextField("nickname",skin);
-        email = new TextField("email",skin);
+        usernameField = new TextField("",skin);
+        usernameField.setMessageText("USERNAME");
+        password = new TextField("",skin);
+        password.setMessageText("PASSWORD");
+        passwordConfirm = new TextField("",skin);
+        passwordConfirm.setMessageText("CONFIRM PASSWORD");
+        nickName = new TextField("",skin);
+        nickName.setMessageText("NICKNAME");
+        email = new TextField("",skin);
+        email.setMessageText("EMAIL");
         font = AssetManager.getFont();
     }
 

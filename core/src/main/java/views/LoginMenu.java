@@ -37,7 +37,9 @@ public class LoginMenu implements Screen {
         login = new TextButton("LOGIN",skin);
         forgetPassword = new TextButton("FORGET PASSWORD",skin);
         username = new TextField("username",skin);
-        password = new TextField("password",skin);
+        username.setMessageText("USERNAME");
+        password = new TextField("",skin);
+        password.setMessageText("PASSWORD");
         stayLoggedIn = new CheckBox("stay logged in",skin);
         registerMenu = new TextButton("REGISTER MENU",skin);
         controller.setView(this);
