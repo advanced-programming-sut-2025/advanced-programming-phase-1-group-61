@@ -56,21 +56,21 @@ public class MapBuilder {
                 TileType tileType = TileType.getTypeByNumber(mapSymbole);
                 int ownerId = getOwnerIdForPosition(x, y, FARM_WIDTH, FARM_HEIGHT, cityWidth, cityHeight);
                 tiles[y][x] = new Tile(x, y, tileType, null, ownerId);
-                if(tileType.equals(TileType.Carpenter)){
-                    tiles[y][x].setResource(new BuildingReference("Carpenter"));
-                } else if (tileType.equals(TileType.BlackSmith)) {
-                    tiles[y][x].setResource(new BuildingReference("BlackSmith"));
-                } else if (tileType.equals(TileType.FishShop)) {
-                    tiles[y][x].setResource(new BuildingReference("FishShop"));
-                } else if (tileType.equals(TileType.JojaMart)) {
-                    tiles[y][x].setResource(new BuildingReference("JojaMart"));
-                } else if (tileType.equals(TileType.Marnie)) {
-                    tiles[y][x].setResource(new BuildingReference("Marnie"));
-                } else if (tileType.equals(TileType.Pierre)) {
-                    tiles[y][x].setResource(new BuildingReference("Pierre"));
-                } else if (tileType.equals(TileType.StarDrop)) {
-                    tiles[y][x].setResource(new BuildingReference("StarDrop"));
-                }
+//                if(tileType.equals(TileType.Carpenter)){
+//                    tiles[y][x].setResource(new BuildingReference("Carpenter"));
+//                } else if (tileType.equals(TileType.BlackSmith)) {
+//                    tiles[y][x].setResource(new BuildingReference("BlackSmith"));
+//                } else if (tileType.equals(TileType.FishShop)) {
+//                    tiles[y][x].setResource(new BuildingReference("FishShop"));
+//                } else if (tileType.equals(TileType.JojaMart)) {
+//                    tiles[y][x].setResource(new BuildingReference("JojaMart"));
+//                } else if (tileType.equals(TileType.Marnie)) {
+//                    tiles[y][x].setResource(new BuildingReference("Marnie"));
+//                } else if (tileType.equals(TileType.Pierre)) {
+//                    tiles[y][x].setResource(new BuildingReference("Pierre"));
+//                } else if (tileType.equals(TileType.StarDrop)) {
+//                    tiles[y][x].setResource(new BuildingReference("StarDrop"));
+//                }
 
             }
         }
