@@ -84,6 +84,5 @@ public class Tree extends Resource{
             texture = type.getStageFruit();
         }
         Main.getBatch().draw(texture ,x , y);
-        System.out.println(x + " "+y);
     }
 }
