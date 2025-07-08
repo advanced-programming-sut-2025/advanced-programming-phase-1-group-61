@@ -24,6 +24,7 @@ public class App {
     private static List<models.User> allUsers = new ArrayList<>();
     private static ArrayList<models.Game> allGames = new ArrayList<>();
     private static int currentGameId;
+    private static float musicVolume=1f;
 
 
     public static models.Game getCurrentGame(){
@@ -159,5 +160,10 @@ public class App {
         }
         return 0;
     }
-
+    public static void setMusicVolume(float musicVolume){
+        App.musicVolume = musicVolume;
+    }
+    public static float getMusicVolume(){
+        return musicVolume;
+    }
 }
