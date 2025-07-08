@@ -1,6 +1,8 @@
 package models.shops;
 
+import io.github.camera.Main;
 import models.App;
+import models.AssetManager;
 import models.building.Shop;
 import models.character.Character;
 import models.character.Trashcan;

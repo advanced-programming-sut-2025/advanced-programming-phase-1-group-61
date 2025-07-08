@@ -8,9 +8,9 @@ public enum ShopType {
     FishShop(new Texture("ShopTextures/FishShop.png")),
     BlackSmith(new Texture("ShopTextures/BlackSmith.png")),
     JojaMart(new Texture("ShopTextures/JojaMart.png")),
-    Marnie(new Texture("ShopTextures/JojaMart.png")),
-    Pierre(new Texture("ShopTextures/JojaMart.png")),
-    StarDrop(new Texture("ShopTextures/JojaMart.png"));
+    Marnie(new Texture("ShopTextures/Marnie.png")),
+    Pierre(new Texture("ShopTextures/Pierre.png")),
+    StarDrop(new Texture("ShopTextures/StarDrop.png"));
 
     private final Texture texture;
 

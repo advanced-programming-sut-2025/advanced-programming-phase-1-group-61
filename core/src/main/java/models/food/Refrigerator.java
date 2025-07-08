@@ -12,7 +12,6 @@ public class Refrigerator extends Resource {
     private List<FridgeItem> items = new ArrayList<>();
 
     public Refrigerator() {
-        super("");
     }
 
     public void addItem(ItemType item, int quantity) {

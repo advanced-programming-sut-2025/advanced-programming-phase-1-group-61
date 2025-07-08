@@ -16,7 +16,6 @@ public class ShippingBin extends Resource{
     }
 
     public ShippingBin(int owner) {
-        super("Crops/Blue_Jazz_Stage_5.png");
         this.itemTypes = new ArrayList<>();
         this.owner = owner;
     }

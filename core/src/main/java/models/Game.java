@@ -24,10 +24,7 @@ public class Game {
     private Map map;
     private List<Character> allCharacters;
     private int currentCharacter;
-    private transient Thread gameThread;
-    private final int FPS = 60;
     private final Date date;
-    private volatile boolean running = false;
     private ArrayList<Shop> shops = new ArrayList<>();
     private List<NPC> npcList = new ArrayList<>();
     private List<ShippingBin> shippingBins = new ArrayList<>();
@@ -603,13 +600,22 @@ public class Game {
                     int rand = RandomNumber.getRandomNumber();
                     switch (rand%20){
                         case 0:{
-                            tile.setResource(new Tree(TreeType.Oak));
+                            Tree tree = new Tree(TreeType.Oak , tile.getX() , tile.getY());
+                            tree.setTreeStage(4);
+                            tree.setTreeAge(28);
+                            tile.setResource(tree);
                             break;
                         } case 1:{
-                            tile.setResource(new Tree(TreeType.ApricotTree));
+                            Tree tree = new Tree(TreeType.ApricotTree, tile.getX() , tile.getY());
+                            tree.setTreeStage(4);
+                            tree.setTreeAge(28);
+                            tile.setResource(tree);
                             break;
                         } case 2:{
-                            tile.setResource(new Tree(TreeType.CherryTree));
+                            Tree tree = new Tree(TreeType.CherryTree, tile.getX() , tile.getY());
+                            tree.setTreeStage(4);
+                            tree.setTreeAge(28);
+                            tile.setResource(tree);
                             break;
                         }
                     }
@@ -673,7 +679,6 @@ public class Game {
         for (Tile[] tiles : map.getTiles()) {
             for (Tile tile : tiles) {
                 TileType type = tile.getType();
-
                 if (type.equals(TileType.Carpenter) && !createdShopTypes.contains(ShopType.Carpenter)) {
                     shops.add(new Carpenter("Carpenter", tile.getX(), tile.getY()));
                     createdShopTypes.add(ShopType.Carpenter);

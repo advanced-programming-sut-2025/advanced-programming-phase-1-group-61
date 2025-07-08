@@ -70,7 +70,7 @@ public class PlayerController {
         for (int x = startX; x <= endX; x++) {
             for (int y = startY; y <= endY; y++) {
                 Tile tile = App.getCurrentGame().getMap().getTileByCordinate(x, y);
-                if (tile != null && tile.isCollisionOn()) {
+                if (tile != null && (tile.isCollisionOn() || tile.getResource() != null)) {
                     if (tile.getCollisionRect().collidesWith(futureRect)) {
                         collisionDetected = true;
                         break;

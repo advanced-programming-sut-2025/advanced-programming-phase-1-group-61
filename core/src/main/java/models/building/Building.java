@@ -15,7 +15,6 @@ public class Building extends Resource{
     protected String name;
     protected String baseType;
     public Building( String name , int X, int Y) {
-        super("Carpenter.png");
         this.name = name;
         this.X = X;
         this.Y = Y;
@@ -45,7 +44,5 @@ public class Building extends Resource{
         return Y;
     }
     public void draw(){
-        Texture texture = new Texture(texturePath);
-        Main.getBatch().draw(texture , getX()* AssetManager.getTileSize() , getY()*AssetManager.getTileSize());
     }
 }

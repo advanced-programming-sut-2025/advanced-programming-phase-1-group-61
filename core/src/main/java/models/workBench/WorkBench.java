@@ -15,7 +15,6 @@ public class WorkBench extends Resource {
     private final Map<String, List<String>> itemKinds;
 
     public WorkBench(WorkBenchType type) {
-        super("");
 
         this.Type = type;
         this.itemKinds = new ItemKinds().getItemKinds();

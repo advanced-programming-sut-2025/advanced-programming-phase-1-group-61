@@ -22,7 +22,7 @@ public enum TileType {
     Marnie(false , "I",new Texture("Tiles/Marnie.png")),
     Pierre(false , "J",new Texture("Tiles/Pierre.png")),
     StarDrop(false , "K",new Texture("Tiles/StarDrop.png")),
-    ShopWall(true , "L",new Texture("Tiles/dirt.png")),
+    ShopWall(true , "L",new Texture("Tiles/grass.png")),
     Path(false , "M",new Texture("Tiles/dirt.png")),
     RobinSpawnPoint(false , "N",new Texture("Tiles/dirt.png")),
     LiaSpawnPoint(false , "O",new Texture("Tiles/dirt.png")),
