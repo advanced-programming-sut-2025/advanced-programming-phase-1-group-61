@@ -13,7 +13,9 @@ import models.resource.*;
 import models.shops.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Game {
 
@@ -33,13 +35,6 @@ public class Game {
 
     public Game(Map map, List<Character> characters) {
         id = App.getAllGames().size()+1;
-        shops.add(new Carpenter("Carpenter" , -1 , -1));
-        shops.add(new BlackSmith("BlackSmith" , -1,-1));
-        shops.add(new FishShop("FishShop" , -1 , -1));
-        shops.add(new JojaMart( "JojaMart" , -1 , -1));
-        shops.add(new Marnie("Marnie",-1,-1));
-        shops.add(new Pierre("Pierre" , -1 , -1));
-        shops.add(new StarDrop("StarDrop" , -1 , -1));
         this.map = map;
         for (int i = 0; i < map.getTiles().length; i++) {
             for (int j = 0; j < map.getTiles()[0].length; j++) {
@@ -64,6 +59,7 @@ public class Game {
         this.date = new Date();
         spawnRandomResourceOnMap();
         spawnRandomItemsOnMap();
+        doAfterMapBuilt();
     }
 
 
@@ -667,4 +663,41 @@ public class Game {
     public List<Character> getAllCharacters() {
         return allCharacters;
     }
+
+    public ArrayList<Shop> getShops() {
+        return shops;
+    }
+    private void doAfterMapBuilt() {
+        Set<ShopType> createdShopTypes = new HashSet<>();
+
+        for (Tile[] tiles : map.getTiles()) {
+            for (Tile tile : tiles) {
+                TileType type = tile.getType();
+
+                if (type.equals(TileType.Carpenter) && !createdShopTypes.contains(ShopType.Carpenter)) {
+                    shops.add(new Carpenter("Carpenter", tile.getX(), tile.getY()));
+                    createdShopTypes.add(ShopType.Carpenter);
+                } else if (type.equals(TileType.BlackSmith) && !createdShopTypes.contains(ShopType.BlackSmith)) {
+                    shops.add(new BlackSmith("BlackSmith", tile.getX(), tile.getY()));
+                    createdShopTypes.add(ShopType.BlackSmith);
+                } else if (type.equals(TileType.FishShop) && !createdShopTypes.contains(ShopType.FishShop)) {
+                    shops.add(new FishShop("FishShop", tile.getX(), tile.getY()));
+                    createdShopTypes.add(ShopType.FishShop);
+                } else if (type.equals(TileType.JojaMart) && !createdShopTypes.contains(ShopType.JojaMart)) {
+                    shops.add(new JojaMart("JojaMart", tile.getX(), tile.getY()));
+                    createdShopTypes.add(ShopType.JojaMart);
+                } else if (type.equals(TileType.Marnie) && !createdShopTypes.contains(ShopType.Marnie)) {
+                    shops.add(new Marnie("Marnie", tile.getX(), tile.getY()));
+                    createdShopTypes.add(ShopType.Marnie);
+                } else if (type.equals(TileType.Pierre) && !createdShopTypes.contains(ShopType.Pierre)) {
+                    shops.add(new Pierre("Pierre", tile.getX(), tile.getY()));
+                    createdShopTypes.add(ShopType.Pierre);
+                } else if (type.equals(TileType.StarDrop) && !createdShopTypes.contains(ShopType.StarDrop)) {
+                    shops.add(new StarDrop("StarDrop", tile.getX(), tile.getY()));
+                    createdShopTypes.add(ShopType.StarDrop);
+                }
+            }
+        }
+    }
+
 }

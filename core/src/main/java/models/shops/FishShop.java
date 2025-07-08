@@ -4,6 +4,7 @@ import models.App;
 import models.building.Shop;
 import models.character.Character;
 import models.enums.Recipe;
+import models.enums.ShopType;
 import models.enums.ToolType;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ public class FishShop extends Shop {
     private final ArrayList<ShopFishingPoleUpgrades> fishingPoles;
     private final ArrayList<ShopRecipes> shopRecipes;
     public FishShop( String name, int X, int Y) {
-        super( name, X, Y);
+        super( name, X, Y,ShopType.FishShop);
         this.owner="Willy";
         fishingPoles = new ArrayList<>(List.of(
                 new ShopFishingPoleUpgrades("training",25,1,1,"It's a lot easier to use than other rods, but can only catch basic fish.","Training Rod"),

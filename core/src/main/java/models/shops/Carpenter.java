@@ -5,6 +5,7 @@ import models.building.Shop;
 import models.character.Character;
 import models.enums.CageType;
 import models.enums.ItemType;
+import models.enums.ShopType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ public class Carpenter extends Shop {
     private final ArrayList<ShopCages> farmBuildings;
 
     public Carpenter(String name, int X, int Y) {
-        super(name, X, Y);
+        super(name, X, Y,ShopType.Carpenter);
         this.owner="Robin";
         permanentItems = new ArrayList<>(List.of(
                 new ShopItem(ItemType.Wood,Integer.MAX_VALUE,10,"A sturdy, yet flexible plant material with a wide variety of uses."),

@@ -3,10 +3,7 @@ package models.shops;
 import models.App;
 import models.building.Shop;
 import models.character.Character;
-import models.enums.BackpackType;
-import models.enums.ItemType;
-import models.enums.Recipe;
-import models.enums.Season;
+import models.enums.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +18,8 @@ public class Pierre extends Shop {
     private final float outOfSeasonCoefficient=1.5f;
 
     public Pierre( String name, int X, int Y) {
-        super( name, X, Y);
+        super( name, X, Y,ShopType.Pierre);
+
         this.owner="Pierre";
         yearRoundItems = new ArrayList<>(List.of(
                 new ShopItem(ItemType.Rice, Integer.MAX_VALUE, 200, "A basic grain often served under vegetables."),

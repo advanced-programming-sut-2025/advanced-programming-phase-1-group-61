@@ -15,6 +15,8 @@ public class Crop extends Resource{
     private boolean hasSpeedGro , hasDeuxRetailingSoil;
 
     public Crop(CropType type) {
+        super(type.getResourceTexturePath());
+
         this.type = type;
         this.cropStage = 1;
         this.cropAge = 0;

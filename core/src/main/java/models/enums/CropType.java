@@ -10,41 +10,41 @@ import java.util.List;
 
 public enum CropType {
 
-    BlueJazz(new int[]{1, 2, 2, 2}, -1, false, ItemType.BlueJazz, ItemType.JazzSeed,Season.Spring),
-    Carrot(new int[]{1, 1, 1}, -1, false, ItemType.Carrot, ItemType.CarrotSeed,Season.Spring),
-    Cauliflower(new int[]{1, 2, 4, 4, 1}, -1, true, ItemType.CauliFlower, ItemType.CauliflowerSeed,Season.Spring),
-    CoffeeBean(new int[]{1, 2, 2, 3, 2}, 2, false, ItemType.CoffeeBean, ItemType.CoffeeBean,Season.Spring),
-    Garlic(new int[]{1, 1, 1, 1}, -1, false, ItemType.Garlic, ItemType.GarlicSeed,Season.Spring),
-    GreenBean(new int[]{1, 1, 1, 3, 4}, 3, false, ItemType.GreenBean, ItemType.BeanStarter,Season.Spring),
-    Kale(new int[]{1, 2, 2, 1}, -1, false, ItemType.Kale, ItemType.KaleSeed,Season.Spring),
-    Parsnip(new int[]{1, 1, 1, 1}, -1, false, ItemType.Parsnip, ItemType.ParsnipSeed,Season.Spring),
-    Potato(new int[]{1, 1, 1, 2, 1}, -1, false, ItemType.Potato, ItemType.PotatoSeed,Season.Spring),
-    Rhubarb(new int[]{2, 2, 2, 3, 4}, -1, false, ItemType.Rhubarb, ItemType.RhubarbSeed,Season.Spring),
-    Strawberry(new int[]{1, 1, 2, 2, 2}, 4, false, ItemType.Strawberry, ItemType.StrawberrySeed,Season.Spring),
-    Tulip(new int[]{1, 1, 2, 2}, -1, false, ItemType.Tulip, ItemType.TulipBulb,Season.Spring),
-    UnmilledRice(new int[]{1, 2, 2, 3}, -1, false, ItemType.UnmilledRice, ItemType.RiceShoot,Season.Spring),
-    Blueberry(new int[]{1, 3, 3, 4, 2}, 4, false, ItemType.Blueberry, ItemType.BlueberrySeed,Season.Summer),
-    Corn(new int[]{2, 3, 3, 3, 3}, 4, false, ItemType.Corn, ItemType.CornSeed,Season.Summer),
-    Hops(new int[]{1, 1, 2, 3, 4}, 1, false, ItemType.Hops, ItemType.HopsStarter,Season.Summer),
-    HotPepper(new int[]{1, 1, 1, 1, 1}, 3, false, ItemType.HotPepper, ItemType.PepperSeed,Season.Summer),
-    Melon(new int[]{1, 2, 3, 3, 3}, -1, true, ItemType.Melon, ItemType.MelonSeed,Season.Summer),
-    Poppy(new int[]{1, 2, 2, 2}, -1, false, ItemType.Poppy, ItemType.PoppySeed,Season.Summer),
-    Radish(new int[]{2, 1, 2, 1}, -1, false, ItemType.Radish, ItemType.RadishSeed,Season.Summer),
-    RedCabbage(new int[]{2, 1, 2, 2, 2}, -1, false, ItemType.RedCabbage, ItemType.RedCabbageSeed,Season.Summer),
-    Starfruit(new int[]{2, 3, 2, 3, 3}, -1, false, ItemType.Starfruit, ItemType.StarfruitSeed,Season.Summer),
-    SummerSpangle(new int[]{1, 2, 3, 1}, -1, false, ItemType.SummerSpangle, ItemType.SpangleSeed,Season.Summer),
-    Sunflower(new int[]{1, 2, 3, 2}, -1, false, ItemType.Sunflower, ItemType.SunflowerSeed,Season.Summer),
-    Tomato(new int[]{2, 2, 2, 2, 3}, 4, false, ItemType.Tomato, ItemType.TomatoSeed,Season.Summer),
-    Wheat(new int[]{1, 1, 1, 1}, -1, false, ItemType.Wheat, ItemType.WheatSeed,Season.Summer),
-    Amaranth(new int[]{1, 2, 2, 2}, -1, false, ItemType.Amaranth, ItemType.AmaranthSeed,Season.Fall),
-    Artichoke(new int[]{2, 2, 1, 2, 1}, -1, false, ItemType.Artichoke, ItemType.ArtichokeSeed,Season.Fall),
-    Beet(new int[]{1, 1, 2, 2}, -1, false, ItemType.Beet, ItemType.BeetSeed,Season.Fall),
-    BokChoy(new int[]{1, 1, 1, 1}, -1, false, ItemType.BokChoy, ItemType.BokChoySeed,Season.Fall),
-    Broccoli(new int[]{2, 2, 2, 2}, 4, false, ItemType.Broccoli, ItemType.BroccoliSeed,Season.Fall),
-    Cranberries(new int[]{1, 2, 1, 1, 2}, 5, false, ItemType.Cranberries, ItemType.CranberrySeed,Season.Fall),
-    SweetGemBerry(new int[]{2, 4, 6, 6, 6}, -1, false, ItemType.SweetGemBerry, ItemType.RareSeed,Season.Fall),
-    Powdermelon(new int[]{1, 2, 1, 2, 1}, -1, true, ItemType.Powdermelon, ItemType.PowdermelonSeed,Season.Fall),
-    AncientFruit(new int[]{2, 7, 7, 7, 5}, 7, false, ItemType.AncientFruit, ItemType.AncientSeed,Season.Spring);
+    BlueJazz(new int[]{1, 2, 2, 2}, -1, false, ItemType.BlueJazz, ItemType.JazzSeed,Season.Spring,"Crops/Blue_Jazz_Stage_5.png"),
+    Carrot(new int[]{1, 1, 1}, -1, false, ItemType.Carrot, ItemType.CarrotSeed,Season.Spring,"Crops/Blue_Jazz_Stage_5.png"),
+    Cauliflower(new int[]{1, 2, 4, 4, 1}, -1, true, ItemType.CauliFlower, ItemType.CauliflowerSeed,Season.Spring,"Crops/Blue_Jazz_Stage_5.png"),
+    CoffeeBean(new int[]{1, 2, 2, 3, 2}, 2, false, ItemType.CoffeeBean, ItemType.CoffeeBean,Season.Spring,"Crops/Blue_Jazz_Stage_5.png"),
+    Garlic(new int[]{1, 1, 1, 1}, -1, false, ItemType.Garlic, ItemType.GarlicSeed,Season.Spring,"Crops/Blue_Jazz_Stage_5.png"),
+    GreenBean(new int[]{1, 1, 1, 3, 4}, 3, false, ItemType.GreenBean, ItemType.BeanStarter,Season.Spring,"Crops/Blue_Jazz_Stage_5.png"),
+    Kale(new int[]{1, 2, 2, 1}, -1, false, ItemType.Kale, ItemType.KaleSeed,Season.Spring,"Crops/Blue_Jazz_Stage_5.png"),
+    Parsnip(new int[]{1, 1, 1, 1}, -1, false, ItemType.Parsnip, ItemType.ParsnipSeed,Season.Spring,"Crops/Blue_Jazz_Stage_5.png"),
+    Potato(new int[]{1, 1, 1, 2, 1}, -1, false, ItemType.Potato, ItemType.PotatoSeed,Season.Spring,"Crops/Blue_Jazz_Stage_5.png"),
+    Rhubarb(new int[]{2, 2, 2, 3, 4}, -1, false, ItemType.Rhubarb, ItemType.RhubarbSeed,Season.Spring,"Crops/Blue_Jazz_Stage_5.png"),
+    Strawberry(new int[]{1, 1, 2, 2, 2}, 4, false, ItemType.Strawberry, ItemType.StrawberrySeed,Season.Spring,"Crops/Blue_Jazz_Stage_5.png"),
+    Tulip(new int[]{1, 1, 2, 2}, -1, false, ItemType.Tulip, ItemType.TulipBulb,Season.Spring,"Crops/Blue_Jazz_Stage_5.png"),
+    UnmilledRice(new int[]{1, 2, 2, 3}, -1, false, ItemType.UnmilledRice, ItemType.RiceShoot,Season.Spring,"Crops/Blue_Jazz_Stage_5.png"),
+    Blueberry(new int[]{1, 3, 3, 4, 2}, 4, false, ItemType.Blueberry, ItemType.BlueberrySeed,Season.Summer,"Crops/Blue_Jazz_Stage_5.png"),
+    Corn(new int[]{2, 3, 3, 3, 3}, 4, false, ItemType.Corn, ItemType.CornSeed,Season.Summer,"Crops/Blue_Jazz_Stage_5.png"),
+    Hops(new int[]{1, 1, 2, 3, 4}, 1, false, ItemType.Hops, ItemType.HopsStarter,Season.Summer,"Crops/Blue_Jazz_Stage_5.png"),
+    HotPepper(new int[]{1, 1, 1, 1, 1}, 3, false, ItemType.HotPepper, ItemType.PepperSeed,Season.Summer,"Crops/Blue_Jazz_Stage_5.png"),
+    Melon(new int[]{1, 2, 3, 3, 3}, -1, true, ItemType.Melon, ItemType.MelonSeed,Season.Summer,"Crops/Blue_Jazz_Stage_5.png"),
+    Poppy(new int[]{1, 2, 2, 2}, -1, false, ItemType.Poppy, ItemType.PoppySeed,Season.Summer,"Crops/Blue_Jazz_Stage_5.png"),
+    Radish(new int[]{2, 1, 2, 1}, -1, false, ItemType.Radish, ItemType.RadishSeed,Season.Summer,"Crops/Blue_Jazz_Stage_5.png"),
+    RedCabbage(new int[]{2, 1, 2, 2, 2}, -1, false, ItemType.RedCabbage, ItemType.RedCabbageSeed,Season.Summer,"Crops/Blue_Jazz_Stage_5.png"),
+    Starfruit(new int[]{2, 3, 2, 3, 3}, -1, false, ItemType.Starfruit, ItemType.StarfruitSeed,Season.Summer,"Crops/Blue_Jazz_Stage_5.png"),
+    SummerSpangle(new int[]{1, 2, 3, 1}, -1, false, ItemType.SummerSpangle, ItemType.SpangleSeed,Season.Summer,"Crops/Blue_Jazz_Stage_5.png"),
+    Sunflower(new int[]{1, 2, 3, 2}, -1, false, ItemType.Sunflower, ItemType.SunflowerSeed,Season.Summer,"Crops/Blue_Jazz_Stage_5.png"),
+    Tomato(new int[]{2, 2, 2, 2, 3}, 4, false, ItemType.Tomato, ItemType.TomatoSeed,Season.Summer,"Crops/Blue_Jazz_Stage_5.png"),
+    Wheat(new int[]{1, 1, 1, 1}, -1, false, ItemType.Wheat, ItemType.WheatSeed,Season.Summer,"Crops/Blue_Jazz_Stage_5.png"),
+    Amaranth(new int[]{1, 2, 2, 2}, -1, false, ItemType.Amaranth, ItemType.AmaranthSeed,Season.Fall,"Crops/Blue_Jazz_Stage_5.png"),
+    Artichoke(new int[]{2, 2, 1, 2, 1}, -1, false, ItemType.Artichoke, ItemType.ArtichokeSeed,Season.Fall,"Crops/Blue_Jazz_Stage_5.png"),
+    Beet(new int[]{1, 1, 2, 2}, -1, false, ItemType.Beet, ItemType.BeetSeed,Season.Fall,"Crops/Blue_Jazz_Stage_5.png"),
+    BokChoy(new int[]{1, 1, 1, 1}, -1, false, ItemType.BokChoy, ItemType.BokChoySeed,Season.Fall,"Crops/Blue_Jazz_Stage_5.png"),
+    Broccoli(new int[]{2, 2, 2, 2}, 4, false, ItemType.Broccoli, ItemType.BroccoliSeed,Season.Fall,"Crops/Blue_Jazz_Stage_5.png"),
+    Cranberries(new int[]{1, 2, 1, 1, 2}, 5, false, ItemType.Cranberries, ItemType.CranberrySeed,Season.Fall,"Crops/Blue_Jazz_Stage_5.png"),
+    SweetGemBerry(new int[]{2, 4, 6, 6, 6}, -1, false, ItemType.SweetGemBerry, ItemType.RareSeed,Season.Fall,"Crops/Blue_Jazz_Stage_5.png"),
+    Powdermelon(new int[]{1, 2, 1, 2, 1}, -1, true, ItemType.Powdermelon, ItemType.PowdermelonSeed,Season.Fall,"Crops/Blue_Jazz_Stage_5.png"),
+    AncientFruit(new int[]{2, 7, 7, 7, 5}, 7, false, ItemType.AncientFruit, ItemType.AncientSeed,Season.Spring,"Crops/Blue_Jazz_Stage_5.png");
 
 
 
@@ -53,13 +53,15 @@ public enum CropType {
     private boolean canBecomeGiant;
     private ItemType product , source;
     private Season season;
+    private String resourceTexturePath;
 
-    CropType( int[] stages, int reGrowthTime, boolean canBecomeGiant,ItemType product,ItemType source,Season season) {
+    CropType( int[] stages, int reGrowthTime, boolean canBecomeGiant,ItemType product,ItemType source,Season season,String resourceTexturePath) {
         this.stages = stages;
         this.reGrowthTime = reGrowthTime;
         this.canBecomeGiant = canBecomeGiant;
         this.source = source;
         this.product = product;
+        this.resourceTexturePath = resourceTexturePath;
     }
 
     public int[] getStages() {
@@ -145,6 +147,7 @@ public enum CropType {
         return null;
     }
 
-
-
+    public String getResourceTexturePath() {
+        return resourceTexturePath;
+    }
 }
