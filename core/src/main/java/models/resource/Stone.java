@@ -28,4 +28,5 @@ public class Stone extends Resource{
         this.harvestAbleAmount = harvestAbleAmount;
     }
 
+
 }

@@ -9,6 +9,7 @@ import models.building.Shop;
 import models.character.Character;
 import models.map.Map;
 import models.map.Tile;
+import models.resource.Stone;
 import models.resource.Tree;
 
 public class WorldController {
@@ -44,6 +45,9 @@ public class WorldController {
                         if(tile.getResource() instanceof Tree){
                            Tree tree = (Tree) tile.getResource();
                            tree.draw();
+                        } else if (tile.getResource() instanceof Stone) {
+                            Stone stone = (Stone) tile.getResource();
+                            Main.getBatch().draw(stone.getType().getTexture(), tile.getX() +AssetManager.getTileSize()/4, tile.getY()+AssetManager.getTileSize()/4 ,AssetManager.getTileSize()/2 , AssetManager.getTileSize()/2);
                         }
                     }
                 }

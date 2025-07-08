@@ -600,13 +600,22 @@ public class Game {
                     int rand = RandomNumber.getRandomNumber();
                     switch (rand%20){
                         case 0:{
-                            tile.setResource(new Tree(TreeType.Oak , tile.getX() , tile.getY()));
+                            Tree tree = new Tree(TreeType.Oak , tile.getX() , tile.getY());
+                            tree.setTreeStage(4);
+                            tree.setTreeAge(28);
+                            tile.setResource(tree);
                             break;
                         } case 1:{
-                            tile.setResource(new Tree(TreeType.ApricotTree, tile.getX() , tile.getY()));
+                            Tree tree = new Tree(TreeType.ApricotTree, tile.getX() , tile.getY());
+                            tree.setTreeStage(4);
+                            tree.setTreeAge(28);
+                            tile.setResource(tree);
                             break;
                         } case 2:{
-                            tile.setResource(new Tree(TreeType.CherryTree, tile.getX() , tile.getY()));
+                            Tree tree = new Tree(TreeType.CherryTree, tile.getX() , tile.getY());
+                            tree.setTreeStage(4);
+                            tree.setTreeAge(28);
+                            tile.setResource(tree);
                             break;
                         }
                     }
