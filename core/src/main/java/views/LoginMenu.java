@@ -3,12 +3,14 @@ package views;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import controllers.LoginMenuController;
 import controllers.PreGameMenuController;
 import controllers.RegisterMenuController;
@@ -33,10 +35,10 @@ public class LoginMenu implements Screen {
 
     public LoginMenu(LoginMenuController controller) {
         this.controller = controller;
-        stage = new Stage();
+        stage = new Stage(new FitViewport(1920,1080));
         login = new TextButton("LOGIN",skin);
         forgetPassword = new TextButton("FORGET PASSWORD",skin);
-        username = new TextField("username",skin);
+        username = new TextField("",skin);
         username.setMessageText("USERNAME");
         password = new TextField("",skin);
         password.setMessageText("PASSWORD");
@@ -80,8 +82,8 @@ public class LoginMenu implements Screen {
              Result result = controller.login();
              resultMessage = result.message();
                 if(result.isSuccessful()){
-                Main.getMain().getScreen().dispose();
-                Main.getMain().setScreen(new PreGameMenu(new PreGameMenuController()));
+                    Main.getMain().getScreen().dispose();
+                    Main.getMain().setScreen(new PreGameMenu(new PreGameMenuController()));
                 }
             }
         });
@@ -96,13 +98,12 @@ public class LoginMenu implements Screen {
 
     @Override
     public void render(float v) {
-        ScreenUtils.clear(Color.CORAL);
-        Main.getBatch().begin();
-        stage.act();
-        font.draw(Main.getBatch(), resultMessage, 50, Gdx.graphics.getHeight() - 50);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.getBatch().begin();
+        font.draw(stage.getBatch(), resultMessage, 50, stage.getViewport().getWorldHeight() - 50);
+        stage.getBatch().end();
+        stage.act(v);
         stage.draw();
-
-        Main.getBatch().end();
     }
 
     @Override
