@@ -41,18 +41,31 @@ public class WorldController {
                     Sprite sprite = tile.getSprite();
                     sprite.setSize(TILE_SIZE, TILE_SIZE);
                     Main.getBatch().draw(sprite, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-                    if(tile.getResource() != null){
-                        if(tile.getResource() instanceof Tree){
-                           Tree tree = (Tree) tile.getResource();
-                           tree.draw();
-                        } else if (tile.getResource() instanceof Stone) {
-                            Stone stone = (Stone) tile.getResource();
-                            Main.getBatch().draw(stone.getType().getTexture(), tile.getX() +AssetManager.getTileSize()/4, tile.getY()+AssetManager.getTileSize()/4 ,AssetManager.getTileSize()/2 , AssetManager.getTileSize()/2);
-                        }
+                }
+            }
+        }
+
+        for (int y = charY + VIEW_RADIUS; y >= charY - VIEW_RADIUS; y--){
+            for (int x = charX - VIEW_RADIUS; x <= charX + VIEW_RADIUS; x++) {
+                Tile tile = map.getTileByCordinate(x, y);
+                if (tile != null && tile.getResource() != null) {
+                    if (tile.getResource() instanceof Tree) {
+                        ((Tree) tile.getResource()).draw();
+                    } else if (tile.getResource() instanceof Stone) {
+                        Stone stone = (Stone) tile.getResource();
+                        int TILE_SIZE = AssetManager.getTileSize();
+                        Main.getBatch().draw(
+                            stone.getType().getTexture(),
+                            x * TILE_SIZE + TILE_SIZE / 4,
+                            y * TILE_SIZE + TILE_SIZE / 4,
+                            TILE_SIZE / 2,
+                            TILE_SIZE / 2
+                        );
                     }
                 }
             }
         }
+
 
         for (Shop shop : App.getCurrentGame().getShops()) {
             shop.draw();

@@ -83,6 +83,6 @@ public class Tree extends Resource{
         if(daysUntilNextCycle == 0){
             texture = type.getStageFruit();
         }
-        Main.getBatch().draw(texture ,x , y);
+        Main.getBatch().draw(texture ,x , y , AssetManager.getTileSize() , AssetManager.getTileSize()*2);
     }
 }
