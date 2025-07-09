@@ -4,10 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import io.github.camera.Main;
-import models.AlertGenerator;
-import models.App;
-import models.Game;
-import models.Result;
+import models.*;
 import views.LoginMenu;
 import views.MainMenu;
 import views.RegisterMenu;
@@ -35,6 +32,7 @@ public class MainMenuController {
         view.getLoginButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                AssetManager.getUiClicks().play();
                 logIn();
             }
         });
@@ -42,12 +40,14 @@ public class MainMenuController {
         view.getRegisterButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                AssetManager.getUiClicks().play();
                 register();
             }
         });
         view.getSettings().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                AssetManager.getUiClicks().play();
                 Game game= App.getCurrentGame();
                 if(game==null) {
                     AlertGenerator.showAlert("error","Please login first",view.getStage());
@@ -64,6 +64,7 @@ public class MainMenuController {
         view.getExitButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                AssetManager.getUiClicks().play();
                 Main.getMain().getScreen().dispose();
                 Gdx.app.exit();
             }
