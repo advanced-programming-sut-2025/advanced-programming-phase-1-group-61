@@ -17,6 +17,7 @@ import controllers.RegisterMenuController;
 import io.github.camera.Main;
 import models.AssetManager;
 import models.Result;
+import org.w3c.dom.Text;
 
 public class LoginMenu implements Screen {
     private LoginMenuController controller;
@@ -92,6 +93,13 @@ public class LoginMenu implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 Main.getMain().getScreen().dispose();
                 Main.getMain().setScreen(new RegisterMenu(new RegisterMenuController()));
+            }
+        });
+        forgetPassword.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(new ForgetPasswordMenu());
             }
         });
     }
