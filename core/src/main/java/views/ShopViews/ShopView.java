@@ -15,6 +15,7 @@ public abstract class ShopView implements Screen {
     protected final Table productTypeButtonTable;
     protected final SelectBox<String> showProductsApproach;
     protected SelectBox<String> productTypeSelectBox;
+    protected Table selectBoxesTable;
     protected final Skin skin= AssetManager.getSkin();
     protected final Label name;
     protected final Label price;
@@ -31,17 +32,41 @@ public abstract class ShopView implements Screen {
         price=new Label("",skin);
         stock=new Label("",skin);
         topLeftTable=new Table();
+        selectBoxesTable=new Table();
     }
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
         topLeftTable.setFillParent(true);
         topLeftTable.top().left().padTop(20).padLeft(20);
-        topLeftTable.add(name);
-        topLeftTable.add(price);
-        topLeftTable.add(stock);
+        topLeftTable.add(name).width(200).row();
+        topLeftTable.add(price).width(200).row();
+        topLeftTable.add(stock).width(200).row();
         stage.addActor(topLeftTable);
         centerTable.setFillParent(true);
         centerTable.top().left().padTop(300).padLeft(100);
+        selectBoxesTable.add(productTypeSelectBox).width(500).height(80);
+        selectBoxesTable.add(showProductsApproach).width(500).height(80);
+        selectBoxesTable.setFillParent(true);
+        selectBoxesTable.defaults().pad(20).top().right();
+        stage.addActor(selectBoxesTable);
+    }
+    public Stage getStage() {
+        return stage;
+    }
+    public Label getName() {
+        return name;
+    }
+    public Label getPrice() {
+        return price;
+    }
+    public Label getStock() {
+        return stock;
+    }
+    public SelectBox<String> getShowProductsApproach() {
+        return showProductsApproach;
+    }
+    public SelectBox<String> getProductTypeSelectBox() {
+        return productTypeSelectBox;
     }
 }

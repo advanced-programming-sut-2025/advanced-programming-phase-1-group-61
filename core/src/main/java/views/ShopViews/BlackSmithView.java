@@ -16,6 +16,8 @@ import java.util.ArrayList;
 
 public class BlackSmithView extends ShopView{
     private ImageButton[] items;
+    private ImageButton[] tools;
+    private ImageButton[] trashcans;
     private final BlackSmith shop;
     private final ArrayList<ShopItem> shopItems;
     private final ArrayList<ShopToolUpgrades> shopToolUpgrades;
@@ -32,6 +34,8 @@ public class BlackSmithView extends ShopView{
         shopToolUpgrades = blackSmith.getToolUpgrades();
         shopTrashcanUpgrades = blackSmith.getTrashcanUpgrades();
         items=new ImageButton[shopItems.size()];
+        tools=new ImageButton[shopToolUpgrades.size()];
+        trashcans=new ImageButton[shopTrashcanUpgrades.size()];
     }
     @Override
     public void show() {
@@ -44,6 +48,17 @@ public class BlackSmithView extends ShopView{
             style.over=imageOver;
             style.down=imageOver;
             items[i]=new ImageButton(style);
+            controller.addHoverListenerForItems(items[i],shopItems.get(i));
+        }
+        for(int i=0;i<tools.length;i++){
+            ImageButton.ImageButtonStyle style=new ImageButton.ImageButtonStyle();
+            Drawable imageUp=new TextureRegionDrawable(AssetManager.getSelectorBubbleDefault());
+            Drawable imageOver=new TextureRegionDrawable(AssetManager.getSelectorBubbleHover());
+            style.up=imageUp;
+            style.over=imageOver;
+            style.down=imageOver;
+            tools[i]=new ImageButton(style);
+            controller.addHoverListenerForShopTools(tools[i],shopToolUpgrades.get(i));
         }
         setUpUI();
     }
@@ -93,11 +108,31 @@ public class BlackSmithView extends ShopView{
     }
 
     public void setUpUI(){
-        for(int i=0;i<shopItems.size();i++){
-            if(allProducts) centerTable.add(items[i]).width(120).height(120).pad(10);
-            else {
-                if(shopItems.get(i).getStock()>0) centerTable.add(items[i]).width(120).height(120).pad(10);
+        if(selectItems) {
+            for (int i = 0; i < shopItems.size(); i++) {
+                if (allProducts) centerTable.add(items[i]).width(120).height(120).pad(10);
+                else {
+                    if (shopItems.get(i).getStock() > 0) centerTable.add(items[i]).width(120).height(120).pad(10);
+                }
             }
         }
+        if(selectTools) {
+            for (int i = 0; i < shopToolUpgrades.size(); i++) {
+                if(allProducts) centerTable.add(tools[i]).width(120).height(120).pad(10);
+                else {
+                    if(shopToolUpgrades.get(i).getStock()>0) centerTable.add(tools[i]).width(120).height(120).pad(10);
+                }
+            }
+        }
+        stage.addActor(centerTable);
+    }
+    public void setSelectItems(boolean selectItems) {
+        this.selectItems = selectItems;
+    }
+    public void setSelectTools(boolean selectTools) {
+        this.selectTools = selectTools;
+    }
+    public void setSelectTrashcan(boolean selectTrashcan) {
+        this.selectTrashcan = selectTrashcan;
     }
 }
