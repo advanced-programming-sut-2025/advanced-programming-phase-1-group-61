@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import controllers.PreGameMenuController;
 import io.github.camera.Main;
+import models.building.Shop;
+import models.shops.BlackSmith;
 import views.PreGameMenu;
 
 
@@ -25,6 +27,7 @@ public class App {
     private static ArrayList<models.Game> allGames = new ArrayList<>();
     private static int currentGameId;
     private static float musicVolume=1f;
+    private static BlackSmith blackSmith;
 
 
     public static models.Game getCurrentGame(){
@@ -165,5 +168,11 @@ public class App {
     }
     public static float getMusicVolume(){
         return musicVolume;
+    }
+    public static void setBlackSmith(BlackSmith blackSmith){
+        App.blackSmith = blackSmith;
+    }
+    public static BlackSmith getBlackSmith(){
+        return App.blackSmith;
     }
 }

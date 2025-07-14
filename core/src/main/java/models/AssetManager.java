@@ -43,4 +43,10 @@ public class AssetManager {
     public static Music getUiClicks() {
         return uiClicks;
     }
+    public static Texture getSelectorBubbleDefault(){
+        return new Texture(Gdx.files.internal("images/Sprite/T_SelectorBubble_0.png"));
+    }
+    public static Texture getSelectorBubbleHover(){
+        return new Texture(Gdx.files.internal("images/Sprite/T_SelectorBubble_1.png"));
+    }
 }

@@ -9,6 +9,8 @@ import models.AssetManager;
 import models.CollisionRect;
 import models.character.Character;
 import models.map.Tile;
+import models.shops.BlackSmith;
+import views.ShopViews.BlackSmithView;
 
 public class PlayerController {
     private Character player;
@@ -30,6 +32,10 @@ public class PlayerController {
         handlePlayerInput();
     }
     public void handlePlayerInput() {
+        if(Gdx.input.isKeyPressed(Input.Keys.N)){
+            Main.getMain().getScreen().dispose();
+            Main.getMain().setScreen(new BlackSmithView(App.getBlackSmith()));
+        }
         float dx = 0;
         float dy = 0;
 

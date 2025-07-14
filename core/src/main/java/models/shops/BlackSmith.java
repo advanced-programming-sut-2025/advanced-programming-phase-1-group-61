@@ -175,4 +175,13 @@ public class BlackSmith extends Shop {
     public int getCloseHour(){
         return 15;
     }
+    public ArrayList<ShopItem> getItems(){
+        return items;
+    }
+    public ArrayList<ShopToolUpgrades> getToolUpgrades(){
+        return toolUpgrades;
+    }
+    public ArrayList<ShopTrashcanUpgrades> getTrashcanUpgrades(){
+        return trashcanUpgrades;
+    }
 }

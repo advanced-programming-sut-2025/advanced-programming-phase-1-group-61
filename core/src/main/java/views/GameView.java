@@ -1,6 +1,8 @@
 package views;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -8,8 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import controllers.GameMenuController;
 import io.github.camera.Main;
+import models.App;
+import models.shops.BlackSmith;
+import views.ShopViews.BlackSmithView;
 
-public class GameView implements Screen {
+public class GameView implements Screen{
     private GameMenuController controller;
     private Stage stage;
     private OrthographicCamera camera;

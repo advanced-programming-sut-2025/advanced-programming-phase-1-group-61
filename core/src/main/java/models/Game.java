@@ -683,8 +683,10 @@ public class Game {
                     shops.add(new Carpenter("Carpenter", tile.getX(), tile.getY()));
                     createdShopTypes.add(ShopType.Carpenter);
                 } else if (type.equals(TileType.BlackSmith) && !createdShopTypes.contains(ShopType.BlackSmith)) {
-                    shops.add(new BlackSmith("BlackSmith", tile.getX(), tile.getY()));
+                    BlackSmith blackSmith=new BlackSmith("BlackSmith", tile.getX(), tile.getY());
+                    shops.add(blackSmith);
                     createdShopTypes.add(ShopType.BlackSmith);
+                    App.setBlackSmith(blackSmith);
                 } else if (type.equals(TileType.FishShop) && !createdShopTypes.contains(ShopType.FishShop)) {
                     shops.add(new FishShop("FishShop", tile.getX(), tile.getY()));
                     createdShopTypes.add(ShopType.FishShop);
