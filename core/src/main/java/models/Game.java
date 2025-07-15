@@ -11,6 +11,7 @@ import models.map.Tile;
 import models.map.Weather;
 import models.resource.*;
 import models.shops.*;
+import models.workBench.WorkBench;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -28,6 +29,7 @@ public class Game {
     private ArrayList<Shop> shops = new ArrayList<>();
     private List<NPC> npcList = new ArrayList<>();
     private List<ShippingBin> shippingBins = new ArrayList<>();
+    private ArrayList<WorkBench> workBenches =new ArrayList<>();
 
 
     public Game(Map map, List<Character> characters) {
@@ -59,6 +61,9 @@ public class Game {
         doAfterMapBuilt();
     }
 
+    public ArrayList<WorkBench> getWorkBenches() {
+        return workBenches;
+    }
 
     public void changeDayActivities() {
         handleWeatherBeforeDayChange();

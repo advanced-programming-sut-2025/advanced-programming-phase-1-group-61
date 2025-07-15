@@ -18,7 +18,6 @@ import models.food.FridgeItem;
 import models.food.Refrigerator;
 import models.interactions.Interact;
 import models.map.Map;
-import models.map.MapCreator.MapBuilder;
 import models.map.Tile;
 import models.map.Weather;
 import models.character.Inventory;
@@ -28,10 +27,8 @@ import models.tool.Tool;
 import models.workBench.ItemKinds;
 import models.workBench.WorkBench;
 import models.tool.WateringCan;
-import models.workBench.WorkBench;
 import views.GameView;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -39,7 +36,7 @@ import java.util.regex.Matcher;
 
 public class GameMenuController {
     private int neededEnergy;
-    private Game game;
+    private final Game game;
     private OrthographicCamera camera;
     private GameView view;
     private PlayerController playerController;
@@ -536,15 +533,15 @@ public class GameMenuController {
 
     public Result artisanUse(Matcher matcher) {
         String bench = matcher.group("bench").trim().replace("\\s+", "");
-        String nee1 = matcher.group("need1").trim().replace("\\s+", "");
-        String nee2 = matcher.group("need2").trim().replace("\\s+", "");
+        String need1 = matcher.group("need1").trim().replace("\\s+", "");
+        String need2 = matcher.group("need2").trim().replace("\\s+", "");
         ItemType item = null;
-        ItemType Need1 = ItemType.getItembyname(nee1);
-        ItemType Need2 = ItemType.getItembyname(nee2);
+        ItemType Need1 = ItemType.getItembyname(need1);
+        ItemType Need2 = ItemType.getItembyname(need2);
         Date date = game.getDate();
         java.util.Map<String, List<String>> itemKinds = new ItemKinds().getItemKinds();
         Character character = game.getCurrentCharacter();
-        for (WorkBench Bench : character.getWorkBenches()) {
+        for (WorkBench Bench : game.getWorkBenches()) {
             if (Bench.getType().name().equalsIgnoreCase(bench)) {
                 switch (bench.toUpperCase()) {
                     case "BEEHOUSE": {
@@ -672,7 +669,7 @@ public class GameMenuController {
     public Result artisancollect(Matcher matcher){
         String bench = matcher.group("bench").trim().replace("\\s+", "");
         Character character = App.getCurrentGame().getCurrentCharacter();
-        for (WorkBench Bench : character.getWorkBenches()){
+        for (WorkBench Bench : game.getWorkBenches()){
             if (Bench.getType().name().equalsIgnoreCase(bench)){
                 if(Bench.Collect()){
                     return new Result(true,bench+" is collected");
@@ -1301,7 +1298,9 @@ public class GameMenuController {
         character.getInventory().removeItem(itemType , 1);
         WorkBenchType workBenchType = WorkBenchType.getWorkBenchType(itemType.name());
         if(workBenchType != null){
-            tile.setResource(new WorkBench(workBenchType));
+            WorkBench workBench = new WorkBench(workBenchType);
+            tile.setResource(workBench);
+            game.getWorkBenches().add(workBench);
             return new Result(true , "successfully placed your work bench");
         }
         tile.setItem(new Item(itemType));

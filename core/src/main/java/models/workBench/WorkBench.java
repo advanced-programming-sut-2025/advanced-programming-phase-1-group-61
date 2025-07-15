@@ -15,32 +15,8 @@ public class WorkBench extends Resource {
     private final Map<String, List<String>> itemKinds;
 
     public WorkBench(WorkBenchType type) {
-
         this.Type = type;
         this.itemKinds = new ItemKinds().getItemKinds();
-        List<String> vegetables = new ArrayList<>(Arrays.asList(
-                "Corn", "Tomato", "Potato", "Blueberry", "Melon",
-                "RedCabbage", "Radish", "Amaranth", "Kale", "Beet",
-                "Parsnip", "EggPlant", "Carrot", "CauliFlower", "SpringOnion",
-                "WildHorseradish", "Garlic", "GreenBean", "Rhubarb",
-                "Artichoke", "BokChoy", "Broccoli"
-        ));
-        itemKinds.put("Vegetable", vegetables);
-
-        List<String> fruits = new ArrayList<>(Arrays.asList(
-                "Apricot", "Apple", "Banana", "Cherry", "Mango",
-                "Orange", "Peach", "Pomegranate", "Starfruit", "AncientFruit", "Grapes"
-        ));
-        itemKinds.put("Fruit", fruits);
-
-        fruits.remove("Grapes");
-        itemKinds.put("DryableFruit", fruits);
-
-        List<String> mushrooms = new ArrayList<>(Arrays.asList(
-                "RedMushroom", "PurpleMushroom", "Chanterelle", "CommonMushroom"
-        ));
-        itemKinds.put("Mushroom", mushrooms);
-
     }
 
     public WorkBenchType getType() {
