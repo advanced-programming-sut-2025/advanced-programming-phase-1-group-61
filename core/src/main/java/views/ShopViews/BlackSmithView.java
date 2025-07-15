@@ -44,26 +44,28 @@ public class BlackSmithView extends ShopView{
         super.show();
         secondController.handleTypeSelectBox();
         for(int i=0;i<items.length;i++){
-            ImageButton.ImageButtonStyle style=new ImageButton.ImageButtonStyle();
-            Drawable imageUp=new TextureRegionDrawable(AssetManager.getSelectorBubbleDefault());
-            Drawable imageOver=new TextureRegionDrawable(AssetManager.getSelectorBubbleHover());
-            style.up=imageUp;
-            style.over=imageOver;
-            style.down=imageOver;
-            items[i]=new ImageButton(style);
+            Extract(i, items);
             controller.addHoverListenerForItems(items[i],shopItems.get(i));
         }
         for(int i=0;i<tools.length;i++){
-            ImageButton.ImageButtonStyle style=new ImageButton.ImageButtonStyle();
-            Drawable imageUp=new TextureRegionDrawable(AssetManager.getSelectorBubbleDefault());
-            Drawable imageOver=new TextureRegionDrawable(AssetManager.getSelectorBubbleHover());
-            style.up=imageUp;
-            style.over=imageOver;
-            style.down=imageOver;
-            tools[i]=new ImageButton(style);
+            Extract(i, tools);
             controller.addHoverListenerForShopTools(tools[i],shopToolUpgrades.get(i));
         }
+        for(int i=0;i<trashcans.length;i++){
+            Extract(i, trashcans);
+            controller.addHoverListenerForShopTrashcans(trashcans[i],shopTrashcanUpgrades.get(i));
+        }
         setUpUI();
+    }
+
+    private void Extract(int i, ImageButton[] items) {
+        ImageButton.ImageButtonStyle style=new ImageButton.ImageButtonStyle();
+        Drawable imageUp=new TextureRegionDrawable(AssetManager.getSelectorBubbleDefault());
+        Drawable imageOver=new TextureRegionDrawable(AssetManager.getSelectorBubbleHover());
+        style.up=imageUp;
+        style.over=imageOver;
+        style.down=imageOver;
+        items[i]=new ImageButton(style);
     }
 
     @Override
@@ -88,6 +90,17 @@ public class BlackSmithView extends ShopView{
                 ImageButton button = tools[i];
                 if(!allProducts && shopToolUpgrades.get(i).getStock()<=0) continue;
                 stage.getBatch().draw(shopToolUpgrades.get(i).getIngredientItem().getTexture(),
+                    button.getX() + (button.getWidth() - width) / 2,
+                    button.getY() + (button.getHeight() - height) / 2, width, height);
+            }
+        }
+        if(selectTrashcan){
+            for(int i=0;i<trashcans.length;i++) {
+                float width = 64;
+                float height = 64;
+                ImageButton button = trashcans[i];
+                if(!allProducts && shopTrashcanUpgrades.get(i).getStock()<=0) continue;
+                stage.getBatch().draw(shopTrashcanUpgrades.get(i).getTrashcanType().getTexture(),
                     button.getX() + (button.getWidth() - width) / 2,
                     button.getY() + (button.getHeight() - height) / 2, width, height);
             }
@@ -142,8 +155,12 @@ public class BlackSmithView extends ShopView{
                     centerTable.add(tools[i]).width(120).height(120).pad(10);
             }
         }
-
-        // Optionally: Handle trashcans if implemented
+        if(selectTrashcan){
+            for (int i = 0; i < shopTrashcanUpgrades.size(); i++) {
+                if(allProducts || shopTrashcanUpgrades.get(i).getStock() > 0)
+                    centerTable.add(trashcans[i]).width(120).height(120).pad(10);
+            }
+        }
         stage.addActor(centerTable);
     }
 
