@@ -42,14 +42,12 @@ public abstract class ShopView implements Screen {
         topLeftTable.add(name).width(200).row();
         topLeftTable.add(price).width(200).row();
         topLeftTable.add(stock).width(200).row();
-        stage.addActor(topLeftTable);
         centerTable.setFillParent(true);
         centerTable.top().left().padTop(300).padLeft(100);
         selectBoxesTable.add(productTypeSelectBox).width(500).height(80);
         selectBoxesTable.add(showProductsApproach).width(500).height(80);
         selectBoxesTable.setFillParent(true);
         selectBoxesTable.defaults().pad(20).top().right();
-        stage.addActor(selectBoxesTable);
     }
     public Stage getStage() {
         return stage;

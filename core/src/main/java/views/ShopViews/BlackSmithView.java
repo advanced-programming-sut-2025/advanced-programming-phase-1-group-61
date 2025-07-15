@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import controllers.ShopViewsControllers.BlackSmithViewController;
 import models.AssetManager;
 import models.shops.BlackSmith;
 import models.shops.ShopItem;
@@ -15,6 +16,7 @@ import models.shops.ShopTrashcanUpgrades;
 import java.util.ArrayList;
 
 public class BlackSmithView extends ShopView{
+    private final BlackSmithViewController secondController=new BlackSmithViewController(this);
     private ImageButton[] items;
     private ImageButton[] tools;
     private ImageButton[] trashcans;
@@ -40,6 +42,7 @@ public class BlackSmithView extends ShopView{
     @Override
     public void show() {
         super.show();
+        secondController.handleTypeSelectBox();
         for(int i=0;i<items.length;i++){
             ImageButton.ImageButtonStyle style=new ImageButton.ImageButtonStyle();
             Drawable imageUp=new TextureRegionDrawable(AssetManager.getSelectorBubbleDefault());
@@ -72,9 +75,21 @@ public class BlackSmithView extends ShopView{
                 float width = 64;
                 float height = 64;
                 ImageButton button=items[i];
+                if(!allProducts && shopItems.get(i).getStock()<=0) continue;
                 stage.getBatch().draw(shopItems.get(i).getItem().getTexture(),
                     button.getX()+(button.getWidth()-width)/2,
                     button.getY()+(button.getHeight()-height)/2,width,height);
+            }
+        }
+        if(selectTools){
+            for(int i=0;i<tools.length;i++) {
+                float width = 64;
+                float height = 64;
+                ImageButton button = tools[i];
+                if(!allProducts && shopToolUpgrades.get(i).getStock()<=0) continue;
+                stage.getBatch().draw(shopToolUpgrades.get(i).getIngredientItem().getTexture(),
+                    button.getX() + (button.getWidth() - width) / 2,
+                    button.getY() + (button.getHeight() - height) / 2, width, height);
             }
         }
         stage.getBatch().end();
@@ -107,25 +122,31 @@ public class BlackSmithView extends ShopView{
 
     }
 
-    public void setUpUI(){
-        if(selectItems) {
+    public void setUpUI() {
+        stage.clear();
+        centerTable.clear();
+
+        stage.addActor(topLeftTable);
+        stage.addActor(selectBoxesTable);
+
+        if (selectItems) {
             for (int i = 0; i < shopItems.size(); i++) {
-                if (allProducts) centerTable.add(items[i]).width(120).height(120).pad(10);
-                else {
-                    if (shopItems.get(i).getStock() > 0) centerTable.add(items[i]).width(120).height(120).pad(10);
-                }
+                if (allProducts || shopItems.get(i).getStock() > 0)
+                    centerTable.add(items[i]).width(120).height(120).pad(10);
             }
         }
-        if(selectTools) {
+
+        if (selectTools) {
             for (int i = 0; i < shopToolUpgrades.size(); i++) {
-                if(allProducts) centerTable.add(tools[i]).width(120).height(120).pad(10);
-                else {
-                    if(shopToolUpgrades.get(i).getStock()>0) centerTable.add(tools[i]).width(120).height(120).pad(10);
-                }
+                if (allProducts || shopToolUpgrades.get(i).getStock() > 0)
+                    centerTable.add(tools[i]).width(120).height(120).pad(10);
             }
         }
+
+        // Optionally: Handle trashcans if implemented
         stage.addActor(centerTable);
     }
+
     public void setSelectItems(boolean selectItems) {
         this.selectItems = selectItems;
     }
