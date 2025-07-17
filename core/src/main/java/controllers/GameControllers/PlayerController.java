@@ -7,7 +7,10 @@ import io.github.camera.Main;
 import models.App;
 import models.AssetManager;
 import models.CollisionRect;
+import models.building.Shop;
 import models.character.Character;
+import models.enums.ShopType;
+import models.enums.TileType;
 import models.map.Tile;
 import models.shops.BlackSmith;
 import views.ShopViews.BlackSmithView;
@@ -32,13 +35,8 @@ public class PlayerController {
         handlePlayerInput();
     }
     public void handlePlayerInput() {
-        if(Gdx.input.isKeyPressed(Input.Keys.N)){
-            Main.getMain().getScreen().dispose();
-            Main.getMain().setScreen(new BlackSmithView(App.getBlackSmith()));
-        }
         float dx = 0;
         float dy = 0;
-
         if (Gdx.input.isKeyPressed(Input.Keys.W)) dy += 1;
         if (Gdx.input.isKeyPressed(Input.Keys.S)) dy -= 1;
         if (Gdx.input.isKeyPressed(Input.Keys.D)) dx += 1;
@@ -72,18 +70,28 @@ public class PlayerController {
         int endY = (int)((futureRect.getY() + futureRect.getHeight()) / tileSize);
 
         boolean collisionDetected = false;
+        boolean shopDetected = false;
+
 
         for (int x = startX; x <= endX; x++) {
             for (int y = startY; y <= endY; y++) {
                 Tile tile = App.getCurrentGame().getMap().getTileByCordinate(x, y);
-                if (tile != null && (tile.isCollisionOn() || tile.getResource() != null)) {
-                    if (tile.getCollisionRect().collidesWith(futureRect)) {
-                        collisionDetected = true;
-                        break;
-                    }
+                if (tile == null) continue;
+
+                if (tile.getType() == TileType.BlackSmith) {
+                    shopDetected = true;
+                }
+
+                if ((tile.isCollisionOn() || tile.getResource() != null)
+                    && tile.getCollisionRect().collidesWith(futureRect)) {
+                    collisionDetected = true;
                 }
             }
-            if (collisionDetected) break;
+        }
+        if (shopDetected) {
+               Main.getMain().getScreen().dispose();
+               Main.getMain().setScreen(new BlackSmithView((BlackSmith) App.getCurrentGame().getShopByShopType(ShopType.BlackSmith)));
+            return;
         }
 
         if (!collisionDetected) {
@@ -91,6 +99,7 @@ public class PlayerController {
             player.setSpriteY((int)newSpriteY);
             player.getPlayerSprite().setPosition(newSpriteX, newSpriteY);
         }
+
     }
 
 }

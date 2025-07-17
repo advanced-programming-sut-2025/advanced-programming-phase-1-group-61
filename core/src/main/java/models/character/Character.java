@@ -98,15 +98,6 @@ public class Character {
             }
         }
     }
-    public Shop getCurrentShop(){
-       Map map = App.getCurrentGame().getMap();
-        Tile tile = map.getTileByCordinate(x,y);
-        if(tile.getResource() instanceof BuildingReference buildingReference){
-          String name = buildingReference.getName();
-          return App.getCurrentGame().getShopByName(name);
-        }
-        return null;
-    }
 
     public ArrayList<Recipe> getRecipes() {
         return recipes;

@@ -71,14 +71,6 @@ public class MainMenuController {
                 Gdx.app.exit();
             }
         });
-        view.getBlackSmith().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                AssetManager.getUiClicks().play();
-                BlackSmith blackSmith=new BlackSmith("BlackSmith",0,0);
-                Main.getMain().getScreen().dispose();
-                Main.getMain().setScreen(new BlackSmithView(blackSmith));
-            }
-        });
+
     }
 }

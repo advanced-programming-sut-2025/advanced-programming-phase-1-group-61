@@ -1,17 +1,15 @@
 package models;
 
 import com.google.gson.*;
-import models.food.Refrigerator;
-import models.resource.*;
-import models.building.*;
-import models.shops.*;
+import models.building.Shop;
+
 
 import java.lang.reflect.Type;
 
-public class ResourceAndBuildingAdapter implements JsonSerializer<Resource>, JsonDeserializer<Resource> {
 
+public class ShopAdapter implements JsonSerializer<Shop>, JsonDeserializer<Shop> {
     @Override
-    public JsonElement serialize(Resource src, Type typeOfSrc, JsonSerializationContext context) {
+    public JsonElement serialize(Shop src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("type", src.getClass().getCanonicalName());
         jsonObject.add("data", context.serialize(src));
@@ -19,7 +17,7 @@ public class ResourceAndBuildingAdapter implements JsonSerializer<Resource>, Jso
     }
 
     @Override
-    public Resource deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    public Shop deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
         String type = jsonObject.get("type").getAsString();
         JsonElement dataElement = jsonObject.get("data");
