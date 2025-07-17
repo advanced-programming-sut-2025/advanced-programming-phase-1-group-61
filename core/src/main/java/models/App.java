@@ -1,5 +1,8 @@
 package models;
 
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -170,5 +173,13 @@ public class App {
     public static float getMusicVolume(){
         return musicVolume;
     }
-
+    public static void Extract(int i, ImageButton[] items){
+        ImageButton.ImageButtonStyle style=new ImageButton.ImageButtonStyle();
+        Drawable imageUp=new TextureRegionDrawable(AssetManager.getSelectorBubbleDefault());
+        Drawable imageOver=new TextureRegionDrawable(AssetManager.getSelectorBubbleHover());
+        style.up=imageUp;
+        style.over=imageOver;
+        style.down=imageOver;
+        items[i]=new ImageButton(style);
+    }
 }

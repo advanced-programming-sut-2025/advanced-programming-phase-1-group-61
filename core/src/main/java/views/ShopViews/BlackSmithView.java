@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import controllers.ShopViewsControllers.BlackSmithViewController;
+import models.App;
 import models.AssetManager;
 import models.shops.BlackSmith;
 import models.shops.ShopItem;
@@ -29,7 +30,6 @@ public class BlackSmithView extends ShopView{
     private boolean selectTrashcan=false;
     public BlackSmithView(BlackSmith blackSmith) {
         super();
-        productTypeSelectBox=new SelectBox<>(skin);
         productTypeSelectBox.setItems("Items","Tool Upgrades","Trashcan Upgrades");
         this.shop = blackSmith;
         shopItems = blackSmith.getItems();
@@ -44,27 +44,20 @@ public class BlackSmithView extends ShopView{
         super.show();
         secondController.handleTypeSelectBox();
         for(int i=0;i<items.length;i++){
-            ImageButton.ImageButtonStyle style=new ImageButton.ImageButtonStyle();
-            Drawable imageUp=new TextureRegionDrawable(AssetManager.getSelectorBubbleDefault());
-            Drawable imageOver=new TextureRegionDrawable(AssetManager.getSelectorBubbleHover());
-            style.up=imageUp;
-            style.over=imageOver;
-            style.down=imageOver;
-            items[i]=new ImageButton(style);
+            App.Extract(i, items);
             controller.addHoverListenerForItems(items[i],shopItems.get(i));
         }
         for(int i=0;i<tools.length;i++){
-            ImageButton.ImageButtonStyle style=new ImageButton.ImageButtonStyle();
-            Drawable imageUp=new TextureRegionDrawable(AssetManager.getSelectorBubbleDefault());
-            Drawable imageOver=new TextureRegionDrawable(AssetManager.getSelectorBubbleHover());
-            style.up=imageUp;
-            style.over=imageOver;
-            style.down=imageOver;
-            tools[i]=new ImageButton(style);
+            App.Extract(i, tools);
             controller.addHoverListenerForShopTools(tools[i],shopToolUpgrades.get(i));
+        }
+        for(int i=0;i<trashcans.length;i++){
+            App.Extract(i, trashcans);
+            controller.addHoverListenerForShopTrashcans(trashcans[i],shopTrashcanUpgrades.get(i));
         }
         setUpUI();
     }
+
 
     @Override
     public void render(float delta) {
@@ -88,6 +81,17 @@ public class BlackSmithView extends ShopView{
                 ImageButton button = tools[i];
                 if(!allProducts && shopToolUpgrades.get(i).getStock()<=0) continue;
                 stage.getBatch().draw(shopToolUpgrades.get(i).getIngredientItem().getTexture(),
+                    button.getX() + (button.getWidth() - width) / 2,
+                    button.getY() + (button.getHeight() - height) / 2, width, height);
+            }
+        }
+        if(selectTrashcan){
+            for(int i=0;i<trashcans.length;i++) {
+                float width = 64;
+                float height = 64;
+                ImageButton button = trashcans[i];
+                if(!allProducts && shopTrashcanUpgrades.get(i).getStock()<=0) continue;
+                stage.getBatch().draw(shopTrashcanUpgrades.get(i).getTrashcanType().getTexture(),
                     button.getX() + (button.getWidth() - width) / 2,
                     button.getY() + (button.getHeight() - height) / 2, width, height);
             }
@@ -123,12 +127,7 @@ public class BlackSmithView extends ShopView{
     }
 
     public void setUpUI() {
-        stage.clear();
-        centerTable.clear();
-
-        stage.addActor(topLeftTable);
-        stage.addActor(selectBoxesTable);
-
+        super.setUpUI();
         if (selectItems) {
             for (int i = 0; i < shopItems.size(); i++) {
                 if (allProducts || shopItems.get(i).getStock() > 0)
@@ -142,8 +141,12 @@ public class BlackSmithView extends ShopView{
                     centerTable.add(tools[i]).width(120).height(120).pad(10);
             }
         }
-
-        // Optionally: Handle trashcans if implemented
+        if(selectTrashcan){
+            for (int i = 0; i < shopTrashcanUpgrades.size(); i++) {
+                if(allProducts || shopTrashcanUpgrades.get(i).getStock() > 0)
+                    centerTable.add(trashcans[i]).width(120).height(120).pad(10);
+            }
+        }
         stage.addActor(centerTable);
     }
 
