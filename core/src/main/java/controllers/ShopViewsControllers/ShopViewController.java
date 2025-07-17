@@ -42,6 +42,11 @@ public class ShopViewController {
                     view.getStock().setText("Stock: "+tool.getStock());
                 }
             }
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                view.getName().setText("");
+                view.getPrice().setText("");
+                view.getStock().setText("");
+            }
         });
     }
     public void addHoverListenerForShopTrashcans(ImageButton button, ShopTrashcanUpgrades trashcan) {
@@ -55,6 +60,11 @@ public class ShopViewController {
                     view.getStock().setText("Stock: "+trashcan.getStock());
                 }
             }
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                view.getName().setText("");
+                view.getPrice().setText("");
+                view.getStock().setText("");
+            }
         });
     }
     public void addHoverListenerForShopCages(ImageButton button, ShopCages cage){
@@ -67,6 +77,11 @@ public class ShopViewController {
                 } else {
                     view.getStock().setText("Stock: "+cage.getStock());
                 }
+            }
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                view.getName().setText("");
+                view.getPrice().setText("");
+                view.getStock().setText("");
             }
         });
     }

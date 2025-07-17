@@ -6,11 +6,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import io.github.camera.Main;
 import models.*;
 import models.shops.BlackSmith;
+import models.shops.Carpenter;
 import views.LoginMenu;
 import views.MainMenu;
 import views.RegisterMenu;
 import views.SettingsMenu;
 import views.ShopViews.BlackSmithView;
+import views.ShopViews.CarpenterView;
 
 
 public class MainMenuController {
@@ -71,6 +73,12 @@ public class MainMenuController {
                 Gdx.app.exit();
             }
         });
-
+        view.getTestShop().addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                AssetManager.getUiClicks().play();
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(new CarpenterView(new Carpenter("carpenter",0,0)));
+            }
+        });
     }
 }
