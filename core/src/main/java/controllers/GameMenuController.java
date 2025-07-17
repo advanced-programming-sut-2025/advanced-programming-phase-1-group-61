@@ -790,49 +790,6 @@ public class GameMenuController {
         return new Result(false, "You don't have any " + animalName);
     }
 
-    public Result showShopProducts() {
-        Shop currentShop = App.getCurrentGame().getCurrentCharacter().getCurrentShop();
-        if (currentShop == null) {
-            return new Result(false, "You are not in a shop!");
-        }
-        Date date=App.getCurrentGame().getDate();
-        if(!(date.getHour()>=currentShop.getOpenHour() && date.getHour()<currentShop.getCloseHour())){
-            return new Result(false,"shop is now closed!");
-        }
-        return new Result(true, currentShop.showAllProducts());
-    }
-
-    public Result showShopAvailableProducts() {
-        Shop currentShop = App.getCurrentGame().getCurrentCharacter().getCurrentShop();
-        if (currentShop == null) {
-            return new Result(false, "You are not in a shop!");
-        }
-        Date date=App.getCurrentGame().getDate();
-        if(!(date.getHour()>=currentShop.getOpenHour() && date.getHour()<currentShop.getCloseHour())){
-            return new Result(false,"shop is now closed!");
-        }
-        return new Result(true, currentShop.showAllAvailableProducts());
-    }
-
-    public Result purchaseProduct(Matcher matcher) {
-        Shop currentShop = App.getCurrentGame().getCurrentCharacter().getCurrentShop();
-        String productName = matcher.group("productName").trim();
-        int count;
-        if (currentShop == null) {
-            return new Result(false, "You are not in a shop!");
-        }
-        try {
-            count = Integer.parseInt(matcher.group("count"));
-        } catch (Exception e) {
-            return new Result(false, "please enter a valid number!");
-        }
-        Date date=App.getCurrentGame().getDate();
-        if(!(date.getHour()>=currentShop.getOpenHour() && date.getHour()<currentShop.getCloseHour())){
-            return new Result(false,"shop is now closed!");
-        }
-        return new Result(true, currentShop.purchaseProduct(productName, count));
-    }
-
     public Result plant(Matcher matcher){
         String directionString = matcher.group("direction");
         String seedString = matcher.group("seed");

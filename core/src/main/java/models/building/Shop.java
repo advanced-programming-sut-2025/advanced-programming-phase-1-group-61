@@ -5,13 +5,17 @@ import com.badlogic.gdx.graphics.Texture;
 import io.github.camera.Main;
 import models.AssetManager;
 import models.enums.ShopType;
+import models.resource.Resource;
 
-public class Shop extends Building {
+public class Shop  {
     protected String owner;
     protected ShopType type;
+    protected int x;
+    protected int y;
     public Shop( String name , int X, int Y,ShopType type) {
-        super( name, X, Y);
         this.type = type;
+        this.x = X;
+        this.y =Y;
     }
     public String getOwnerName() {
         return owner;
@@ -41,6 +45,12 @@ public class Shop extends Building {
         }else {
             Main.getBatch().draw(type.getTexture() , getX()-AssetManager.getTileSize() , getY()-AssetManager.getTileSize() , AssetManager.getTileSize()*5 , AssetManager.getTileSize()*5);
         }
+    }
+    public int getX(){
+        return x;
+    }
+    public int getY(){
+        return y;
     }
 
     public ShopType getType() {

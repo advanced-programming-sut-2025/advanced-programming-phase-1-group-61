@@ -27,7 +27,6 @@ public class App {
     private static ArrayList<models.Game> allGames = new ArrayList<>();
     private static int currentGameId;
     private static float musicVolume=1f;
-    private static BlackSmith blackSmith;
 
 
     public static models.Game getCurrentGame(){
@@ -56,6 +55,7 @@ public class App {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(models.tool.Tool.class, new models.ToolAdapter())
                 .registerTypeAdapter(models.resource.Resource.class, new models.ResourceAndBuildingAdapter())
+                .registerTypeAdapter(models.building.Shop.class , new models.ShopAdapter())
                 .setPrettyPrinting()
                 .create();
 
@@ -83,6 +83,7 @@ public class App {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(models.tool.Tool.class, new models.ToolAdapter())
                 .registerTypeAdapter(models.resource.Resource.class, new models.ResourceAndBuildingAdapter())
+                .registerTypeAdapter(models.building.Shop.class , new models.ShopAdapter())
                 .setPrettyPrinting()
                 .create();
 
@@ -169,10 +170,5 @@ public class App {
     public static float getMusicVolume(){
         return musicVolume;
     }
-    public static void setBlackSmith(BlackSmith blackSmith){
-        App.blackSmith = blackSmith;
-    }
-    public static BlackSmith getBlackSmith(){
-        return App.blackSmith;
-    }
+
 }

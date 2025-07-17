@@ -584,9 +584,10 @@ public class Game {
         }
     }
 
-    public Shop getShopByName(String name){
+
+    public Shop getShopByShopType(ShopType type){
         for (Shop shop : shops) {
-            if(shop.getName().equals(name)){
+            if(shop.getType().equals(type)){
                 return shop;
             }
         }
@@ -686,7 +687,6 @@ public class Game {
                     BlackSmith blackSmith=new BlackSmith("BlackSmith", tile.getX(), tile.getY());
                     shops.add(blackSmith);
                     createdShopTypes.add(ShopType.BlackSmith);
-                    App.setBlackSmith(blackSmith);
                 } else if (type.equals(TileType.FishShop) && !createdShopTypes.contains(ShopType.FishShop)) {
                     shops.add(new FishShop("FishShop", tile.getX(), tile.getY()));
                     createdShopTypes.add(ShopType.FishShop);

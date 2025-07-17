@@ -7,7 +7,12 @@ import io.github.camera.Main;
 import models.App;
 import models.AssetManager;
 import models.CollisionRect;
+import models.Game;
+import models.building.Shop;
 import models.character.Character;
+import models.enums.ShopType;
+import models.enums.TileType;
+import models.map.Map;
 import models.map.Tile;
 import models.shops.BlackSmith;
 import views.ShopViews.BlackSmithView;
@@ -32,13 +37,8 @@ public class PlayerController {
         handlePlayerInput();
     }
     public void handlePlayerInput() {
-        if(Gdx.input.isKeyPressed(Input.Keys.N)){
-            Main.getMain().getScreen().dispose();
-            Main.getMain().setScreen(new BlackSmithView(App.getBlackSmith()));
-        }
         float dx = 0;
         float dy = 0;
-
         if (Gdx.input.isKeyPressed(Input.Keys.W)) dy += 1;
         if (Gdx.input.isKeyPressed(Input.Keys.S)) dy -= 1;
         if (Gdx.input.isKeyPressed(Input.Keys.D)) dx += 1;
@@ -72,18 +72,48 @@ public class PlayerController {
         int endY = (int)((futureRect.getY() + futureRect.getHeight()) / tileSize);
 
         boolean collisionDetected = false;
+        boolean shopDetected = false;
+        Game game = App.getCurrentGame();
+        Map map = game.getMap();
+        TileType shopTile = null;
 
         for (int x = startX; x <= endX; x++) {
             for (int y = startY; y <= endY; y++) {
-                Tile tile = App.getCurrentGame().getMap().getTileByCordinate(x, y);
-                if (tile != null && (tile.isCollisionOn() || tile.getResource() != null)) {
-                    if (tile.getCollisionRect().collidesWith(futureRect)) {
-                        collisionDetected = true;
-                        break;
-                    }
+                Tile tile = map.getTileByCordinate(x, y);
+                if (tile == null) continue;
+                switch (tile.getType()){
+                    case TileType.BlackSmith, TileType.Carpenter,TileType.FishShop,TileType.JojaMart,TileType.StarDrop,TileType.Marnie,TileType.Pierre ->  shopDetected = true;
+                }
+
+                shopTile = tile.getType();
+
+
+                if ((tile.isCollisionOn() || tile.getResource() != null)
+                    && tile.getCollisionRect().collidesWith(futureRect)) {
+                    collisionDetected = true;
                 }
             }
-            if (collisionDetected) break;
+        }
+        if (shopDetected) {
+            switch (shopTile){
+                case TileType.BlackSmith -> {
+                    Main.getMain().getScreen().dispose();
+                    Main.getMain().setScreen(new BlackSmithView((BlackSmith) App.getCurrentGame().getShopByShopType(ShopType.BlackSmith)));
+                    return;
+                }case TileType.Carpenter -> {
+                    //TODO
+                }case TileType.FishShop -> {
+                    //TODO
+                }case TileType.JojaMart -> {
+                    //TODO
+                }case TileType.StarDrop -> {
+                    //TODO
+                }case TileType.Marnie -> {
+                    //TODO
+                }case TileType.Pierre -> {
+                    //TODO
+                }
+            }
         }
 
         if (!collisionDetected) {
@@ -91,6 +121,7 @@ public class PlayerController {
             player.setSpriteY((int)newSpriteY);
             player.getPlayerSprite().setPosition(newSpriteX, newSpriteY);
         }
+
     }
 
 }
