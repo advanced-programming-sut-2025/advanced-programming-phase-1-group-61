@@ -5,10 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import models.shops.ShopItem;
-import models.shops.ShopTool;
-import models.shops.ShopToolUpgrades;
-import models.shops.ShopTrashcanUpgrades;
+import models.shops.*;
 import views.ShopViews.ShopView;
 
 public class ShopViewController {
@@ -56,6 +53,19 @@ public class ShopViewController {
                     view.getStock().setText("Stock: "+"UNLIMITED");
                 } else{
                     view.getStock().setText("Stock: "+trashcan.getStock());
+                }
+            }
+        });
+    }
+    public void addHoverListenerForShopCages(ImageButton button, ShopCages cage){
+        button.addListener(new InputListener(){
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                view.getName().setText("Name: "+cage.getCageType().getDisplayName()+" Cage");
+                view.getPrice().setText("Price: "+cage.getPrice());
+                if(cage.getStock()>(int)1e9){
+                    view.getStock().setText("Stock: "+"UNLIMITED");
+                } else {
+                    view.getStock().setText("Stock: "+cage.getStock());
                 }
             }
         });

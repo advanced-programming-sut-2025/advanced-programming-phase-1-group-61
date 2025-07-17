@@ -4,10 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
 public enum ItemType {
-    Wood(10, "wood", 0, false, ""),
+    Wood(10, "wood", 0, false, "Items/Wood.png"),
     HardWood(10, "hard wood", 0, false, ""),
     Pony(0, "pony", 0, false, ""),
-    Stone(20, "stone", 0, false, ""),
+    Stone(20, "stone", 0, false, "Items/Stone.png"),
     Iron(20, "iron", 0, false, ""),
     Fur(0, "fur", 0, false, ""),
     Sardine(40, "sardine", 0, false, ""),
@@ -327,14 +327,14 @@ public enum ItemType {
     private final String disPlayName;
     private final int energy;
     private final boolean isEdible;
-    private final String texturePath;
+    private final String internalPath;
 
-    ItemType(int price, String disPlayName, int energy, boolean isEdible, String texturePath) {
+    ItemType(int price, String disPlayName, int energy, boolean isEdible, String internalPath) {
         this.price = price;
         this.disPlayName = disPlayName;
         this.energy = energy;
         this.isEdible = isEdible;
-        this.texturePath = texturePath;
+        this.internalPath = internalPath;
     }
 
     public int getPrice() {
@@ -385,6 +385,6 @@ public enum ItemType {
     }
 
     public Texture getTexture() {
-        return new Texture(Gdx.files.internal(texturePath));
+        return new Texture(Gdx.files.internal(internalPath));
     }
 }

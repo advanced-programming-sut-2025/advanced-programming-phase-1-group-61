@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import controllers.ShopViewsControllers.BlackSmithViewController;
+import models.App;
 import models.AssetManager;
 import models.shops.BlackSmith;
 import models.shops.ShopItem;
@@ -29,7 +30,6 @@ public class BlackSmithView extends ShopView{
     private boolean selectTrashcan=false;
     public BlackSmithView(BlackSmith blackSmith) {
         super();
-        productTypeSelectBox=new SelectBox<>(skin);
         productTypeSelectBox.setItems("Items","Tool Upgrades","Trashcan Upgrades");
         this.shop = blackSmith;
         shopItems = blackSmith.getItems();
@@ -44,29 +44,20 @@ public class BlackSmithView extends ShopView{
         super.show();
         secondController.handleTypeSelectBox();
         for(int i=0;i<items.length;i++){
-            Extract(i, items);
+            App.Extract(i, items);
             controller.addHoverListenerForItems(items[i],shopItems.get(i));
         }
         for(int i=0;i<tools.length;i++){
-            Extract(i, tools);
+            App.Extract(i, tools);
             controller.addHoverListenerForShopTools(tools[i],shopToolUpgrades.get(i));
         }
         for(int i=0;i<trashcans.length;i++){
-            Extract(i, trashcans);
+            App.Extract(i, trashcans);
             controller.addHoverListenerForShopTrashcans(trashcans[i],shopTrashcanUpgrades.get(i));
         }
         setUpUI();
     }
 
-    private void Extract(int i, ImageButton[] items) {
-        ImageButton.ImageButtonStyle style=new ImageButton.ImageButtonStyle();
-        Drawable imageUp=new TextureRegionDrawable(AssetManager.getSelectorBubbleDefault());
-        Drawable imageOver=new TextureRegionDrawable(AssetManager.getSelectorBubbleHover());
-        style.up=imageUp;
-        style.over=imageOver;
-        style.down=imageOver;
-        items[i]=new ImageButton(style);
-    }
 
     @Override
     public void render(float delta) {
@@ -136,12 +127,7 @@ public class BlackSmithView extends ShopView{
     }
 
     public void setUpUI() {
-        stage.clear();
-        centerTable.clear();
-
-        stage.addActor(topLeftTable);
-        stage.addActor(selectBoxesTable);
-
+        super.setUpUI();
         if (selectItems) {
             for (int i = 0; i < shopItems.size(); i++) {
                 if (allProducts || shopItems.get(i).getStock() > 0)

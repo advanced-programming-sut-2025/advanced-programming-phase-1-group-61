@@ -33,6 +33,7 @@ public abstract class ShopView implements Screen {
         stock=new Label("",skin);
         topLeftTable=new Table();
         selectBoxesTable=new Table();
+        productTypeSelectBox=new SelectBox<>(skin);
     }
     @Override
     public void show() {
@@ -66,5 +67,11 @@ public abstract class ShopView implements Screen {
     }
     public SelectBox<String> getProductTypeSelectBox() {
         return productTypeSelectBox;
+    }
+    public void setUpUI(){
+        stage.clear();
+        centerTable.clear();
+        stage.addActor(topLeftTable);
+        stage.addActor(selectBoxesTable);
     }
 }
