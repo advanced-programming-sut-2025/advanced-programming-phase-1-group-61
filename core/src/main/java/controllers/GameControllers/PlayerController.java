@@ -7,10 +7,12 @@ import io.github.camera.Main;
 import models.App;
 import models.AssetManager;
 import models.CollisionRect;
+import models.Game;
 import models.building.Shop;
 import models.character.Character;
 import models.enums.ShopType;
 import models.enums.TileType;
+import models.map.Map;
 import models.map.Tile;
 import models.shops.BlackSmith;
 import views.ShopViews.BlackSmithView;
@@ -71,16 +73,20 @@ public class PlayerController {
 
         boolean collisionDetected = false;
         boolean shopDetected = false;
-
+        Game game = App.getCurrentGame();
+        Map map = game.getMap();
+        TileType shopTile = null;
 
         for (int x = startX; x <= endX; x++) {
             for (int y = startY; y <= endY; y++) {
-                Tile tile = App.getCurrentGame().getMap().getTileByCordinate(x, y);
+                Tile tile = map.getTileByCordinate(x, y);
                 if (tile == null) continue;
-
-                if (tile.getType() == TileType.BlackSmith) {
-                    shopDetected = true;
+                switch (tile.getType()){
+                    case TileType.BlackSmith, TileType.Carpenter,TileType.FishShop,TileType.JojaMart,TileType.StarDrop,TileType.Marnie,TileType.Pierre ->  shopDetected = true;
                 }
+
+                shopTile = tile.getType();
+
 
                 if ((tile.isCollisionOn() || tile.getResource() != null)
                     && tile.getCollisionRect().collidesWith(futureRect)) {
@@ -89,9 +95,25 @@ public class PlayerController {
             }
         }
         if (shopDetected) {
-               Main.getMain().getScreen().dispose();
-               Main.getMain().setScreen(new BlackSmithView((BlackSmith) App.getCurrentGame().getShopByShopType(ShopType.BlackSmith)));
-            return;
+            switch (shopTile){
+                case TileType.BlackSmith -> {
+                    Main.getMain().getScreen().dispose();
+                    Main.getMain().setScreen(new BlackSmithView((BlackSmith) App.getCurrentGame().getShopByShopType(ShopType.BlackSmith)));
+                    return;
+                }case TileType.Carpenter -> {
+                    //TODO
+                }case TileType.FishShop -> {
+                    //TODO
+                }case TileType.JojaMart -> {
+                    //TODO
+                }case TileType.StarDrop -> {
+                    //TODO
+                }case TileType.Marnie -> {
+                    //TODO
+                }case TileType.Pierre -> {
+                    //TODO
+                }
+            }
         }
 
         if (!collisionDetected) {
