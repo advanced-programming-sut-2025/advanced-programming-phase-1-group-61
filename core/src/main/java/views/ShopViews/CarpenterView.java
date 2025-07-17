@@ -14,8 +14,8 @@ import java.util.ArrayList;
 public class CarpenterView extends ShopView{
     private final Carpenter shop;
     private final CarpenterViewController secondController=new CarpenterViewController(this);
-    private ImageButton[] permanentItems;
-    private ImageButton[] farmBuildings;
+    private final ImageButton[] permanentItems;
+    private final ImageButton[] farmBuildings;
     private final ArrayList<ShopItem> shopPermanentItems;
     private final ArrayList<ShopCages> shopFarmBuildings;
     private boolean selectPermanentItem = true;

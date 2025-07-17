@@ -85,4 +85,40 @@ public class ShopViewController {
             }
         });
     }
+    public void addHoverListenerForShopFishingPoleUpgrades(ImageButton button, ShopFishingPoleUpgrades pole){
+        button.addListener(new InputListener(){
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                view.getName().setText("Name: "+pole.getUpgradeName()+" Fishing Pole");
+                view.getPrice().setText("Price: "+pole.getPrice());
+                if(pole.getStock()>(int)1e9){
+                    view.getStock().setText("Stock: "+"UNLIMITED");
+                } else{
+                    view.getStock().setText("Stock: "+pole.getStock());
+                }
+            }
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                view.getName().setText("");
+                view.getPrice().setText("");
+                view.getStock().setText("");
+            }
+        });
+    }
+    public void addHoverListenerForShopRecipes(ImageButton button, ShopRecipes recipe){
+        button.addListener(new InputListener(){
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                view.getName().setText("Name: "+recipe.getRecipe().name());
+                view.getPrice().setText("Price: "+recipe.getPrice());
+                if(recipe.getStock()>(int)1e9){
+                    view.getStock().setText("Stock: "+"UNLIMITED");
+                } else{
+                    view.getStock().setText("Stock: "+recipe.getStock());
+                }
+            }
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                view.getName().setText("");
+                view.getPrice().setText("");
+                view.getStock().setText("");
+            }
+        });
+    }
 }

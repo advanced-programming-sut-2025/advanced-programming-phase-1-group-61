@@ -109,4 +109,10 @@ public class FishShop extends Shop {
     public int getCloseHour(){
         return 16;
     }
+    public ArrayList<ShopFishingPoleUpgrades> getFishingPoles() {
+        return fishingPoles;
+    }
+    public ArrayList<ShopRecipes> getShopRecipes() {
+        return shopRecipes;
+    }
 }
