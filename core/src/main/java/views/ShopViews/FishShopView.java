@@ -18,8 +18,8 @@ public class FishShopView extends ShopView {
     private final ImageButton[] recipes;
     private final ArrayList<ShopFishingPoleUpgrades> shopFishingPoleUpgrades;
     private final ArrayList<ShopRecipes> shopRecipes;
-    private boolean selectFishingPole;
-    private boolean selectRecipe;
+    private boolean selectFishingPole=true;
+    private boolean selectRecipe=false;
     public FishShopView(FishShop shop) {
         super();
         this.shop=shop;
@@ -53,7 +53,20 @@ public class FishShopView extends ShopView {
                 float height=64;
                 ImageButton button=fishingPoleUpgrades[i];
                 if(!allProducts && shopFishingPoleUpgrades.get(i).getStock()<=0) continue;
-
+                stage.getBatch().draw(shopFishingPoleUpgrades.get(i).getTextureByUpgradeName(),
+                    button.getX()+(button.getWidth()-width)/2,
+                    button.getY()+(button.getHeight()-height)/2,width,height);
+            }
+        }
+        if(selectRecipe){
+            for(int i=0; i<shopRecipes.size(); i++){
+                float width=64;
+                float height=64;
+                ImageButton button=recipes[i];
+                if(!allProducts && shopRecipes.get(i).getStock()<=0) continue;
+                stage.getBatch().draw(shopRecipes.get(i).getRecipe().getTexture(),
+                    button.getX()+(button.getWidth()-width)/2,
+                    button.getY()+(button.getHeight()-height)/2,width,height);
             }
         }
         stage.getBatch().end();
@@ -87,6 +100,19 @@ public class FishShopView extends ShopView {
     }
     public void setUpUI(){
         super.setUpUI();
+        if(selectFishingPole){
+            for(int i=0; i<shopFishingPoleUpgrades.size(); i++){
+                if(allProducts || shopFishingPoleUpgrades.get(i).getStock()>0)
+                    centerTable.add(fishingPoleUpgrades[i]).width(120).height(120).pad(10);
+            }
+        }
+        if(selectRecipe){
+            for(int i=0; i<shopRecipes.size(); i++){
+                if(allProducts || shopRecipes.get(i).getStock()>0)
+                    centerTable.add(recipes[i]).width(120).height(120).pad(10);
+            }
+        }
+        stage.addActor(centerTable);
     }
     public void setSelectFishingPole(boolean selectFishingPole) {
         this.selectFishingPole = selectFishingPole;
