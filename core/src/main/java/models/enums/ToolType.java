@@ -11,7 +11,7 @@ public enum ToolType {
     Axe("Axe",Map.of("primary",5,"copper",4,"iron",3,"gold",2,"iridium",1),
         Map.of("primary","tools/Axe/Axe.png","copper","tools/Axe/Copper_Axe.png","iron","tools/Axe/Steel_Axe.png","gold","tools/Axe/Gold_Axe.png","iridium","Iridium_Axe.png")),
     FishingPole("FishingPole",Map.of("educational",8,"bamboo",8,"fiberGlass",6,"iridium",4),
-        Map.of("educational","tools/Fishing_Pole/Training_Rod.png","bamboo","tools/Fishing_Pole/Bamboo_Pole","fiberGlass","tools/Fishing_Pole/Fiberglass_Rod","iridium","tools/Fishing_Pole/Iridium_Rod")),
+        Map.of("training","tools/Fishing_Pole/Training_Rod.png","bamboo","tools/Fishing_Pole/Bamboo_Pole.png","fiberGlass","tools/Fishing_Pole/Fiberglass_Rod.png","iridium","tools/Fishing_Pole/Iridium_Rod.png")),
     Hoe("Hoe",Map.of("primary",5,"copper",4,"iron",3,"gold",2,"iridium",1),
         Map.of("primary","","copper","","iron","","gold","","iridium","")),
     MilkPail("MilkPail",Map.of("default",4),
@@ -54,11 +54,11 @@ public enum ToolType {
         return null;
     }
     public Texture getTextureForLevel(String level){
-        for(Map.Entry<String,Integer> entry : energyPerLevel.entrySet()){
-            if(entry.getKey().equals(level)){
-                return new Texture(Gdx.files.internal(entry.getKey()));
+        for(String key : internalPathForEachLevel.keySet()){
+            if(key.equals(level)){
+                return new Texture(Gdx.files.internal(internalPathForEachLevel.get(key)));
             }
         }
-        return new Texture("");
+        return new Texture("T_Raven_Idle_0.png");
     }
 }

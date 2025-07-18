@@ -7,12 +7,14 @@ import io.github.camera.Main;
 import models.*;
 import models.shops.BlackSmith;
 import models.shops.Carpenter;
+import models.shops.FishShop;
 import views.LoginMenu;
 import views.MainMenu;
 import views.RegisterMenu;
 import views.SettingsMenu;
 import views.ShopViews.BlackSmithView;
 import views.ShopViews.CarpenterView;
+import views.ShopViews.FishShopView;
 
 
 public class MainMenuController {
@@ -77,7 +79,7 @@ public class MainMenuController {
             public void clicked(InputEvent event, float x, float y) {
                 AssetManager.getUiClicks().play();
                 Main.getMain().getScreen().dispose();
-                Main.getMain().setScreen(new CarpenterView(new Carpenter("carpenter",0,0)));
+                Main.getMain().setScreen(new FishShopView(new FishShop("...",0,0)));
             }
         });
     }
