@@ -1,9 +1,6 @@
 package views;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -31,11 +28,22 @@ public class GameView implements Screen{
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(stage);
-        inventoryUI = new InventoryUI(AssetManager.getSkin(),App.getCurrentGame().getCurrentCharacter().getInventory(),stage);
+        stage = new Stage();
+        inventoryUI = new InventoryUI(AssetManager.getSkin(),
+            App.getCurrentGame().getCurrentCharacter().getInventory(),
+            stage);
         inventoryUI.setVisible(false);
         stage.addActor(inventoryUI);
+
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(inventoryUI);
+        multiplexer.addProcessor(stage);
+
+        Gdx.input.setInputProcessor(multiplexer);
+
+        controller.setView(this, camera);
     }
+
 
     @Override
     public void render(float v) {
@@ -47,6 +55,7 @@ public class GameView implements Screen{
         if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
             inventoryVisible = !inventoryVisible;
             inventoryUI.setVisible(inventoryVisible);
+            inventoryUI.setInventoryVisible(inventoryVisible);
         }
 
         Main.getBatch().setProjectionMatrix(camera.combined);
