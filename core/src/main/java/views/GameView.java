@@ -11,12 +11,15 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import controllers.GameMenuController;
 import io.github.camera.Main;
 import models.App;
+import models.AssetManager;
 import models.shops.BlackSmith;
 import views.ShopViews.BlackSmithView;
 
 public class GameView implements Screen{
     private GameMenuController controller;
     private Stage stage;
+    private InventoryUI inventoryUI;
+    private boolean inventoryVisible = false;
     private OrthographicCamera camera;
 
     public GameView(GameMenuController controller ) {
@@ -28,7 +31,10 @@ public class GameView implements Screen{
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(stage);
+        inventoryUI = new InventoryUI(AssetManager.getSkin(),App.getCurrentGame().getCurrentCharacter().getInventory(),stage);
+        inventoryUI.setVisible(false);
+        stage.addActor(inventoryUI);
     }
 
     @Override
@@ -36,6 +42,13 @@ public class GameView implements Screen{
         ScreenUtils.clear(0, 0, 0, 1);
         Main.getBatch().begin();
         controller.updateGame();
+
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
+            inventoryVisible = !inventoryVisible;
+            inventoryUI.setVisible(inventoryVisible);
+        }
+
         Main.getBatch().setProjectionMatrix(camera.combined);
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();

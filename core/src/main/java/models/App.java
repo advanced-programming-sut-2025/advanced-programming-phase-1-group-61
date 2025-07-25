@@ -8,8 +8,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import controllers.PreGameMenuController;
 import io.github.camera.Main;
-import models.building.Shop;
-import models.shops.BlackSmith;
 import views.PreGameMenu;
 
 

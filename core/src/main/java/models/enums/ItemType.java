@@ -327,14 +327,14 @@ public enum ItemType {
     private final String disPlayName;
     private final int energy;
     private final boolean isEdible;
-    private final String internalPath;
+    private final String texture;
 
     ItemType(int price, String disPlayName, int energy, boolean isEdible, String internalPath) {
         this.price = price;
         this.disPlayName = disPlayName;
         this.energy = energy;
         this.isEdible = isEdible;
-        this.internalPath = internalPath;
+        this.texture = internalPath;
     }
 
     public int getPrice() {
@@ -385,6 +385,11 @@ public enum ItemType {
     }
 
     public Texture getTexture() {
-        return new Texture(Gdx.files.internal(internalPath));
+       try {
+           return new Texture(texture);
+       } catch (Exception e) {
+           e.printStackTrace();
+           return new Texture("error.png");
+       }
     }
 }

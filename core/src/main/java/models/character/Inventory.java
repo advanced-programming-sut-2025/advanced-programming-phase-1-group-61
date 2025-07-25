@@ -9,31 +9,54 @@ import models.tool.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Inventory {
-    private final HashMap<ItemType, Integer> items=new HashMap<>();
+
+    private BackpackType  backpackType = BackpackType.PRIMARY;
+    private List<InventorySlot> slots = new ArrayList<>();
+
+
+
     private final ArrayList<Tool> tools=new ArrayList<>();
-    private final HashMap<CageType,Integer> allCages=new HashMap<>();
-    private BackpackType backpackType=BackpackType.PRIMARY;
+    private final HashMap<CageType,Integer> allCages= new HashMap<>();
+
     private Trashcan trashcan=new Trashcan();
 
     public Inventory() {
+        for (int i = 0; i < backpackType.getSize(); i++) {
+            slots.add(new InventorySlot(0 , null));
+        }
         tools.add(new Axe());
         tools.add(new Pickaxe());
         tools.add(new Hoe());
     }
 
-    public void addItem(ItemType item, int count){
-
-       if(items.containsKey(item)){
-           int i = items.get(item);
-           items.put(item , i+count);
-       }else {
-           if(backpackType.getSize() > items.size()){
-               items.put(item , count);
-           }
-       }
+    public List<InventorySlot> getSlots() {
+        return slots;
     }
+
+    public void addItem(ItemType item, int count){
+        int emptySlot =0;
+        for (InventorySlot slot : slots) {
+            if(item.equals(slot.getItemType())){
+                slot.setCount(slot.getCount()+count);
+            }
+            if(slot.isEmpty()){
+                emptySlot++;
+            }
+        }
+        if(emptySlot < backpackType.getSize()){
+            for (InventorySlot slot : slots) {
+                if(slot.isEmpty()){
+                    slot.setItemType(item);
+                    slot.setCount(count);
+                    break;
+                }
+            }
+        }
+    }
+
     public void addCage(CageType cage, int count){
         if(allCages.containsKey(cage)){
             int i = allCages.get(cage);
@@ -68,41 +91,25 @@ public class Inventory {
         }
         return builder.toString();
     }
-    public String getItemsInfo(){
-        StringBuilder builder=new StringBuilder();
-        for(int i=0;i<items.size();i++){
-            ItemType itemType=(ItemType) items.keySet().toArray()[i];
-            int count=items.get(itemType);
-            Item item = new Item(itemType);
-            builder.append(item.getItemType().getDisPlayName()).append(": ").append(count);
-            if(i!=items.size()-1) builder.append("\n");
+
+    public InventorySlot getSlotByItem(ItemType type){
+        for (InventorySlot slot : slots) {
+            if(type.equals(slot.getItemType())){
+                return slot;
+            }
         }
-        return builder.toString();
+        return null;
     }
-    public HashMap<ItemType,Integer> getItems(){
-        return items;
-    }
+
+
     public ArrayList<Tool> getTools(){
         return tools;
     }
-    public void removeItem(ItemType item) {
-        items.remove(item);
-    }
-    public void removeItem(ItemType item, int count) {
-        if (items.containsKey(item)) {
-            int current = items.get(item);
-            int newCount = current - count;
-            if (newCount > 0) {
-                items.put(item, newCount);
-            } else {
-                items.remove(item);
-            }
-        }
-    }
+
     public int getCountOfItem(ItemType item){
-        for(int i=0;i<items.size();i++){
-            ItemType it=(ItemType) items.keySet().toArray()[i];
-            if(it.equals(item)) return items.get(it);
+        InventorySlot slot = getSlotByItem(item);
+        if(slot != null){
+            return slot.getCount();
         }
         return 0;
     }
@@ -147,5 +154,11 @@ public class Inventory {
                 return;
             }
         }
+    }
+    public void removeItem(ItemType type){
+        return;
+    }
+    public void removeItem(ItemType type , int count){
+        return;
     }
 }

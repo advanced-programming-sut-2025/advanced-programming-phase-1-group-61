@@ -337,37 +337,9 @@ public class GameMenuController {
         return new Result(true, count + " " + item.getDisPlayName() + "s added to Inventory!");
     }
 
-    public Result inventoryShow() {
-        Inventory inventory = game.getCurrentCharacter().getInventory();
-        if (inventory.getItems().isEmpty()) return new Result(false, "you have no items in your inventory!");
-        return new Result(true, inventory.getItemsInfo());
-    }
 
-    public Result inventoryTrash(Matcher matcher) {
-        Inventory inventory = game.getCurrentCharacter().getInventory();
-        String itemName = matcher.group("itemName").trim();
-        int number = -1;
-        if (matcher.group("number") != null) {
-            try {
-                number = Integer.parseInt(matcher.group("number"));
-            } catch (Exception e) {
-                return new Result(false, "please enter a valid number!");
-            }
-        }
-        ItemType item = Item.getItem(itemName);
-        if (item == null) return new Result(false, "please enter a valid item!");
-        if (number == -1) {
-            inventory.removeItem(item);
-            return new Result(true, "successfully removed " + itemName + " from your Inventory!");
-        } else {
-            if (inventory.getCountOfItem(item) == 0)
-                return new Result(false, "you don't have such an item in your inventory!");
-            if (number > inventory.getCountOfItem(item))
-                return new Result(false, "you have less items in your inventory!");
-            inventory.removeItem(item, number);
-            return new Result(true, "successfully removed " + number + " " + itemName + " from your Inventory!");
-        }
-    }
+
+
 
     public Result helpRead() {
         return new Result(true, "Tree: T\nOre: O\nForagingItems: I\nCabin Floor: Cf\nCabin wall: Cw\n" +
