@@ -1,14 +1,16 @@
 package models.character;
 
-import models.enums.Quality;
+
+import models.enums.ItemType;
 
 public class InventorySlot {
     private int count;
-    private Quality quality;
+    private ItemType itemType;
 
-    public InventorySlot(int count, Quality quality) {
+
+    public InventorySlot(int count , ItemType itemType) {
         this.count = count;
-        this.quality = quality;
+        this.itemType = itemType;
     }
 
     public int getCount() {
@@ -18,12 +20,20 @@ public class InventorySlot {
     public void setCount(int count) {
         this.count = count;
     }
-
-    public Quality getQuality() {
-        return quality;
+    public void clear() {
+        itemType = null;
+        count = 0;
     }
 
-    public void setQuality(Quality quality) {
-        this.quality = quality;
+    public boolean isEmpty() {
+        return itemType == null || count == 0;
+    }
+
+    public ItemType getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(ItemType itemType) {
+        this.itemType = itemType;
     }
 }

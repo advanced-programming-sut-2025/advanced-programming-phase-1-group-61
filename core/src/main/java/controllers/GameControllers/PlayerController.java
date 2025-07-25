@@ -14,8 +14,8 @@ import models.enums.ShopType;
 import models.enums.TileType;
 import models.map.Map;
 import models.map.Tile;
-import models.shops.BlackSmith;
-import views.ShopViews.BlackSmithView;
+import models.shops.*;
+import views.ShopViews.*;
 
 public class PlayerController {
     private Character player;
@@ -43,6 +43,7 @@ public class PlayerController {
         if (Gdx.input.isKeyPressed(Input.Keys.S)) dy -= 1;
         if (Gdx.input.isKeyPressed(Input.Keys.D)) dx += 1;
         if (Gdx.input.isKeyPressed(Input.Keys.A)) dx -= 1;
+
 
         if (dx != 0 && dy != 0) {
             dx *= 0.7071f;
@@ -101,11 +102,14 @@ public class PlayerController {
                     Main.getMain().setScreen(new BlackSmithView((BlackSmith) App.getCurrentGame().getShopByShopType(ShopType.BlackSmith)));
                     return;
                 }case TileType.Carpenter -> {
-                    //TODO
+                    Main.getMain().getScreen().dispose();
+                    Main.getMain().setScreen(new CarpenterView((Carpenter) App.getCurrentGame().getShopByShopType(ShopType.Carpenter)));
                 }case TileType.FishShop -> {
-                    //TODO
+                    Main.getMain().getScreen().dispose();
+                    Main.getMain().setScreen(new FishShopView((FishShop) App.getCurrentGame().getShopByShopType(ShopType.FishShop)));
                 }case TileType.JojaMart -> {
-                    //TODO
+                    Main.getMain().getScreen().dispose();
+                    Main.getMain().setScreen(new JojaMartView((JojaMart) App.getCurrentGame().getShopByShopType(ShopType.JojaMart)));
                 }case TileType.StarDrop -> {
                     //TODO
                 }case TileType.Marnie -> {
