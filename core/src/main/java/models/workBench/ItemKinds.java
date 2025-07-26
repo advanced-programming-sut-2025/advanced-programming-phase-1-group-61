@@ -33,7 +33,6 @@ public class ItemKinds {
         ));
         itemKinds.put("Mushroom", mushrooms);
         List<String> fishes = new ArrayList<>(Arrays.asList(
-
                 "Squid", "Tuna", "Perch", "LionFish", "Herring", "GhostFish",
                 "Tilapia", "Dorado", "Sunfish", "RainbowTrout", "Legend", "Glacierfish",
                 "Angler", "Crimsonfish"
