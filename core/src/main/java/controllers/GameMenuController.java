@@ -334,37 +334,9 @@ public class GameMenuController {
         return new Result(true, count + " " + item.getDisPlayName() + "s added to Inventory!");
     }
 
-    public Result inventoryShow() {
-        Inventory inventory = game.getCurrentCharacter().getInventory();
-        if (inventory.getItems().isEmpty()) return new Result(false, "you have no items in your inventory!");
-        return new Result(true, inventory.getItemsInfo());
-    }
 
-    public Result inventoryTrash(Matcher matcher) {
-        Inventory inventory = game.getCurrentCharacter().getInventory();
-        String itemName = matcher.group("itemName").trim();
-        int number = -1;
-        if (matcher.group("number") != null) {
-            try {
-                number = Integer.parseInt(matcher.group("number"));
-            } catch (Exception e) {
-                return new Result(false, "please enter a valid number!");
-            }
-        }
-        ItemType item = Item.getItem(itemName);
-        if (item == null) return new Result(false, "please enter a valid item!");
-        if (number == -1) {
-            inventory.removeItem(item);
-            return new Result(true, "successfully removed " + itemName + " from your Inventory!");
-        } else {
-            if (inventory.getCountOfItem(item) == 0)
-                return new Result(false, "you don't have such an item in your inventory!");
-            if (number > inventory.getCountOfItem(item))
-                return new Result(false, "you have less items in your inventory!");
-            inventory.removeItem(item, number);
-            return new Result(true, "successfully removed " + number + " " + itemName + " from your Inventory!");
-        }
-    }
+
+
 
     public Result helpRead() {
         return new Result(true, "Tree: T\nOre: O\nForagingItems: I\nCabin Floor: Cf\nCabin wall: Cw\n" +
@@ -785,49 +757,6 @@ public class GameMenuController {
             return new Result(true, "You gained" + gained);
         }
         return new Result(false, "You don't have any " + animalName);
-    }
-
-    public Result showShopProducts() {
-        Shop currentShop = App.getCurrentGame().getCurrentCharacter().getCurrentShop();
-        if (currentShop == null) {
-            return new Result(false, "You are not in a shop!");
-        }
-        Date date=App.getCurrentGame().getDate();
-        if(!(date.getHour()>=currentShop.getOpenHour() && date.getHour()<currentShop.getCloseHour())){
-            return new Result(false,"shop is now closed!");
-        }
-        return new Result(true, currentShop.showAllProducts());
-    }
-
-    public Result showShopAvailableProducts() {
-        Shop currentShop = App.getCurrentGame().getCurrentCharacter().getCurrentShop();
-        if (currentShop == null) {
-            return new Result(false, "You are not in a shop!");
-        }
-        Date date=App.getCurrentGame().getDate();
-        if(!(date.getHour()>=currentShop.getOpenHour() && date.getHour()<currentShop.getCloseHour())){
-            return new Result(false,"shop is now closed!");
-        }
-        return new Result(true, currentShop.showAllAvailableProducts());
-    }
-
-    public Result purchaseProduct(Matcher matcher) {
-        Shop currentShop = App.getCurrentGame().getCurrentCharacter().getCurrentShop();
-        String productName = matcher.group("productName").trim();
-        int count;
-        if (currentShop == null) {
-            return new Result(false, "You are not in a shop!");
-        }
-        try {
-            count = Integer.parseInt(matcher.group("count"));
-        } catch (Exception e) {
-            return new Result(false, "please enter a valid number!");
-        }
-        Date date=App.getCurrentGame().getDate();
-        if(!(date.getHour()>=currentShop.getOpenHour() && date.getHour()<currentShop.getCloseHour())){
-            return new Result(false,"shop is now closed!");
-        }
-        return new Result(true, currentShop.purchaseProduct(productName, count));
     }
 
     public Result plant(Matcher matcher){

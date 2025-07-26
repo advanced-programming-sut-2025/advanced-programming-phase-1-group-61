@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import views.ShopViews.BlackSmithView;
 
 public class BlackSmithViewController {
-    private BlackSmithView view;
+    private final BlackSmithView view;
     public BlackSmithViewController(BlackSmithView view) {
         this.view = view;
     }

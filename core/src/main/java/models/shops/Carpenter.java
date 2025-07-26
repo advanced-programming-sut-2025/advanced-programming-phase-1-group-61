@@ -14,7 +14,6 @@ import java.util.Map;
 public class Carpenter extends Shop {
     private final ArrayList<ShopItem> permanentItems;
     private final ArrayList<ShopCages> farmBuildings;
-
     public Carpenter(String name, int X, int Y) {
         super(name, X, Y,ShopType.Carpenter);
         this.owner="Robin";
@@ -115,5 +114,11 @@ public class Carpenter extends Shop {
     }
     public int getCloseHour(){
         return 19;
+    }
+    public ArrayList<ShopItem> getPermanentItems(){
+        return permanentItems;
+    }
+    public ArrayList<ShopCages> getFarmBuildings() {
+        return farmBuildings;
     }
 }

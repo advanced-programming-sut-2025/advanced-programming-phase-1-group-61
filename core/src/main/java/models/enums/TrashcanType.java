@@ -1,16 +1,21 @@
 package models.enums;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+
 public enum TrashcanType {
-    PRIMARY(0,"Primary"),
-    COPPER(15,"Copper"),
-    IRON(30,"Iron"),
-    GOLDEN(45,"Golden"),
-    IRIDIUM(60,"Iridium"),;
+    PRIMARY(0,"Primary","Items/Trash_Can_Copper.png"),
+    COPPER(15,"Copper","Items/Trash_Can_Copper.png"),
+    IRON(30,"Iron","Items/Trash_Can_Steel.png"),
+    GOLDEN(45,"Golden","Items/Trash_Can_Gold.png"),
+    IRIDIUM(60,"Iridium","Items/Trash_Can_Iridium.png"),;
     private final int returnPercentage;
     private final String displayName;
-    TrashcanType(int returnPercentage, String displayName) {
+    private final String texturePath;
+    TrashcanType(int returnPercentage, String displayName,String texturePath) {
         this.returnPercentage = returnPercentage;
         this.displayName = displayName;
+        this.texturePath = texturePath;
     }
     public int getReturnPercentage() {
         return returnPercentage;
@@ -26,5 +31,8 @@ public enum TrashcanType {
             case "Golden" -> "Iridium";
             default -> null;
         };
+    }
+    public Texture getTexture() {
+        return new Texture(Gdx.files.internal(texturePath));
     }
 }

@@ -1,5 +1,7 @@
 package models.shops;
 
+import com.badlogic.gdx.graphics.Texture;
+import models.enums.ToolType;
 import models.tool.FishingPole;
 
 public class ShopFishingPoleUpgrades {
@@ -45,5 +47,8 @@ public class ShopFishingPoleUpgrades {
     }
     public void restoreStock(){
         this.stock=limit;
+    }
+    public Texture getTextureByUpgradeName(){
+        return ToolType.FishingPole.getTextureForLevel(upgradeName);
     }
 }

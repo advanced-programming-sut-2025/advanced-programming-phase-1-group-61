@@ -102,9 +102,7 @@ public class FishingPole extends Tool{
                 int skill = character.getSkill().getFishingLVL();
                 if(fish != null){
                     character.getInventory().addItem(fish , (int) (m * R *(skill+2)));
-                    int quality = (int) ((R*(skill +2)*pole)/(7-m));
-                    Quality qualityNum = Quality.getQualityByNumber(quality);
-                    InventorySlot slot = new InventorySlot((int) (m * R *(skill+2)) , qualityNum);
+
                     character.getSkill().addFishingSkillXP(10);
                     int dEnergy  = type.getEnergyConsumption(level)-character.getSkill().getFishingLVL();
                     if(dEnergy <0){

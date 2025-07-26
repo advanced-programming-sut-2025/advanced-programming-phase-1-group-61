@@ -1,8 +1,5 @@
 package models.building;
 
-import com.badlogic.gdx.graphics.Texture;
-import io.github.camera.Main;
-import models.AssetManager;
 import models.resource.Resource;
 
 public class Building extends Resource{
