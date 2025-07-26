@@ -6,6 +6,7 @@ import models.date.Date;
 import models.enums.ItemType;
 import models.enums.WorkBenchType;
 import models.resource.Resource;
+
 import java.util.*;
 
 
@@ -30,50 +31,72 @@ public class WorkBench extends Resource {
         if (needed == null) {
             return false;
         }
+        ItemType Need1 = null;
+        ItemType Need2 = null;
         if (needed.size() == 1) {
             inprocesses.add(new Inprocess(needed.get("Time"), date.getDayCounter(), date.getHour(), item));
             return true;
         }
-        ItemType Need1 = null;
-        ItemType Need2 = null;
-        for (String key : needed.keySet()) {
-            if (key.startsWith("?")) {
-                key = key.replaceFirst("\\?", "");
-                if (itemKinds.get(key).contains(need1.name())) {
-                    Need1 = need1;
-                    Need2 = need2;
-                } else if (itemKinds.get(key).contains(need2.name())) {
-                    Need1 = need2;
-                    Need2 = need1;
-                } else return false;
-                break; // نیازی به بررسی بیشتر نیست
+        for (Map.Entry<String, Integer> entry : needed.entrySet()) {
+            if (entry.getKey().equals("Time")) {
+                continue;
             }
-        }
-        if (Need2 == null && Need1 == null) {
-            if (!needed.containsKey(need1.toString())) {
-                if (!needed.containsKey(need2.toString())) {
+            ItemType x1 = null;
+            if (entry.getKey().contains("?")) {
+                String key = entry.getKey().replaceFirst("\\?", "");
+                List<String> items = itemKinds.get(key);
+                if (items == null) {
                     return false;
                 }
-                Need1 = need2;
-                Need2 = need1;
-            } else {
-                Need1 = need1;
-                Need2 = need2;
+                if (need1 != null && items.contains(need1.name())) {
+                    x1 = need1;
+                    need1 = null;
+                } else if (need2 != null && items.contains(need2.name())) {
+                    x1 = need2;
+                    need2 = null;
+                } else return false;
+                Need1 = x1;
+                continue;
+            }
+            if (entry.getKey().contains("+")) {
+                String key = entry.getKey().replaceFirst("\\+", "");
+                if (need1 != null && key.equals(need1.name())) {
+                    x1 = need1;
+                    need1 = null;
+                } else if (need2 != null && key.equals(need2.name())) {
+                    x1 = need2;
+                    need2 = null;
+                } else return false;
+                Need2 = x1;
+                continue;
+            }
+            if (need1 != null && entry.getKey().equals(need1.name())) {
+                x1 = need1;
+                need1 = null;
+            } else if (need2 != null && entry.getKey().equals(need2.name())) {
+                x1 = need2;
+                need2 = null;
+            }
+            if(x1!=null){
+                Need1 = x1;
             }
         }
-
-        if (character.getInventory().getCountOfItem(Need1) < needed.get(Need1.name())) {
+        if (Need1 == null ) {
             return false;
-        }
-        if (Need2 != null && needed.containsKey("+" + Need2.name())) {
-            if (character.getInventory().getCountOfItem(Need2) < needed.get(Need2.name())) {
+        } else {
+            if (character.getInventory().getCountOfItem(Need1) < needed.get(Need1.name())) {
                 return false;
             }
-            character.getInventory().removeItem(Need2, needed.get(Need2.name()));
+            character.getInventory().removeItem(Need1, needed.get(Need1.name()));
+            if(Need2!= null ){
+                if (character.getInventory().getCountOfItem(Need2) < needed.get(Need2.name())) {
+                    return false;
+                }
+                character.getInventory().removeItem(Need2, needed.get(Need2.name()));
+            }
+            inprocesses.add(new Inprocess(needed.get("Time"), date.getDayCounter(), date.getHour(), item));
+            return true;
         }
-        character.getInventory().removeItem(Need1, needed.get(Need1.name()));
-        inprocesses.add(new Inprocess(needed.get("Time"), date.getDayCounter(), date.getHour(), item));
-        return true;
     }
 
     public boolean Collect() {
@@ -328,7 +351,8 @@ public class WorkBench extends Resource {
                         return null;
                 }
             }
-            default: return null;
+            default:
+                return null;
         }
     }
 }
