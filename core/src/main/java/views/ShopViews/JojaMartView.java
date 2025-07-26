@@ -47,35 +47,26 @@ public class JojaMartView extends ShopView {
     public void show() {
         super.show();
         secondController.handleTypeSelectBox();
-        if(selectPermanentItems){
-            for(int i=0; i<permanentShopItems.length; i++){
-                App.Extract(i,permanentShopItems);
-                controller.addHoverListenerForItems(permanentShopItems[i],shopPermanentItems.get(i));
-            }
+
+        for (int i = 0; i < permanentShopItems.length; i++) {
+            App.Extract(i, permanentShopItems);
+            controller.addHoverListenerForItems(permanentShopItems[i], shopPermanentItems.get(i));
         }
-        if(selectSpringItems){
-            for(int i=0; i<springShopItems.length; i++){
-                App.Extract(i,springShopItems);
-                controller.addHoverListenerForItems(springShopItems[i],shopSpringItems.get(i));
-            }
+        for (int i = 0; i < springShopItems.length; i++) {
+            App.Extract(i, springShopItems);
+            controller.addHoverListenerForItems(springShopItems[i], shopSpringItems.get(i));
         }
-        if(selectSummerItems){
-            for(int i=0; i<summerShopItems.length; i++){
-                App.Extract(i,summerShopItems);
-                controller.addHoverListenerForItems(summerShopItems[i],shopSummerItems.get(i));
-            }
+        for (int i = 0; i < summerShopItems.length; i++) {
+            App.Extract(i, summerShopItems);
+            controller.addHoverListenerForItems(summerShopItems[i], shopSummerItems.get(i));
         }
-        if(selectFallItems){
-            for(int i=0; i<fallShopItems.length; i++){
-                App.Extract(i,fallShopItems);
-                controller.addHoverListenerForItems(fallShopItems[i],shopFallItems.get(i));
-            }
+        for (int i = 0; i < fallShopItems.length; i++) {
+            App.Extract(i, fallShopItems);
+            controller.addHoverListenerForItems(fallShopItems[i], shopFallItems.get(i));
         }
-        if(selectWinterItems){
-            for(int i=0; i<winterShopItems.length; i++){
-                App.Extract(i,winterShopItems);
-                controller.addHoverListenerForItems(winterShopItems[i],shopWinterItems.get(i));
-            }
+        for (int i = 0; i < winterShopItems.length; i++) {
+            App.Extract(i, winterShopItems);
+            controller.addHoverListenerForItems(winterShopItems[i], shopWinterItems.get(i));
         }
         setUpUI();
     }

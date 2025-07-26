@@ -388,7 +388,6 @@ public enum ItemType {
        try {
            return new Texture(texture);
        } catch (Exception e) {
-           e.printStackTrace();
            return new Texture("error.png");
        }
     }
