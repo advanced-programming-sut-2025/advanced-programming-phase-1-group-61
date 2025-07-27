@@ -18,7 +18,6 @@ import models.food.FridgeItem;
 import models.food.Refrigerator;
 import models.interactions.Interact;
 import models.map.Map;
-import models.map.MapCreator.MapBuilder;
 import models.map.Tile;
 import models.map.Weather;
 import models.character.Inventory;
@@ -28,10 +27,8 @@ import models.tool.Tool;
 import models.workBench.ItemKinds;
 import models.workBench.WorkBench;
 import models.tool.WateringCan;
-import models.workBench.WorkBench;
 import views.GameView;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -39,7 +36,7 @@ import java.util.regex.Matcher;
 
 public class GameMenuController {
     private int neededEnergy;
-    private Game game;
+    private final Game game;
     private OrthographicCamera camera;
     private GameView view;
     private PlayerController playerController;
@@ -55,26 +52,27 @@ public class GameMenuController {
         playerController = new PlayerController(camera);
         worldController = new WorldController(camera);
     }
-    public void updateGame(){
+
+    public void updateGame() {
         worldController.update();
         playerController.update();
     }
 
-    public Result repairGreenHouse(Matcher matcher){
-        int x , y;
+    public Result repairGreenHouse(Matcher matcher) {
+        int x, y;
         x = Integer.parseInt(matcher.group("x"));
         y = Integer.parseInt(matcher.group("y"));
-        Tile tile = game.getMap().getTileByCordinate(x,y);
-        if(!tile.getType().equals(TileType.BrokenGreenHouse)){
-            return new Result(false , "not green house");
+        Tile tile = game.getMap().getTileByCordinate(x, y);
+        if (!tile.getType().equals(TileType.BrokenGreenHouse)) {
+            return new Result(false, "not green house");
         }
-        if(!tile.isCollisionOn()){
-            return new Result(false , "already fixed");
+        if (!tile.isCollisionOn()) {
+            return new Result(false, "already fixed");
         }
         Character character = game.getCurrentCharacter();
         character.setMoney(character.getMoney() - 100);
         tile.setCollisionOn(false);
-        return new Result(true , "successfully repaired");
+        return new Result(true, "successfully repaired");
     }
 
     public Result equipTool(Matcher matcher) {
@@ -198,7 +196,7 @@ public class GameMenuController {
         DaysOfTheWeek day = game.getDate().getDay();
         Season season = game.getDate().getSeason();
         return new Result(true, "season: " + season.getDisplayName() + " day: " + day.getDisplayName()
-                + " (day count: " + dayCount + " )");
+            + " (day count: " + dayCount + " )");
     }
 
     public Result showDateAndTime() {
@@ -207,7 +205,7 @@ public class GameMenuController {
         Season season = game.getDate().getSeason();
         int hour = game.getDate().getHour();
         return new Result(true, "season :" + season.getDisplayName() + "\nday: " + day.getDisplayName()
-                + "\nday counter: " + dayCount + "\nhour: " + hour);
+            + "\nday counter: " + dayCount + "\nhour: " + hour);
     }
 
     public Result showWeekDay() {
@@ -338,12 +336,9 @@ public class GameMenuController {
     }
 
 
-
-
-
     public Result helpRead() {
         return new Result(true, "Tree: T\nOre: O\nForagingItems: I\nCabin Floor: Cf\nCabin wall: Cw\n" +
-                "Water: W\nStone: M\nGrass: G\nGreen House Wall: GW\nGreen House Floor: Gf");
+            "Water: W\nStone: M\nGrass: G\nGreen House Wall: GW\nGreen House Floor: Gf");
     }
 
     public Result printMap(Matcher matcher) {
@@ -370,7 +365,7 @@ public class GameMenuController {
     }
 
     public Result showEnergy() {
-        return new Result(true, "energy: " +game.getCurrentCharacter().getEnergy());
+        return new Result(true, "energy: " + game.getCurrentCharacter().getEnergy());
     }
 
     private String getColoredTile(Tile tile) {
@@ -394,7 +389,7 @@ public class GameMenuController {
             }
             return GRAY + "M " + RESET;
         } else if (tile.getType().equals(TileType.CabinFloor)) {
-            if(tile.getResource() != null){
+            if (tile.getResource() != null) {
                 return BLUE + "R " + RESET;
             }
             return WHITE + "Cf" + RESET;
@@ -413,12 +408,12 @@ public class GameMenuController {
         String craftName = matcher.group("craftName").trim();
         CropType cropType = CropType.getCropType(craftName);
         TreeType treeType = TreeType.getTreeType(craftName);
-        if(cropType != null){
+        if (cropType != null) {
             StringBuilder message = new StringBuilder("Crop:\n");
             message.append("Name: ").append(craftName).append("\n");
             message.append("Source: ").append(cropType.getSource().getDisPlayName()).append("\n");
             message.append("Stages: ").append(Arrays.toString(cropType.getStages())).append("\n");
-            if(cropType.getReGrowthTime() > 0){
+            if (cropType.getReGrowthTime() > 0) {
                 message.append("total harvest time: ").append(cropType.getReGrowthTime()).append("\n");
             }
             message.append("Base sell price: ").append(cropType.getProduct().getPrice()).append("\n");
@@ -427,9 +422,9 @@ public class GameMenuController {
             message.append("Season: ").append(cropType.getSeason().getDisplayName()).append("\n");
             message.append("Can become giant: ").append(cropType.canBecomeGiant()).append("\n");
 
-            return new Result(true , message.toString());
+            return new Result(true, message.toString());
         }
-        if(treeType != null){
+        if (treeType != null) {
             StringBuilder message = new StringBuilder("Tree:\n");
             message.append("Name: ").append(craftName).append("\n");
             message.append("Source: ").append(treeType.getSource().getDisPlayName()).append("\n");
@@ -473,7 +468,7 @@ public class GameMenuController {
 
     public Result pet(Matcher matcher) {
         String animalName = matcher.group("animalname").trim();
-        Character character =game.getCurrentCharacter();
+        Character character = game.getCurrentCharacter();
         if (character.getAnimals().containsKey(animalName)) {
             if (character.getAnimals().get(animalName).pet(character.getX(), character.getY())) {
                 return new Result(true, animalName + ": Yeeeeee common do it");
@@ -508,151 +503,234 @@ public class GameMenuController {
 
     public Result artisanUse(Matcher matcher) {
         String bench = matcher.group("bench").trim().replace("\\s+", "");
-        String nee1 = matcher.group("need1").trim().replace("\\s+", "");
-        String nee2 = matcher.group("need2").trim().replace("\\s+", "");
+        String need1 = matcher.group("need1").trim().replace("\\s+", "");
+        String need2 = matcher.group("need2").trim().replace("\\s+", "");
         ItemType item = null;
-        ItemType Need1 = ItemType.getItembyname(nee1);
-        ItemType Need2 = ItemType.getItembyname(nee2);
-        Date date = game.getDate();
+        ItemType Need1 = ItemType.getItembyname(need1);
+        ItemType Need2 = ItemType.getItembyname(need2);
+        if ((Need1 == null || Need1 == ItemType.Coal) && Need2 != null) {
+            ItemType x = Need1;
+            Need1 = Need2;
+            Need2 = x;
+        }
         java.util.Map<String, List<String>> itemKinds = new ItemKinds().getItemKinds();
         Character character = game.getCurrentCharacter();
-        for (WorkBench Bench : character.getWorkBenches()) {
+        for (WorkBench Bench : game.getWorkBenches()) {
             if (Bench.getType().name().equalsIgnoreCase(bench)) {
+                int count1 = 0;
+                int count2 = 0;
+                int time = 0 ;
+                ItemType type2 = null;
                 switch (bench.toUpperCase()) {
                     case "BEEHOUSE": {
                         item = ItemType.Honey;
-                        break;
+                        time = 96;
+                        Bench.addprocess(item,time);
+                        return new Result(true, item.name() + " is processing in " + bench);
                     }
                     case "CHEESPRESS": {
-                        if (Need1.name().toUpperCase().contains("BIGGOATMILK")) {
+                        if (Need1 == ItemType.BigGoatMilk) {
                             item = ItemType.BigGoatCheese;
-                        }else if (Need1.name().toUpperCase().contains("GOATMILK")) {
+                        } else if (Need1 == ItemType.GoatMilk) {
                             item = ItemType.GoatCheese;
-                        }else if (Need1.name().toUpperCase().contains("BIGMILK")) {
+                        } else if (Need1 == ItemType.BigMilk) {
                             item = ItemType.BigCheese;
-                        }else if (Need1.name().toUpperCase().contains("MILK")) {
+                        } else if (Need1 == ItemType.Milk) {
                             item = ItemType.Cheese;
+                        } else {
+                            count1 = -1;
+                            break;
                         }
+                        time = 3;
+                        count1 = 1;
                         break;
                     }
                     case "KEG": {
-                        if (Need1.name().contains(ItemType.Wheat.name())) {
+                        if (Need1 == null) {
+                            count1 = -1;
+                            break;
+                        } else if (Need1 == ItemType.Wheat) {
                             item = ItemType.Beer;
-                        }
-                        else if (Need1.name().contains(ItemType.Rice.name())) {
+                            time = 24;
+                        } else if (Need1 == ItemType.Rice) {
                             item = ItemType.Vinegar;
-                        }
-                        else if (Need1.name().contains(ItemType.CoffeeBean.name())) {
+                            time = 10;
+                        } else if (Need1 == ItemType.CoffeeBean) {
                             item = ItemType.Coffee;
-                        }
-                        else if (itemKinds.get("Vegetable").contains(Need1.name())) {
+                            count1 = 5;
+                            time = 2;
+                            break;
+                        } else if (itemKinds.get("Vegetable").contains(Need1.name())) {
                             item = ItemType.Juice;
-                        }
-                        else if (Need1.name().contains(ItemType.Honey.name())) {
+                            time = 96;
+                        } else if (Need1 == ItemType.Honey) {
                             item = ItemType.Mead;
-                        }
-                        else if (Need1.name().contains(ItemType.Hops.name())) {
+                            time = 10;
+                        } else if (Need1 == ItemType.Hops) {
                             item = ItemType.PaleAle;
-                        }
-                        else if (itemKinds.get("Fruit").contains(Need1.name())) {
+                            time = 72;
+                        } else if (itemKinds.get("Fruit").contains(Need1.name())) {
                             item = ItemType.Wine;
+                            time = 168;
+                        } else {
+                            count1 = -1;
+                            break;
                         }
+                        count1 = 1;
                         break;
                     }
                     case "DEHYDRATOR": {
-                        if (itemKinds.get("DryableFruit").contains(Need1.name())) {
+                        if(Need1 == null) {
+                            count1 = -1;
+                            break;
+                        } else if (itemKinds.get("DryableFruit").contains(Need1.name())) {
                             item = ItemType.DriedFruit;
-                        }
-                        else if (itemKinds.get("Mushroom").contains(Need1.name())) {
+                        } else if (itemKinds.get("Mushroom").contains(Need1.name())) {
                             item = ItemType.DriedMushrooms;
-                        }
-                        else if (Need1.name().contains(ItemType.Grape.name())) {
+                        } else if (Need1.name().equalsIgnoreCase(ItemType.Grape.name())) {
                             item = ItemType.Raisins;
+                        } else {
+                            count1 = -1;
+                            break;
                         }
+                        time = -1;
+                        count1 = 5;
                         break;
                     }
                     case "CHACOALKILN": {
-                        if (Need1.name().equals(ItemType.Coal.name())) item = ItemType.Coal;
-
+                        if (Need1 != ItemType.Wood) {
+                            count1 = -1;
+                            break;
+                        }
+                        item = ItemType.Coal;
+                        count1 = 10;
+                        time = 10;
+                        break;
                     }
                     case "LOOM": {
-                        if (Need1.name().equals(ItemType.Wood.name())) item = ItemType.Cloth;
+                        if (Need1 != ItemType.Fiber) {
+                            count1 = -1;
+                            break;
+                        }
+                        item = ItemType.Cloth;
+                        count1 = 5;
+                        time = 4;
                         break;
                     }
                     case "MAYONNAISEMACHINE": {
-                        if (Need1.name().toUpperCase().contains(ItemType.DinosaurEgg.name().toUpperCase())) {
+                        if (Need1 == ItemType.DinosaurEgg) {
                             item = ItemType.DinosaurMayonnaise;
-                        }else if (Need1.name().toUpperCase().contains(ItemType.DuckEgg.name().toUpperCase())) {
+                        } else if (Need1 == ItemType.DuckEgg) {
                             item = ItemType.DuckMayonnaise;
-                        }else if (Need1.name().toUpperCase().contains(ItemType.BigEgg.name().toUpperCase())) {
+                        } else if (Need1 == ItemType.BigEgg) {
                             item = ItemType.BigMayonnaise;
-                        }else if (Need1.name().toUpperCase().contains(ItemType.Egg.name().toUpperCase())) {
+                        } else if (Need1 == ItemType.Egg) {
                             item = ItemType.Mayonnaise;
+                        } else {
+                            count1 = -1;
+                            break;
                         }
+                        time = 3;
+                        count1 = 1;
                         break;
                     }
                     case "OILMAKER": {
-                            if (Need1.name().toUpperCase().contains(ItemType.Truffle.name().toUpperCase())) {
-                                item = ItemType.TruffleOil;
-                            }else if (Need1.name().toUpperCase().contains(ItemType.Corn.name().toUpperCase())||
-                                    Need1.name().toUpperCase().contains(ItemType.SunflowerSeed.name().toUpperCase())||
-                                    Need1.name().toUpperCase().contains(ItemType.Sunflower.name().toUpperCase())) {
-                                item = ItemType.Oil;
-                            }
+                        if (Need1 == ItemType.Truffle) {
+                            item = ItemType.TruffleOil;
+                            time = 6;
+                        } else if (Need1 == ItemType.Corn ||
+                            Need1 == ItemType.SunflowerSeed ||
+                            Need1 == ItemType.Sunflower) {
+                            item = ItemType.Oil;
+                            time = 10;
+                        } else {
+                            count1 = -1;
+                            break;
+                        }
+                        count1 = 1;
                         break;
                     }
                     case "PERESERVESJAR": {
-                        if (itemKinds.get("Vegetable").contains(Need1.name())) {
+                        if (Need1 == null) {
+                            count1 = -1;
+                            break;
+                        } else if (itemKinds.get("Vegetable").contains(Need1.name())) {
                             item = ItemType.Pickles;
-                        }else if (itemKinds.get("Fruit").contains(Need1.name())) {
+                            time = 6;
+                        } else if (itemKinds.get("Fruit").contains(Need1.name())) {
                             item = ItemType.Jelly;
+                            time = 72;
+                        } else {
+                            count1 = -1;
+                            break;
                         }
+                        count1 = 1;
                         break;
                     }
                     case "FISHSMOKER": {
-                        if (itemKinds.get("Fish").contains(Need1.name())) {
-                            item = ItemType.SmokedFish;
+                        if (Need1 == null || !itemKinds.get("Fish").contains(Need1.name())) {
+                            count1 = -1;
+                            break;
                         }
+                        item = ItemType.SmokedFish;
+                        count1 = 1;
+                        type2 = ItemType.Coal;
+                        count2 = 1;
+                        time = 96;
                         break;
                     }
                     case "FURNACE": {
-                        if (Need1.name().contains(ItemType.CopperOre.name())) {
+                        if (Need1 == ItemType.CopperOre) {
                             item = ItemType.CopperBar;
-                        }
-                        else if (Need1.name().contains(ItemType.IronOre.name())) {
+                        } else if (Need1 == ItemType.IronOre) {
                             item = ItemType.IronBar;
-                        }
-                        else if (Need1.name().contains(ItemType.GoldOre.name())) {
+                        } else if (Need1 == ItemType.GoldOre) {
                             item = ItemType.GoldBar;
-                        }else if (Need1.name().contains(ItemType.IridiumOre.name())) {
+                        } else if (Need1 == ItemType.IridiumOre) {
                             item = ItemType.IridiumBar;
+                        } else {
+                            count1 = -1;
+                            break;
                         }
+                        count1 = 5;
+                        type2 = ItemType.Coal;
+                        count2 = 1;
+                        time = 4;
                         break;
                     }
                 }
-                if (item == null)  return new Result(false,"worng items");
-
-                if (Bench.addprocess(item, Need1, Need2)) {
-                    return new Result(true, item.name()+" is processing in " +bench);
+                if (count1 == -1 || item == null) return new Result(false, "worng items");
+                if (character.getInventory().getCountOfItem(Need1) < count1) {
+                    return new Result(false, "not enough " + Need1.name());
                 }
-                return new Result(false,"not enough items");
+                if (type2 != null) {
+                    if (type2 != Need2) {
+                        return new Result(false, "you need " + type2.name());
+                    }
+                    if (character.getInventory().getCountOfItem(type2) < count2) {
+                        return new Result(false, "not enough " + type2.name());
+                    }
+                    character.getInventory().removeItem(type2, count2);
+                }
+                character.getInventory().removeItem(Need1, count1);
+                Bench.addprocess(item,time);
+                return new Result(true, item.name() + " is processing in " + bench);
             }
         }
-        return new Result(false,"you dont have any "+bench);
+        return new Result(false, "you dont have any " + bench);
     }
 
-    public Result artisancollect(Matcher matcher){
+    public Result artisancollect(Matcher matcher) {
         String bench = matcher.group("bench").trim().replace("\\s+", "");
-        Character character = App.getCurrentGame().getCurrentCharacter();
-        for (WorkBench Bench : character.getWorkBenches()){
-            if (Bench.getType().name().equalsIgnoreCase(bench)){
-                if(Bench.Collect()){
-                    return new Result(true,bench+" is collected");
+        for (WorkBench Bench : game.getWorkBenches()) {
+            if (Bench.getType().name().equalsIgnoreCase(bench)) {
+                if (Bench.Collect()) {
+                    return new Result(true, bench + " is collected");
                 }
-                return new Result(false,bench+" has to item ready");
+                return new Result(false, bench + " has no item ready");
             }
         }
-        return new Result(false,"you dont have any "+bench);
+        return new Result(false, "you dont have any " + bench);
     }
 
     public Result shepherd(Matcher matcher) {
@@ -680,8 +758,8 @@ public class GameMenuController {
                         return new Result(false, animalName + " is alredy there");
                     }
                     if (building.getBaseType().equals(animal.getType().getHouse()) &&
-                            animal.getType().getHouseSize() <= building.getSize() &&
-                            building.getSpace() > 0) {
+                        animal.getType().getHouseSize() <= building.getSize() &&
+                        building.getSpace() > 0) {
                         building.addInput(animal);
                         animal.shepherd(x, y, false, building.getName());
                         return new Result(true, animalName + " is in " + name);
@@ -721,26 +799,28 @@ public class GameMenuController {
         String massage = show.toString();
         return new Result(true, massage);
     }
-    public Result sellItem(Matcher matcher){
-            int count = Integer.parseInt(matcher.group("count"));
-            String ItemString = matcher.group("itemName");
-            ItemType itemType = ItemType.getItemType(ItemString);
-            Character character = App.getCurrentGame().getCurrentCharacter();
-            if(character.getInventory().getCountOfItem(itemType) < count){
-                return new Result(false , "not in inventory");
-            }
-            ShippingBin shippingBin1 = null;
+
+    public Result sellItem(Matcher matcher) {
+        int count = Integer.parseInt(matcher.group("count"));
+        String ItemString = matcher.group("itemName");
+        ItemType itemType = ItemType.getItemType(ItemString);
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        if (character.getInventory().getCountOfItem(itemType) < count) {
+            return new Result(false, "not in inventory");
+        }
+        ShippingBin shippingBin1 = null;
         for (ShippingBin shippingBin : App.getCurrentGame().getShippingBins()) {
-            if(App.getCurrentGame().getCharacterByTurnNumber(shippingBin.getOwner()).getUserId() ==
-                    App.getCurrentGame().getCurrentCharacter().getUserId()){
+            if (App.getCurrentGame().getCharacterByTurnNumber(shippingBin.getOwner()).getUserId() ==
+                App.getCurrentGame().getCurrentCharacter().getUserId()) {
                 shippingBin1 = shippingBin;
             }
         }
-        if(shippingBin1 != null){
+        if (shippingBin1 != null) {
             shippingBin1.addItemType(itemType);
         }
-        return new Result(true,"item is now in shipping bin");
+        return new Result(true, "item is now in shipping bin");
     }
+
     public Result getAnimalProduct(Matcher matcher) {
         String animalName = matcher.group("animalname").trim();
         Character character = App.getCurrentGame().getCurrentCharacter();
@@ -762,68 +842,68 @@ public class GameMenuController {
         return new Result(false, "You don't have any " + animalName);
     }
 
-    public Result plant(Matcher matcher){
+    public Result plant(Matcher matcher) {
         String directionString = matcher.group("direction");
         String seedString = matcher.group("seed");
         Direction direction = Direction.fromString(directionString);
-        if(direction == null){
-            return new Result(false , "not valid direction");
+        if (direction == null) {
+            return new Result(false, "not valid direction");
         }
         Game game = App.getCurrentGame();
         Character character = game.getCurrentCharacter();
-        int x = character.getX() +direction.getDx();
+        int x = character.getX() + direction.getDx();
         int y = character.getY() + direction.getDy();
-        Tile tile = game.getMap().getTileByCordinate(x,y);
-        if(tile == null){
-            return new Result( false ,"where TF you want to plant tish shit");
+        Tile tile = game.getMap().getTileByCordinate(x, y);
+        if (tile == null) {
+            return new Result(false, "where TF you want to plant tish shit");
         }
-        if(tile.getResource() != null){
-            return new Result(false ,"already some thing panted there");
+        if (tile.getResource() != null) {
+            return new Result(false, "already some thing panted there");
         }
-        if(!ItemType.isItem(seedString)){
-            return new Result(false , "is not a valid item");
+        if (!ItemType.isItem(seedString)) {
+            return new Result(false, "is not a valid item");
         }
         ItemType seed = ItemType.getItemType(seedString);
 
         TreeType treeType = TreeType.getTreeTypeBySource(seed);
-        if(character.getInventory().getCountOfItem(seed) <= 0){
-            return new Result(false , "you don't have the item to plant it here");
+        if (character.getInventory().getCountOfItem(seed) <= 0) {
+            return new Result(false, "you don't have the item to plant it here");
         }
-        if(treeType != null){
-            if(tile.getType().isCollisionOn() || !tile.getType().equals(TileType.Grass)){
-                return new Result(false , "you cant plant here only on grass");
+        if (treeType != null) {
+            if (tile.getType().isCollisionOn() || !tile.getType().equals(TileType.Grass)) {
+                return new Result(false, "you cant plant here only on grass");
             }
-            tile.setResource(new Tree(treeType , tile.getX() , tile.getY()));
-            return new Result(true , treeType.name()+" is now planted at : "+x + " "+y);
+            tile.setResource(new Tree(treeType, tile.getX(), tile.getY()));
+            return new Result(true, treeType.name() + " is now planted at : " + x + " " + y);
         }
 
-        character.getInventory().removeItem(seed , 1);
+        character.getInventory().removeItem(seed, 1);
         CropType cropType = CropType.getCropTypeBySource(seed);
 
-        if(cropType != null){
-            if(!tile.getType().equals(TileType.Soil) || tile.getType().isCollisionOn()){
-                return new Result(false , "you cant plant here only on soil");
+        if (cropType != null) {
+            if (!tile.getType().equals(TileType.Soil) || tile.getType().isCollisionOn()) {
+                return new Result(false, "you cant plant here only on soil");
             }
             tile.setResource(new Crop(cropType));
-            return new Result(true , cropType.name()+" is now planted at : "+x + " "+y);
+            return new Result(true, cropType.name() + " is now planted at : " + x + " " + y);
         }
 
-        return new Result(false ,"not a valid seed/sapling");
+        return new Result(false, "not a valid seed/sapling");
     }
 
-    public Result showPlant(Matcher matcher){
+    public Result showPlant(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
-        Tile tile = App.getCurrentGame().getMap().getTileByCordinate(x,y);
-        if(tile == null){
-            return new Result(false , "not a valid coordinate");
+        Tile tile = App.getCurrentGame().getMap().getTileByCordinate(x, y);
+        if (tile == null) {
+            return new Result(false, "not a valid coordinate");
         }
         Resource resource = tile.getResource();
-        if(resource == null){
-            return new Result(false , "not thing planted here");
+        if (resource == null) {
+            return new Result(false, "not thing planted here");
         }
-        if(resource instanceof Crop){
-            Crop crop =(Crop) resource;
+        if (resource instanceof Crop) {
+            Crop crop = (Crop) resource;
             StringBuilder message = new StringBuilder("Crop\n");
             message.append("name: ").append(crop.getType().name()).append("\n");
             message.append("stage: ").append(crop.getCropAge()).append("\n");
@@ -831,7 +911,7 @@ public class GameMenuController {
             message.append("crop age:").append(crop.getCropAge()).append("\n");
             message.append("has water: ").append(crop.isWatered()).append("\n");
             message.append("is fertilized: ").append(crop.isFertilized()).append("\n");
-            return new Result(true , message.toString());
+            return new Result(true, message.toString());
         } else if (resource instanceof Tree) {
             Tree tree = (Tree) resource;
             StringBuilder message = new StringBuilder("Tree\n");
@@ -839,52 +919,52 @@ public class GameMenuController {
             message.append("stage: ").append(tree.getTreeStage()).append("\n");
             message.append("days until harvest: ").append(tree.getDaysUntilNextCycle()).append("\n");
             message.append("tree age: ").append(tree.getTreeAge()).append("\n");
-            return new Result(true , message.toString());
-        }else {
-            return new Result(false,"resource in this tile is not a plant");
+            return new Result(true, message.toString());
+        } else {
+            return new Result(false, "resource in this tile is not a plant");
         }
     }
 
-    public Result fertilize(Matcher matcher){
+    public Result fertilize(Matcher matcher) {
         String fertilizerString = matcher.group("fertilizer");
         String directionString = matcher.group("direction");
         Direction direction = Direction.fromString(directionString);
-        if(direction == null){
-            return new Result(false , "invalid direction");
+        if (direction == null) {
+            return new Result(false, "invalid direction");
         }
         ItemType fertilizer = ItemType.getItemType(fertilizerString);
-        if(fertilizer == null){
-            return new Result(false , fertilizerString+" is not a valid item");
+        if (fertilizer == null) {
+            return new Result(false, fertilizerString + " is not a valid item");
         }
         Game game = App.getCurrentGame();
         Character character = game.getCurrentCharacter();
         Tile tile = game.getMap().getTileByCordinate(
-                character.getX() + direction.getDx(),character.getY()+direction.getDy());
-        if(tile == null){
-            return new Result( false , "pls stop trying to break our game");
+            character.getX() + direction.getDx(), character.getY() + direction.getDy());
+        if (tile == null) {
+            return new Result(false, "pls stop trying to break our game");
         }
         Resource resource = tile.getResource();
-        if(resource == null){
-            return new Result(false , "not thing to fertilize");
+        if (resource == null) {
+            return new Result(false, "not thing to fertilize");
         }
-        if(!(resource instanceof Crop)){
-            return new Result(false , "not a plant what do you want to fertilize");
+        if (!(resource instanceof Crop)) {
+            return new Result(false, "not a plant what do you want to fertilize");
         }
-        if(character.getInventory().getCountOfItem(fertilizer) <= 0){
-            return new Result(false , "you don't have the fertilizer");
+        if (character.getInventory().getCountOfItem(fertilizer) <= 0) {
+            return new Result(false, "you don't have the fertilizer");
         }
-        if(fertilizer.equals(ItemType.DeluxeRetainingSoil)){
+        if (fertilizer.equals(ItemType.DeluxeRetainingSoil)) {
             Crop crop = (Crop) resource;
             crop.setHasDeuxRetailingSoil(true);
-            character.getInventory().removeItem(fertilizer , 1);
-            return new Result(true , "crop fertilized");
+            character.getInventory().removeItem(fertilizer, 1);
+            return new Result(true, "crop fertilized");
         } else if (fertilizer.equals(ItemType.SpeedGro)) {
             Crop crop = (Crop) resource;
             crop.setHasSpeedGro(true);
-            character.getInventory().removeItem(fertilizer , 1);
-            return new Result(true , "crop fertilized");
-        }else {
-            return new Result(false , "not a valid fertilized");
+            character.getInventory().removeItem(fertilizer, 1);
+            return new Result(true, "crop fertilized");
+        } else {
+            return new Result(false, "not a valid fertilized");
         }
     }
 
@@ -920,7 +1000,7 @@ public class GameMenuController {
             int availableInInventory = inventory.getCountOfItem(itemType);
 //            int availableInFridge = refrigerator.getCountOfItemInFridge(itemType);
 
-            if (availableInInventory  < requiredCount) {
+            if (availableInInventory < requiredCount) {
                 return new Result(false, "Not enough " + itemType.getDisPlayName() + " to cook this.");
             }
         }
@@ -945,128 +1025,130 @@ public class GameMenuController {
     }
 
 
-    public Result eatFood(Matcher matcher){
+    public Result eatFood(Matcher matcher) {
         String foodString = matcher.group("foodName");
         ItemType food = ItemType.getItemType(foodString);
-        if(food == null){
-            return new Result(false , "not a valid item");
+        if (food == null) {
+            return new Result(false, "not a valid item");
         }
         Character character = App.getCurrentGame().getCurrentCharacter();
-        if(character.getInventory().getCountOfItem(food) <= 0 ){
-            return new Result(false , "not in your inventory");
+        if (character.getInventory().getCountOfItem(food) <= 0) {
+            return new Result(false, "not in your inventory");
         }
-        if(!food.isEdible()){
-            return new Result(false ,"you cant kill your self by eating "+ food.getDisPlayName());
+        if (!food.isEdible()) {
+            return new Result(false, "you cant kill your self by eating " + food.getDisPlayName());
         }
-        if(CookingRecipes.getCookingRecipes(food.name()) != null){
+        if (CookingRecipes.getCookingRecipes(food.name()) != null) {
             CookingRecipes cookedFood = CookingRecipes.getCookingRecipes(food.name());
-            Buff buff=cookedFood.getBuff();
-            if(buff != null){
+            Buff buff = cookedFood.getBuff();
+            if (buff != null) {
                 character.setBuff(buff);
                 buff.use();
             }
-            character.getInventory().removeItem(food , 1);
+            character.getInventory().removeItem(food, 1);
             int newEnergy = character.getEnergy() + food.getEnergy();
             character.setEnergy(newEnergy);
-        }else {
-            character.getInventory().removeItem(food , 1);
+        } else {
+            character.getInventory().removeItem(food, 1);
             int newEnergy = character.getEnergy() + food.getEnergy();
             character.setEnergy(newEnergy);
         }
-        return new Result(true , "you ate "+foodString+" successfully.");
+        return new Result(true, "you ate " + foodString + " successfully.");
     }
 
-    public Result showCookingRecipes(){
+    public Result showCookingRecipes() {
         Character character = App.getCurrentGame().getCurrentCharacter();
         StringBuilder message = new StringBuilder("Cooking Recipes:\n");
         for (CookingRecipes cookingRecipe : character.getCookingRecipes()) {
             message.append(cookingRecipe.toString());
         }
 
-        return new Result(true , message.toString());
+        return new Result(true, message.toString());
     }
 
-    public Result showWaterInBucket(){
+    public Result showWaterInBucket() {
         Character character = App.getCurrentGame().getCurrentCharacter();
         Tool tool = character.getInventory().getToolByType(ToolType.WateringCan);
-        if(tool == null){
-            return new Result(false , "you don't have a water bucket");
+        if (tool == null) {
+            return new Result(false, "you don't have a water bucket");
         }
         WateringCan water = (WateringCan) tool;
-        return new Result(true , "you have "+water.getDurability()+" in your bucket.");
+        return new Result(true, "you have " + water.getDurability() + " in your bucket.");
     }
 
-    public Result putOrPickItemInRefrigerator(Matcher matcher){
+    public Result putOrPickItemInRefrigerator(Matcher matcher) {
         String itemString = matcher.group("item");
         String action = matcher.group("action");
-        ItemType itemType =ItemType.getItemType(itemString);
-        if(itemType == null){
-            return new Result(false , "not valid item");
+        ItemType itemType = ItemType.getItemType(itemString);
+        if (itemType == null) {
+            return new Result(false, "not valid item");
         }
         Character character = App.getCurrentGame().getCurrentCharacter();
 
-        Tile characterTile = App.getCurrentGame().getMap().getTileByCordinate(character.getX(),character.getY());
-        if(!characterTile.getType().equals(TileType.CabinFloor)){
-            return new Result(false , "you need to be in a cabin to do this");
+        Tile characterTile = App.getCurrentGame().getMap().getTileByCordinate(character.getX(), character.getY());
+        if (!characterTile.getType().equals(TileType.CabinFloor)) {
+            return new Result(false, "you need to be in a cabin to do this");
         }
-        if(action.equalsIgnoreCase("put")){
-            int count =character.getInventory().getCountOfItem(itemType);
-            if (count<= 0) {
-                return new Result(false , "you dont have this item in your inventory");
+        if (action.equalsIgnoreCase("put")) {
+            int count = character.getInventory().getCountOfItem(itemType);
+            if (count <= 0) {
+                return new Result(false, "you dont have this item in your inventory");
             }
             character.getInventory().removeItem(itemType);
             int x = character.getxRefrigerator();
             int y = character.getyRefrigerator();
-            Tile tile = App.getCurrentGame().getMap().getTileByCordinate(x,y);
+            Tile tile = App.getCurrentGame().getMap().getTileByCordinate(x, y);
             Refrigerator refrigerator = (Refrigerator) tile.getResource();
-            refrigerator.addItem(itemType , count);
-            return new Result(true , "is now in fridge");
+            refrigerator.addItem(itemType, count);
+            return new Result(true, "is now in fridge");
         } else if (action.equalsIgnoreCase("pick")) {
             int x = character.getxRefrigerator();
             int y = character.getyRefrigerator();
-            Tile tile = App.getCurrentGame().getMap().getTileByCordinate(x,y);
+            Tile tile = App.getCurrentGame().getMap().getTileByCordinate(x, y);
             Refrigerator refrigerator = (Refrigerator) tile.getResource();
             int count = 0;
             for (FridgeItem fridgeItem : refrigerator.getItems()) {
-                if(fridgeItem.getItem().equals(itemType)){
+                if (fridgeItem.getItem().equals(itemType)) {
                     count = fridgeItem.getQuantity();
                     fridgeItem.setQuantity(0);
                 }
             }
-            if(count >0){
-                character.getInventory().addItem(itemType , count);
-                return new Result(true , "now in your inventory");
-            }else {
-                return new Result(false , "not in fridge");
+            if (count > 0) {
+                character.getInventory().addItem(itemType, count);
+                return new Result(true, "now in your inventory");
+            } else {
+                return new Result(false, "not in fridge");
             }
-        }else {
-            return new Result(false , "invalid command");
+        } else {
+            return new Result(false, "invalid command");
         }
     }
-    public Result meetNpc(Matcher matcher){
+
+    public Result meetNpc(Matcher matcher) {
         String name = matcher.group("name");
-        if(!NpcInfo.checkName(name)){
-            return new Result(false , "please enter a valid npc name!");
+        if (!NpcInfo.checkName(name)) {
+            return new Result(false, "please enter a valid npc name!");
         }
-        NPC npc=NPC.getNPC(name);
-        if(npc == null) return new Result(false , "npc not found");
-        return new Result(true,npc.getDialog());
+        NPC npc = NPC.getNPC(name);
+        if (npc == null) return new Result(false, "npc not found");
+        return new Result(true, npc.getDialog());
     }
-    public Result giftNPC(Matcher matcher){
+
+    public Result giftNPC(Matcher matcher) {
         String name = matcher.group("name").trim();
         String itemName = matcher.group("item").trim();
         ItemType item = ItemType.getItemType(itemName);
-        if(item == null){
-            return new Result(false , "please enter a valid item!");
+        if (item == null) {
+            return new Result(false, "please enter a valid item!");
         }
-        if(!NpcInfo.checkName(name)){
-            return new Result(false , "please enter a valid npc name!");
+        if (!NpcInfo.checkName(name)) {
+            return new Result(false, "please enter a valid npc name!");
         }
-        NPC npc=NPC.getNPC(name);
-        if(npc == null) return new Result(false , "npc not found");
-        List<ItemType> favorites=npc.getInfo().getFavorites();
-        boolean found=false;
-        for(ItemType favorite : favorites){
+        NPC npc = NPC.getNPC(name);
+        if (npc == null) return new Result(false, "npc not found");
+        List<ItemType> favorites = npc.getInfo().getFavorites();
+        boolean found = false;
+        for (ItemType favorite : favorites) {
             if (favorite.equals(item)) {
                 found = true;
                 break;
@@ -1074,210 +1156,221 @@ public class GameMenuController {
         }
         Character character = App.getCurrentGame().getCurrentCharacter();
         App.getCurrentGame().changeDayActivities();
-        if(npc.isFirstGiftOfDay()){
+        if (npc.isFirstGiftOfDay()) {
             npc.setFirstGiftOfDay(false);
-            if(found) {
+            if (found) {
                 npc.getFriendships(character).setFriendshipPoints(200);
-                return new Result(true,"You have gained 200 friendship points with "+name);
+                return new Result(true, "You have gained 200 friendship points with " + name);
             }
             npc.getFriendships(character).setFriendshipPoints(50);
-            return new Result(true,"You have gained 50 friendship points with "+name);
+            return new Result(true, "You have gained 50 friendship points with " + name);
         }
-        return new Result(false , "you have not gained a point because this is not your first time in this day that you are giving "+name+" a gift!");
-    }
-    public Result friendshipNPCList(){
-        return new Result(true,NPC.getNPCFriendshipsDetails(App.getCurrentGame().getCurrentCharacter()));
-    }
-    public Result cheatSetNpcFriendship(Matcher matcher){
-        String npcName=matcher.group("name").trim();
-        int count;
-        try{
-            count=Integer.parseInt(matcher.group("count").trim());
-        } catch (NumberFormatException e){
-            return new Result(false , "please enter a valid number");
-        }
-        if(!NpcInfo.checkName(npcName)){
-            return new Result(false,"please enter a valid npc name!");
-        }
-        NPC npc=NPC.getNPC(npcName);
-        if(npc == null) return new Result(false , "npc not found");
-        if(count>799){
-            return new Result(false, "the max amount of level is 800");
-        } else if(count<0){
-            return new Result(false,"the level cannot be negative!");
-        }
-        npc.getFriendships(App.getCurrentGame().getCurrentCharacter()).setFriendshipLevel(count);
-        return new Result(true,"friendship set successfully");
-    }
-    public Result questsList(){
-        return new Result(true,NPC.getQuests(App.getCurrentGame().getCurrentCharacter()));
-    }
-    public Result questsFinish(Matcher matcher){
-        Character character=App.getCurrentGame().getCurrentCharacter();
-        NPC npc=character.getNPC();
-        if(npc == null) return new Result(false , "you are not near a npc!");
-        int index;
-        try{
-            index=Integer.parseInt(matcher.group("index").trim());
-        } catch (NumberFormatException e){
-            return new Result(false , "please enter a valid number");
-        }
-        if(!npc.checkQuestAvailability(character,npc.getFriendships(character),index)){
-            return new Result(false , "this quest is not available for you yet!");
-        }
-        return new Result(true,npc.checkCharacterEnoughItems(character,index,npc.getFriendships(character)));
+        return new Result(false, "you have not gained a point because this is not your first time in this day that you are giving " + name + " a gift!");
     }
 
-    public Result buildCage(Matcher matcher){
+    public Result friendshipNPCList() {
+        return new Result(true, NPC.getNPCFriendshipsDetails(App.getCurrentGame().getCurrentCharacter()));
+    }
+
+    public Result cheatSetNpcFriendship(Matcher matcher) {
+        String npcName = matcher.group("name").trim();
+        int count;
+        try {
+            count = Integer.parseInt(matcher.group("count").trim());
+        } catch (NumberFormatException e) {
+            return new Result(false, "please enter a valid number");
+        }
+        if (!NpcInfo.checkName(npcName)) {
+            return new Result(false, "please enter a valid npc name!");
+        }
+        NPC npc = NPC.getNPC(npcName);
+        if (npc == null) return new Result(false, "npc not found");
+        if (count > 799) {
+            return new Result(false, "the max amount of level is 800");
+        } else if (count < 0) {
+            return new Result(false, "the level cannot be negative!");
+        }
+        npc.getFriendships(App.getCurrentGame().getCurrentCharacter()).setFriendshipLevel(count);
+        return new Result(true, "friendship set successfully");
+    }
+
+    public Result questsList() {
+        return new Result(true, NPC.getQuests(App.getCurrentGame().getCurrentCharacter()));
+    }
+
+    public Result questsFinish(Matcher matcher) {
+        Character character = App.getCurrentGame().getCurrentCharacter();
+        NPC npc = character.getNPC();
+        if (npc == null) return new Result(false, "you are not near a npc!");
+        int index;
+        try {
+            index = Integer.parseInt(matcher.group("index").trim());
+        } catch (NumberFormatException e) {
+            return new Result(false, "please enter a valid number");
+        }
+        if (!npc.checkQuestAvailability(character, npc.getFriendships(character), index)) {
+            return new Result(false, "this quest is not available for you yet!");
+        }
+        return new Result(true, npc.checkCharacterEnoughItems(character, index, npc.getFriendships(character)));
+    }
+
+    public Result buildCage(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
         String cageTypeString = matcher.group("cageType");
         String name = matcher.group("name");
         Character character = App.getCurrentGame().getCurrentCharacter();
         CageType cageType = CageType.getCageType(cageTypeString);
-        if(cageType == null){
-            return new Result(false , "cage type not valid");
+        if (cageType == null) {
+            return new Result(false, "cage type not valid");
         }
         Game game = App.getCurrentGame();
         Map map = game.getMap();
-        Tile charachterTile = map.getTileByCordinate(character.getX() , character.getY());
-        if(!charachterTile.getType().equals(TileType.Carpenter)){
-            return new Result(false , "you have to be in carpenter shop.");
+        Tile charachterTile = map.getTileByCordinate(character.getX(), character.getY());
+        if (!charachterTile.getType().equals(TileType.Carpenter)) {
+            return new Result(false, "you have to be in carpenter shop.");
         }
-        if(character.getInventory().getCageTypeNumber(cageType) <= 0){
-            return new Result(false , "you have not bough this cage in shop buy it first");
+        if (character.getInventory().getCageTypeNumber(cageType) <= 0) {
+            return new Result(false, "you have not bough this cage in shop buy it first");
         }
 
 
-        for(int height = y ; height < cageType.getHeight()+y ; height++){
-            for (int width = x ; width < cageType.getWidth()+x; width++){
-                Tile tile = map.getTileByCordinate(width , height);
-                if(tile==null){
-                    return new Result(false , "invalid coordinate");
+        for (int height = y; height < cageType.getHeight() + y; height++) {
+            for (int width = x; width < cageType.getWidth() + x; width++) {
+                Tile tile = map.getTileByCordinate(width, height);
+                if (tile == null) {
+                    return new Result(false, "invalid coordinate");
                 }
-                if(game.getCharacterByTurnNumber(tile.getOwnerId()) == null){
-                    return new Result(false , "you cant build in city");
+                if (game.getCharacterByTurnNumber(tile.getOwnerId()) == null) {
+                    return new Result(false, "you cant build in city");
                 }
-                if(game.getCharacterByTurnNumber(tile.getOwnerId()).getUserId() !=character.getUserId()){
-                    return new Result(true , "this tile is not yours");
+                if (game.getCharacterByTurnNumber(tile.getOwnerId()).getUserId() != character.getUserId()) {
+                    return new Result(true, "this tile is not yours");
                 }
-                if(tile.getType().isCollisionOn() || tile.getResource() != null){
-                    return new Result(false , "not valid tile to build on");
+                if (tile.getType().isCollisionOn() || tile.getResource() != null) {
+                    return new Result(false, "not valid tile to build on");
                 }
             }
         }
 
-        for(int height = y ; height < cageType.getHeight()+y ; height++){
-            for (int width = x ; width < cageType.getWidth()+x; width++){
-                Tile tile = map.getTileByCordinate(width , height);
+        for (int height = y; height < cageType.getHeight() + y; height++) {
+            for (int width = x; width < cageType.getWidth() + x; width++) {
+                Tile tile = map.getTileByCordinate(width, height);
                 tile.setResource(new BuildingReference(name));
             }
         }
-        if(cageType.equals(CageType.Barn) || cageType.equals(CageType.BigBarn) ||cageType.equals(CageType.DeluxeBarn) ){
-            character.getBuildings().add(new Barn(cageType , name , x , y));
-        }else {
-            character.getBuildings().add(new Coop(cageType , name , x , y));
+        if (cageType.equals(CageType.Barn) || cageType.equals(CageType.BigBarn) || cageType.equals(CageType.DeluxeBarn)) {
+            character.getBuildings().add(new Barn(cageType, name, x, y));
+        } else {
+            character.getBuildings().add(new Coop(cageType, name, x, y));
         }
-        character.getInventory().removeCage(1 , cageType);
-        return new Result(true , "cage built successfully");
+        character.getInventory().removeCage(1, cageType);
+        return new Result(true, "cage built successfully");
 
     }
 
-    public Result showRecipes(){
+    public Result showRecipes() {
         StringBuilder message = new StringBuilder("Recipes:\n");
         for (Recipe recipe : App.getCurrentGame().getCurrentCharacter().getRecipes()) {
             message.append(recipe.toString()).append("\n");
         }
-        return new Result(true , message.toString());
+        return new Result(true, message.toString());
     }
-    public Result craft(Matcher matcher){
+
+    public Result craft(Matcher matcher) {
         String item = matcher.group("craftName");
         Recipe recipe = Recipe.getRecipe(item);
         Character character = App.getCurrentGame().getCurrentCharacter();
-        if(recipe == null){
-            return new Result( false , "invalid item");
+        if (recipe == null) {
+            return new Result(false, "invalid item");
         }
         for (ItemType itemRequired : recipe.getRecipe().keySet()) {
-            if(character.getInventory().getCountOfItem(itemRequired) <= recipe.getRecipe().get(itemRequired)){
-                return new Result(false , "you don't have enough "+itemRequired.getDisPlayName());
+            if (character.getInventory().getCountOfItem(itemRequired) <= recipe.getRecipe().get(itemRequired)) {
+                return new Result(false, "you don't have enough " + itemRequired.getDisPlayName());
             }
         }
         for (ItemType itemRequired : recipe.getRecipe().keySet()) {
-            character.getInventory().removeItem(itemRequired , recipe.getRecipe().get(itemRequired));
+            character.getInventory().removeItem(itemRequired, recipe.getRecipe().get(itemRequired));
         }
-        character.getInventory().addItem(ItemType.getItemType(recipe.name()),1);
-        return new Result(true , "item built successfully");
+        character.getInventory().addItem(ItemType.getItemType(recipe.name()), 1);
+        return new Result(true, "item built successfully");
     }
-    public Result placeItem(Matcher matcher){
+
+    public Result placeItem(Matcher matcher) {
         Direction direction = Direction.fromString(matcher.group("direction"));
-        if(direction == null){
-            return new Result(false , "invalid direction");
+        if (direction == null) {
+            return new Result(false, "invalid direction");
         }
         ItemType itemType = ItemType.getItemType(matcher.group("itemName"));
-        if(itemType == null){
-            return new Result(false , "invalid item");
+        if (itemType == null) {
+            return new Result(false, "invalid item");
         }
         Character character = App.getCurrentGame().getCurrentCharacter();
-        Tile tile = App.getCurrentGame().getMap().getTileByCordinate(character.getX()+direction.getDx() , character.getY()+direction.getDy());
-        if(tile.getResource() != null || tile.isCollisionOn()){
-            return new Result(false ,"you cant place item here");
+        Tile tile = App.getCurrentGame().getMap().getTileByCordinate(character.getX() + direction.getDx(), character.getY() + direction.getDy());
+        if (tile.getResource() != null || tile.isCollisionOn()) {
+            return new Result(false, "you cant place item here");
         }
         int count = character.getInventory().getCountOfItem(itemType);
-        if(count <= 0){
-            return new Result(false , "you don't have this item in your inventory");
+        if (count <= 0) {
+            return new Result(false, "you don't have this item in your inventory");
         }
 
-        character.getInventory().removeItem(itemType , 1);
+        character.getInventory().removeItem(itemType, 1);
         WorkBenchType workBenchType = WorkBenchType.getWorkBenchType(itemType.name());
-        if(workBenchType != null){
-            tile.setResource(new WorkBench(workBenchType));
-            return new Result(true , "successfully placed your work bench");
+        if (workBenchType != null) {
+            WorkBench workBench = new WorkBench(workBenchType);
+            tile.setResource(workBench);
+            game.getWorkBenches().add(workBench);
+            return new Result(true, "successfully placed your work bench");
         }
         tile.setItem(new Item(itemType));
-        return new Result(true , "successfully placed your item");
+        return new Result(true, "successfully placed your item");
     }
 
-    public Result AskMarriage(Matcher matcher){
+    public Result AskMarriage(Matcher matcher) {
         Character character = App.getCurrentGame().getCurrentCharacter();
         String friend = matcher.group("username");
         String ringName = matcher.group("ring");
         int frienfid = App.getIdByUserName(friend);
 
 
-        if(character.getIteractions().addInteract("marrige","",frienfid,character.getUserId()+"is askind"+friend,
-                ItemType.WeddingRing,null,null,null)){
-            return new Result(true,"marrife request is sent");
+        if (character.getIteractions().addInteract("marrige", "", frienfid, character.getUserId() + "is askind" + friend,
+            ItemType.WeddingRing, null, null, null)) {
+            return new Result(true, "marrife request is sent");
         }
-        return new Result(false , "ask marriage");
+        return new Result(false, "ask marriage");
     }
-    public Result RespondMarriage(Matcher matcher){
+
+    public Result RespondMarriage(Matcher matcher) {
         Character character = App.getCurrentGame().getCurrentCharacter();
         String friend = matcher.group("username");
         String answer = matcher.group("answer");
-        boolean ans ;
-        if(answer.equals("accept")){
+        boolean ans;
+        if (answer.equals("accept")) {
             ans = true;
-        }else if(answer.equals("reject")){
+        } else if (answer.equals("reject")) {
             ans = false;
-        }else return new Result(false , "invalid answer");
-        if(character.getIteractions().marriagerate(ans)){
-            return new Result(ans,"you are marriaged to "+friend);
+        } else return new Result(false, "invalid answer");
+        if (character.getIteractions().marriagerate(ans)) {
+            return new Result(ans, "you are marriaged to " + friend);
         }
-        return new Result(false , "invalid command");
+        return new Result(false, "invalid command");
     }
-    public Result StartTrade(Matcher matcher){
+
+    public Result StartTrade(Matcher matcher) {
         Character character = App.getCurrentGame().getCurrentCharacter();
         List<Interact> interacts = character.getIteractions().tradelist();
         if (interacts.isEmpty()) {
-            return new Result(true , "invalid command");
+            return new Result(true, "invalid command");
         }
-        StringBuilder trades= new StringBuilder();
-        for(Interact interact : interacts){
+        StringBuilder trades = new StringBuilder();
+        for (Interact interact : interacts) {
             trades.append(interact.getValue()).append("\\n");
         }
-        return new Result(true , trades.toString());
+        return new Result(true, trades.toString());
     }
-    public Result Trade(Matcher matcher){
+
+    public Result Trade(Matcher matcher) {
         Character character = App.getCurrentGame().getCurrentCharacter();
         String friend = matcher.group("username");
         String kind = matcher.group("tradeType");
@@ -1286,72 +1379,85 @@ public class GameMenuController {
         ItemType Item1 = ItemType.getItemType(item1);
         ItemType Item2 = ItemType.getItemType(item2);
         int frienfid = App.getIdByUserName(friend);
-        int amount1 =Integer.parseInt(matcher.group("amount"));
+        int amount1 = Integer.parseInt(matcher.group("amount"));
         int amount2;
-        if(item2 != null){
+        if (item2 != null) {
             amount2 = Integer.parseInt(matcher.group("price"));
-        }else {
+        } else {
             amount2 = Integer.parseInt(matcher.group("targetAmount"));
         }
-        if( character.getIteractions().addInteract("trade",kind,frienfid,"you "+kind+friend+
-                item1+amount1+item2+amount2,Item1,amount1,Item2,amount2)){
-            return new Result(true,"successfully added trade");
+        if (character.getIteractions().addInteract("trade", kind, frienfid, "you " + kind + friend +
+            item1 + amount1 + item2 + amount2, Item1, amount1, Item2, amount2)) {
+            return new Result(true, "successfully added trade");
         }
 
-        return new Result(false , "rong inputes");
+        return new Result(false, "rong inputes");
     }
-    public Result TradeList(Matcher matcher){
+
+    public Result TradeList(Matcher matcher) {
         Character character = App.getCurrentGame().getCurrentCharacter();
         StringBuilder massage = new StringBuilder();
-        for (Interact interact:character.getIteractions().tradelist()) {
+        for (Interact interact : character.getIteractions().tradelist()) {
             massage.append(interact.getValue()).append("\\n");
         }
-        return new Result(true , massage.toString());
+        return new Result(true, massage.toString());
     }
-    public Result TradeResponse(Matcher matcher){
-        return new Result(false , "ask marriage");
+
+    public Result TradeResponse(Matcher matcher) {
+        return new Result(false, "ask marriage");
     }
-    public Result Flower(Matcher matcher){
+
+    public Result Flower(Matcher matcher) {
         String friend = matcher.group("username");
         int friendid = App.getIdByUserName(friend);
         Character character = App.getCurrentGame().getCurrentCharacter();
-        if(character.getIteractions().addInteract(
-                "flower","",friendid,null,null,null,null,null
-        )){
-            return new Result(true,"flower request is sent");
+        if (character.getIteractions().addInteract(
+            "flower", "", friendid, null, null, null, null, null
+        )) {
+            return new Result(true, "flower request is sent");
         }
-        return new Result(false , "invalid input");
+        return new Result(false, "invalid input");
     }
-    public Result Friendships(Matcher matcher){
-        return new Result(false , "ask marriage");
+
+    public Result Friendships(Matcher matcher) {
+        return new Result(false, "ask marriage");
     }
-    public Result GiftRate(Matcher matcher){
-        return new Result(false , "ask marriage");
+
+    public Result GiftRate(Matcher matcher) {
+        return new Result(false, "ask marriage");
     }
-    public Result TradeHistory(Matcher matcher){
-        return new Result(false , "ask marriage");
+
+    public Result TradeHistory(Matcher matcher) {
+        return new Result(false, "ask marriage");
     }
-    public Result GiftHistory(Matcher matcher){
-        return new Result(false , "ask marriage");
+
+    public Result GiftHistory(Matcher matcher) {
+        return new Result(false, "ask marriage");
     }
-    public Result Hug(Matcher matcher){
-        return new Result(false , "ask marriage");
+
+    public Result Hug(Matcher matcher) {
+        return new Result(false, "ask marriage");
     }
-    public Result Talk(Matcher matcher){
-        return new Result(false , "ask marriage");
+
+    public Result Talk(Matcher matcher) {
+        return new Result(false, "ask marriage");
     }
-    public Result TalkHistory(Matcher matcher){
-        return new Result(false , "ask marriage");
+
+    public Result TalkHistory(Matcher matcher) {
+        return new Result(false, "ask marriage");
     }
-    public Result Gift(Matcher matcher){
-        return new Result(false , "ask marriage");
+
+    public Result Gift(Matcher matcher) {
+        return new Result(false, "ask marriage");
     }
+
     public Result GiftList(Matcher matcher) {
         return new Result(false, "ask marriage");
     }
-    public Result cheatAddMoney(Matcher matcher){
+
+    public Result cheatAddMoney(Matcher matcher) {
         int amount = Integer.parseInt(matcher.group("count"));
         App.getCurrentGame().getCurrentCharacter().setMoney(App.getCurrentGame().getCurrentCharacter().getMoney() + amount);
-        return new Result(true ,"you are rich now "+amount);
+        return new Result(true, "you are rich now " + amount);
     }
 }
