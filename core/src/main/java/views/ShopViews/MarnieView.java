@@ -72,7 +72,7 @@ public class MarnieView extends ShopView {
                 float height=64;
                 ImageButton button=permanentTools[i];
                 if(!allProducts && shopPermanentTools.get(i).getStock()<=0) continue;
-                stage.getBatch().draw(shopPermanentTools.get(i).getTool().getTextureForLevel(""),
+                stage.getBatch().draw(shopPermanentTools.get(i).getTool().getDefaultTexture(),
                     button.getX()+(button.getWidth()-width)/2,
                     button.getY()+(button.getHeight()-height)/2,width,height);
             }

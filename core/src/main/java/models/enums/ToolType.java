@@ -2,9 +2,7 @@ package models.enums;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import models.tool.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public enum ToolType {
@@ -74,7 +72,7 @@ public enum ToolType {
         }
         return new Texture("error.png");
     }
-    public Texture getTexture(){
+    public Texture getDefaultTexture(){
         try {
             return new Texture(Gdx.files.internal(internalPathForEachLevel.get(internalPathForEachLevel.entrySet().iterator().next().getKey())));
         } catch (Exception e) {
