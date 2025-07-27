@@ -74,4 +74,12 @@ public enum ToolType {
         }
         return new Texture("error.png");
     }
+    public Texture getTexture(){
+        try {
+            return new Texture(Gdx.files.internal(internalPathForEachLevel.get(internalPathForEachLevel.entrySet().iterator().next().getKey())));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Texture("error.png");
+        }
+    }
 }

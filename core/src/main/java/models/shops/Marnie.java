@@ -160,4 +160,13 @@ public class Marnie extends Shop {
     public int getCloseHour(){
         return 15;
     }
+    public ArrayList<ShopItem> getShopItems() {
+        return permanentItems;
+    }
+    public ArrayList<ShopTool> getShopTools() {
+        return permanentTools;
+    }
+    public ArrayList<ShopAnimals> getShopAnimals() {
+        return permanentAnimals;
+    }
 }
