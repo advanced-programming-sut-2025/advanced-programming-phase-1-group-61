@@ -75,7 +75,7 @@ public class MainMenuController {
             public void clicked(InputEvent event, float x, float y) {
                 AssetManager.getUiClicks().play();
                 Main.getMain().getScreen().dispose();
-                Main.getMain().setScreen(new MarnieView(new Marnie("",0,0)));
+                Main.getMain().setScreen(new PierreView(new Pierre("",0,0)));
             }
         });
     }

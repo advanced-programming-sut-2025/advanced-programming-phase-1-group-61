@@ -297,6 +297,18 @@ public class Pierre extends Shop {
     public ArrayList<ShopItem> getFallItems() {
         return fallItems;
     }
+    public ArrayList<ShopItem> getSummerItems() {
+        return summerItems;
+    }
+    public ArrayList<ShopItem> getSpringItems() {
+        return springItems;
+    }
+    public ArrayList<ShopBackpacks> getShopBackpacks() {
+        return shopBackpacks;
+    }
+    public ArrayList<ShopRecipes> getShopRecipes() {
+        return shopRecipes;
+    }
     public int getOpenHour(){
         return 9;
     }

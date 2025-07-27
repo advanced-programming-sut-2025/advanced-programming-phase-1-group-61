@@ -67,6 +67,10 @@ public enum Recipe {
         }
     }
     public Texture getTexture() {
-        return new Texture(Gdx.files.internal(internalPath));
+        try {
+            return new Texture(Gdx.files.internal(internalPath));
+        } catch (Exception e) {
+            return new Texture(Gdx.files.internal("error.png"));
+        }
     }
 }
