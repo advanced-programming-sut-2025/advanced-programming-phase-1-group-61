@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import controllers.ShopViewsControllers.MarnieViewController;
 import models.App;
+import models.building.Shop;
 import models.shops.Marnie;
 import models.shops.ShopAnimals;
 import models.shops.ShopItem;
@@ -136,5 +137,8 @@ public class MarnieView extends ShopView {
     }
     public void setSelectItems(boolean selectItems) {
         this.selectItems = selectItems;
+    }
+    public Shop getShop() {
+        return shop;
     }
 }

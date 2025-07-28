@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import controllers.ShopViewsControllers.PierreViewController;
 import models.App;
+import models.building.Shop;
 import models.shops.Pierre;
 import models.shops.ShopBackpacks;
 import models.shops.ShopItem;
@@ -215,5 +216,8 @@ public class PierreView extends ShopView {
                 button.getX()+(button.getWidth()-width)/2,
                 button.getY()+(button.getHeight()-height)/2,width,height);
         }
+    }
+    public Shop getShop() {
+        return shop;
     }
 }

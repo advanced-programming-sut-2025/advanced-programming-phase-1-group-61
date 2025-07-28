@@ -5,6 +5,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import models.AlertGenerator;
+import models.building.Shop;
 import models.shops.*;
 import views.ShopViews.ShopView;
 
@@ -30,6 +33,12 @@ public class ShopViewController {
                 view.getStock().setText("");
             }
         });
+        button.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                buy(item.getItem().getDisPlayName());
+            }
+        });
     }
     public void addHoverListenerForShopTools(ImageButton button, ShopToolUpgrades tool){
         button.addListener(new InputListener(){
@@ -46,6 +55,11 @@ public class ShopViewController {
                 view.getName().setText("");
                 view.getPrice().setText("");
                 view.getStock().setText("");
+            }
+        });
+        button.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y) {
+                buy(tool.getUpgradeName());
             }
         });
     }
@@ -66,6 +80,11 @@ public class ShopViewController {
                 view.getStock().setText("");
             }
         });
+        button.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y) {
+                buy(trashcan.getTrashcanType().getDisplayName());
+            }
+        });
     }
     public void addHoverListenerForShopCages(ImageButton button, ShopCages cage){
         button.addListener(new InputListener(){
@@ -82,6 +101,11 @@ public class ShopViewController {
                 view.getName().setText("");
                 view.getPrice().setText("");
                 view.getStock().setText("");
+            }
+        });
+        button.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y) {
+                buy(cage.getCageType().getDisplayName());
             }
         });
     }
@@ -102,6 +126,11 @@ public class ShopViewController {
                 view.getStock().setText("");
             }
         });
+        button.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y) {
+                buy(pole.getUpgradeName());
+            }
+        });
     }
     public void addHoverListenerForShopRecipes(ImageButton button, ShopRecipes recipe){
         button.addListener(new InputListener(){
@@ -120,5 +149,26 @@ public class ShopViewController {
                 view.getStock().setText("");
             }
         });
+        button.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y) {
+                buy(recipe.getRecipe().name());
+            }
+        });
+    }
+    private void buy(String productName){
+        Shop shop=view.getShop();
+        String amountStr=view.getDesiredAmount().getText();
+        int amount;
+        if(amountStr.isEmpty()){
+            AlertGenerator.showAlert("","Please enter the amount you want to buy!",view.getStage());
+            return;
+        }
+        try {
+            amount = Integer.parseInt(amountStr);
+        } catch (NumberFormatException e) {
+            AlertGenerator.showAlert("","Please enter a valid amount!",view.getStage());
+            return;
+        }
+        AlertGenerator.showAlert("",shop.purchaseProduct(productName,amount),view.getStage());
     }
 }

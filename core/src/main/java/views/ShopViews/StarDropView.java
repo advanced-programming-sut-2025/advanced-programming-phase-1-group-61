@@ -1,5 +1,7 @@
 package views.ShopViews;
 
+import models.building.Shop;
+
 public class StarDropView extends ShopView{
     @Override
     public void render(float v) {
@@ -29,5 +31,10 @@ public class StarDropView extends ShopView{
     @Override
     public void dispose() {
 
+    }
+
+    @Override
+    public Shop getShop() {
+        return null;
     }
 }

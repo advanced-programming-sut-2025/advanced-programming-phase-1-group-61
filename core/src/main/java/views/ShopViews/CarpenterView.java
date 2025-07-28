@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import controllers.ShopViewsControllers.CarpenterViewController;
 import models.App;
+import models.building.Shop;
 import models.shops.Carpenter;
 import models.shops.ShopCages;
 import models.shops.ShopItem;
@@ -120,5 +121,8 @@ public class CarpenterView extends ShopView{
     }
     public void setSelectFarmBuilding(boolean select) {
         selectFarmBuilding = select;
+    }
+    public Shop getShop() {
+        return shop;
     }
 }

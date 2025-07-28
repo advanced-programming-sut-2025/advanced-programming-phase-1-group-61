@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import controllers.ShopViewsControllers.JojaMartViewController;
 import models.App;
+import models.building.Shop;
 import models.shops.JojaMart;
 import models.shops.ShopItem;
 
@@ -151,5 +152,8 @@ public class JojaMartView extends ShopView {
             if(allProducts || shopItems.get(i).getStock()>0)
                 centerTable.add(itemsShop[i]).width(120).height(120).pad(10);
         }
+    }
+    public Shop getShop() {
+        return shop;
     }
 }

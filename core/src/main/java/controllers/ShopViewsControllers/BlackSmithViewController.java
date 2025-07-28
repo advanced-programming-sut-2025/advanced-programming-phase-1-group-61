@@ -2,6 +2,8 @@ package controllers.ShopViewsControllers;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import models.AlertGenerator;
+import models.shops.BlackSmith;
 import views.ShopViews.BlackSmithView;
 
 public class BlackSmithViewController {

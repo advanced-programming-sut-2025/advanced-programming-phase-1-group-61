@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import controllers.ShopViewsControllers.ShopViewController;
 import models.AssetManager;
+import models.building.Shop;
 
 public abstract class ShopView implements Screen {
     protected final ShopViewController controller=new ShopViewController(this);
@@ -22,6 +23,7 @@ public abstract class ShopView implements Screen {
     protected final Label stock;
     protected final Table topLeftTable;
     protected boolean allProducts=true;
+    protected final TextField desiredAmount;
     public ShopView() {
         stage = new Stage(new FitViewport(1920, 1080));
         centerTable = new Table();
@@ -34,6 +36,8 @@ public abstract class ShopView implements Screen {
         topLeftTable=new Table();
         selectBoxesTable=new Table();
         productTypeSelectBox=new SelectBox<>(skin);
+        desiredAmount=new TextField("",skin);
+        desiredAmount.setMessageText("Please enter the desired amount you want to buy.");
     }
     @Override
     public void show() {
@@ -45,6 +49,7 @@ public abstract class ShopView implements Screen {
         topLeftTable.add(stock).width(200).row();
         centerTable.setFillParent(true);
         centerTable.top().left().padTop(300).padLeft(100);
+        selectBoxesTable.add(desiredAmount).width(500).height(100).colspan(2).row();
         selectBoxesTable.add(productTypeSelectBox).width(500).height(80);
         selectBoxesTable.add(showProductsApproach).width(500).height(80);
         selectBoxesTable.setFillParent(true);
@@ -68,10 +73,14 @@ public abstract class ShopView implements Screen {
     public SelectBox<String> getProductTypeSelectBox() {
         return productTypeSelectBox;
     }
+    public TextField getDesiredAmount() {
+        return desiredAmount;
+    }
     public void setUpUI(){
         stage.clear();
         centerTable.clear();
         stage.addActor(topLeftTable);
         stage.addActor(selectBoxesTable);
     }
+    public abstract Shop getShop();
 }

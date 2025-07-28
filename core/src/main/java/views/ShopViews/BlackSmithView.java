@@ -159,4 +159,7 @@ public class BlackSmithView extends ShopView{
     public void setSelectTrashcan(boolean selectTrashcan) {
         this.selectTrashcan = selectTrashcan;
     }
+    public BlackSmith getShop(){
+        return shop;
+    }
 }

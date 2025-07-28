@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import controllers.ShopViewsControllers.FishShopViewController;
 import models.App;
+import models.building.Shop;
 import models.shops.FishShop;
 import models.shops.ShopFishingPoleUpgrades;
 import models.shops.ShopRecipes;
@@ -114,6 +115,11 @@ public class FishShopView extends ShopView {
         }
         stage.addActor(centerTable);
     }
+
+    public Shop getShop() {
+        return shop;
+    }
+
     public void setSelectFishingPole(boolean selectFishingPole) {
         this.selectFishingPole = selectFishingPole;
     }
