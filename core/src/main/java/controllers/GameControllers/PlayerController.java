@@ -2,6 +2,7 @@ package controllers.GameControllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import io.github.camera.Main;
 import models.App;
@@ -20,6 +21,7 @@ import views.ShopViews.*;
 public class PlayerController {
     private Character player;
     public OrthographicCamera camera;
+    private float shopCooldown;
 
 
     public PlayerController(OrthographicCamera camera) {
@@ -35,6 +37,7 @@ public class PlayerController {
 
         player.getPlayerSprite().draw(Main.getBatch());
         handlePlayerInput();
+        shopCooldown += Gdx.graphics.getDeltaTime();
     }
     public void handlePlayerInput() {
         float dx = 0;
@@ -95,7 +98,9 @@ public class PlayerController {
                 }
             }
         }
-        if (shopDetected) {
+        if (shopDetected && shopCooldown>=5) {
+            shopCooldown=0;
+            App.setLastScreenBeforeShop(Main.getMain().getScreen());
             switch (shopTile){
                 case TileType.BlackSmith -> {
                     Main.getMain().getScreen().dispose();

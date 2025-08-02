@@ -5,7 +5,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import io.github.camera.Main;
 import models.AlertGenerator;
+import models.App;
 import models.building.Shop;
 import models.shops.*;
 import views.ShopViews.ShopView;
@@ -174,5 +176,14 @@ public class ShopViewController {
         if (onBuyCallback != null) {
             onBuyCallback.run();
         }
+    }
+    public void addListenerForBackToGame(){
+        view.getBackToGame().addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(App.getLastScreenBeforeShop());
+            }
+        });
     }
 }
