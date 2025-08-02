@@ -1,5 +1,6 @@
 package models;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -28,6 +29,7 @@ public class App {
     private static ArrayList<models.Game> allGames = new ArrayList<>();
     private static int currentGameId;
     private static float musicVolume=1f;
+    private static Screen lastScreenBeforeShop;
 
 
     public static models.Game getCurrentGame(){
@@ -179,5 +181,11 @@ public class App {
         style.over=imageOver;
         style.down=imageOver;
         items[i]=new ImageButton(style);
+    }
+    public static void setLastScreenBeforeShop(Screen lastScreenBeforeShop){
+        App.lastScreenBeforeShop = lastScreenBeforeShop;
+    }
+    public static Screen getLastScreenBeforeShop(){
+        return App.lastScreenBeforeShop;
     }
 }
