@@ -54,7 +54,7 @@ public class MapBuilder {
                     refrigerator = true;
                 }
                 TileType tileType = TileType.getTypeByNumber(mapSymbole);
-                int ownerId = getOwnerIdForPosition(x, y, FARM_WIDTH, FARM_HEIGHT, cityWidth, cityHeight);
+                int ownerId = getOwnerIdForPosition(x, y, FARM_WIDTH, FARM_HEIGHT, cityWidth, cityHeight , characters);
                 tiles[y][x] = new Tile(x, y, tileType, null, ownerId);
 //                if(tileType.equals(TileType.Carpenter)){
 //                    tiles[y][x].setResource(new BuildingReference("Carpenter"));
@@ -80,18 +80,19 @@ public class MapBuilder {
         return map;
     }
 
-    private static int getOwnerIdForPosition(int x, int y, int farmWidth, int farmHeight, int cityWidth, int cityHeight) {
+    private static int getOwnerIdForPosition(int x, int y, int farmWidth, int farmHeight, int cityWidth, int cityHeight, List<Character> characters) {
         if (x < farmWidth && y < farmHeight) {
-            return 0; // Player 1
+            return characters.size() > 0 ? characters.get(0).getUserId() : -1;
         } else if (x >= farmWidth + cityWidth && y < farmHeight) {
-            return 1; // Player 2
+            return characters.size() > 1 ? characters.get(1).getUserId() : -1;
         } else if (x < farmWidth && y >= farmHeight + cityHeight) {
-            return 2; // Player 3
+            return characters.size() > 2 ? characters.get(2).getUserId() : -1;
         } else if (x >= farmWidth + cityWidth && y >= farmHeight + cityHeight) {
-            return 3; // Player 4
+            return characters.size() > 3 ? characters.get(3).getUserId() : -1;
         }
-        return -1; // City
+        return -1;
     }
+
 
 
     private static void placeFarm(String[][] fullMap, String[][] farm, int offsetY, int offsetX) {

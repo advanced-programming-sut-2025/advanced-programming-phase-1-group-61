@@ -36,12 +36,10 @@ public class Tile {
         collisionRect = new CollisionRect(x*tileSize,y*tileSize,tileSize , tileSize);
     }
 
-    public void setCollisionOn(boolean collisionOn) {
-        this.collisionOn = collisionOn;
-    }
+
 
     public boolean isCollisionOn() {
-        return collisionOn;
+        return type.isCollisionOn();
     }
 
     public Item getItem() {
@@ -73,13 +71,11 @@ public class Tile {
     }
 
     public Sprite getSprite(){
-        if(sprite == null){
             sprite = new Sprite(type.getTexture());
             sprite.setX(x);
             sprite.setY(y);
             int tileSize = AssetManager.getTileSize();
             sprite.setSize(tileSize,tileSize);
-        }
         return sprite;
     }
 

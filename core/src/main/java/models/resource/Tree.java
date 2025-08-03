@@ -61,11 +61,14 @@ public class Tree extends Resource{
     }
 
     public void dayCycleForTrees(){
-        this.treeAge++;
-        setTreeStage(type.getStageByTreeAge(treeAge));
-        if(daysUntilNextCycle>0){
-            daysUntilNextCycle--;
+        if(treeStage < 4){
+            this.treeAge++;
+            setTreeStage(type.getStageByTreeAge(treeAge));
+            if(daysUntilNextCycle>0){
+                daysUntilNextCycle--;
+            }
         }
+
     }
 
     @Override

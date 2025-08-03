@@ -4,29 +4,46 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import io.github.camera.Main;
 import models.App;
 import models.AssetManager;
 import models.CollisionRect;
 import models.Game;
-import models.building.Shop;
 import models.character.Character;
 import models.enums.ShopType;
 import models.enums.TileType;
 import models.map.Map;
 import models.map.Tile;
 import models.shops.*;
+import views.GameView;
 import views.ShopViews.*;
 
 public class PlayerController {
     private Character player;
     public OrthographicCamera camera;
     private float shopCooldown;
+    private Texture[] thunderFrames;
+    private float thunderTimer = 0;
+    private int thunderFrameIndex = 0;
+    private boolean thunderActive = false;
+    private float thunderX, thunderY;
 
 
-    public PlayerController(OrthographicCamera camera) {
+
+
+
+
+
+    public PlayerController(OrthographicCamera camera ) {
         this.player = App.getCurrentGame().getCurrentCharacter();
         this.camera = camera;
+        thunderFrames = new Texture[7];
+        for (int i = 0; i < 7; i++) {
+            thunderFrames[i] = new Texture("Thunder/Thunder_" + i + ".png");
+        }
+
+
     }
 
     public void update() {
@@ -38,6 +55,22 @@ public class PlayerController {
         player.getPlayerSprite().draw(Main.getBatch());
         handlePlayerInput();
         shopCooldown += Gdx.graphics.getDeltaTime();
+        if (thunderActive) {
+            thunderTimer += Gdx.graphics.getDeltaTime();
+
+            if (thunderTimer >= 0.1f) {
+                thunderFrameIndex++;
+                thunderTimer = 0;
+            }
+
+            if (thunderFrameIndex < thunderFrames.length) {
+                int tileSize =AssetManager.getTileSize();
+                Main.getBatch().draw(thunderFrames[thunderFrameIndex], thunderX*tileSize, thunderY*tileSize ,96 ,640);
+            } else {
+                thunderActive = false;
+            }
+        }
+
     }
     public void handlePlayerInput() {
         float dx = 0;
@@ -46,6 +79,20 @@ public class PlayerController {
         if (Gdx.input.isKeyPressed(Input.Keys.S)) dy -= 1;
         if (Gdx.input.isKeyPressed(Input.Keys.D)) dx += 1;
         if (Gdx.input.isKeyPressed(Input.Keys.A)) dx -= 1;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
+            App.getCurrentGame().getDate().increaseTime(1);
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.B)){
+            App.getCurrentGame().getMap().getWeather().lightning(player.getX() + 5, player.getY());
+
+            thunderX = player.getX() + 5;
+            thunderY = player.getY();
+            thunderActive = true;
+            thunderTimer = 0;
+            thunderFrameIndex = 0;
+        }
+
+
 
 
         if (dx != 0 && dy != 0) {

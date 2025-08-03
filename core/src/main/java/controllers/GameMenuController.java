@@ -49,31 +49,19 @@ public class GameMenuController {
     public void setView(GameView view, OrthographicCamera camera) {
         this.view = view;
         this.camera = camera;
-        playerController = new PlayerController(camera);
+        playerController = new PlayerController(camera );
         worldController = new WorldController(camera);
     }
 
     public void updateGame() {
         worldController.update();
         playerController.update();
+        for (NPC npc : game.getNpcList()) {
+            npc.draw();
+        }
     }
 
-    public Result repairGreenHouse(Matcher matcher) {
-        int x, y;
-        x = Integer.parseInt(matcher.group("x"));
-        y = Integer.parseInt(matcher.group("y"));
-        Tile tile = game.getMap().getTileByCordinate(x, y);
-        if (!tile.getType().equals(TileType.BrokenGreenHouse)) {
-            return new Result(false, "not green house");
-        }
-        if (!tile.isCollisionOn()) {
-            return new Result(false, "already fixed");
-        }
-        Character character = game.getCurrentCharacter();
-        character.setMoney(character.getMoney() - 100);
-        tile.setCollisionOn(false);
-        return new Result(true, "successfully repaired");
-    }
+
 
     public Result equipTool(Matcher matcher) {
         Character character = game.getCurrentCharacter();
@@ -167,71 +155,13 @@ public class GameMenuController {
         return new Result(true, axe.useForSyrup(direction));
     }
 
-    public Result loadGame() {
-        User user = App.getLoggedInUser();
-        if (user.getGameId() == 0) {
-            return new Result(false, "you have to make a new game first");
-        }
-        Game game = App.getGameByID(user.getGameId());
-        if (game == null) {
-            return new Result(false, "failed to load game");
-        }
-        App.setCurrentGame(user.getGameId());
 
-        return new Result(true, "game loaded successfully");
-    }
 
     public Result changeTurn() {
         String string = game.changeTurn();
         return new Result(true, string);
     }
 
-    public Result showHour() {
-        int hour = game.getDate().getHour();
-        return new Result(true, "hour: " + hour);
-    }
-
-    public Result showDate() {
-        int dayCount = game.getDate().getDayCounter();
-        DaysOfTheWeek day = game.getDate().getDay();
-        Season season = game.getDate().getSeason();
-        return new Result(true, "season: " + season.getDisplayName() + " day: " + day.getDisplayName()
-            + " (day count: " + dayCount + " )");
-    }
-
-    public Result showDateAndTime() {
-        int dayCount = game.getDate().getDayCounter();
-        DaysOfTheWeek day = game.getDate().getDay();
-        Season season = game.getDate().getSeason();
-        int hour = game.getDate().getHour();
-        return new Result(true, "season :" + season.getDisplayName() + "\nday: " + day.getDisplayName()
-            + "\nday counter: " + dayCount + "\nhour: " + hour);
-    }
-
-    public Result showWeekDay() {
-        DaysOfTheWeek day = game.getDate().getDay();
-        return new Result(true, day.getDisplayName());
-    }
-
-    public Result cheatHour(Matcher matcher) {
-        int amount = Integer.parseInt(matcher.group("hour"));
-        if (amount <= 0) {
-            return new Result(false, "number has to be positive");
-        }
-
-
-        if (amount >= 24) {
-            game.getDate().changeDay(amount / 24);
-        }
-        game.getDate().increaseTime(amount % 24);
-        return new Result(true, amount + " went by.");
-    }
-
-    public Result cheatDay(Matcher matcher) {
-        int amount = Integer.parseInt(matcher.group("day"));
-        game.getDate().changeDay(amount);
-        return new Result(true, amount + "went by.");
-    }
 
     public Result cheatThor(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
@@ -1198,21 +1128,7 @@ public class GameMenuController {
         return new Result(true, NPC.getQuests(App.getCurrentGame().getCurrentCharacter()));
     }
 
-    public Result questsFinish(Matcher matcher) {
-        Character character = App.getCurrentGame().getCurrentCharacter();
-        NPC npc = character.getNPC();
-        if (npc == null) return new Result(false, "you are not near a npc!");
-        int index;
-        try {
-            index = Integer.parseInt(matcher.group("index").trim());
-        } catch (NumberFormatException e) {
-            return new Result(false, "please enter a valid number");
-        }
-        if (!npc.checkQuestAvailability(character, npc.getFriendships(character), index)) {
-            return new Result(false, "this quest is not available for you yet!");
-        }
-        return new Result(true, npc.checkCharacterEnoughItems(character, index, npc.getFriendships(character)));
-    }
+
 
     public Result buildCage(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));

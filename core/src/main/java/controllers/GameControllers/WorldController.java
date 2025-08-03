@@ -7,6 +7,7 @@ import models.App;
 import models.AssetManager;
 import models.building.Shop;
 import models.character.Character;
+import models.enums.TileType;
 import models.map.Map;
 import models.map.Tile;
 import models.resource.Stone;
@@ -39,6 +40,16 @@ public class WorldController {
                 if (tile != null) {
                     int TILE_SIZE = AssetManager.getTileSize();
                     Sprite sprite = tile.getSprite();
+                    if(tile.getType().equals(TileType.Grass)){
+                        switch (App.getCurrentGame().getDate().getSeason()){
+                            case Fall -> sprite = new Sprite(TileType.fallGrass.getTexture());
+                            case Spring -> sprite = new Sprite(TileType.Grass.getTexture());
+                            case Winter -> sprite = new Sprite(TileType.snowyGrass.getTexture());
+                            case Summer -> sprite = new Sprite(TileType.summerGrass.getTexture());
+                        }
+                        sprite.setX(x);
+                        sprite.setY(y);
+                    }
                     sprite.setSize(TILE_SIZE, TILE_SIZE);
                     Main.getBatch().draw(sprite, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
                 }

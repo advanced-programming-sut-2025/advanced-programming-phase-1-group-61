@@ -1,19 +1,20 @@
 package models.enums;
 
 import com.badlogic.gdx.graphics.Texture;
+import models.App;
 
 public enum TileType {
     Grass(false,"0",new Texture("Tiles/grass.png")),
     Soil(false,"1" , new Texture("Tiles/soil.png")),
     Water(true,"2",new Texture("Tiles/water.png")),
-    BrokenGreenHouse(true , "3",new Texture("Tiles/brokenGreenHouseFloor.png")),
-    BrokenGreenHouseWall(true , "7",new Texture("Tiles/brokenGreenHouseWall.png")),
+    BrokenGreenHouse(false , "3",new Texture("Tiles/grass.png")),
+    BrokenGreenHouseWall(false , "7",new Texture("Tiles/grass.png")),
     CabinFloor(false , "4",new Texture("Tiles/CabinFloor.png")),
     CabinWall(true , "6",new Texture("Tiles/cabinwall.png")),
     Stone(false , "5",new Texture("Tiles/stone.png")),
     Door(false , "8",new Texture("Tiles/CabinFloor.png")),
     Shop(true , "B",new Texture("Tiles/dirt.png")),
-    GreenHouse(true , "C",new Texture("Tiles/greenHouseCabinFloor.png")),
+    GreenHouse(false , "C",new Texture("Tiles/greenHouseCabinFloor.png")),
     Barn(true , "D",new Texture("Tiles/dirt.png")),
     Carpenter(false , "E",new Texture("Tiles/Carpenter.png")),
     BlackSmith(false , "F",new Texture("Tiles/BlackSmith.png")),
@@ -28,7 +29,10 @@ public enum TileType {
     LiaSpawnPoint(false , "O",new Texture("Tiles/dirt.png")),
     Abigail(false , "P",new Texture("Tiles/dirt.png")),
     Harvi(false , "Q",new Texture("Tiles/dirt.png")),
-    Sebastian(false , "R",new Texture("Tiles/dirt.png"));
+    Sebastian(false , "R",new Texture("Tiles/dirt.png")),
+    fallGrass(false , "AA",new Texture("Tiles/fallGrass.png")),
+    snowyGrass(false,  "AB",new Texture("Tiles/snowyGrass.png")),
+    summerGrass(false , "AC" , new Texture("Tiles/summerGrass.png"));
 
     private boolean collisionOn;
     private String  typeNum;
