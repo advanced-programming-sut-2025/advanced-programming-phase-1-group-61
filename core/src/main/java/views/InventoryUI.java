@@ -8,11 +8,16 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
+import models.App;
+import models.character.Character;
 import models.character.Inventory;
+import models.enums.TileType;
+import models.map.Tile;
 import models.tool.Tool;
 
 import java.util.ArrayList;
@@ -20,7 +25,7 @@ import java.util.List;
 
 public class InventoryUI extends Table implements InputProcessor {
 
-    private final Inventory inventory;
+    private final Character character;
     private final Skin skin;
     private final DragAndDrop dragAndDrop;
     private final Texture errorTexture;
@@ -37,8 +42,8 @@ public class InventoryUI extends Table implements InputProcessor {
     private int selectedToolbarIndex = -1;
     private Table selectedInventorySlot = null;
 
-    public InventoryUI(Skin skin, Inventory inventory, Stage stage) {
-        this.inventory = inventory;
+    public InventoryUI(Skin skin, Character character, Stage stage) {
+        this.character = character;
         this.skin = skin;
         this.dragAndDrop = new DragAndDrop();
         this.setFillParent(true);
@@ -54,10 +59,64 @@ public class InventoryUI extends Table implements InputProcessor {
     }
 
     private void createInventoryTable() {
+        Table buttonsTable = new Table();
+        buttonsTable.defaults().pad(5);
+
+        TextButton repairButton = new TextButton("Repair Greenhouse", skin);
+        TextButton journalButton = new TextButton("Journal", skin);
+        TextButton skillsButton = new TextButton("Skills", skin);
+        if(character.hasGreenHouse()){
+            repairButton.setVisible(false);
+        }
+        repairButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                character.setHasGreenHouse(true);
+                repairButton.setVisible(false);
+                for (Tile[] tiles : App.getCurrentGame().getMap().getTiles()) {
+                    for (Tile tile : tiles) {
+                        if(tile.getType().equals(TileType.BrokenGreenHouse) ){
+                            if(tile.getOwnerId() == character.getUserId()){
+                                tile.setType(TileType.GreenHouse);
+                            }
+                        } else if (tile.getType().equals(TileType.BrokenGreenHouseWall)) {
+                            if(tile.getOwnerId() == character.getUserId()){
+                                tile.setType(TileType.CabinWall);
+
+                            }
+                        }
+                    }
+                }
+                System.out.println("Repair Greenhouse clicked!");
+            }
+        });
+
+        journalButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // TODO: Show journal UI
+                System.out.println("Journal button clicked!");
+            }
+        });
+
+        skillsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // TODO: Open skills tree or UI
+                System.out.println("Skills button clicked!");
+            }
+        });
+
+        buttonsTable.add(repairButton);
+        buttonsTable.add(journalButton);
+        buttonsTable.add(skillsButton);
+
+        this.add(buttonsTable).padTop(10).row();
+
         Table slotsTable = new Table();
         int columns = 5;
 
-        for (Tool tool : inventory.getTools()) {
+        for (Tool tool : character.getInventory().getTools()) {
             Table slot = createSlot();
             Image toolImage = createImage(tool.getType().getTextureForLevel(tool.getLevel()));
             addDragSource(toolImage, tool.getType().name());
@@ -67,7 +126,7 @@ public class InventoryUI extends Table implements InputProcessor {
                 slotsTable.row();
         }
 
-        for (var slotData : inventory.getSlots()) {
+        for (var slotData : character.getInventory().getSlots()) {
             Table slot = createSlot();
             if (!slotData.isEmpty()) {
                 Image itemImage = createImage(slotData.getItemType().getTexture());

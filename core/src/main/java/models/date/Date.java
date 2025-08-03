@@ -21,7 +21,7 @@ public class Date {
     }
     public void increaseTime(int increase) {
         hour += increase;
-        if (hour >= 22) {
+        if (hour >= 24) {
             changeDay(1);
         }
         List<Character> characters=App.getCurrentGame().getAllCharacters();

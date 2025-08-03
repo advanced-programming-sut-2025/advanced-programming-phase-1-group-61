@@ -42,14 +42,18 @@ public class Game {
                 }
                 if(map.getTiles()[i][j].getType().equals(TileType.RobinSpawnPoint)){
                     npcList.add(new NPC(NpcInfo.Robin , NpcDialog.Robin ,characters , j,i ));
-                    map.getTiles()[i][j].setType(TileType.Carpenter);
+                    System.out.println("robin");
                 } else if (map.getTiles()[i][j].getType().equals(TileType.LiaSpawnPoint)) {
                     npcList.add(new NPC(NpcInfo.Lia , NpcDialog.Lia , characters , j , i));
+                    System.out.println("lia");
                 } else if (map.getTiles()[i][j].getType().equals(TileType.Abigail)) {
                     npcList.add(new NPC(NpcInfo.Abigail, NpcDialog.Abigail, characters, j, i));
+                    System.out.println("Abigail");
                 } else if (map.getTiles()[i][j].getType().equals(TileType.Harvi)) {
+                    System.out.println("Harvi");
                     npcList.add(new NPC(NpcInfo.Harvi , NpcDialog.Harvi , characters , j ,i ));
                 } else if (map.getTiles()[i][j].getType().equals(TileType.Sebastian)) {
+                    System.out.println("sebastian");
                     npcList.add(new NPC(NpcInfo.Sebastian , NpcDialog.Sebastian , characters , j,i));
                 }
             }
@@ -712,4 +716,7 @@ public class Game {
         }
     }
 
+    public List<NPC> getNpcList() {
+        return npcList;
+    }
 }

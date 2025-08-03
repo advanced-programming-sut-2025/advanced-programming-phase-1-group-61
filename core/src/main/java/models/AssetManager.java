@@ -13,7 +13,11 @@ public class AssetManager {
     private static Texture playerTexture = new Texture("T_Raven_Idle_0.png");
     private static int tileSize = 128;
     private static Music uiClicks=Gdx.audio.newMusic(Gdx.files.internal("SFX/others/UI Click 36.wav"));
+    private static Texture SebastianTexture = new Texture("NPC/sebastian.png");
 
+    public static Texture getSebastianTexture() {
+        return SebastianTexture;
+    }
 
     public static int getTileSize() {
         return tileSize;

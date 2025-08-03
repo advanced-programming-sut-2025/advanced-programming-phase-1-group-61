@@ -49,6 +49,8 @@ public class Character {
     private int spriteY;
     private CollisionRect collisionRect;
     private BackgroundMusic backgroundMusic=BackgroundMusic.WITHOUT_LOVE;
+    private boolean hasGreenHouse;
+
 
     private Buff buff=null;
     private int money;
@@ -74,7 +76,7 @@ public class Character {
         this.isFainted = false;
         this.money = 10000;
         this.speed = 10;
-
+        this.hasGreenHouse = false;
     }
 
     public boolean isFainted() {
@@ -314,19 +316,7 @@ public class Character {
     public void setPartner(Integer partner) {
         this.partner = partner;
     }
-    public NPC getNPC(){
-        ArrayList<NPC> allNPCs=NPC.getAllNPCs();
-        for(NPC npc:allNPCs){
-            int delta_x=npc.getX()-this.getX();
-            int delta_y=npc.getY()-this.getY();
-            int[] dx={1,0,-1,0,1,1,-1,-1};
-            int[] dy={0,1,0,-1,1,-1,1,-1};
-            for(int i=0;i<dx.length;i++){
-                if(dx[i]==delta_x && dy[i]==delta_y) return npc;
-            }
-        }
-        return null;
-    }
+
 
     public int getSpeed() {
         return speed;
@@ -377,5 +367,13 @@ public class Character {
     }
     public BackgroundMusic getBackgroundMusic() {
         return backgroundMusic;
+    }
+
+    public boolean hasGreenHouse() {
+        return hasGreenHouse;
+    }
+
+    public void setHasGreenHouse(boolean hasGreenHouse) {
+        this.hasGreenHouse = hasGreenHouse;
     }
 }
