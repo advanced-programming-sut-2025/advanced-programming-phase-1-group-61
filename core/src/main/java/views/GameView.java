@@ -66,6 +66,8 @@ public class GameView implements Screen{
         controller.setView(this, camera);
         font = new BitmapFont();
         font.setColor(Color.WHITE);
+        font.getData().setScale(1.5f);
+
         spriteBatch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
 
@@ -158,11 +160,13 @@ public class GameView implements Screen{
         String timeText = "Hour: " + date.getHour();
         String dayText = "Day: " + date.getDay();
         String seasonText = "Season: " + date.getSeason();
+        String energy = "Energy: "+App.getCurrentGame().getCurrentCharacter().getEnergy();
 
         spriteBatch.begin();
         font.draw(spriteBatch, timeText, 20, Gdx.graphics.getHeight() - 20);
-        font.draw(spriteBatch, dayText, 20, Gdx.graphics.getHeight() - 40);
-        font.draw(spriteBatch, seasonText, 20, Gdx.graphics.getHeight() - 60);
+        font.draw(spriteBatch, dayText, 20, Gdx.graphics.getHeight() - 50);
+        font.draw(spriteBatch, seasonText, 20, Gdx.graphics.getHeight() - 80);
+        font.draw(spriteBatch , energy , 20 ,Gdx.graphics.getHeight() -110 );
         spriteBatch.end();
 
     }

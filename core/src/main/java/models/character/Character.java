@@ -91,13 +91,8 @@ public class Character {
         return iteractions;
     }
 
-
-    public void setTool(ToolType newTool){
-        for (Tool tool : this.inventory.getTools()) {
-            if(tool.getType().equals(newTool)){
-                this.currentTool = tool;
-            }
-        }
+    public void setCurrentTool(Tool currentTool) {
+        this.currentTool = currentTool;
     }
 
     public ArrayList<Recipe> getRecipes() {
@@ -113,22 +108,6 @@ public class Character {
 
     public ArrayList<CookingRecipes> getCookingRecipes() {
         return cookingRecipes;
-    }
-
-    public int getxRefrigerator() {
-        return xRefrigerator;
-    }
-
-    public void setxRefrigerator(int xRefrigerator) {
-        this.xRefrigerator = xRefrigerator;
-    }
-
-    public int getyRefrigerator() {
-        return yRefrigerator;
-    }
-
-    public void setyRefrigerator(int yRefrigerator) {
-        this.yRefrigerator = yRefrigerator;
     }
 
     public int getX() {

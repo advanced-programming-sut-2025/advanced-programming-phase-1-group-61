@@ -73,6 +73,8 @@ public class WorldController {
                             TILE_SIZE / 2
                         );
                     }
+                }if(tile != null && tile.getItem() != null){
+                    Main.getBatch().draw(tile.getItem().getItemType().getTexture() ,tile.getX() ,tile.getY());
                 }
             }
         }
