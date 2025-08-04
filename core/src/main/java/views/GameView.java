@@ -24,7 +24,7 @@ import models.map.Particle;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameView implements Screen,InputProcessor{
+public class GameView implements Screen, InputProcessor{
     private GameMenuController controller;
     private Stage stage;
     private InventoryUI inventoryUI;

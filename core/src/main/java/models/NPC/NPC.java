@@ -195,7 +195,7 @@ public class NPC {
     public Rectangle getBounds() {
         return new Rectangle(x,y,64,128);
     }
-    public Rectangle getChatIconBounds(){
+    public Rectangle getChatIconBounds() {
         return new Rectangle(x*AssetManager.getTileSize()+  (64 - chatIconWidth) /2,
             y*AssetManager.getTileSize()+ 110,
             chatIconWidth,
