@@ -236,7 +236,7 @@ public class GameView implements Screen, InputProcessor{
         Vector3 worldClick=new Vector3(i,i1,0);
         camera.unproject(worldClick);
         for(NPC npc:App.getCurrentGame().getNpcList()){
-            if(npc.getChatIconBounds().contains(worldClick.x, worldClick.y)){
+            if(npc.getChatIconBounds().contains(worldClick.x,worldClick.y)){
                 AlertGenerator.showAlert("",npc.getDialog(),stage);
                 return true;
             }

@@ -24,10 +24,11 @@ public class NPC {
     private boolean firstGiftOfDay=true;
     private int x;
     private int y;
+    private final int chatIconWidth=32;
+    private final int chatIconHeight=32;
     private transient Sprite sprite;
     private Sprite dialogueSprite;
-    private int chatIconWidth=32;
-    private int chatIconHeight=32;
+
 
     public NPC(NpcInfo info, NpcDialog dialogs, List<Character> characters, int x, int y) {
         this.info = info;
@@ -100,14 +101,14 @@ public class NPC {
             for(NPCFriendships friendship:npc.friendships) {
                 if(friendship.getCharacter().getUserId()==character.getUserId()) {
                     builder.append(npc.info.name())
-                            .append(":\n")
-                            .append("friendship level: ")
-                            .append(friendship.getFriendshipLevel())
-                            .append(" (")
-                            .append(friendship.getLvl().name())
-                            .append(")")
-                            .append("friendship points: ")
-                            .append(friendship.getFriendshipPoints());
+                        .append(":\n")
+                        .append("friendship level: ")
+                        .append(friendship.getFriendshipLevel())
+                        .append(" (")
+                        .append(friendship.getLvl().name())
+                        .append(")")
+                        .append("friendship points: ")
+                        .append(friendship.getFriendshipPoints());
                     if(i!= App.getCurrentGame().getNpcList().size()-1) builder.append("\n");
                 }
             }
@@ -148,9 +149,9 @@ public class NPC {
                         int count = requests.get(item);
                         if(npc.checkQuestAvailability(character,friendship,index)) {
                             builder.append("delivering ")
-                                    .append(count)
-                                    .append(item.getDisPlayName())
-                                    .append("\n");
+                                .append(count)
+                                .append(item.getDisPlayName())
+                                .append("\n");
                         }
                         index++;
                     }
