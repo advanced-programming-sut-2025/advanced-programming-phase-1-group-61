@@ -93,8 +93,6 @@ public class PlayerController {
         }
 
 
-
-
         if (dx != 0 && dy != 0) {
             dx *= 0.7071f;
             dy *= 0.7071f;

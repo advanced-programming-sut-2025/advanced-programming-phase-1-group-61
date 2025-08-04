@@ -10,6 +10,7 @@ import models.RandomNumber;
 import models.character.Character;
 import models.enums.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +26,8 @@ public class NPC {
     private int y;
     private transient Sprite sprite;
     private Sprite dialogueSprite;
-
+    private int chatIconWidth=32;
+    private int chatIconHeight=32;
 
     public NPC(NpcInfo info, NpcDialog dialogs, List<Character> characters, int x, int y) {
         this.info = info;
@@ -39,8 +41,6 @@ public class NPC {
         this.sprite.setPosition(x * AssetManager.getTileSize(), y * AssetManager.getTileSize());
         this.sprite.setSize(64 , 128);
         this.dialogueSprite = new Sprite(new Texture(Gdx.files.internal("images/Sprite/chatIcon.png")));
-        int chatIconWidth=32;
-        int chatIconHeight=32;
         this.dialogueSprite.setSize(chatIconWidth,chatIconHeight);
         this.dialogueSprite.setPosition(x*AssetManager.getTileSize()+ (float) (64 - chatIconWidth) /2,y*AssetManager.getTileSize()+ 110);
     }
@@ -190,5 +190,14 @@ public class NPC {
 
     public void setY(int y) {
         this.y = y;
+    }
+    public Rectangle getBounds() {
+        return new Rectangle(x,y,64,128);
+    }
+    public Rectangle getChatIconBounds() {
+        return new Rectangle(x*AssetManager.getTileSize()+  (64 - chatIconWidth) /2,
+            y*AssetManager.getTileSize()+ 110,
+            chatIconWidth,
+            chatIconHeight);
     }
 }

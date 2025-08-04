@@ -8,12 +8,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import controllers.GameMenuController;
 import io.github.camera.Main;
+import models.AlertGenerator;
 import models.App;
 import models.AssetManager;
+import models.NPC.NPC;
 import models.enums.WeatherState;
 import models.map.Particle;
 
@@ -21,7 +24,7 @@ import models.map.Particle;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameView implements Screen{
+public class GameView implements Screen, InputProcessor{
     private GameMenuController controller;
     private Stage stage;
     private InventoryUI inventoryUI;
@@ -58,6 +61,7 @@ public class GameView implements Screen{
         stage.addActor(inventoryUI);
 
         InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(this);
         multiplexer.addProcessor(inventoryUI);
         multiplexer.addProcessor(stage);
 
@@ -210,5 +214,58 @@ public class GameView implements Screen{
 
     public void setMiniMap(MiniMap miniMap) {
         this.miniMap = miniMap;
+    }
+
+    @Override
+    public boolean keyDown(int i) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int i) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char c) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int i, int i1, int i2, int i3) {
+        Vector3 worldClick=new Vector3(i,i1,0);
+        camera.unproject(worldClick);
+        for(NPC npc:App.getCurrentGame().getNpcList()){
+            if(npc.getChatIconBounds().contains(worldClick.x, worldClick.y)){
+                AlertGenerator.showAlert("",npc.getDialog(),stage);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int i, int i1, int i2, int i3) {
+        return false;
+    }
+
+    @Override
+    public boolean touchCancelled(int i, int i1, int i2, int i3) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int i, int i1, int i2) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int i, int i1) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(float v, float v1) {
+        return false;
     }
 }
