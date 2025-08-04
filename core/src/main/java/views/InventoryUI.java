@@ -3,22 +3,21 @@ package views;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
+import io.github.camera.Main;
 import models.App;
 import models.character.Character;
-import models.character.Inventory;
+import models.character.InventorySlot;
+import models.enums.ItemType;
 import models.enums.TileType;
 import models.map.Tile;
+import models.tool.Axe;
 import models.tool.Tool;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,16 +30,14 @@ public class InventoryUI extends Table implements InputProcessor {
     private final Texture errorTexture;
     private final Texture emptySlot;
     private final Texture pickedSlot;
+
+    private final List<Table> slotTables = new ArrayList<>();
+    private Table selectedInventorySlot = null;
     private boolean inventoryVisible = false;
 
     public void setInventoryVisible(boolean inventoryVisible) {
         this.inventoryVisible = inventoryVisible;
     }
-
-    private final List<Table> slotTables = new ArrayList<>();
-    private final List<Table> toolbarSlots = new ArrayList<>();
-    private int selectedToolbarIndex = -1;
-    private Table selectedInventorySlot = null;
 
     public InventoryUI(Skin skin, Character character, Stage stage) {
         this.character = character;
@@ -52,22 +49,27 @@ public class InventoryUI extends Table implements InputProcessor {
         emptySlot = new Texture("emptySlot.png");
         pickedSlot = new Texture("pickedSlot.png");
 
-        createInventoryTable();
-        createToolbar(stage);
+        createInventoryUI();
 
         stage.addActor(this);
     }
 
-    private void createInventoryTable() {
+    private void createInventoryUI() {
+        this.clear();
+        this.top();
+
+        // Buttons section
         Table buttonsTable = new Table();
         buttonsTable.defaults().pad(5);
 
         TextButton repairButton = new TextButton("Repair Greenhouse", skin);
         TextButton journalButton = new TextButton("Journal", skin);
         TextButton skillsButton = new TextButton("Skills", skin);
-        if(character.hasGreenHouse()){
+
+        if (character.hasGreenHouse()) {
             repairButton.setVisible(false);
         }
+
         repairButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -75,64 +77,46 @@ public class InventoryUI extends Table implements InputProcessor {
                 repairButton.setVisible(false);
                 for (Tile[] tiles : App.getCurrentGame().getMap().getTiles()) {
                     for (Tile tile : tiles) {
-                        if(tile.getType().equals(TileType.BrokenGreenHouse) ){
-                            if(tile.getOwnerId() == character.getUserId()){
+                        if (tile.getOwnerId() == character.getUserId()) {
+                            if (tile.getType().equals(TileType.BrokenGreenHouse)) {
                                 tile.setType(TileType.GreenHouse);
-                            }
-                        } else if (tile.getType().equals(TileType.BrokenGreenHouseWall)) {
-                            if(tile.getOwnerId() == character.getUserId()){
+                            } else if (tile.getType().equals(TileType.BrokenGreenHouseWall)) {
                                 tile.setType(TileType.CabinWall);
-
                             }
                         }
                     }
                 }
-                System.out.println("Repair Greenhouse clicked!");
             }
         });
 
         journalButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // TODO: Show journal UI
-                System.out.println("Journal button clicked!");
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(new JournalView());
             }
         });
 
         skillsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // TODO: Open skills tree or UI
-                System.out.println("Skills button clicked!");
+                SkillView skillView = new SkillView(skin);
+                skillView.show(getStage());
             }
         });
 
-        buttonsTable.add(repairButton);
         buttonsTable.add(journalButton);
         buttonsTable.add(skillsButton);
+        buttonsTable.add(repairButton);
 
         this.add(buttonsTable).padTop(10).row();
 
         Table slotsTable = new Table();
         int columns = 5;
 
-        for (Tool tool : character.getInventory().getTools()) {
-            Table slot = createSlot();
-            Image toolImage = createImage(tool.getType().getTextureForLevel(tool.getLevel()));
-            addDragSource(toolImage, tool.getType().name());
-            slot.add(toolImage).size(64).center();
-            slotsTable.add(slot).size(64).pad(5);
-            if (slotsTable.getCells().size % columns == 0)
-                slotsTable.row();
-        }
-
-        for (var slotData : character.getInventory().getSlots()) {
-            Table slot = createSlot();
-            if (!slotData.isEmpty()) {
-                Image itemImage = createImage(slotData.getItemType().getTexture());
-                addDragSource(itemImage, slotData.getItemType().name());
-                slot.add(itemImage).size(64).center();
-            }
+        for (InventorySlot slotData : character.getInventory().getSlots()) {
+            Table slot = createSlot(slotData);
+            slotTables.add(slot);
             slotsTable.add(slot).size(64).pad(5);
             if (slotsTable.getCells().size % columns == 0)
                 slotsTable.row();
@@ -142,16 +126,30 @@ public class InventoryUI extends Table implements InputProcessor {
         scrollPane.setFadeScrollBars(false);
         scrollPane.setScrollingDisabled(true, false);
 
-        this.add(scrollPane).expand().fill().pad(10);
+        this.add(scrollPane).expand().fill().pad(10).row();
     }
 
-    private Table createSlot() {
+    private Table createSlot(InventorySlot slotData) {
         Table slot = new Table();
         Image background = createImage(emptySlot);
         background.setFillParent(true);
         slot.addActor(background);
         slot.setUserObject(background);
-        slotTables.add(slot);
+        if (slotData.getObjectInSlot() != null) {
+            Object obj = slotData.getObjectInSlot();
+            Texture texture = getTextureForObject(obj);
+            Image image = createImage(texture);
+            Label countLabel = new Label(String.valueOf(slotData.getCount()), skin);
+
+            Stack stack = new Stack();
+            stack.add(image);
+            stack.add(countLabel);
+
+            slot.add(stack).size(64).center();
+
+            addDragSource(image, slotData);
+            addDropTarget(slot, slotData);
+        }
 
         slot.addListener(new InputListener() {
             @Override
@@ -164,52 +162,11 @@ public class InventoryUI extends Table implements InputProcessor {
         return slot;
     }
 
-    private void setPickedSlot(Table selectedSlot) {
-        selectedInventorySlot = selectedSlot;
-        for (Table slot : slotTables) {
-            Image background = (Image) slot.getUserObject();
-            TextureRegion region = new TextureRegion(slot == selectedSlot ? pickedSlot : emptySlot);
-            background.setDrawable(new TextureRegionDrawable(region));
-        }
-    }
-
-    private Image createImage(Texture texture) {
-        if (texture == null) texture = errorTexture;
-        return new Image(new TextureRegionDrawable(new TextureRegion(texture)));
-    }
-    private Image getItemImageFromSlot(Table slot) {
-        if (slot.getChildren().size <= 1) return null;
-        for (Actor actor : slot.getChildren()) {
-            if (actor instanceof Image && actor != slot.getUserObject()) {
-                return (Image) actor;
-            }
-        }
-        return null;
-    }
-
-    private void setSlotImage(Table slot, Image image) {
-        slot.clearChildren();
-
-        Image background = createImage(emptySlot);
-        background.setFillParent(true);
-        slot.addActor(background);
-        slot.setUserObject(background);
-
-        if (image != null) {
-            image.setSize(64, 64);
-            image.setScaling(Scaling.fit);
-            image.setAlign(Align.center);
-            slot.add(image).size(64).center();
-
-            addDragSource(image, "");
-        }
-    }
-
-    private void addDragSource(Image image, String payloadName) {
+    private void addDragSource(Image image, InventorySlot slotData) {
         dragAndDrop.addSource(new DragAndDrop.Source(image) {
             public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
                 DragAndDrop.Payload payload = new DragAndDrop.Payload();
-                payload.setObject(payloadName);
+                payload.setObject(slotData);
 
                 Image dragImage = new Image(image.getDrawable());
                 dragImage.setSize(image.getWidth(), image.getHeight());
@@ -220,29 +177,8 @@ public class InventoryUI extends Table implements InputProcessor {
         });
     }
 
-    private void createToolbar(Stage stage) {
-        Table toolbar = new Table();
-        toolbar.bottom().padBottom(50);
-        toolbar.setFillParent(true);
-
-        int toolbarSlotCount = 9;
-        for (int i = 0; i < toolbarSlotCount; i++) {
-            Table slot = createToolbarSlot(i);
-            toolbar.add(slot).size(64).pad(5);
-        }
-
-        stage.addActor(toolbar);
-    }
-
-    private Table createToolbarSlot(int index) {
-        Table slot = new Table();
-        Image background = createImage(emptySlot);
-        background.setFillParent(true);
-        slot.addActor(background);
-        slot.setUserObject(background);
-        toolbarSlots.add(slot);
-
-        dragAndDrop.addTarget(new DragAndDrop.Target(slot) {
+    private void addDropTarget(Table targetSlot, InventorySlot targetData) {
+        dragAndDrop.addTarget(new DragAndDrop.Target(targetSlot) {
             @Override
             public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
                 return true;
@@ -250,74 +186,49 @@ public class InventoryUI extends Table implements InputProcessor {
 
             @Override
             public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                slot.clearChildren();
+                InventorySlot sourceData = (InventorySlot) payload.getObject();
 
-                Image bg = createImage(emptySlot);
-                bg.setFillParent(true);
-                slot.addActor(bg);
-                slot.setUserObject(bg);
+                Object tempObj = targetData.getObjectInSlot();
+                int tempCount = targetData.getCount();
 
-                Image droppedImage = new Image(((Image) source.getActor()).getDrawable());
-                droppedImage.setSize(64, 64);
-                droppedImage.setScaling(Scaling.fit);
-                droppedImage.setAlign(Align.center);
-                slot.add(droppedImage).size(64).center();
+                targetData.setObjectInSlot(sourceData.getObjectInSlot(), sourceData.getCount());
+                sourceData.setObjectInSlot(tempObj, tempCount);
 
-                addDragSource(droppedImage, (String) payload.getObject());
-
-                System.out.println("Dropped on toolbar slot " + index + ": " + payload.getObject());
+                refreshUI();
             }
         });
-
-        slot.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                selectToolbarSlot(index);
-                return true;
-            }
-        });
-
-        return slot;
     }
 
-    private void selectToolbarSlot(int index) {
-        for (int i = 0; i < toolbarSlots.size(); i++) {
-            Table slot = toolbarSlots.get(i);
+    private void setPickedSlot(Table selectedSlot) {
+        selectedInventorySlot = selectedSlot;
+        for (Table slot : slotTables) {
             Image bg = (Image) slot.getUserObject();
-            TextureRegion region = new TextureRegion(i == index ? pickedSlot : emptySlot);
+            TextureRegion region = new TextureRegion(slot == selectedSlot ? pickedSlot : emptySlot);
             bg.setDrawable(new TextureRegionDrawable(region));
         }
-        selectedToolbarIndex = index;
     }
 
-    @Override
-    public boolean keyDown(int keycode) {
-        if (keycode >= com.badlogic.gdx.Input.Keys.NUM_1 && keycode <= com.badlogic.gdx.Input.Keys.NUM_9) {
-            int index = keycode - com.badlogic.gdx.Input.Keys.NUM_1;
-            if (index < toolbarSlots.size()) {
-
-                if (inventoryVisible && selectedInventorySlot != null) {
-
-                    Table toolbarSlot = toolbarSlots.get(index);
-
-                    Image invImage = getItemImageFromSlot(selectedInventorySlot);
-                    Image toolImage = getItemImageFromSlot(toolbarSlot);
-
-                    setSlotImage(selectedInventorySlot, toolImage);
-                    setSlotImage(toolbarSlot, invImage);
-
-                    selectToolbarSlot(index);
-
-                    return true;
-                } else {
-                    selectToolbarSlot(index);
-                    return true;
-                }
-            }
+    private Texture getTextureForObject(Object obj) {
+        if (obj instanceof ItemType) {
+            return ((ItemType) obj).getTexture();
+        } else if (obj instanceof Tool) {
+            return ((Tool) obj).getType().getTextureForLevel(((Tool) obj).getLevel());
+        } else {
+            System.out.println(obj.toString());
+            return errorTexture;
         }
-        return false;
     }
 
+    private Image createImage(Texture texture) {
+        if (texture == null) texture = errorTexture;
+        return new Image(new TextureRegionDrawable(new TextureRegion(texture)));
+    }
+
+    private void refreshUI() {
+        createInventoryUI();
+    }
+
+    @Override public boolean keyDown(int keycode) { return false; }
     @Override public boolean keyUp(int i) { return false; }
     @Override public boolean keyTyped(char c) { return false; }
     @Override public boolean touchDown(int i, int i1, int i2, int i3) { return false; }

@@ -2,16 +2,30 @@ package models.character;
 
 
 import models.enums.ItemType;
+import models.tool.Tool;
 
 public class InventorySlot {
     private int count;
+    private Object object;
+    private int index;
     private ItemType itemType;
+    private Tool tool;
 
 
-    public InventorySlot(int count , ItemType itemType) {
+    public InventorySlot(int count , Object object,int index) {
         this.count = count;
-        this.itemType = itemType;
+        this.object = object;
+        this.index = index;
+        if(object instanceof ItemType){
+            this.itemType = (ItemType) object;
+            tool = null;
+        } else if (object instanceof Tool) {
+            itemType = null;
+            tool = (Tool) object;
+        }
     }
+
+
 
     public int getCount() {
         return count;
@@ -21,19 +35,41 @@ public class InventorySlot {
         this.count = count;
     }
     public void clear() {
-        itemType = null;
+        object = null;
         count = 0;
     }
 
     public boolean isEmpty() {
-        return itemType == null || count == 0;
+        return object == null || count == 0;
+    }
+
+    public Object getObjectInSlot() {
+        return object;
+    }
+
+    public void setObjectInSlot(Object object , int count) {
+        this.object = object;
+        if(object instanceof Tool){
+            this.tool = (Tool) object;
+            itemType = null;
+        }else if(object instanceof ItemType) {
+            this.itemType = (ItemType) object;
+            tool = null;
+        }
+    }
+
+
+    public int getIndex() {
+        return index;
     }
 
     public ItemType getItemType() {
         return itemType;
     }
 
-    public void setItemType(ItemType itemType) {
-        this.itemType = itemType;
+    public Tool getTool() {
+        return tool;
     }
+
+
 }

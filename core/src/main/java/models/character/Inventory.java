@@ -1,6 +1,5 @@
 package models.character;
 
-import models.Item;
 import models.enums.BackpackType;
 import models.enums.CageType;
 import models.enums.ItemType;
@@ -17,44 +16,98 @@ public class Inventory {
     private List<InventorySlot> slots = new ArrayList<>();
 
 
-
-    private final ArrayList<Tool> tools=new ArrayList<>();
     private final HashMap<CageType,Integer> allCages= new HashMap<>();
 
     private Trashcan trashcan=new Trashcan();
 
     public Inventory() {
         for (int i = 0; i < backpackType.getSize(); i++) {
-            slots.add(new InventorySlot(0 , null));
+            slots.add(new InventorySlot(0 , null , i));
         }
-        tools.add(new Axe());
-        tools.add(new Pickaxe());
-        tools.add(new Hoe());
+        slots.get(0).setObjectInSlot(new Axe() , 1);
+        slots.get(1).setObjectInSlot(new Pickaxe() , 1);
     }
 
     public List<InventorySlot> getSlots() {
         return slots;
     }
 
-    public void addItem(ItemType item, int count){
-        int emptySlot =0;
+    public void addItem(ItemType item, int count,int index){
         for (InventorySlot slot : slots) {
-            if(item.equals(slot.getItemType())){
-                slot.setCount(slot.getCount()+count);
-            }
-            if(slot.isEmpty()){
-                emptySlot++;
-            }
-        }
-        if(emptySlot < backpackType.getSize()){
-            for (InventorySlot slot : slots) {
-                if(slot.isEmpty()){
-                    slot.setItemType(item);
-                    slot.setCount(count);
-                    break;
+            if(slot.getIndex() == index){
+                if(slot.getObjectInSlot() == null){
+                    slot.setObjectInSlot(item , count);
                 }
             }
         }
+    }
+    public void addItem(ItemType item, int count){
+        for (InventorySlot slot : slots) {
+            if(slot.getObjectInSlot() == null){
+                slot.setObjectInSlot(item , count);
+            }
+        }
+    }
+
+
+    public boolean checkToolInInventory(ToolType tool){
+        for (InventorySlot slot : slots) {
+            if(slot.getObjectInSlot() instanceof Tool){
+                ToolType tool1 = (ToolType) slot.getObjectInSlot();
+                if(tool1 .equals(tool)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    public InventorySlot getSlotByItem(ItemType type){
+        for (InventorySlot slot : slots) {
+            if(slot.getObjectInSlot() instanceof ItemType){
+                ItemType type1 = (ItemType) slot.getObjectInSlot();
+                if(type.equals(type1)){
+                    return slot;
+                }
+            }
+        }
+        return null;
+    }
+
+
+
+    public int getCountOfItem(ItemType item){
+        InventorySlot slot = getSlotByItem(item);
+        if(slot != null){
+            return slot.getCount();
+        }
+        return 0;
+    }
+
+    public void setBackpackType(BackpackType backpackType) {
+        this.backpackType = backpackType;
+    }
+    public Trashcan getTrashcan() {
+        return trashcan;
+    }
+    public void setTrashcan(Trashcan trashcan) {
+        this.trashcan = trashcan;
+    }
+    public void upgradeFishingPole(String upgradeName){
+        for (InventorySlot slot : slots) {
+            if(slot.getObjectInSlot() != null){
+                if(slot.getObjectInSlot() instanceof Tool){
+                    if(((Tool) slot.getObjectInSlot()).getType().equals(ToolType.FishingPole)){
+                        ((Tool) slot.getObjectInSlot()).setLevel(upgradeName);
+                    }
+                }
+            }
+        }
+    }
+
+    public void removeItem(ItemType type , int count){
+       //TODO
     }
 
     public void addCage(CageType cage, int count){
@@ -77,89 +130,12 @@ public class Inventory {
     public void removeCage(int amount,CageType cageType){
         allCages.replace(cageType , getCageTypeNumber(cageType) -amount);
     }
-    public boolean checkToolInInventory(ToolType tool){
-        for(Tool t : tools){
-            if(t.getType().equals(tool)) return true;
-        }
-        return false;
-    }
-    public String getAllTools(){
-        StringBuilder builder=new StringBuilder();
-        for(int i=0;i<tools.size();i++){
-            if(i!=tools.size()-1) builder.append(tools.get(i).getType().toString()).append(", ");
-            else builder.append(tools.get(i).getType().toString());
-        }
-        return builder.toString();
-    }
 
-    public InventorySlot getSlotByItem(ItemType type){
+    public void addTool(ToolType tool) {
         for (InventorySlot slot : slots) {
-            if(type.equals(slot.getItemType())){
-                return slot;
+            if(slot.getObjectInSlot() == null){
+                slot.setObjectInSlot( tool , 1);
             }
         }
-        return null;
-    }
-
-
-    public ArrayList<Tool> getTools(){
-        return tools;
-    }
-
-    public int getCountOfItem(ItemType item){
-        InventorySlot slot = getSlotByItem(item);
-        if(slot != null){
-            return slot.getCount();
-        }
-        return 0;
-    }
-
-    public Tool getToolByType(ToolType type){
-        for (Tool tool : tools) {
-            if(tool.getType().equals(type)){
-                return tool;
-            }
-        }
-        return null;
-    }
-
-    public void addTool(ToolType tool){
-        switch (tool){
-            case FishingPole -> tools.add(new FishingPole());
-            case Axe -> tools.add(new Axe());
-            case Hoe -> tools.add(new Hoe());
-            case MilkPail ->  tools.add(new MilkPail());
-            case PickAxe -> tools.add(new Pickaxe());
-            case Scythe -> tools.add(new Scythe());
-            case Shear -> tools.add(new Shear());
-            case WateringCan -> tools.add(new WateringCan());
-        }
-    }
-    public BackpackType getBackpackType() {
-        return backpackType;
-    }
-    public void setBackpackType(BackpackType backpackType) {
-        this.backpackType = backpackType;
-    }
-    public Trashcan getTrashcan() {
-        return trashcan;
-    }
-    public void setTrashcan(Trashcan trashcan) {
-        this.trashcan = trashcan;
-    }
-    public void upgradeFishingPole(String upgradeName){
-        for(Tool t : tools){
-            if(t.getType().equals(ToolType.FishingPole)){
-                t.setLevel(upgradeName);
-                return;
-            }
-        }
-    }
-    public void removeItem(ItemType type){
-
-        return;
-    }
-    public void removeItem(ItemType type , int count){
-        return;
     }
 }

@@ -63,62 +63,11 @@ public class GameMenuController {
 
 
 
-    public Result equipTool(Matcher matcher) {
-        Character character = game.getCurrentCharacter();
-        String name = matcher.group("name").trim();
-        ToolType tool = Tool.fromString(name);
-        if (tool == null) {
-            return new Result(false, "Please enter a valid tool!");
-        }
-        Inventory inventory = character.getInventory();
-        if (!inventory.checkToolInInventory(tool)) {
-            return new Result(false, "you don't have the tool in your backpack!");
-        }
-        character.setTool(tool);
-        return new Result(true, name + " has been equipped!");
-    }
 
-    public Result showCurrentTool() {
-        Character character = game.getCurrentCharacter();
-        Tool tool = character.getCurrentTool();
-        if (tool == null) {
-            return new Result(false, "No tool is in your hand!");
-        }
-        return new Result(true, tool.getType().toString() + " is your current tool!");
-    }
 
-    public Result showAvailableTools() {
-        Character character = game.getCurrentCharacter();
-        Inventory inventory = character.getInventory();
-        return new Result(true, "you have (" + inventory.getAllTools() + ") in your backpack!");
-    }
 
-    public Result upgradeTool(Matcher matcher) {
-        Character character = game.getCurrentCharacter();
-        String name = matcher.group("name").trim();
-        ToolType toolEx = Tool.fromString(name);
-        if (toolEx == null) {
-            return new Result(false, "Please enter a valid tool!");
-        }
-        Inventory inventory = character.getInventory();
-        Tool tool = inventory.getToolByType(toolEx);
-        if (tool == null) {
-            return new Result(false, "You don't have the tool in your inventory!");
-        }
-        tool.upgrade();
-        return new Result(true, name + " has been upgraded successfully!");
-    }
 
-    public Result cheatAddTool(Matcher matcher) {
-        String toolName = matcher.group("toolName").trim();
-        Inventory inventory = game.getCurrentCharacter().getInventory();
-        ToolType tool = Tool.fromString(toolName);
-        if (tool == null) {
-            return new Result(false, "Please enter a valid tool!");
-        }
-        inventory.addTool(tool);
-        return new Result(true, toolName + " added to inventory successfully!");
-    }
+
 
     public Result useTool(Matcher matcher) {
         String directionStr = matcher.group("direction").trim();
@@ -251,19 +200,6 @@ public class GameMenuController {
         return new Result(true, "energy set to unlimited!");
     }
 
-    public Result cheatAddItem(Matcher matcher) {
-        String itemName = matcher.group("itemName");
-        int count;
-        try {
-            count = Integer.parseInt(matcher.group("count"));
-        } catch (Exception e) {
-            return new Result(false, "please enter a valid number!");
-        }
-        ItemType item = Item.getItem(itemName);
-        if (item == null) return new Result(false, "please enter a valid item!");
-        game.getCurrentCharacter().getInventory().addItem(item, count);
-        return new Result(true, count + " " + item.getDisPlayName() + "s added to Inventory!");
-    }
 
 
     public Result helpRead() {
@@ -898,61 +834,6 @@ public class GameMenuController {
         }
     }
 
-    public Result cooking(Matcher matcher) {
-        String recipeNameString = matcher.group("recipeName");
-        Game game = App.getCurrentGame();
-        Character character = game.getCurrentCharacter();
-        CookingRecipes recipe = CookingRecipes.getCookingRecipes(recipeNameString);
-
-        if (recipe == null) {
-            return new Result(false, "Recipe not found.");
-        }
-
-        if (!character.getCookingRecipes().contains(recipe)) {
-            return new Result(false, "You don't know how to cook this yet.");
-        }
-
-        Tile characterTile = game.getMap().getTileByCordinate(character.getX(), character.getY());
-        if (!characterTile.getType().equals(TileType.CabinFloor)) {
-            return new Result(false, "You need to be in the cabin to cook.");
-        }
-
-//        Tile fridgeTile = game.getMap().getTileByCordinate(character.getxRefrigerator(), character.getyRefrigerator());
-//        if (!(fridgeTile.getResource() instanceof Refrigerator refrigerator)) {
-//            return new Result(false, "Cannot find your fridge.");
-//        }
-
-        Inventory inventory = character.getInventory();
-
-        for (ItemType itemType : recipe.getIngredients().keySet()) {
-            int requiredCount = recipe.getIngredients().get(itemType);
-
-            int availableInInventory = inventory.getCountOfItem(itemType);
-//            int availableInFridge = refrigerator.getCountOfItemInFridge(itemType);
-
-            if (availableInInventory < requiredCount) {
-                return new Result(false, "Not enough " + itemType.getDisPlayName() + " to cook this.");
-            }
-        }
-
-        for (ItemType itemType : recipe.getIngredients().keySet()) {
-            int requiredCount = recipe.getIngredients().get(itemType);
-
-            int availableInInventory = inventory.getCountOfItem(itemType);
-
-            if (availableInInventory >= requiredCount) {
-                inventory.removeItem(itemType, requiredCount);
-            } else {
-                int remaining = requiredCount - availableInInventory;
-                inventory.removeItem(itemType, availableInInventory);
-//                refrigerator.removeItemFromFridge(itemType, remaining);
-            }
-        }
-
-        inventory.addItem(ItemType.getItemType(recipe.name()), 1);
-
-        return new Result(true, "Successfully cooked " + recipe.getName() + ".");
-    }
 
 
     public Result eatFood(Matcher matcher) {
@@ -996,63 +877,6 @@ public class GameMenuController {
         return new Result(true, message.toString());
     }
 
-    public Result showWaterInBucket() {
-        Character character = App.getCurrentGame().getCurrentCharacter();
-        Tool tool = character.getInventory().getToolByType(ToolType.WateringCan);
-        if (tool == null) {
-            return new Result(false, "you don't have a water bucket");
-        }
-        WateringCan water = (WateringCan) tool;
-        return new Result(true, "you have " + water.getDurability() + " in your bucket.");
-    }
-
-    public Result putOrPickItemInRefrigerator(Matcher matcher) {
-        String itemString = matcher.group("item");
-        String action = matcher.group("action");
-        ItemType itemType = ItemType.getItemType(itemString);
-        if (itemType == null) {
-            return new Result(false, "not valid item");
-        }
-        Character character = App.getCurrentGame().getCurrentCharacter();
-
-        Tile characterTile = App.getCurrentGame().getMap().getTileByCordinate(character.getX(), character.getY());
-        if (!characterTile.getType().equals(TileType.CabinFloor)) {
-            return new Result(false, "you need to be in a cabin to do this");
-        }
-        if (action.equalsIgnoreCase("put")) {
-            int count = character.getInventory().getCountOfItem(itemType);
-            if (count <= 0) {
-                return new Result(false, "you dont have this item in your inventory");
-            }
-            character.getInventory().removeItem(itemType);
-            int x = character.getxRefrigerator();
-            int y = character.getyRefrigerator();
-            Tile tile = App.getCurrentGame().getMap().getTileByCordinate(x, y);
-            Refrigerator refrigerator = (Refrigerator) tile.getResource();
-            refrigerator.addItem(itemType, count);
-            return new Result(true, "is now in fridge");
-        } else if (action.equalsIgnoreCase("pick")) {
-            int x = character.getxRefrigerator();
-            int y = character.getyRefrigerator();
-            Tile tile = App.getCurrentGame().getMap().getTileByCordinate(x, y);
-            Refrigerator refrigerator = (Refrigerator) tile.getResource();
-            int count = 0;
-            for (FridgeItem fridgeItem : refrigerator.getItems()) {
-                if (fridgeItem.getItem().equals(itemType)) {
-                    count = fridgeItem.getQuantity();
-                    fridgeItem.setQuantity(0);
-                }
-            }
-            if (count > 0) {
-                character.getInventory().addItem(itemType, count);
-                return new Result(true, "now in your inventory");
-            } else {
-                return new Result(false, "not in fridge");
-            }
-        } else {
-            return new Result(false, "invalid command");
-        }
-    }
 
     public Result meetNpc(Matcher matcher) {
         String name = matcher.group("name");
@@ -1193,24 +1017,7 @@ public class GameMenuController {
         return new Result(true, message.toString());
     }
 
-    public Result craft(Matcher matcher) {
-        String item = matcher.group("craftName");
-        Recipe recipe = Recipe.getRecipe(item);
-        Character character = App.getCurrentGame().getCurrentCharacter();
-        if (recipe == null) {
-            return new Result(false, "invalid item");
-        }
-        for (ItemType itemRequired : recipe.getRecipe().keySet()) {
-            if (character.getInventory().getCountOfItem(itemRequired) <= recipe.getRecipe().get(itemRequired)) {
-                return new Result(false, "you don't have enough " + itemRequired.getDisPlayName());
-            }
-        }
-        for (ItemType itemRequired : recipe.getRecipe().keySet()) {
-            character.getInventory().removeItem(itemRequired, recipe.getRecipe().get(itemRequired));
-        }
-        character.getInventory().addItem(ItemType.getItemType(recipe.name()), 1);
-        return new Result(true, "item built successfully");
-    }
+
 
     public Result placeItem(Matcher matcher) {
         Direction direction = Direction.fromString(matcher.group("direction"));

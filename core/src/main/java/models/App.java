@@ -9,6 +9,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import controllers.PreGameMenuController;
 import io.github.camera.Main;
+import models.character.Character;
+import models.character.InventorySlot;
 import views.PreGameMenu;
 
 
@@ -123,6 +125,20 @@ public class App {
                     Main.getMain().getScreen().dispose();
                     Main.getMain().setScreen(new PreGameMenu(new PreGameMenuController()));
                     System.out.println("welcome back "+getLoggedInUser().getUsername());
+                }
+            }
+            for (Game game : allGames) {
+                for (Character character : game.getAllCharacters()) {
+                    for (InventorySlot slot : character.getInventory().getSlots()) {
+                        if(slot.getObjectInSlot() !=  null){
+                            if(slot.getTool() != null){
+                                System.out.println("tool saved");
+                                slot.setObjectInSlot(slot.getTool() , 1);
+                            } else if (slot.getItemType() != null) {
+                                slot.setObjectInSlot(slot.getItemType() , slot.getCount());
+                            }
+                        }
+                    }
                 }
             }
 

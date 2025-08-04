@@ -180,7 +180,7 @@ public class Iteractions {
             for (Interact interact : Interacts) {
                 if (interact.getType().equalsIgnoreCase("marriage")) {
                     App.getCurrentGame().getCharacterByID(owner).getInventory()
-                            .addItem(((InteractMARRIGE) interact).getItem(),1);
+                            .addItem(((InteractMARRIGE) interact).getItem(),1 );
                     App.getCurrentGame().getCharacterByID(owner).setPartner(interact.getOwner());
                     App.getCurrentGame().getCharacterByID(interact.getFriend()).setPartner(this.owner);
                 }
