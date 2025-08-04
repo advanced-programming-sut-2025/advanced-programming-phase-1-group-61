@@ -1,5 +1,7 @@
 package models.NPC;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import io.github.camera.Main;
 import models.App;
@@ -22,6 +24,8 @@ public class NPC {
     private int x;
     private int y;
     private transient Sprite sprite;
+    private Sprite dialogueSprite;
+
 
     public NPC(NpcInfo info, NpcDialog dialogs, List<Character> characters, int x, int y) {
         this.info = info;
@@ -34,6 +38,11 @@ public class NPC {
         this.sprite = new Sprite(info.getTexture());
         this.sprite.setPosition(x * AssetManager.getTileSize(), y * AssetManager.getTileSize());
         this.sprite.setSize(64 , 128);
+        this.dialogueSprite = new Sprite(new Texture(Gdx.files.internal("images/Sprite/chatIcon.png")));
+        int chatIconWidth=32;
+        int chatIconHeight=32;
+        this.dialogueSprite.setSize(chatIconWidth,chatIconHeight);
+        this.dialogueSprite.setPosition(x*AssetManager.getTileSize()+ (float) (64 - chatIconWidth) /2,y*AssetManager.getTileSize()+ 110);
     }
 
     public Sprite getSprite() {
@@ -44,9 +53,9 @@ public class NPC {
         }
         return sprite;
     }
-
     public void draw(){
         getSprite().draw(Main.getBatch());
+        this.dialogueSprite.draw(Main.getBatch());
     }
     public String getDialog() {
         Character currentCharacter= App.getCurrentGame().getCurrentCharacter();
