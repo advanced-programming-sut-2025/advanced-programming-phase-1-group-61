@@ -240,6 +240,9 @@ public class GameView implements Screen, InputProcessor{
                 AlertGenerator.showAlert("",npc.getDialog(),stage);
                 return true;
             }
+            if(i3==Input.Buttons.RIGHT && npc.getBounds().contains(worldClick.x,worldClick.y)){
+                //todo
+            }
         }
         return false;
     }
