@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
 import controllers.GameMenuController;
 import io.github.camera.Main;
@@ -38,7 +40,6 @@ public class GameView implements Screen, InputProcessor{
     private Texture snowTexture;
     private MiniMap miniMap;
     private boolean miniMapVisible = false;
-
 
 
 
@@ -241,7 +242,18 @@ public class GameView implements Screen, InputProcessor{
                 return true;
             }
             if(i3==Input.Buttons.RIGHT && npc.getBounds().contains(worldClick.x,worldClick.y)){
-                //todo
+                Table table=new Table();
+                table.setFillParent(true);
+                table.center();
+                TextButton gift=new TextButton("GIFT",AssetManager.getSkin());
+                TextButton quests=new TextButton("QUESTS",AssetManager.getSkin());
+                TextButton friendship=new TextButton("FRIENDSHIP",AssetManager.getSkin());
+                TextButton close=new TextButton("CLOSE",AssetManager.getSkin());
+                table.add(gift).width(300).height(60).row();
+                table.add(quests).width(300).height(60).row();
+                table.add(friendship).width(300).height(60).row();
+                table.add(close).width(300).height(60).row();
+                stage.addActor(table);
             }
         }
         return false;
@@ -270,5 +282,8 @@ public class GameView implements Screen, InputProcessor{
     @Override
     public boolean scrolled(float v, float v1) {
         return false;
+    }
+    public Stage getStage() {
+        return stage;
     }
 }
