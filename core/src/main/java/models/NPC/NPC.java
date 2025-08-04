@@ -10,6 +10,7 @@ import models.RandomNumber;
 import models.character.Character;
 import models.enums.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,8 @@ public class NPC {
     private boolean firstGiftOfDay=true;
     private int x;
     private int y;
+    private final int chatIconWidth=32;
+    private final int chatIconHeight=32;
     private transient Sprite sprite;
     private Sprite dialogueSprite;
 
@@ -39,8 +42,6 @@ public class NPC {
         this.sprite.setPosition(x * AssetManager.getTileSize(), y * AssetManager.getTileSize());
         this.sprite.setSize(64 , 128);
         this.dialogueSprite = new Sprite(new Texture(Gdx.files.internal("images/Sprite/chatIcon.png")));
-        int chatIconWidth=32;
-        int chatIconHeight=32;
         this.dialogueSprite.setSize(chatIconWidth,chatIconHeight);
         this.dialogueSprite.setPosition(x*AssetManager.getTileSize()+ (float) (64 - chatIconWidth) /2,y*AssetManager.getTileSize()+ 110);
     }
@@ -190,5 +191,11 @@ public class NPC {
 
     public void setY(int y) {
         this.y = y;
+    }
+    public Rectangle getChatIconBounds(){
+        return new Rectangle(x*AssetManager.getTileSize()+  (64 - chatIconWidth) /2,
+            y*AssetManager.getTileSize()+ 110,
+            chatIconWidth,
+            chatIconHeight);
     }
 }
