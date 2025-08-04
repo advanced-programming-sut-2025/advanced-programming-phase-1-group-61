@@ -194,7 +194,6 @@ public class GameView implements Screen{
     @Override
     public void dispose() {
         font.dispose();
-        spriteBatch.dispose();
     }
 
     public boolean isMiniMapVisible() {
