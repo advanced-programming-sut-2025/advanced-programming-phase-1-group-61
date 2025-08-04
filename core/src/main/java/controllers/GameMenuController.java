@@ -1,6 +1,10 @@
 package controllers;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import controllers.GameControllers.PlayerController;
 import controllers.GameControllers.WorldController;
 import models.*;
@@ -1182,5 +1186,29 @@ public class GameMenuController {
         int amount = Integer.parseInt(matcher.group("count"));
         App.getCurrentGame().getCurrentCharacter().setMoney(App.getCurrentGame().getCurrentCharacter().getMoney() + amount);
         return new Result(true, "you are rich now " + amount);
+    }
+
+    public void addListenersForNpcTables(NPC npc, TextButton gift, TextButton quests, TextButton friendship, TextButton close, Table table){
+        gift.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y) {
+                AssetManager.getUiClicks().play();
+            }
+        });
+        quests.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y) {
+                AssetManager.getUiClicks().play();
+            }
+        });
+        friendship.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y) {
+                AssetManager.getUiClicks().play();
+            }
+        });
+        close.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y) {
+                AssetManager.getUiClicks().play();
+                table.remove();
+            }
+        });
     }
 }
