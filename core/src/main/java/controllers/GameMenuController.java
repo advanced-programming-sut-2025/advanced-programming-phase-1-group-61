@@ -12,25 +12,19 @@ import models.animal.Animal;
 import models.building.Barn;
 import models.building.Building;
 import models.building.Coop;
-import models.building.Shop;
 import models.character.Buff;
 import models.character.Character;
-import models.date.Date;
 import models.NPC.NPC;
 import models.enums.*;
-import models.food.FridgeItem;
-import models.food.Refrigerator;
 import models.interactions.Interact;
 import models.map.Map;
 import models.map.Tile;
 import models.map.Weather;
-import models.character.Inventory;
 import models.resource.*;
 import models.tool.Axe;
 import models.tool.Tool;
 import models.workBench.ItemKinds;
 import models.workBench.WorkBench;
-import models.tool.WateringCan;
 import views.GameView;
 
 import java.util.Arrays;
@@ -1188,10 +1182,11 @@ public class GameMenuController {
         return new Result(true, "you are rich now " + amount);
     }
 
-    public void addListenersForNpcTables(NPC npc, TextButton gift, TextButton quests, TextButton friendship, TextButton close, Table table){
+    public void addListenersForNpcTable(NPC npc, TextButton gift, TextButton quests, TextButton friendship, TextButton close, Table table){
         gift.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {
                 AssetManager.getUiClicks().play();
+
             }
         });
         quests.addListener(new ClickListener(){

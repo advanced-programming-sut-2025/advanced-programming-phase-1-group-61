@@ -254,6 +254,7 @@ public class GameView implements Screen, InputProcessor{
                 table.add(friendship).width(300).height(60).row();
                 table.add(close).width(300).height(60).row();
                 stage.addActor(table);
+                controller.addListenersForNpcTable(npc,gift,quests,friendship,close,table);
             }
         }
         return false;
