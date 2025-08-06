@@ -40,6 +40,7 @@ public class GameView implements Screen, InputProcessor{
     private Texture snowTexture;
     private MiniMap miniMap;
     private boolean miniMapVisible = false;
+    private ToolbarUI toolbarUI;
 
 
 
@@ -55,16 +56,28 @@ public class GameView implements Screen, InputProcessor{
     @Override
     public void show() {
         stage = new Stage();
+
         inventoryUI = new InventoryUI(AssetManager.getSkin(),
             App.getCurrentGame().getCurrentCharacter(),
             stage);
         inventoryUI.setVisible(false);
         stage.addActor(inventoryUI);
 
+        toolbarUI = new ToolbarUI(
+            AssetManager.getSkin(),
+            App.getCurrentGame().getCurrentCharacter()
+        );
+        toolbarUI.setVisible(true);
+        stage.addActor(toolbarUI);
+        inventoryUI.setToolbarUI(toolbarUI);
+
         InputMultiplexer multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(this);
-        multiplexer.addProcessor(inventoryUI);
         multiplexer.addProcessor(stage);
+        multiplexer.addProcessor(inventoryUI);
+        multiplexer.addProcessor(this);
+
+
+        Gdx.input.setInputProcessor(multiplexer);
 
         Gdx.input.setInputProcessor(multiplexer);
 

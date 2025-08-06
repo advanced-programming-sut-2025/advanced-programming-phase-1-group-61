@@ -27,7 +27,7 @@ public class NPC {
     private final int chatIconWidth=32;
     private final int chatIconHeight=32;
     private transient Sprite sprite;
-    private Sprite dialogueSprite;
+    private transient Sprite dialogueSprite;
 
 
     public NPC(NpcInfo info, NpcDialog dialogs, List<Character> characters, int x, int y) {
@@ -56,6 +56,11 @@ public class NPC {
     }
     public void draw(){
         getSprite().draw(Main.getBatch());
+        if(dialogueSprite == null){
+            this.dialogueSprite = new Sprite(new Texture(Gdx.files.internal("images/Sprite/chatIcon.png")));
+            this.dialogueSprite.setSize(chatIconWidth,chatIconHeight);
+            this.dialogueSprite.setPosition(x*AssetManager.getTileSize()+ (float) (64 - chatIconWidth) /2,y*AssetManager.getTileSize()+ 110);
+        }
         this.dialogueSprite.draw(Main.getBatch());
     }
     public String getDialog() {
