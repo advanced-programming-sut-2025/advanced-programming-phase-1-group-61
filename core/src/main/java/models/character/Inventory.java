@@ -37,7 +37,9 @@ public class Inventory {
             if(slot.getIndex() == index){
                 if(slot.getObjectInSlot() == null){
                     slot.setObjectInSlot(item , count);
+                    return;
                 }
+
             }
         }
     }
@@ -45,6 +47,7 @@ public class Inventory {
         for (InventorySlot slot : slots) {
             if(slot.getObjectInSlot() == null){
                 slot.setObjectInSlot(item , count);
+                return;
             }
         }
     }

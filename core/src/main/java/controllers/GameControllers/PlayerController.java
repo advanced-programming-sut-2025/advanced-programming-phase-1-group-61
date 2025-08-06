@@ -5,18 +5,22 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import io.github.camera.Main;
 import models.App;
 import models.AssetManager;
 import models.CollisionRect;
 import models.Game;
 import models.character.Character;
+import models.character.InventorySlot;
+import models.enums.Direction;
 import models.enums.ShopType;
 import models.enums.TileType;
 import models.map.Map;
 import models.map.Tile;
 import models.shops.*;
 import views.GameView;
+import views.InventoryUI;
 import views.ShopViews.*;
 
 public class PlayerController {
@@ -28,6 +32,7 @@ public class PlayerController {
     private int thunderFrameIndex = 0;
     private boolean thunderActive = false;
     private float thunderX, thunderY;
+    private InventoryUI inventoryUI;
 
 
 
@@ -35,25 +40,34 @@ public class PlayerController {
 
 
 
-    public PlayerController(OrthographicCamera camera ) {
+    public PlayerController(OrthographicCamera camera) {
         this.player = App.getCurrentGame().getCurrentCharacter();
         this.camera = camera;
         thunderFrames = new Texture[7];
         for (int i = 0; i < 7; i++) {
             thunderFrames[i] = new Texture("Thunder/Thunder_" + i + ".png");
         }
+    }
 
-
+    public void setInventoryUI(InventoryUI inventoryUI) {
+        this.inventoryUI = inventoryUI;
     }
 
     public void update() {
-        camera.position.set(player.getSpriteX() + player.getPlayerSprite().getWidth() / 2f,
-            player.getSpriteY() + player.getPlayerSprite().getHeight() / 2f,
+        camera.position.set(
+            player.getSpriteX() + 96 / 2f,
+            player.getSpriteY() + 128 / 2f,
             0);
         camera.update();
 
-        player.getPlayerSprite().draw(Main.getBatch());
+
+        TextureRegion currentFrame = player.getCurrentFrame();
+        Main.getBatch().draw(currentFrame, player.getSpriteX()-56, player.getSpriteY()-48, 224, 224);
+
+
         handlePlayerInput();
+
+
         shopCooldown += Gdx.graphics.getDeltaTime();
         if (thunderActive) {
             thunderTimer += Gdx.graphics.getDeltaTime();
@@ -64,21 +78,43 @@ public class PlayerController {
             }
 
             if (thunderFrameIndex < thunderFrames.length) {
-                int tileSize =AssetManager.getTileSize();
-                Main.getBatch().draw(thunderFrames[thunderFrameIndex], thunderX*tileSize, thunderY*tileSize ,96 ,640);
+                int tileSize = AssetManager.getTileSize();
+                Main.getBatch().draw(thunderFrames[thunderFrameIndex], thunderX * tileSize, thunderY * tileSize, 96, 640);
             } else {
                 thunderActive = false;
             }
         }
-
     }
+
     public void handlePlayerInput() {
         float dx = 0;
         float dy = 0;
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) dy += 1;
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) dy -= 1;
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) dx += 1;
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) dx -= 1;
+
+
+        if (Gdx.input.isKeyPressed(Input.Keys.W)){
+            player.setDirection(Direction.UP);
+            dy += 1;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.S)){
+            player.setDirection(Direction.BOTTOM);
+            dy -= 1;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.D)){
+            player.setDirection(Direction.RIGHT);
+            dx += 1;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A)){
+            player.setDirection(Direction.LEFT);
+            dx -= 1;
+        }
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            if (player.getCurrentTool() != null) {
+                player.getCurrentTool().use(player.getDirection());
+            }
+        }
+
+        boolean isActuallyMoving = dx != 0 || dy != 0;
+        player.setMoving(isActuallyMoving);
         if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
             App.getCurrentGame().getDate().increaseTime(1);
         }
@@ -92,7 +128,7 @@ public class PlayerController {
             thunderFrameIndex = 0;
         }
 
-
+        player.updateAnimation(player.getDirection(), Gdx.graphics.getDeltaTime());
         if (dx != 0 && dy != 0) {
             dx *= 0.7071f;
             dy *= 0.7071f;
@@ -161,10 +197,14 @@ public class PlayerController {
                     Main.getMain().getScreen().dispose();
                     Main.getMain().setScreen(new JojaMartView((JojaMart) App.getCurrentGame().getShopByShopType(ShopType.JojaMart)));
                 }case TileType.StarDrop -> {
-                    //TODO
+               //todo
                 }case TileType.Marnie -> {
+                    Main.getMain().getScreen().dispose();
+                    Main.getMain().setScreen(new MarnieView((Marnie) App.getCurrentGame().getShopByShopType(ShopType.Marnie)));
                     //TODO
                 }case TileType.Pierre -> {
+                    Main.getMain().getScreen().dispose();
+                    Main.getMain().setScreen(new PierreView((Pierre) App.getCurrentGame().getShopByShopType(ShopType.Pierre)));
                     //TODO
                 }
             }

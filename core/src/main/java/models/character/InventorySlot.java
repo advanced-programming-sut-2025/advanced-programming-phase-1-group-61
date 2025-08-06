@@ -22,6 +22,7 @@ public class InventorySlot {
         } else if (object instanceof Tool) {
             itemType = null;
             tool = (Tool) object;
+
         }
     }
 
@@ -52,9 +53,11 @@ public class InventorySlot {
         if(object instanceof Tool){
             this.tool = (Tool) object;
             itemType = null;
+            this.count = count;
         }else if(object instanceof ItemType) {
             this.itemType = (ItemType) object;
             tool = null;
+            this.count = count;
         }
     }
 

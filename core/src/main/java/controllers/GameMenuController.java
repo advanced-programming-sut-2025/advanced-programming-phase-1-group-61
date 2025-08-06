@@ -27,6 +27,7 @@ import models.workBench.ItemKinds;
 import models.workBench.WorkBench;
 import views.GameView;
 
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -47,9 +48,11 @@ public class GameMenuController {
     public void setView(GameView view, OrthographicCamera camera) {
         this.view = view;
         this.camera = camera;
-        playerController = new PlayerController(camera );
+        playerController = new PlayerController(camera);
         worldController = new WorldController(camera);
     }
+
+
 
     public void updateGame() {
         worldController.update();
