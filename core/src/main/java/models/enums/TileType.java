@@ -43,7 +43,7 @@ public enum TileType {
     TileType(boolean collisionOn, String typeNum , String texturePath) {
         this.collisionOn = collisionOn;
         this.typeNum = typeNum;
-
+        this.texturePath = texturePath;
     }
 
     public static TileType getTypeByNumber(String typeNum) {
@@ -72,6 +72,7 @@ public enum TileType {
             try {
                 texture = new Texture(texturePath);
             } catch (Exception e) {
+                e.printStackTrace();
                 texture = new Texture(Gdx.files.internal("Tiles/grass.png"));
             }
         }

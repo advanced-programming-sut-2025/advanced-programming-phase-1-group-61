@@ -1,5 +1,6 @@
 package controllers;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -10,18 +11,10 @@ import controllers.GameControllers.WorldController;
 import io.github.camera.Main;
 import models.*;
 import models.animal.Animal;
-import models.building.Barn;
-import models.building.Building;
-import models.building.Coop;
-import models.character.Buff;
 import models.character.Character;
 import models.NPC.NPC;
 import models.enums.*;
-import models.interactions.Interact;
-import models.map.Map;
-import models.map.Tile;
 import models.map.Weather;
-import models.resource.*;
 import models.tool.Axe;
 import models.tool.Tool;
 import models.workBench.ItemKinds;
@@ -32,11 +25,10 @@ import views.GameView;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Matcher;
 
 public class GameMenuController {
-    private int neededEnergy;
+
     private final Game game;
     private OrthographicCamera camera;
     private GameView view;
@@ -50,8 +42,9 @@ public class GameMenuController {
     public void setView(GameView view, OrthographicCamera camera) {
         this.view = view;
         this.camera = camera;
-        playerController = new PlayerController(camera);
+        playerController = new PlayerController(camera , game);
         worldController = new WorldController(camera);
+        worldController.setGame(game);
     }
 
 
@@ -62,8 +55,16 @@ public class GameMenuController {
         for (NPC npc : game.getNpcList()) {
             npc.draw();
         }
-        Main.getClient().sendMessage(new Network.updateGame(game , Main.getApp().getLoggedInUser().getId()));
     }
+    public void updateServerGame() {
+        new Thread(() -> {
+            Main.getClient().sendMessage(
+                new Network.updateGame(Main.getApp().getCurrentGame(), Main.getApp().getLoggedInUser().getId())
+            );
+            Gdx.app.postRunnable(() -> Main.getApp().updateCurrentGame());
+        }).start();
+    }
+
 
     public void addListenersForNpcTable(NPC npc, TextButton gift, TextButton quests, TextButton friendship, TextButton close, Table table){
         gift.addListener(new ClickListener(){
@@ -91,10 +92,9 @@ public class GameMenuController {
     }
 
 
-
-
-
-
+    public Game getGame() {
+        return game;
+    }
 
     public Result useTool(Matcher matcher) {
         String directionStr = matcher.group("direction").trim();
@@ -784,8 +784,8 @@ public class GameMenuController {
                 break;
             }
         }
-        Character character = Main.getApp().getCurrentGame().getCurrentCharacter();
-        Main.getApp().getCurrentGame().changeDayActivities();
+        Character character =game.getCurrentCharacter();
+        game.changeDayActivities();
         if (npc.isFirstGiftOfDay()) {
             npc.setFirstGiftOfDay(false);
             if (found) {
@@ -984,4 +984,5 @@ public class GameMenuController {
 //        App.getCurrentGame().getCurrentCharacter().setMoney(App.getCurrentGame().getCurrentCharacter().getMoney() + amount);
 //        return new Result(true, "you are rich now " + amount);
 //    }
+
 }

@@ -13,11 +13,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.Timer;
 import controllers.GameMenuController;
 import io.github.camera.Main;
 import models.AlertGenerator;
 import models.App;
 import models.AssetManager;
+import models.Game;
 import models.NPC.NPC;
 import models.enums.WeatherState;
 import models.map.Particle;
@@ -41,6 +43,7 @@ public class GameView implements Screen, InputProcessor{
     private MiniMap miniMap;
     private boolean miniMapVisible = false;
     private ToolbarUI toolbarUI;
+
 
 
 
@@ -102,10 +105,20 @@ public class GameView implements Screen, InputProcessor{
         miniMap.setVisible(false);
         stage.addActor(miniMap);
 
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                runEveryTwoTenths();
+            }
+        }, 0, 0.5f);
 
 
     }
 
+    private void runEveryTwoTenths() {
+       controller.updateServerGame();
+
+    }
 
     @Override
     public void render(float v) {
@@ -113,7 +126,7 @@ public class GameView implements Screen, InputProcessor{
         Main.getBatch().begin();
         controller.updateGame();
         float delta = Gdx.graphics.getDeltaTime();
-        WeatherState weatherState = Main.getApp().getCurrentGame().getMap().getWeather().getState();
+        WeatherState weatherState = controller.getGame().getMap().getWeather().getState();
 
 
 
@@ -154,7 +167,7 @@ public class GameView implements Screen, InputProcessor{
             }
             spriteBatch.end();
         }
-        models.date.Date date = Main.getApp().getCurrentGame().getDate();
+        models.date.Date date = controller.getGame().getDate();
         int hour = date.getHour();
 
         if (hour >= 20 || hour < 10) {

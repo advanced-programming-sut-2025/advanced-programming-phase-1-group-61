@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import io.github.camera.Main;
 import models.App;
 import models.AssetManager;
+import models.Game;
 import models.building.Shop;
 import models.character.Character;
 import models.enums.TileType;
@@ -17,6 +18,7 @@ public class WorldController {
     private Map map;
     private OrthographicCamera camera;
     private Character character;
+    private Game game;
 
 
     private static final int VIEW_RADIUS = 12;
@@ -41,7 +43,7 @@ public class WorldController {
                     int TILE_SIZE = AssetManager.getTileSize();
                     Sprite sprite = tile.getSprite();
                     if(tile.getType().equals(TileType.Grass)){
-                        switch (Main.getApp().getCurrentGame().getDate().getSeason()){
+                        switch (game.getDate().getSeason()){
                             case Fall -> sprite = new Sprite(TileType.fallGrass.getTexture());
                             case Spring -> sprite = new Sprite(TileType.Grass.getTexture());
                             case Winter -> sprite = new Sprite(TileType.snowyGrass.getTexture());
@@ -80,8 +82,12 @@ public class WorldController {
         }
 
 
-        for (Shop shop : Main.getApp().getCurrentGame().getShops()) {
+        for (Shop shop : game.getShops()) {
             shop.draw();
         }
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 }

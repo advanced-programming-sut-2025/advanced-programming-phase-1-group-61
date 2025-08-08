@@ -94,7 +94,7 @@ public class Game {
                }
             }
         }
-        List<Character> characters=Main.getApp().getCurrentGame().getAllCharacters();
+        List<Character> characters=this.getAllCharacters();
         for(Character character:characters) character.setBuff(null);
         NPC.changeDayActivities();
         if(weatherState.equals(WeatherState.Storm)){

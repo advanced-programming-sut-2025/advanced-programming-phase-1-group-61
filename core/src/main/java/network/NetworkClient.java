@@ -15,7 +15,7 @@ public class NetworkClient {
     private Client client;
 
     public  void start() {
-        client = new Client();
+        client = new Client(512 * 1024, 512 * 1024);
         client.start();
 
 
@@ -61,10 +61,10 @@ public class NetworkClient {
         client.sendTCP(message);
 
         try {
-            Thread.sleep(100); // 100 میلی‌ثانیه مکث
+            Thread.sleep(50);
         } catch (InterruptedException e) {
             e.printStackTrace();
-            Thread.currentThread().interrupt(); // در صورت وقفه، interrupt را دوباره ست کن
+            Thread.currentThread().interrupt();
         }
     }
 

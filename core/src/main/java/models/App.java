@@ -11,9 +11,7 @@ import network.Network;
 import network.NetworkRequest;
 import network.Requsets;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 
 public class App {
@@ -28,8 +26,10 @@ public class App {
 
 
     public models.Game getCurrentGame(){
-       Main.getClient().sendMessage(new Requsets(NetworkRequest.GameRequest , currentGame.getId() , loggedInUser.getId()));
         return currentGame;
+    }
+    public void updateCurrentGame(){
+        Main.getClient().sendMessage(new Requsets(NetworkRequest.GameRequest , currentGame.getId() , loggedInUser.getId()));
     }
 
 
