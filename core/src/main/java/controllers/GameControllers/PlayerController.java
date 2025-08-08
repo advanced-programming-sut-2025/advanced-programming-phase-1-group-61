@@ -6,18 +6,16 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import io.github.camera.Main;
-import models.App;
-import models.AssetManager;
-import models.CollisionRect;
-import models.Game;
+import models.*;
 import models.character.Character;
 import models.character.InventorySlot;
-import models.enums.Direction;
-import models.enums.ShopType;
-import models.enums.TileType;
+import models.enums.*;
 import models.map.Map;
 import models.map.Tile;
+import models.resource.Crop;
+import models.resource.Tree;
 import models.shops.*;
 import views.GameView;
 import views.InventoryUI;
@@ -85,6 +83,14 @@ public class PlayerController {
             }
         }
     }
+    private Direction getDirectionFromDelta(int dx, int dy) {
+        if (Math.abs(dx) > Math.abs(dy)) {
+            return dx > 0 ? Direction.RIGHT : Direction.LEFT;
+        } else if (Math.abs(dy) > 0) {
+            return dy > 0 ? Direction.UP : Direction.BOTTOM;
+        }
+        return null;
+    }
 
     public void handlePlayerInput() {
         float dx = 0;
@@ -109,9 +115,59 @@ public class PlayerController {
         }
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             if (player.getCurrentTool() != null) {
-                player.getCurrentTool().use(player.getDirection());
+                Vector3 worldClick = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+
+
+                int tileX = (int) worldClick.x;
+                int tileY = (int) worldClick.y;
+
+                int playerX = player.getSpriteX();
+                int playerY = player.getSpriteY();
+
+                Direction dir = getDirectionFromDelta(tileX - playerX, tileY - playerY);
+
+
+                if (dir != null) {
+                    player.setDirection(dir);
+                    player.getCurrentTool().use(dir);
+                    System.out.println("Mouse Tool Used at tile (" + tileX + "," + tileY + ") with direction " + dir);
+                }
+
+            }else if(player.getCurrentItem() != null){
+                ItemType item = player.getCurrentItem();
+                TreeType treeType = TreeType.getTreeTypeBySource(item);
+                Tile tile = App.getCurrentGame().getMap().getTileByCordinate(player.getX() , player.getY());
+
+
+                if (player.getInventory().getCountOfItem(item) <= 0) {
+                    return;
+                }
+                if (treeType != null) {
+                    if (tile.getType().isCollisionOn() || !tile.getType().equals(TileType.Grass)) {
+                        return;
+                    }
+                    tile.setResource(new Tree(treeType, tile.getX(), tile.getY()));
+                    player.getInventory().removeItem(item, 1);
+                    System.out.println("tree planted");
+                    return;
+                }
+
+
+                CropType cropType = CropType.getCropTypeBySource(item);
+
+                if (cropType != null) {
+                    if (!tile.getType().equals(TileType.Soil) || tile.getType().isCollisionOn()) {
+                       return;
+                    }
+                    player.getInventory().removeItem(item, 1);
+                    tile.setResource(new Crop(cropType));
+                    System.out.println("crop planted");
+                   return;
+                }
+
             }
         }
+
 
         boolean isActuallyMoving = dx != 0 || dy != 0;
         player.setMoving(isActuallyMoving);
@@ -197,15 +253,13 @@ public class PlayerController {
                     Main.getMain().getScreen().dispose();
                     Main.getMain().setScreen(new JojaMartView((JojaMart) App.getCurrentGame().getShopByShopType(ShopType.JojaMart)));
                 }case TileType.StarDrop -> {
-               //todo
+                    //todo
                 }case TileType.Marnie -> {
                     Main.getMain().getScreen().dispose();
                     Main.getMain().setScreen(new MarnieView((Marnie) App.getCurrentGame().getShopByShopType(ShopType.Marnie)));
-                    //TODO
                 }case TileType.Pierre -> {
                     Main.getMain().getScreen().dispose();
                     Main.getMain().setScreen(new PierreView((Pierre) App.getCurrentGame().getShopByShopType(ShopType.Pierre)));
-                    //TODO
                 }
             }
         }

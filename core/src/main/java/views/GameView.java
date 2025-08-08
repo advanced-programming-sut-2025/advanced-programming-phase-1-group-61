@@ -123,6 +123,7 @@ public class GameView implements Screen, InputProcessor{
             inventoryVisible = !inventoryVisible;
             inventoryUI.setVisible(inventoryVisible);
             inventoryUI.setInventoryVisible(inventoryVisible);
+            inventoryUI.refreshUI();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
             miniMapVisible = !miniMapVisible;
@@ -131,6 +132,7 @@ public class GameView implements Screen, InputProcessor{
                 miniMap.update();
             }
         }
+
 
 
         Main.getBatch().setProjectionMatrix(camera.combined);

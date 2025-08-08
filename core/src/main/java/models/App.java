@@ -22,14 +22,14 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class App {
 
     private static int loggedInUser;
-    private static models.User registeredUser;
+    private static int currentGameId;
 
     private static List<models.User> allUsers = new ArrayList<>();
     private static ArrayList<models.Game> allGames = new ArrayList<>();
-    private static int currentGameId;
     private static float musicVolume=1f;
     private static Screen lastScreenBeforeShop;
 
@@ -160,12 +160,6 @@ public class App {
             }
         }
         return null;
-    }
-    public static void setRegisteredUser(models.User user){
-        registeredUser = user;
-    }
-    public static models.User getRegisteredUser() {
-        return registeredUser;
     }
     public static List<models.User> getAllUsers() {
         return allUsers;

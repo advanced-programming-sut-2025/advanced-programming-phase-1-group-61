@@ -12,10 +12,7 @@ import models.NPC.NPCFriendships;
 import models.animal.Animal;
 import models.building.Building;
 import models.building.Shop;
-import models.enums.CookingRecipes;
-import models.enums.Direction;
-import models.enums.Recipe;
-import models.enums.ToolType;
+import models.enums.*;
 
 import models.enums.graphic.BackgroundMusic;
 import models.interactions.Iteractions;
@@ -56,6 +53,7 @@ public class Character {
     private float animationTimer = 0f;
     private transient Animation<TextureRegion> currentAnimation;
     private boolean isMoving = false;
+    private ItemType currentItem ;
 
     private Buff buff=null;
     private int money;
@@ -83,6 +81,15 @@ public class Character {
         this.speed = 10;
         this.hasGreenHouse = false;
         this.direction = Direction.RIGHT;
+        this.currentItem = null;
+    }
+
+    public ItemType getCurrentItem() {
+        return currentItem;
+    }
+
+    public void setCurrentItem(ItemType currentItem) {
+        this.currentItem = currentItem;
     }
 
     public boolean isFainted() {

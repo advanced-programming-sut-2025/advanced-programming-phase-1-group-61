@@ -61,6 +61,7 @@ public enum CropType {
         this.canBecomeGiant = canBecomeGiant;
         this.source = source;
         this.product = product;
+        this.season = season;
 
     }
 

@@ -51,6 +51,7 @@ public enum TreeType {
         this.stageThreeTexture = stageThreeTexture;
         this.stageFourTexture = stageFourTexture;
         this.stageFruit = stageFruit;
+        this.source = source;
     }
 
     public int getHarvestCycle() {

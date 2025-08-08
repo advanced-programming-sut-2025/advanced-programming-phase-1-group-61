@@ -16,7 +16,6 @@ public class Tool {
     }
 
     public String use(Direction direction) {
-        //this method should be overwritten in child classes!
         Character character= App.getCurrentGame().getCurrentCharacter();
         int newEnergy=character.getEnergy()-type.getEnergyConsumption(level);
         character.setEnergy(newEnergy);

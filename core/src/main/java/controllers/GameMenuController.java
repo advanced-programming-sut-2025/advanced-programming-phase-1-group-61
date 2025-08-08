@@ -136,138 +136,11 @@ public class GameMenuController {
         return new Result(true, "you can expect " + state.getDisplayName() + " tomorrow.");
     }
 
-    public Result energyResult(Matcher matcher) {
-        Character currentCharacter = game.getCurrentCharacter();
-        if (currentCharacter == null) {
-            return new Result(false, "no current character");
-        }
-        int x = Integer.parseInt(matcher.group("x"));
-        int y = Integer.parseInt(matcher.group("y"));
-        Tile tile;
-        try {
-            tile = game.getMap().getTiles()[y][x];
-        } catch (Exception e) {
-            return new Result(false, "you cant enter void");
-        }
-        if (tile == null) {
-            return new Result(false, "you cant enter void");
-        }
-        int turn = tile.getOwnerId();
-        if (turn != -1) {
-            int userId;
-            try {
-                userId = game.getCharacterByTurnNumber(turn).getUserId();
-            } catch (Exception e) {
-                userId = -1;
-            }
-            if (userId != currentCharacter.getUserId()) {
-                return new Result(false, "you cant enter someone else's farm");
-            }
-        }
-        this.neededEnergy = currentCharacter.getNeededEnergy(x, y);
-        if (currentCharacter.isUnlimitedEnergy())
-            return new Result(false, "you have unlimited energy! do you want to move?(yes/no)");
-        return new Result(true, "you need " + neededEnergy + " energy to move\ndo you want to move?(yes/no)");
-    }
-
-    public Result walk(String confirmation) {
-        if (confirmation.equals("yes")) {
-            Character character = game.getCurrentCharacter();
-            if (neededEnergy > character.getEnergy()) {
-
-                return new Result(false, "character fainted!");
-            }
-            character.moveCharacter();
-            character.setEnergy(character.getEnergy() - neededEnergy);
-            return new Result(true, "you are now in x:" + character.getX() + " y:" + character.getY());
-        }
-        return new Result(false, "you did not move");
-    }
-
-    public Result energySet(Matcher matcher) {
-        int value;
-        try {
-            value = Integer.parseInt(matcher.group("value"));
-        } catch (Exception e) {
-            return new Result(false, "please enter a valid value!");
-        }
-        game.getCurrentCharacter().setEnergy(value);
-        return new Result(true, "energy set to: " + value);
-    }
 
     public Result unlimitedEnergySet() {
         Character character = game.getCurrentCharacter();
         character.setUnlimitedEnergy(true);
         return new Result(true, "energy set to unlimited!");
-    }
-
-
-
-    public Result helpRead() {
-        return new Result(true, "Tree: T\nOre: O\nForagingItems: I\nCabin Floor: Cf\nCabin wall: Cw\n" +
-            "Water: W\nStone: M\nGrass: G\nGreen House Wall: GW\nGreen House Floor: Gf");
-    }
-
-    public Result printMap(Matcher matcher) {
-        Map map = game.getMap();
-
-        int x = Integer.parseInt(matcher.group("x"));
-        int y = Integer.parseInt(matcher.group("y"));
-        int size = Integer.parseInt(matcher.group("size"));
-
-        if (x < 0 || y < 0 || x + size > map.getTiles()[0].length || y + size > map.getTiles().length) {
-            return new Result(false, "Error: Specified coordinates or size are out of map bounds.");
-        }
-
-        StringBuilder colorfulMap = new StringBuilder();
-
-        for (int i = y; i < y + size && i < map.getTiles().length; i++) {
-            for (int j = x; j < x + size && j < map.getTiles()[i].length; j++) {
-                colorfulMap.append(getColoredTile(map.getTiles()[i][j])).append(" ");
-            }
-            colorfulMap.append("\n");
-        }
-
-        return new Result(true, colorfulMap.toString());
-    }
-
-    public Result showEnergy() {
-        return new Result(true, "energy: " + game.getCurrentCharacter().getEnergy());
-    }
-
-    private String getColoredTile(Tile tile) {
-        final String RESET = "\u001B[0m";
-        final String GREEN = "\u001B[32m";
-        final String BLUE = "\u001B[34m";
-        final String YELLOW = "\u001B[33m";
-        final String GRAY = "\u001B[90m";
-        final String WHITE = "\u001B[37m";
-        final String BROWN = "\u001B[38;5;94m";
-
-
-        if (tile.getType().equals(TileType.Grass)) {
-            if (tile.getResource() != null) {
-                return BROWN + "T " + RESET;
-            }
-            return GREEN + "G " + RESET;
-        } else if (tile.getType().equals(TileType.Stone)) {
-            if (tile.getResource() != null) {
-                return WHITE + "S " + RESET;
-            }
-            return GRAY + "M " + RESET;
-        } else if (tile.getType().equals(TileType.CabinFloor)) {
-            if (tile.getResource() != null) {
-                return BLUE + "R " + RESET;
-            }
-            return WHITE + "Cf" + RESET;
-        }
-        if (tile.getType().equals(TileType.Water)) return BLUE + "W " + RESET;
-        if (tile.getType().equals(TileType.CabinWall)) return YELLOW + "Cw" + RESET;
-        if (tile.getType().equals(TileType.BrokenGreenHouse)) return YELLOW + "Gf" + RESET;
-        if (tile.getType().equals(TileType.BrokenGreenHouseWall)) return YELLOW + "GW" + RESET;
-        if (tile.getType().equals(TileType.Soil)) return BROWN + "So" + RESET;
-
-        return WHITE + "? " + RESET;
     }
 
     public Result craftInfo(Matcher matcher) {
@@ -667,26 +540,6 @@ public class GameMenuController {
         return new Result(true, massage);
     }
 
-    public Result sellItem(Matcher matcher) {
-        int count = Integer.parseInt(matcher.group("count"));
-        String ItemString = matcher.group("itemName");
-        ItemType itemType = ItemType.getItemType(ItemString);
-        Character character = App.getCurrentGame().getCurrentCharacter();
-        if (character.getInventory().getCountOfItem(itemType) < count) {
-            return new Result(false, "not in inventory");
-        }
-        ShippingBin shippingBin1 = null;
-        for (ShippingBin shippingBin : App.getCurrentGame().getShippingBins()) {
-            if (App.getCurrentGame().getCharacterByTurnNumber(shippingBin.getOwner()).getUserId() ==
-                App.getCurrentGame().getCurrentCharacter().getUserId()) {
-                shippingBin1 = shippingBin;
-            }
-        }
-        if (shippingBin1 != null) {
-            shippingBin1.addItemType(itemType);
-        }
-        return new Result(true, "item is now in shipping bin");
-    }
 
     public Result getAnimalProduct(Matcher matcher) {
         String animalName = matcher.group("animalname").trim();

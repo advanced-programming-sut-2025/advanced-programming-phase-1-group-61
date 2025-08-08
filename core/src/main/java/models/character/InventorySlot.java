@@ -74,5 +74,11 @@ public class InventorySlot {
         return tool;
     }
 
+    public void setItemType(ItemType itemType) {
+        this.itemType = itemType;
+    }
 
+    public void setTool(Tool tool) {
+        this.tool = tool;
+    }
 }
