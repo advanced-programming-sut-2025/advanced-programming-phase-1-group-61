@@ -4,12 +4,16 @@ import models.enums.ItemType;
 import models.enums.TrashcanType;
 
 public class ShopTrashcanUpgrades {
-    private final TrashcanType trashcanType;
-    private final int limit;
-    private final int price;
-    private final ItemType ingredientsItem;
-    private final int quantityOfIngredients;
+    private  TrashcanType trashcanType;
+    private  int limit;
+    private  int price;
+    private  ItemType ingredientsItem;
+    private  int quantityOfIngredients;
     private int stock;
+
+    public ShopTrashcanUpgrades() {
+    }
+
     public ShopTrashcanUpgrades(TrashcanType trashcanType, int limit, int price, ItemType ingredientsItem, int quantityOfIngredients) {
         this.trashcanType = trashcanType;
         this.limit = limit;

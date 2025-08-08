@@ -1,5 +1,6 @@
 package models;
 
+import io.github.camera.Main;
 import models.NPC.NPC;
 import models.animal.Animal;
 import models.building.Shop;
@@ -25,15 +26,17 @@ public class Game {
     private Map map;
     private List<Character> allCharacters;
     private int currentCharacter;
-    private final Date date;
+    private Date date;
     private ArrayList<Shop> shops = new ArrayList<>();
     private List<NPC> npcList = new ArrayList<>();
     private List<ShippingBin> shippingBins = new ArrayList<>();
     private ArrayList<WorkBench> workBenches =new ArrayList<>();
 
+    public Game() {
+    }
 
     public Game(Map map, List<Character> characters) {
-        id = App.getAllGames().size()+1;
+        id = Main.getApp().getNewGameId();
         this.map = map;
         for (int i = 0; i < map.getTiles().length; i++) {
             for (int j = 0; j < map.getTiles()[0].length; j++) {
@@ -91,7 +94,7 @@ public class Game {
                }
             }
         }
-        List<Character> characters=App.getCurrentGame().getAllCharacters();
+        List<Character> characters=this.getAllCharacters();
         for(Character character:characters) character.setBuff(null);
         NPC.changeDayActivities();
         if(weatherState.equals(WeatherState.Storm)){
@@ -132,9 +135,10 @@ public class Game {
     }
 
     public Character getCurrentCharacter() {
-        for (int i = 0; i < allCharacters.size(); i++) {
-            if(i==currentCharacter){
-                return allCharacters.get(i);
+
+        for (Character character : allCharacters) {
+            if(character.getUserId() == Main.getApp().getLoggedInUser().getId()){
+                return character;
             }
         }
         return null;
@@ -146,21 +150,6 @@ public class Game {
         } catch (Exception e) {
             return null;
         }
-    }
-
-    public String changeTurn() {
-        int turn = currentCharacter+1;
-        App.getCurrentGame().getCurrentCharacter().getIteractions().newInteracts();
-        this.currentCharacter = turn % allCharacters.size();
-        StringBuilder message =  new StringBuilder(User.getUSerById(allCharacters.get(currentCharacter).getUserId()).getNickName());
-
-        if(turn == allCharacters.size()){
-            message.append("\n");
-            message.append("time increased");
-            date.increaseTime(1);
-        }
-
-        return message.toString();
     }
 
     public Date getDate() {
@@ -716,7 +705,44 @@ public class Game {
         }
     }
 
+    public void updateCharacter(int id, Character newCharacter) {
+        for (int i = 0; i < allCharacters.size(); i++) {
+            Character character = allCharacters.get(i);
+            if (character.getUserId() == id) {
+                allCharacters.set(i, newCharacter);
+                return;
+            }
+        }
+    }
+
+
+
     public List<NPC> getNpcList() {
         return npcList;
     }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
+    }
+
+    public void setShops(ArrayList<Shop> shops) {
+        this.shops = shops;
+    }
+
+    public void setNpcList(List<NPC> npcList) {
+        this.npcList = npcList;
+    }
+
+    public void setShippingBins(List<ShippingBin> shippingBins) {
+        this.shippingBins = shippingBins;
+    }
+
+    public void setWorkBenches(ArrayList<WorkBench> workBenches) {
+        this.workBenches = workBenches;
+    }
+
 }

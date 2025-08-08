@@ -1,5 +1,6 @@
 package models.shops;
 
+import io.github.camera.Main;
 import models.App;
 import models.building.Shop;
 import models.character.Character;
@@ -8,12 +9,17 @@ import models.enums.ItemType;
 import models.enums.ShopType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Carpenter extends Shop {
-    private final ArrayList<ShopItem> permanentItems;
-    private final ArrayList<ShopCages> farmBuildings;
+    private ArrayList<ShopItem> permanentItems;
+    private ArrayList<ShopCages> farmBuildings;
+
+    public Carpenter() {
+    }
+
     public Carpenter(String name, int X, int Y) {
         super(name, X, Y,ShopType.Carpenter);
         this.owner="Robin";
@@ -21,16 +27,48 @@ public class Carpenter extends Shop {
                 new ShopItem(ItemType.Wood,Integer.MAX_VALUE,10,"A sturdy, yet flexible plant material with a wide variety of uses."),
                 new ShopItem(ItemType.Stone,Integer.MAX_VALUE,20,"A common material with many uses in crafting and building.")
         ));
-        farmBuildings = new ArrayList<>(List.of(
-                new ShopCages(CageType.Barn,1,6000, Map.of(ItemType.Wood,350,ItemType.Stone,150)),
-                new ShopCages(CageType.BigBarn,1,12000, Map.of(ItemType.Wood,450,ItemType.Stone,200)),
-                new ShopCages(CageType.DeluxeBarn,1,25000, Map.of(ItemType.Wood,550,ItemType.Stone,300)),
-                new ShopCages(CageType.Coop,1,4000, Map.of(ItemType.Wood,300,ItemType.Stone,100)),
-                new ShopCages(CageType.BigCoop,1,10000, Map.of(ItemType.Wood,4000,ItemType.Stone,150)),
-                new ShopCages(CageType.DeluxCoop,1,20000, Map.of(ItemType.Wood,500,ItemType.Stone,200)),
-                new ShopCages(CageType.Well,1,1000, Map.of(ItemType.Stone,75)),
-                new ShopCages(CageType.ShippingBin,1,250,Map.of(ItemType.Wood,150))
-        ));
+        this.farmBuildings = new ArrayList<>();
+
+        {
+            HashMap<ItemType, Integer> barnMap = new HashMap<>();
+            barnMap.put(ItemType.Wood, 350);
+            barnMap.put(ItemType.Stone, 150);
+            this.farmBuildings.add(new ShopCages(CageType.Barn, 1, 6000, barnMap));
+
+            HashMap<ItemType, Integer> bigBarnMap = new HashMap<>();
+            bigBarnMap.put(ItemType.Wood, 450);
+            bigBarnMap.put(ItemType.Stone, 200);
+            this.farmBuildings.add(new ShopCages(CageType.BigBarn, 1, 12000, bigBarnMap));
+
+            HashMap<ItemType, Integer> deluxeBarnMap = new HashMap<>();
+            deluxeBarnMap.put(ItemType.Wood, 550);
+            deluxeBarnMap.put(ItemType.Stone, 300);
+            this.farmBuildings.add(new ShopCages(CageType.DeluxeBarn, 1, 25000, deluxeBarnMap));
+
+            HashMap<ItemType, Integer> coopMap = new HashMap<>();
+            coopMap.put(ItemType.Wood, 300);
+            coopMap.put(ItemType.Stone, 100);
+            this.farmBuildings.add(new ShopCages(CageType.Coop, 1, 4000, coopMap));
+
+            HashMap<ItemType, Integer> bigCoopMap = new HashMap<>();
+            bigCoopMap.put(ItemType.Wood, 4000);
+            bigCoopMap.put(ItemType.Stone, 150);
+            this.farmBuildings.add(new ShopCages(CageType.BigCoop, 1, 10000, bigCoopMap));
+
+            HashMap<ItemType, Integer> deluxeCoopMap = new HashMap<>();
+            deluxeCoopMap.put(ItemType.Wood, 500);
+            deluxeCoopMap.put(ItemType.Stone, 200);
+            this.farmBuildings.add(new ShopCages(CageType.DeluxCoop, 1, 20000, deluxeCoopMap));
+
+            HashMap<ItemType, Integer> wellMap = new HashMap<>();
+            wellMap.put(ItemType.Stone, 75);
+            this.farmBuildings.add(new ShopCages(CageType.Well, 1, 1000, wellMap));
+
+            HashMap<ItemType, Integer> shippingBinMap = new HashMap<>();
+            shippingBinMap.put(ItemType.Wood, 150);
+            this.farmBuildings.add(new ShopCages(CageType.ShippingBin, 1, 250, shippingBinMap));
+        }
+
     }
 
     @Override
@@ -84,7 +122,7 @@ public class Carpenter extends Shop {
 
     @Override
     public String purchaseProduct(String product, int count) {
-        Character character=App.getCurrentGame().getCurrentCharacter();
+        Character character= Main.getApp().getCurrentGame().getCurrentCharacter();
         for(ShopItem item : permanentItems) {
             if(item.getItem().getDisPlayName().equals(product)) {
                 if(count>item.getStock()) return "not enough stock!";

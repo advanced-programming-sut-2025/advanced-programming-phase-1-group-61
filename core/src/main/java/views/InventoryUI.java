@@ -84,7 +84,7 @@ public class InventoryUI extends Table implements InputProcessor {
             public void clicked(InputEvent event, float x, float y) {
                 character.setHasGreenHouse(true);
                 repairButton.setVisible(false);
-                for (Tile[] tiles : App.getCurrentGame().getMap().getTiles()) {
+                for (Tile[] tiles : Main.getApp().getCurrentGame().getMap().getTiles()) {
                     for (Tile tile : tiles) {
                         if (tile.getOwnerId() == character.getUserId()) {
                             if (tile.getType().equals(TileType.BrokenGreenHouse)) {

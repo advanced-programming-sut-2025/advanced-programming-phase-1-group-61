@@ -3,11 +3,15 @@ package models.shops;
 import models.enums.CookingRecipes;
 
 public class ShopCookingRecipes {
-    private final CookingRecipes recipe;
-    private final int limit;
-    private final int price;
+    private  CookingRecipes recipe;
+    private  int limit;
+    private  int price;
     private int stock;
-    private final String description;
+    private  String description;
+
+    public ShopCookingRecipes() {
+    }
+
     public ShopCookingRecipes(CookingRecipes recipe, int limit, int price, String description) {
         this.recipe = recipe;
         this.limit = limit;

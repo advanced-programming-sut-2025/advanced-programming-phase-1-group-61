@@ -11,8 +11,10 @@ public class InventorySlot {
     private ItemType itemType;
     private Tool tool;
 
+    public InventorySlot() {
+    }
 
-    public InventorySlot(int count , Object object,int index) {
+    public InventorySlot(int count , Object object, int index) {
         this.count = count;
         this.object = object;
         this.index = index;
@@ -74,5 +76,11 @@ public class InventorySlot {
         return tool;
     }
 
+    public void setItemType(ItemType itemType) {
+        this.itemType = itemType;
+    }
 
+    public void setTool(Tool tool) {
+        this.tool = tool;
+    }
 }

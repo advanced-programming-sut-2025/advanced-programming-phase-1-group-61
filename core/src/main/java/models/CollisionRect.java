@@ -10,6 +10,9 @@ public class CollisionRect {
         this.height = height;
     }
 
+    public CollisionRect() {
+    }
+
     public boolean collidesWith(CollisionRect rect){
         return x < rect.x + rect.width && y < rect.y + rect.height && x + width > rect.x && y + height > rect.y;
     }

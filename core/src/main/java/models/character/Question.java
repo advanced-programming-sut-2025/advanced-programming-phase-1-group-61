@@ -9,6 +9,10 @@ public class Question {
         this.question = question;
         this.answer = answer;
     }
+
+    public Question() {
+    }
+
     public String getQuestion() {
         return question.getQuestion();
     }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.github.camera.Main;
 import models.*;
 import views.LoginMenu;
 
@@ -48,7 +49,7 @@ public class LoginMenuController {
                 return new Result(false , "failed to keep you logged in");
             }
         }
-        App.setLoggedInUser(user.getId());
+        Main.getApp().setLoggedInUser(user);
         return new Result(true , username + " logged in! "+"Redirecting to mainMenu..");
     }
 

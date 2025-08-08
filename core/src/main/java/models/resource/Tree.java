@@ -24,6 +24,9 @@ public class Tree extends Resource{
         this.y = y;
     }
 
+    public Tree() {
+    }
+
     public int getTreeAge() {
         return treeAge;
     }

@@ -14,6 +14,9 @@ public class Crop extends Resource{
     private boolean isWatered;
     private boolean hasSpeedGro , hasDeuxRetailingSoil;
 
+    public Crop() {
+    }
+
     public Crop(CropType type) {
 
         this.type = type;

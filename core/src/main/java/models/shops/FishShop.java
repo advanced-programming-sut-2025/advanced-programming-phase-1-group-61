@@ -1,5 +1,6 @@
 package models.shops;
 
+import io.github.camera.Main;
 import models.App;
 import models.building.Shop;
 import models.character.Character;
@@ -11,9 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FishShop extends Shop {
-    private final ArrayList<ShopFishingPoleUpgrades> fishingPoles;
-    private final ArrayList<ShopRecipes> shopRecipes;
-    public FishShop( String name, int X, int Y) {
+    private  ArrayList<ShopFishingPoleUpgrades> fishingPoles;
+    private  ArrayList<ShopRecipes> shopRecipes;
+
+    public FishShop() {
+    }
+
+    public FishShop(String name, int X, int Y) {
         super( name, X, Y,ShopType.FishShop);
         this.owner="Willy";
         fishingPoles = new ArrayList<>(List.of(
@@ -77,7 +82,7 @@ public class FishShop extends Shop {
 
     @Override
     public String purchaseProduct(String product, int count) {
-        Character character= App.getCurrentGame().getCurrentCharacter();
+        Character character= Main.getApp().getCurrentGame().getCurrentCharacter();
         for(ShopFishingPoleUpgrades pole : fishingPoles){
             if(pole.getDisplayName().equals(product)) {
                 if(pole.getStock()<count) return "not enough stock!";

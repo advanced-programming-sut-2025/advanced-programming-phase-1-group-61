@@ -9,6 +9,9 @@ public class InteractMARRIGE extends Interact {
         this.Item = item;
     }
 
+    public InteractMARRIGE() {
+    }
+
     public ItemType getItem() {
         return Item;
     }

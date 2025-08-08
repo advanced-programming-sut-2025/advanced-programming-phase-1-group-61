@@ -3,33 +3,112 @@ package models.enums;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public enum ToolType {
     Axe("Axe",
-        Map.of("primary",5,"copper",4,"iron",3,"gold",2,"iridium",1),
-        Map.of("primary","tools/Axe/Axe.png","copper","tools/Axe/Copper_Axe.png","iron","tools/Axe/Steel_Axe.png","gold","tools/Axe/Gold_Axe.png","iridium","Iridium_Axe.png")),
+        new HashMap<>() {{
+            put("primary",5);
+            put("copper",4);
+            put("iron",3);
+            put("gold",2);
+            put("iridium",1);
+        }},
+        new HashMap<>() {{
+            put("primary","tools/Axe/Axe.png");
+            put("copper","tools/Axe/Copper_Axe.png");
+            put("iron","tools/Axe/Steel_Axe.png");
+            put("gold","tools/Axe/Gold_Axe.png");
+            put("iridium","Iridium_Axe.png");
+        }}),
     FishingPole("FishingPole",
-        Map.of("educational",8,"bamboo",8,"fiberGlass",6,"iridium",4),
-        Map.of("training","tools/Fishing_Pole/Training_Rod.png","bamboo","tools/Fishing_Pole/Bamboo_Pole.png","fiberGlass","tools/Fishing_Pole/Fiberglass_Rod.png","iridium","tools/Fishing_Pole/Iridium_Rod.png")),
+        new HashMap<>() {{
+            put("educational", 8);
+            put("bamboo", 8);
+            put("fiberGlass", 6);
+            put("iridium", 4);
+        }},
+        new HashMap<>() {{
+            put("training", "tools/Fishing_Pole/Training_Rod.png");
+            put("bamboo", "tools/Fishing_Pole/Bamboo_Pole.png");
+            put("fiberGlass", "tools/Fishing_Pole/Fiberglass_Rod.png");
+            put("iridium", "tools/Fishing_Pole/Iridium_Rod.png");
+        }}),
     Hoe("Hoe",
-        Map.of("primary",5,"copper",4,"iron",3,"gold",2,"iridium",1),
-        Map.of("primary","tools/Hoe/Hoe.png","copper","tools/Hoe/Copper_Hoe.png","iron","tools/Hoe/Steel_Hoe.png","gold","tools/Hoe/Gold_Hoe.png","iridium","tools/Hoe/Iridium_Hoe.png")),
+        new HashMap<>() {{
+            put("primary", 5);
+            put("copper", 4);
+            put("iron", 3);
+            put("gold", 2);
+            put("iridium", 1);
+        }},
+        new HashMap<>() {{
+            put("primary", "tools/Hoe/Hoe.png");
+            put("copper", "tools/Hoe/Copper_Hoe.png");
+            put("iron", "tools/Hoe/Steel_Hoe.png");
+            put("gold", "tools/Hoe/Gold_Hoe.png");
+            put("iridium", "tools/Hoe/Iridium_Hoe.png");
+        }}),
     MilkPail("MilkPail",
-        Map.of("default",4),
-        Map.of("default","tools/Milk_Pail.png")),
+        new HashMap<>() {{
+            put("default", 4);
+        }},
+        new HashMap<>() {{
+            put("default", "tools/Milk_Pail.png");
+        }}),
     PickAxe("PickAxe",
-        Map.of("primary",5,"copper",4,"iron",3,"gold",2,"iridium",1),
-        Map.of("primary","tools/Pickaxe/Pickaxe.png","copper","tools/Pickaxe/Copper_Pickaxe.png","iron","tools/Pickaxe/Steel_Pickaxe.png","gold","tools/Pickaxe/Gold_Pickaxe.png","iridium","tools/Pickaxe/Iridium_Pickaxe.png")),
+        new HashMap<>() {{
+            put("primary", 5);
+            put("copper", 4);
+            put("iron", 3);
+            put("gold", 2);
+            put("iridium", 1);
+        }},
+        new HashMap<>() {{
+            put("primary", "tools/Pickaxe/Pickaxe.png");
+            put("copper", "tools/Pickaxe/Copper_Pickaxe.png");
+            put("iron", "tools/Pickaxe/Steel_Pickaxe.png");
+            put("gold", "tools/Pickaxe/Gold_Pickaxe.png");
+            put("iridium", "tools/Pickaxe/Iridium_Pickaxe.png");
+        }}),
     Scythe("Scythe",
-        Map.of("primary",2),
-        Map.of("primary","tools/Scythe/Scythe.png","copper","tools/Scythe/Scythe.png","iron","tools/Scythe/Scythe.png","gold","tools/Scythe/Golden_Scythe.png","iridium","tools/Scythe/Iridium_Scythe.png")),
+        new HashMap<>() {{
+            put("primary", 2);
+        }},
+        new HashMap<>() {{
+            put("primary", "tools/Scythe/Scythe.png");
+            put("copper", "tools/Scythe/Scythe.png");
+            put("iron", "tools/Scythe/Scythe.png");
+            put("gold", "tools/Scythe/Golden_Scythe.png");
+            put("iridium", "tools/Scythe/Iridium_Scythe.png");
+        }}),
     Shear("Shear",
-        Map.of("default",4),
-        Map.of("primary","tools/Shears.png","copper","tools/Shears.png","iron","tools/Shears.png","gold","tools/Shears.png","iridium","tools/Shears.png")),
+        new HashMap<>() {{
+            put("default", 4);
+        }},
+        new HashMap<>() {{
+            put("primary", "tools/Shears.png");
+            put("copper", "tools/Shears.png");
+            put("iron", "tools/Shears.png");
+            put("gold", "tools/Shears.png");
+            put("iridium", "tools/Shears.png");
+        }}),
     WateringCan("WateringCan",
-        Map.of("primary",5,"copper",4,"iron",3,"gold",2,"iridium",1),
-        Map.of("primary","tools/Watering_Can/Watering_Can.png","copper","tools/Watering_Can/Copper_Watering_Can.png","iron","tools/Watering_Can/Steel_Watering_Can.png","gold","tools/Watering_Can/Gold_Watering_Can.png","iridium","tools/Watering_Can/Iridium_Watering_Can.png")),;
+        new HashMap<>() {{
+            put("primary", 5);
+            put("copper", 4);
+            put("iron", 3);
+            put("gold", 2);
+            put("iridium", 1);
+        }},
+        new HashMap<>() {{
+            put("primary", "tools/Watering_Can/Watering_Can.png");
+            put("copper", "tools/Watering_Can/Copper_Watering_Can.png");
+            put("iron", "tools/Watering_Can/Steel_Watering_Can.png");
+            put("gold", "tools/Watering_Can/Gold_Watering_Can.png");
+            put("iridium", "tools/Watering_Can/Iridium_Watering_Can.png");
+        }});
     private final String tool;
     private final Map<String, Integer> energyPerLevel;
     private final Map<String,String> internalPathForEachLevel;

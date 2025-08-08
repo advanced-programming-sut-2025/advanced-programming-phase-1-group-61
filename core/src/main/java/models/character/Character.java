@@ -3,34 +3,25 @@ package models.character;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import models.App;
+import io.github.camera.Main;
 import models.AssetManager;
 import models.CollisionRect;
-import models.Item;
-import models.NPC.NPC;
-import models.NPC.NPCFriendships;
 import models.animal.Animal;
 import models.building.Building;
-import models.building.Shop;
-import models.enums.CookingRecipes;
-import models.enums.Direction;
-import models.enums.Recipe;
-import models.enums.ToolType;
+import models.enums.*;
 
 import models.enums.graphic.BackgroundMusic;
 import models.interactions.Iteractions;
 
 import models.map.Map;
-import models.map.Tile;
 import models.resource.BuildingReference;
 import models.tool.Tool;
-import models.workBench.WorkBench;
 
 import java.util.*;
 
 public class Character {
-    private final int userId;
-    private final Inventory inventory ;
+    private  int userId;
+    private  Inventory inventory ;
     private int energy;
     private boolean unlimitedEnergy=false;
     private Iteractions iteractions;
@@ -38,7 +29,7 @@ public class Character {
     private int x;
     private int y;
     private int speed;
-    private final Skill skill;
+    private  Skill skill;
     private Tool currentTool;
     private java.util.Map<String,Animal> animals = new HashMap<>();
     private ArrayList<Building> buildings =new ArrayList<>();
@@ -56,6 +47,7 @@ public class Character {
     private float animationTimer = 0f;
     private transient Animation<TextureRegion> currentAnimation;
     private boolean isMoving = false;
+    private ItemType currentItem ;
 
     private Buff buff=null;
     private int money;
@@ -83,6 +75,18 @@ public class Character {
         this.speed = 10;
         this.hasGreenHouse = false;
         this.direction = Direction.RIGHT;
+        this.currentItem = null;
+    }
+
+    public Character() {
+    }
+
+    public ItemType getCurrentItem() {
+        return currentItem;
+    }
+
+    public void setCurrentItem(ItemType currentItem) {
+        this.currentItem = currentItem;
     }
 
     public boolean isFainted() {
@@ -201,7 +205,7 @@ public class Character {
     public void findPath(int targetX, int targetY){
         lastPath=new ArrayList<>();
         System.gc();
-        Map map= App.getCurrentGame().getMap();
+        Map map= Main.getApp().getCurrentGame().getMap();
         if(map==null) return;
         if(map.getTiles()[targetY][targetX].getType().isCollisionOn()) return;
         Cell targetCell=bfs(targetX,targetY,map);
@@ -243,7 +247,7 @@ public class Character {
     private Cell bfs(int targetX, int targetY,Map map){
         boolean[][] visited=new boolean[map.getHeightSize()][map.getWidthSize()];
         visited[getY()][getX()]=true;
-        Character character=App.getCurrentGame().getCurrentCharacter();
+        Character character=Main.getApp().getCurrentGame().getCurrentCharacter();
         Cell cell=new Cell()
                 .setX(character.getX())
                 .setY(character.getY())

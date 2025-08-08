@@ -1,5 +1,6 @@
 package models.workBench;
 
+import io.github.camera.Main;
 import models.App;
 import models.character.Character;
 import models.date.Date;
@@ -11,8 +12,11 @@ import java.util.*;
 
 
 public class WorkBench extends Resource {
-    private final WorkBenchType Type;
+    private  WorkBenchType Type;
     private final List<Inprocess> inprocesses = new ArrayList<>();
+
+    public WorkBench() {
+    }
 
     public WorkBench(WorkBenchType type) {
         this.Type = type;
@@ -23,13 +27,13 @@ public class WorkBench extends Resource {
     }
 
     public void addprocess(ItemType item ,int time) {
-        Date date = App.getCurrentGame().getDate();
+        Date date = Main.getApp().getCurrentGame().getDate();
         inprocesses.add(new Inprocess(time, date.getDayCounter(), date.getHour(), item));
     }
 
     public boolean Collect() {
-        Date date = App.getCurrentGame().getDate();
-        Character character = App.getCurrentGame().getCurrentCharacter();
+        Date date = Main.getApp().getCurrentGame().getDate();
+        Character character = Main.getApp().getCurrentGame().getCurrentCharacter();
         ItemType Item;
         boolean added = false;
         for (Inprocess inprocess : inprocesses) {

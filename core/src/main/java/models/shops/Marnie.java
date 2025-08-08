@@ -1,5 +1,6 @@
 package models.shops;
 
+import io.github.camera.Main;
 import models.App;
 import models.animal.Animal;
 import models.building.Shop;
@@ -9,11 +10,14 @@ import models.enums.*;
 import java.util.*;
 
 public class Marnie extends Shop {
-    private final ArrayList<ShopItem> permanentItems;
-    private final ArrayList<ShopTool> permanentTools;
-    private final ArrayList<ShopAnimals> permanentAnimals;
+    private  ArrayList<ShopItem> permanentItems;
+    private  ArrayList<ShopTool> permanentTools;
+    private  ArrayList<ShopAnimals> permanentAnimals;
 
-    public Marnie( String name, int X, int Y) {
+    public Marnie() {
+    }
+
+    public Marnie(String name, int X, int Y) {
         super( name, X, Y,ShopType.Marnie);
         this.owner="Marnie";
         permanentItems = new ArrayList<>(List.of(
@@ -113,7 +117,7 @@ public class Marnie extends Shop {
 
     @Override
     public String purchaseProduct(String product, int count) {
-        Character character= App.getCurrentGame().getCurrentCharacter();
+        Character character= Main.getApp().getCurrentGame().getCurrentCharacter();
         for(ShopItem item : permanentItems){
             if(item.getItem().getDisPlayName().equals(product)){
                 if(count> item.getStock()) return "not enough stock!";

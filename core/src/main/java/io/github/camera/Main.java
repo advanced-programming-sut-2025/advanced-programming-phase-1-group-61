@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import controllers.MainMenuController;
 import models.App;
 import models.AssetManager;
+import network.NetworkClient;
 import views.MainMenu;
 
 import java.io.IOException;
@@ -16,6 +17,8 @@ public class Main extends Game {
 
     private static SpriteBatch batch;
     private static Main main;
+    private static NetworkClient client;
+    private static App app;
 
 
 
@@ -25,7 +28,12 @@ public class Main extends Game {
         AssetManager.load();
         main = this;
         main.setScreen(new MainMenu(new MainMenuController()));
-        App.loadApp();
+        client = new NetworkClient();
+        client.start();
+        app = new App();
+
+
+
     }
 
     @Override
@@ -38,11 +46,7 @@ public class Main extends Game {
 
     @Override
     public void dispose() {
-       try {
-           App.saveApp();
-       } catch (IOException e) {
-           throw new RuntimeException(e);
-       }
+
         batch.dispose();
     }
 
@@ -52,5 +56,17 @@ public class Main extends Game {
 
     public static SpriteBatch getBatch() {
         return batch;
+    }
+
+    public static App getApp() {
+        return app;
+    }
+
+    public static void setApp(App app) {
+        Main.app = app;
+    }
+
+    public static NetworkClient getClient() {
+        return client;
     }
 }

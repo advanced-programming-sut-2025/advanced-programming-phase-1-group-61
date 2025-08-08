@@ -1,5 +1,6 @@
 package models.shops;
 
+import io.github.camera.Main;
 import models.App;
 import models.building.Shop;
 import models.character.Character;
@@ -11,13 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JojaMart extends Shop {
-    private final ArrayList<ShopItem> permanentShopItems;
-    private final ArrayList<ShopItem> springShopItems;
-    private final ArrayList<ShopItem> summerShopItems;
-    private final ArrayList<ShopItem> fallShopItems;
-    private final ArrayList<ShopItem> winterShopItems;
+    private  ArrayList<ShopItem> permanentShopItems;
+    private  ArrayList<ShopItem> springShopItems;
+    private  ArrayList<ShopItem> summerShopItems;
+    private  ArrayList<ShopItem> fallShopItems;
+    private  ArrayList<ShopItem> winterShopItems;
 
-    public JojaMart( String name, int X, int Y) {
+    public JojaMart() {
+    }
+
+    public JojaMart(String name, int X, int Y) {
         super(name, X, Y,ShopType.JojaMart);
         owner="Morris";
         permanentShopItems = new ArrayList<>(List.of(
@@ -186,7 +190,7 @@ public class JojaMart extends Shop {
 
     @Override
     public String purchaseProduct(String product, int count) {
-        Character character=App.getCurrentGame().getCurrentCharacter();
+        Character character= Main.getApp().getCurrentGame().getCurrentCharacter();
         for(ShopItem item : permanentShopItems){
             if(item.getItem().getDisPlayName().equals(product)){
                 if(count> item.getStock()) return "not enough stock!";
@@ -195,7 +199,7 @@ public class JojaMart extends Shop {
                 return "Successfully purchased!";
             }
         }
-        Season season= App.getCurrentGame().getDate().getSeason();
+        Season season= Main.getApp().getCurrentGame().getDate().getSeason();
         if(season.equals(Season.Summer)) {
             for (ShopItem item : summerShopItems) {
                 if (item.getItem().getDisPlayName().equals(product)) {

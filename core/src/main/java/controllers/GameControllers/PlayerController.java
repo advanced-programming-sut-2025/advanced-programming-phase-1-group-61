@@ -6,18 +6,16 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import io.github.camera.Main;
-import models.App;
-import models.AssetManager;
-import models.CollisionRect;
-import models.Game;
+import models.*;
 import models.character.Character;
 import models.character.InventorySlot;
-import models.enums.Direction;
-import models.enums.ShopType;
-import models.enums.TileType;
+import models.enums.*;
 import models.map.Map;
 import models.map.Tile;
+import models.resource.Crop;
+import models.resource.Tree;
 import models.shops.*;
 import views.GameView;
 import views.InventoryUI;
@@ -40,14 +38,16 @@ public class PlayerController {
 
 
 
-    public PlayerController(OrthographicCamera camera) {
-        this.player = App.getCurrentGame().getCurrentCharacter();
+    public PlayerController(OrthographicCamera camera , Game game) {
+        this.player = game.getCurrentCharacter();
         this.camera = camera;
         thunderFrames = new Texture[7];
         for (int i = 0; i < 7; i++) {
             thunderFrames[i] = new Texture("Thunder/Thunder_" + i + ".png");
         }
     }
+
+
 
     public void setInventoryUI(InventoryUI inventoryUI) {
         this.inventoryUI = inventoryUI;
@@ -85,6 +85,14 @@ public class PlayerController {
             }
         }
     }
+    private Direction getDirectionFromDelta(int dx, int dy) {
+        if (Math.abs(dx) > Math.abs(dy)) {
+            return dx > 0 ? Direction.RIGHT : Direction.LEFT;
+        } else if (Math.abs(dy) > 0) {
+            return dy > 0 ? Direction.UP : Direction.BOTTOM;
+        }
+        return null;
+    }
 
     public void handlePlayerInput() {
         float dx = 0;
@@ -109,17 +117,67 @@ public class PlayerController {
         }
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             if (player.getCurrentTool() != null) {
-                player.getCurrentTool().use(player.getDirection());
+                Vector3 worldClick = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+
+
+                int tileX = (int) worldClick.x;
+                int tileY = (int) worldClick.y;
+
+                int playerX = player.getSpriteX();
+                int playerY = player.getSpriteY();
+
+                Direction dir = getDirectionFromDelta(tileX - playerX, tileY - playerY);
+
+
+                if (dir != null) {
+                    player.setDirection(dir);
+                    player.getCurrentTool().use(dir);
+                    System.out.println("Mouse Tool Used at tile (" + tileX + "," + tileY + ") with direction " + dir);
+                }
+
+            }else if(player.getCurrentItem() != null){
+                ItemType item = player.getCurrentItem();
+                TreeType treeType = TreeType.getTreeTypeBySource(item);
+                Tile tile = Main.getApp().getCurrentGame().getMap().getTileByCordinate(player.getX() , player.getY());
+
+
+                if (player.getInventory().getCountOfItem(item) <= 0) {
+                    return;
+                }
+                if (treeType != null) {
+                    if (tile.getType().isCollisionOn() || !tile.getType().equals(TileType.Grass)) {
+                        return;
+                    }
+                    tile.setResource(new Tree(treeType, tile.getX(), tile.getY()));
+                    player.getInventory().removeItem(item, 1);
+                    System.out.println("tree planted");
+                    return;
+                }
+
+
+                CropType cropType = CropType.getCropTypeBySource(item);
+
+                if (cropType != null) {
+                    if (!tile.getType().equals(TileType.Soil) || tile.getType().isCollisionOn()) {
+                       return;
+                    }
+                    player.getInventory().removeItem(item, 1);
+                    tile.setResource(new Crop(cropType));
+                    System.out.println("crop planted");
+                   return;
+                }
+
             }
         }
+
 
         boolean isActuallyMoving = dx != 0 || dy != 0;
         player.setMoving(isActuallyMoving);
         if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
-            App.getCurrentGame().getDate().increaseTime(1);
+            Main.getApp().getCurrentGame().getDate().increaseTime(1);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.B)){
-            App.getCurrentGame().getMap().getWeather().lightning(player.getX() + 5, player.getY());
+            Main.getApp().getCurrentGame().getMap().getWeather().lightning(player.getX() + 5, player.getY());
 
             thunderX = player.getX() + 5;
             thunderY = player.getY();
@@ -158,8 +216,7 @@ public class PlayerController {
 
         boolean collisionDetected = false;
         boolean shopDetected = false;
-        Game game = App.getCurrentGame();
-        Map map = game.getMap();
+        Map map = Main.getApp().getCurrentGame().getMap();
         TileType shopTile = null;
 
         for (int x = startX; x <= endX; x++) {
@@ -181,31 +238,29 @@ public class PlayerController {
         }
         if (shopDetected && shopCooldown>=5) {
             shopCooldown=0;
-            App.setLastScreenBeforeShop(Main.getMain().getScreen());
+
             switch (shopTile){
                 case TileType.BlackSmith -> {
                     Main.getMain().getScreen().dispose();
-                    Main.getMain().setScreen(new BlackSmithView((BlackSmith) App.getCurrentGame().getShopByShopType(ShopType.BlackSmith)));
+                    Main.getMain().setScreen(new BlackSmithView((BlackSmith) Main.getApp().getCurrentGame().getShopByShopType(ShopType.BlackSmith)));
                     return;
                 }case TileType.Carpenter -> {
                     Main.getMain().getScreen().dispose();
-                    Main.getMain().setScreen(new CarpenterView((Carpenter) App.getCurrentGame().getShopByShopType(ShopType.Carpenter)));
+                    Main.getMain().setScreen(new CarpenterView((Carpenter) Main.getApp().getCurrentGame().getShopByShopType(ShopType.Carpenter)));
                 }case TileType.FishShop -> {
                     Main.getMain().getScreen().dispose();
-                    Main.getMain().setScreen(new FishShopView((FishShop) App.getCurrentGame().getShopByShopType(ShopType.FishShop)));
+                    Main.getMain().setScreen(new FishShopView((FishShop) Main.getApp().getCurrentGame().getShopByShopType(ShopType.FishShop)));
                 }case TileType.JojaMart -> {
                     Main.getMain().getScreen().dispose();
-                    Main.getMain().setScreen(new JojaMartView((JojaMart) App.getCurrentGame().getShopByShopType(ShopType.JojaMart)));
+                    Main.getMain().setScreen(new JojaMartView((JojaMart) Main.getApp().getCurrentGame().getShopByShopType(ShopType.JojaMart)));
                 }case TileType.StarDrop -> {
-               //todo
+                    //todo
                 }case TileType.Marnie -> {
                     Main.getMain().getScreen().dispose();
-                    Main.getMain().setScreen(new MarnieView((Marnie) App.getCurrentGame().getShopByShopType(ShopType.Marnie)));
-                    //TODO
+                    Main.getMain().setScreen(new MarnieView((Marnie) Main.getApp().getCurrentGame().getShopByShopType(ShopType.Marnie)));
                 }case TileType.Pierre -> {
                     Main.getMain().getScreen().dispose();
-                    Main.getMain().setScreen(new PierreView((Pierre) App.getCurrentGame().getShopByShopType(ShopType.Pierre)));
-                    //TODO
+                    Main.getMain().setScreen(new PierreView((Pierre) Main.getApp().getCurrentGame().getShopByShopType(ShopType.Pierre)));
                 }
             }
         }

@@ -50,7 +50,7 @@ public class MainMenuController {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 AssetManager.getUiClicks().play();
-                Game game= App.getCurrentGame();
+                Game game= Main.getApp().getCurrentGame();
                 if(game==null) {
                     AlertGenerator.showAlert("error","Please login first",view.getStage());
                     return;

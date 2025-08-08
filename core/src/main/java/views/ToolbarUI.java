@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import models.character.Character;
 import models.character.InventorySlot;
+import models.enums.ItemType;
 import models.tool.Tool;
 
 import java.util.ArrayList;
@@ -28,6 +29,12 @@ public class ToolbarUI extends Table {
 
         if (item instanceof Tool tool) {
             character.setCurrentTool(tool);
+            character.setCurrentItem(null);
+            selectedSlotIndex = index;
+            updateSlotHighlighting();
+        } else if (item instanceof ItemType itemType) {
+            character.setCurrentTool(null);
+            character.setCurrentItem(itemType);
             selectedSlotIndex = index;
             updateSlotHighlighting();
         }

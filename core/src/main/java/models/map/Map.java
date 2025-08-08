@@ -34,6 +34,9 @@ public class Map {
         this.weather = weather;
     }
 
+    public Map() {
+    }
+
     public Weather getWeather() {
         return weather;
     }

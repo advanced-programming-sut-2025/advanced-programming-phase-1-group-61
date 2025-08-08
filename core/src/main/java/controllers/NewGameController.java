@@ -1,5 +1,6 @@
 package controllers;
 
+import io.github.camera.Main;
 import models.*;
 import models.character.Character;
 import models.map.Map;
@@ -29,7 +30,7 @@ public class NewGameController {
     public Result startGameErrors() {
         List<String> usernames = new ArrayList<>();
         userList.clear();
-        usernames.add(App.getLoggedInUser().getUsername());
+        usernames.add(Main.getApp().getLoggedInUser().getUsername());
         if(view.getPlayer2().isVisible()){
             usernames.add(view.getPlayer2().getText());
         }if(view.getPlayer3().isVisible()){
@@ -39,7 +40,7 @@ public class NewGameController {
         }
         for (int i = 1; i < usernames.size(); i++) {
             String username = usernames.get(i);
-            if (username.equals(App.getLoggedInUser().getUsername())) {
+            if (username.equals(Main.getApp().getLoggedInUser().getUsername())) {
                 return new Result(false, "you can't pick yourself!");
             }
         }
@@ -97,8 +98,8 @@ public class NewGameController {
         for (User user : userList) {
             user.setGameId(game.getId());
         }
-        App.addGame(game);
-        App.setCurrentGame(game.getId());
+        Main.getApp().addGame(game);
+        Main.getApp().setCurrentGame(game);
         return new Result(true, "game started successfully");
     }
 
