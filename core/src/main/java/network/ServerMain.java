@@ -8,6 +8,7 @@ import models.Game;
 import models.User;
 import models.character.Character;
 import models.character.InventorySlot;
+import models.map.Map;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -43,6 +44,7 @@ public class ServerMain {
                         }
                         case newGameId -> connection.sendTCP(new Requsets(NetworkRequest.newGameId, generateNewGameId(), 0));
                         case AllUsersRequest -> connection.sendTCP(allUsers);
+                        case MapUpdateRequest -> connection.sendTCP(getGameById(request.getGameId()).getMap());
                     }
                 } else if (object instanceof Network.updateGame updateGame) {
                     updateGame(updateGame);
@@ -58,6 +60,8 @@ public class ServerMain {
                     if (!found) {
                         allUsers.add(newUser);
                     }
+                } else if (object instanceof MapUpdate mapUpdate) {
+                    getGameById(mapUpdate.getGameId()).setMap(mapUpdate.getMap());
                 }
             }
         });
@@ -174,7 +178,6 @@ public class ServerMain {
         Game original = getGameById(updatedGame.getGame().getId());
         if (original != null) {
             int id = updatedGame.getUserId();
-            // Character Update
             original.updateCharacter(id, updatedGame.getGame().getCharacterByID(id));
             original.setMap(updatedGame.getGame().getMap());
 

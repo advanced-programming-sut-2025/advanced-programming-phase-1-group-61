@@ -3,12 +3,7 @@ package network;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.EndPoint;
 import models.Game;
-import models.User;
-import models.character.Question;
-import models.enums.Gender;
-import models.enums.SecurityQuestion;
 
-import java.util.List;
 
 public class Network {
     public static final int TCP_PORT = 54555;

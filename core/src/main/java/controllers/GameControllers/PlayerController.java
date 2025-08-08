@@ -45,6 +45,7 @@ public class PlayerController {
         for (int i = 0; i < 7; i++) {
             thunderFrames[i] = new Texture("Thunder/Thunder_" + i + ".png");
         }
+
     }
 
 
@@ -64,6 +65,12 @@ public class PlayerController {
         TextureRegion currentFrame = player.getCurrentFrame();
         Main.getBatch().draw(currentFrame, player.getSpriteX()-56, player.getSpriteY()-48, 224, 224);
 
+        for (Character character : Main.getApp().getCurrentGame().getAllCharacters()) {
+            if (character.getUserId() == player.getUserId()) continue;
+
+            TextureRegion otherFrame = character.getCurrentFrame();
+            Main.getBatch().draw(otherFrame, character.getSpriteX() - 56, character.getSpriteY() - 48, 224, 224);
+        }
 
         handlePlayerInput();
 
