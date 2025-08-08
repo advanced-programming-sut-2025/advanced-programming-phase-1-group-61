@@ -5,11 +5,13 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import controllers.GameMenuController;
 import io.github.camera.Main;
 import models.AlertGenerator;
 import models.App;
 import models.building.Shop;
 import models.shops.*;
+import views.GameView;
 import views.ShopViews.ShopView;
 
 public class ShopViewController {
@@ -182,7 +184,7 @@ public class ShopViewController {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Main.getMain().getScreen().dispose();
-                Main.getMain().setScreen(Main.getApp().getLastScreenBeforeShop());
+                Main.getMain().setScreen(new GameView(new GameMenuController(Main.getApp().getCurrentGame())));
             }
         });
     }

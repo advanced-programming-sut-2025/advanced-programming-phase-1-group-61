@@ -9,7 +9,11 @@ import java.util.ArrayList;
 public class Barn extends Building {
     private ArrayList<Animal> animals = new ArrayList<>();
     private CageType cageType;
-    public Barn( CageType cageType,String name, int X, int Y) {
+
+    public Barn() {
+    }
+
+    public Barn(CageType cageType, String name, int X, int Y) {
         super(name,X,Y);
         this.cageType = cageType;
         this.space = getSpace(cageType.name());

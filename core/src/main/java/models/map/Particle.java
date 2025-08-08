@@ -16,6 +16,9 @@ public class Particle {
         this.size = 2 + (float)(Math.random() * 2);
     }
 
+    public Particle() {
+    }
+
     public void update(float delta) {
         y -= vy * delta;
         if (y < 0) {

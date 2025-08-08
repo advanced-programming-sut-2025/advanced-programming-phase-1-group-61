@@ -10,15 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pierre extends Shop {
-    private final ArrayList<ShopItem> yearRoundItems;
-    private final ArrayList<ShopItem> springItems;
-    private final ArrayList<ShopItem> summerItems;
-    private final ArrayList<ShopItem> fallItems;
-    private final ArrayList<ShopBackpacks> shopBackpacks;
-    private final ArrayList<ShopRecipes> shopRecipes;
-    private final float outOfSeasonCoefficient=1.5f;
+    private  ArrayList<ShopItem> yearRoundItems;
+    private  ArrayList<ShopItem> springItems;
+    private  ArrayList<ShopItem> summerItems;
+    private  ArrayList<ShopItem> fallItems;
+    private  ArrayList<ShopBackpacks> shopBackpacks;
+    private  ArrayList<ShopRecipes> shopRecipes;
+    private  float outOfSeasonCoefficient=1.5f;
 
-    public Pierre( String name, int X, int Y) {
+    public Pierre() {
+    }
+
+    public Pierre(String name, int X, int Y) {
         super( name, X, Y,ShopType.Pierre);
 
         this.owner="Pierre";

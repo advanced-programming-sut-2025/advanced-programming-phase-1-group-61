@@ -4,12 +4,12 @@ import io.github.camera.Main;
 import models.App;
 
 public class Buff {
-    private final int energyIncrease;
-    private final int hours;
-    private final boolean farmingBuff;
-    private final boolean miningBuff;
-    private final boolean foragingBuff;
-    private final boolean fishingBuff;
+    private  int energyIncrease;
+    private  int hours;
+    private  boolean farmingBuff;
+    private  boolean miningBuff;
+    private  boolean foragingBuff;
+    private  boolean fishingBuff;
     private int targetHour;
     private boolean isOnUse=false;
     public Buff(int energyIncrease,int hours, boolean farmingBuff, boolean miningBuff, boolean foragingBuff, boolean fishingBuff) {
@@ -20,6 +20,10 @@ public class Buff {
         this.foragingBuff = foragingBuff;
         this.fishingBuff = fishingBuff;
     }
+
+    public Buff() {
+    }
+
     public int getEnergyIncrease() {
         return energyIncrease;
     }

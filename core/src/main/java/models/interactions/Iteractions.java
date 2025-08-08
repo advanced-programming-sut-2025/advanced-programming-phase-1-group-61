@@ -7,10 +7,13 @@ import models.enums.ItemType;
 import java.util.*;
 
 public class Iteractions {
-    private final List<Interact> Interacts = new ArrayList<>();
+    private  List<Interact> Interacts = new ArrayList<>();
     private List<Interact> newInteracts = new ArrayList<>();
-    private final Map<Integer, Integer> friendships = new HashMap<>();
-    private final Integer owner;
+    private  Map<Integer, Integer> friendships = new HashMap<>();
+    private  Integer owner;
+
+    public Iteractions() {
+    }
 
     public Iteractions(int userId) {
         this.owner = userId;

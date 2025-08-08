@@ -8,4 +8,6 @@ public class InteractTALK extends Interact {
         super(type,owner, friend, value,id);
     }
 
+    public InteractTALK() {
+    }
 }

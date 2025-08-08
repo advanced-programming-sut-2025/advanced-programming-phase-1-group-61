@@ -12,8 +12,11 @@ import java.util.*;
 
 
 public class WorkBench extends Resource {
-    private final WorkBenchType Type;
+    private  WorkBenchType Type;
     private final List<Inprocess> inprocesses = new ArrayList<>();
+
+    public WorkBench() {
+    }
 
     public WorkBench(WorkBenchType type) {
         this.Type = type;

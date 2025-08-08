@@ -20,8 +20,8 @@ import models.tool.Tool;
 import java.util.*;
 
 public class Character {
-    private final int userId;
-    private final Inventory inventory ;
+    private  int userId;
+    private  Inventory inventory ;
     private int energy;
     private boolean unlimitedEnergy=false;
     private Iteractions iteractions;
@@ -29,7 +29,7 @@ public class Character {
     private int x;
     private int y;
     private int speed;
-    private final Skill skill;
+    private  Skill skill;
     private Tool currentTool;
     private java.util.Map<String,Animal> animals = new HashMap<>();
     private ArrayList<Building> buildings =new ArrayList<>();
@@ -76,6 +76,9 @@ public class Character {
         this.hasGreenHouse = false;
         this.direction = Direction.RIGHT;
         this.currentItem = null;
+    }
+
+    public Character() {
     }
 
     public ItemType getCurrentItem() {

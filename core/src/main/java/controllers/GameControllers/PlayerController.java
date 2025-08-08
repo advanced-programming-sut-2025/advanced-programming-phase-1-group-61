@@ -31,7 +31,6 @@ public class PlayerController {
     private boolean thunderActive = false;
     private float thunderX, thunderY;
     private InventoryUI inventoryUI;
-    private Game game;
 
 
 
@@ -40,7 +39,6 @@ public class PlayerController {
 
 
     public PlayerController(OrthographicCamera camera , Game game) {
-        this.game = game;
         this.player = game.getCurrentCharacter();
         this.camera = camera;
         thunderFrames = new Texture[7];
@@ -140,7 +138,7 @@ public class PlayerController {
             }else if(player.getCurrentItem() != null){
                 ItemType item = player.getCurrentItem();
                 TreeType treeType = TreeType.getTreeTypeBySource(item);
-                Tile tile = game.getMap().getTileByCordinate(player.getX() , player.getY());
+                Tile tile = Main.getApp().getCurrentGame().getMap().getTileByCordinate(player.getX() , player.getY());
 
 
                 if (player.getInventory().getCountOfItem(item) <= 0) {
@@ -176,10 +174,10 @@ public class PlayerController {
         boolean isActuallyMoving = dx != 0 || dy != 0;
         player.setMoving(isActuallyMoving);
         if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
-            game.getDate().increaseTime(1);
+            Main.getApp().getCurrentGame().getDate().increaseTime(1);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.B)){
-            game.getMap().getWeather().lightning(player.getX() + 5, player.getY());
+            Main.getApp().getCurrentGame().getMap().getWeather().lightning(player.getX() + 5, player.getY());
 
             thunderX = player.getX() + 5;
             thunderY = player.getY();
@@ -218,7 +216,7 @@ public class PlayerController {
 
         boolean collisionDetected = false;
         boolean shopDetected = false;
-        Map map = game.getMap();
+        Map map = Main.getApp().getCurrentGame().getMap();
         TileType shopTile = null;
 
         for (int x = startX; x <= endX; x++) {
@@ -240,29 +238,29 @@ public class PlayerController {
         }
         if (shopDetected && shopCooldown>=5) {
             shopCooldown=0;
-            Main.getApp().setLastScreenBeforeShop(Main.getMain().getScreen());
+
             switch (shopTile){
                 case TileType.BlackSmith -> {
                     Main.getMain().getScreen().dispose();
-                    Main.getMain().setScreen(new BlackSmithView((BlackSmith) game.getShopByShopType(ShopType.BlackSmith)));
+                    Main.getMain().setScreen(new BlackSmithView((BlackSmith) Main.getApp().getCurrentGame().getShopByShopType(ShopType.BlackSmith)));
                     return;
                 }case TileType.Carpenter -> {
                     Main.getMain().getScreen().dispose();
-                    Main.getMain().setScreen(new CarpenterView((Carpenter) game.getShopByShopType(ShopType.Carpenter)));
+                    Main.getMain().setScreen(new CarpenterView((Carpenter) Main.getApp().getCurrentGame().getShopByShopType(ShopType.Carpenter)));
                 }case TileType.FishShop -> {
                     Main.getMain().getScreen().dispose();
-                    Main.getMain().setScreen(new FishShopView((FishShop) game.getShopByShopType(ShopType.FishShop)));
+                    Main.getMain().setScreen(new FishShopView((FishShop) Main.getApp().getCurrentGame().getShopByShopType(ShopType.FishShop)));
                 }case TileType.JojaMart -> {
                     Main.getMain().getScreen().dispose();
-                    Main.getMain().setScreen(new JojaMartView((JojaMart) game.getShopByShopType(ShopType.JojaMart)));
+                    Main.getMain().setScreen(new JojaMartView((JojaMart) Main.getApp().getCurrentGame().getShopByShopType(ShopType.JojaMart)));
                 }case TileType.StarDrop -> {
                     //todo
                 }case TileType.Marnie -> {
                     Main.getMain().getScreen().dispose();
-                    Main.getMain().setScreen(new MarnieView((Marnie) game.getShopByShopType(ShopType.Marnie)));
+                    Main.getMain().setScreen(new MarnieView((Marnie) Main.getApp().getCurrentGame().getShopByShopType(ShopType.Marnie)));
                 }case TileType.Pierre -> {
                     Main.getMain().getScreen().dispose();
-                    Main.getMain().setScreen(new PierreView((Pierre) game.getShopByShopType(ShopType.Pierre)));
+                    Main.getMain().setScreen(new PierreView((Pierre) Main.getApp().getCurrentGame().getShopByShopType(ShopType.Pierre)));
                 }
             }
         }

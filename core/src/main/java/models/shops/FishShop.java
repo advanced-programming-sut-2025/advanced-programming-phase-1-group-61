@@ -12,9 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FishShop extends Shop {
-    private final ArrayList<ShopFishingPoleUpgrades> fishingPoles;
-    private final ArrayList<ShopRecipes> shopRecipes;
-    public FishShop( String name, int X, int Y) {
+    private  ArrayList<ShopFishingPoleUpgrades> fishingPoles;
+    private  ArrayList<ShopRecipes> shopRecipes;
+
+    public FishShop() {
+    }
+
+    public FishShop(String name, int X, int Y) {
         super( name, X, Y,ShopType.FishShop);
         this.owner="Willy";
         fishingPoles = new ArrayList<>(List.of(

@@ -17,6 +17,9 @@ public class Building extends Resource{
         this.Y = Y;
     }
 
+    public Building() {
+    }
+
     public int getSize(){
         return size;
     }

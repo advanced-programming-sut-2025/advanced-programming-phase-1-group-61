@@ -18,6 +18,7 @@ public class WateringCan extends Tool{
         this.level="primary";
     }
 
+
     public String use(Direction direction){
         Character character= Main.getApp().getCurrentGame().getCurrentCharacter();
         int targetX=character.getX()+direction.getDx();

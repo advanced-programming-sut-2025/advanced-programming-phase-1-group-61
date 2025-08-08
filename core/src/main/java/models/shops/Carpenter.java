@@ -14,8 +14,12 @@ import java.util.List;
 import java.util.Map;
 
 public class Carpenter extends Shop {
-    private final ArrayList<ShopItem> permanentItems;
+    private ArrayList<ShopItem> permanentItems;
     private ArrayList<ShopCages> farmBuildings;
+
+    public Carpenter() {
+    }
+
     public Carpenter(String name, int X, int Y) {
         super(name, X, Y,ShopType.Carpenter);
         this.owner="Robin";

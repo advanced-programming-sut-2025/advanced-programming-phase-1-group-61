@@ -10,6 +10,9 @@ public class FridgeItem {
     private ItemType item;
     private int quantity;
 
+    public FridgeItem() {
+    }
+
     public FridgeItem(ItemType item, int quantity) {
         this.item = item;
         this.quantity = quantity;

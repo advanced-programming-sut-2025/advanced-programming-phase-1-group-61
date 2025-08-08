@@ -1,6 +1,6 @@
 package models;
 
-import com.badlogic.gdx.Screen;
+
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -11,6 +11,7 @@ import network.Network;
 import network.NetworkRequest;
 import network.Requsets;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,7 +20,6 @@ public class App {
     private User loggedInUser;
     private Game currentGame;
     private float musicVolume=1f;
-    private Screen lastScreenBeforeShop;
     private int newGameId;
 
     private List<User> allUsers;
@@ -38,13 +38,27 @@ public class App {
     }
 
     public int getNewGameId() {
-        Main.getClient().sendMessage(new Requsets(NetworkRequest.newGameId,0,0));
+        Main.getClient().sendMessage(new Requsets(NetworkRequest.newGameId, 0, 0));
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("new game: "+newGameId);
         return newGameId;
     }
-    public  models.Game getGameByID(int id , int userId){
-        Main.getClient().sendMessage(new Requsets(NetworkRequest.GameRequest , id ,userId ));
+
+    public models.Game getGameByID(int id, int userId) {
+        Main.getClient().sendMessage(new Requsets(NetworkRequest.GameRequest, id, userId));
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("new game:by id"+currentGame);
         return currentGame;
     }
+
 
 
     public  void setLoggedInUser(User user){
@@ -55,6 +69,9 @@ public class App {
     }
     public  List<models.User> getAllUsers() {
         Main.getClient().sendMessage(new Requsets(NetworkRequest.AllUsersRequest , 0 ,0));
+        if(allUsers == null){
+            allUsers = new ArrayList<>();
+        }
         return allUsers;
     }
 
@@ -76,12 +93,6 @@ public class App {
         style.over=imageOver;
         style.down=imageOver;
         items[i]=new ImageButton(style);
-    }
-    public  void setLastScreenBeforeShop(Screen lastScreenBeforeShop){
-        this.lastScreenBeforeShop = lastScreenBeforeShop;
-    }
-    public  Screen getLastScreenBeforeShop(){
-        return this.lastScreenBeforeShop;
     }
 
     public void setCurrentGame(Game currentGame) {

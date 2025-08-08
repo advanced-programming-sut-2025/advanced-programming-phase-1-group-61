@@ -12,7 +12,11 @@ public class Shop  {
     protected ShopType type;
     protected int x;
     protected int y;
-    public Shop( String name , int X, int Y,ShopType type) {
+
+    public Shop() {
+    }
+
+    public Shop(String name , int X, int Y, ShopType type) {
         this.type = type;
         this.x = X;
         this.y =Y;

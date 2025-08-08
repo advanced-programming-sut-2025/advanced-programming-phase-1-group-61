@@ -10,6 +10,10 @@ import java.util.*;
 
 public class Trashcan {
     private TrashcanType type=TrashcanType.PRIMARY;
+
+    public Trashcan() {
+    }
+
     public TrashcanType getType() {
         return type;
     }

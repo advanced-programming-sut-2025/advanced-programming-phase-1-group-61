@@ -29,7 +29,7 @@ import java.util.regex.Matcher;
 
 public class GameMenuController {
 
-    private final Game game;
+    private Game game;
     private OrthographicCamera camera;
     private GameView view;
     private PlayerController playerController;
@@ -44,7 +44,7 @@ public class GameMenuController {
         this.camera = camera;
         playerController = new PlayerController(camera , game);
         worldController = new WorldController(camera);
-        worldController.setGame(game);
+
     }
 
 
@@ -59,10 +59,11 @@ public class GameMenuController {
     public void updateServerGame() {
         new Thread(() -> {
             Main.getClient().sendMessage(
-                new Network.updateGame(Main.getApp().getCurrentGame(), Main.getApp().getLoggedInUser().getId())
+                new Network.updateGame(game, Main.getApp().getLoggedInUser().getId())
             );
             Gdx.app.postRunnable(() -> Main.getApp().updateCurrentGame());
         }).start();
+        this.game = Main.getApp().getCurrentGame();
     }
 
 

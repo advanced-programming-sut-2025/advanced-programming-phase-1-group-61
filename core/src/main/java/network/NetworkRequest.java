@@ -4,5 +4,6 @@ public enum NetworkRequest {
     GameRequest,
     AddGame,
     newGameId,
-    AllUsersRequest;
+    AllUsersRequest,
+    MapUpdateRequest;
 }

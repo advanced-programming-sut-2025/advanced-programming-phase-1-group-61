@@ -5,12 +5,16 @@ import models.enums.ItemType;
 import java.util.ArrayList;
 
 public class ShopToolUpgrades {
-    private final String upgradeName;
-    private final int limit;
-    private final int price;
+    private  String upgradeName;
+    private  int limit;
+    private  int price;
     private int stock;
-    private final ItemType ingredientItem;
-    private final int quantityOfIngredient;
+    private  ItemType ingredientItem;
+    private  int quantityOfIngredient;
+
+    public ShopToolUpgrades() {
+    }
+
     public ShopToolUpgrades(String upgradeName, int limit, int price, ItemType ingredientItem, int quantityOfIngredient) {
         this.upgradeName = upgradeName;
         this.limit = limit;

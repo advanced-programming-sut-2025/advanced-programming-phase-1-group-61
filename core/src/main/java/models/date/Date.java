@@ -20,6 +20,7 @@ public class Date {
         day=DaysOfTheWeek.Sunday;
         season=Season.Spring;
     }
+
     public void increaseTime(int increase) {
         hour += increase;
         if (hour >= 24) {

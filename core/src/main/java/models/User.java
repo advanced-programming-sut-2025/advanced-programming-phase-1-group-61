@@ -38,11 +38,13 @@ public class User {
         return question;
     }
     public static User getUserByUsername(String username) {
-        for(User user:Main.getApp().getAllUsers()){
-            if(user.username.equals(username)){
-                return user;
-            }
-        }
+       if(Main.getApp().getAllUsers() != null){
+           for(User user:Main.getApp().getAllUsers()){
+               if(user.username.equals(username)){
+                   return user;
+               }
+           }
+       }
         return null;
     }
     public static User getUSerById(int id){

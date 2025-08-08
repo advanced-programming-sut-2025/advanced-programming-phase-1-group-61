@@ -21,6 +21,9 @@ public class Weather {
         this.cheatedWeatherState = null;
     }
 
+    public Weather() {
+    }
+
     public WeatherState getState() {
         return state;
     }

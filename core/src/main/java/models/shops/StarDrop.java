@@ -12,8 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StarDrop extends Shop {
-    private final ArrayList<ShopItem> items;
-    private final ArrayList<ShopCookingRecipes> recipes;
+    private  ArrayList<ShopItem> items;
+    private  ArrayList<ShopCookingRecipes> recipes;
+
+    public StarDrop() {
+    }
 
     public StarDrop(String name, int X, int Y) {
         super(name, X, Y,ShopType.StarDrop);

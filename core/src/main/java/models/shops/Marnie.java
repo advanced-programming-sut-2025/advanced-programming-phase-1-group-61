@@ -10,11 +10,14 @@ import models.enums.*;
 import java.util.*;
 
 public class Marnie extends Shop {
-    private final ArrayList<ShopItem> permanentItems;
-    private final ArrayList<ShopTool> permanentTools;
-    private final ArrayList<ShopAnimals> permanentAnimals;
+    private  ArrayList<ShopItem> permanentItems;
+    private  ArrayList<ShopTool> permanentTools;
+    private  ArrayList<ShopAnimals> permanentAnimals;
 
-    public Marnie( String name, int X, int Y) {
+    public Marnie() {
+    }
+
+    public Marnie(String name, int X, int Y) {
         super( name, X, Y,ShopType.Marnie);
         this.owner="Marnie";
         permanentItems = new ArrayList<>(List.of(

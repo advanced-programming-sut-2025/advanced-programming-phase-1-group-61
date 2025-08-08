@@ -12,13 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JojaMart extends Shop {
-    private final ArrayList<ShopItem> permanentShopItems;
-    private final ArrayList<ShopItem> springShopItems;
-    private final ArrayList<ShopItem> summerShopItems;
-    private final ArrayList<ShopItem> fallShopItems;
-    private final ArrayList<ShopItem> winterShopItems;
+    private  ArrayList<ShopItem> permanentShopItems;
+    private  ArrayList<ShopItem> springShopItems;
+    private  ArrayList<ShopItem> summerShopItems;
+    private  ArrayList<ShopItem> fallShopItems;
+    private  ArrayList<ShopItem> winterShopItems;
 
-    public JojaMart( String name, int X, int Y) {
+    public JojaMart() {
+    }
+
+    public JojaMart(String name, int X, int Y) {
         super(name, X, Y,ShopType.JojaMart);
         owner="Morris";
         permanentShopItems = new ArrayList<>(List.of(

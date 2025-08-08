@@ -3,11 +3,15 @@ package models.shops;
 import models.enums.BackpackType;
 
 public class ShopBackpacks {
-    private final BackpackType backpackType;
-    private final int price;
-    private final int limit;
-    private final String description;
+    private  BackpackType backpackType;
+    private  int price;
+    private  int limit;
+    private  String description;
     private int stock;
+
+    public ShopBackpacks() {
+    }
+
     public ShopBackpacks(BackpackType backpackType, int limit, int price, String description) {
         this.backpackType = backpackType;
         this.limit = limit;

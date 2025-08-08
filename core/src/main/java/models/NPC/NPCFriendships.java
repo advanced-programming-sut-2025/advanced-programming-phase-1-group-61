@@ -6,7 +6,7 @@ import models.character.Character;
 import models.enums.FriendshipLevel;
 
 public class NPCFriendships {
-    private final int characterId;
+    private int characterId;
     private int friendshipLevel;
     private int friendshipPoints;
     private FriendshipLevel lvl;
@@ -16,6 +16,10 @@ public class NPCFriendships {
         friendshipLevel=0;
         lvl=FriendshipLevel.LOW;
     }
+
+    public NPCFriendships() {
+    }
+
     public Character getCharacter() {
         return Main.getApp().getCurrentGame().getCharachterByUserId(characterId);
     }

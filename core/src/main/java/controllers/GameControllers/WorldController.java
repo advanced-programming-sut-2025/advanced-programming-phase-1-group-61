@@ -18,7 +18,7 @@ public class WorldController {
     private Map map;
     private OrthographicCamera camera;
     private Character character;
-    private Game game;
+
 
 
     private static final int VIEW_RADIUS = 12;
@@ -43,7 +43,7 @@ public class WorldController {
                     int TILE_SIZE = AssetManager.getTileSize();
                     Sprite sprite = tile.getSprite();
                     if(tile.getType().equals(TileType.Grass)){
-                        switch (game.getDate().getSeason()){
+                        switch (Main.getApp().getCurrentGame().getDate().getSeason()){
                             case Fall -> sprite = new Sprite(TileType.fallGrass.getTexture());
                             case Spring -> sprite = new Sprite(TileType.Grass.getTexture());
                             case Winter -> sprite = new Sprite(TileType.snowyGrass.getTexture());
@@ -82,12 +82,9 @@ public class WorldController {
         }
 
 
-        for (Shop shop : game.getShops()) {
+        for (Shop shop : Main.getApp().getCurrentGame().getShops()) {
             shop.draw();
         }
     }
 
-    public void setGame(Game game) {
-        this.game = game;
-    }
 }

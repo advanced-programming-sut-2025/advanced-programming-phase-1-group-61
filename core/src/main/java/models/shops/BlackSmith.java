@@ -14,9 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlackSmith extends Shop {
-    private final ArrayList<ShopItem> items;
-    private final ArrayList<ShopToolUpgrades> toolUpgrades;
-    private final ArrayList<ShopTrashcanUpgrades> trashcanUpgrades;
+    private  ArrayList<ShopItem> items;
+    private  ArrayList<ShopToolUpgrades> toolUpgrades;
+    private  ArrayList<ShopTrashcanUpgrades> trashcanUpgrades;
+
+    public BlackSmith() {
+    }
 
     public BlackSmith(String name, int X, int Y) {
         super( name, X, Y, ShopType.BlackSmith);

@@ -6,6 +6,8 @@ import com.esotericsoftware.kryonet.Listener;
 import io.github.camera.Main;
 import models.Game;
 import models.User;
+import models.character.Character;
+import models.map.Map;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ public class NetworkClient {
     private Client client;
 
     public  void start() {
-        client = new Client(512 * 1024, 512 * 1024);
+        client = new Client(1024 * 1024, 1024 * 1024);
         client.start();
 
 
@@ -29,7 +31,22 @@ public class NetworkClient {
                 public void received (com.esotericsoftware.kryonet.Connection connection, Object object) {
 
                     if(object instanceof Game game){
-                        Main.getApp().setCurrentGame(game);
+                        if(Main.getApp().getCurrentGame() != null){
+                            Main.getApp().getCurrentGame().setDate(game.getDate());
+                            Main.getApp().getCurrentGame().setShops(game.getShops());
+
+                            int currentUserId = Main.getApp().getLoggedInUser().getId();
+
+                            for (Character newChar : game.getAllCharacters()) {
+                                if (newChar.getUserId() != currentUserId) {
+                                    Main.getApp().getCurrentGame().updateCharacter(newChar.getUserId(), newChar);
+                                }
+                            }
+
+                        }else {
+                            Main.getApp().setCurrentGame(game);
+                        }
+
                     } else if (object instanceof Requsets request) {
                         NetworkRequest requestType = request.getRequestType();
                         switch (requestType){
@@ -42,6 +59,8 @@ public class NetworkClient {
                         }
                         Main.getApp().setAllUsers(receivedUsers);
                         System.out.println("Received users: " + receivedUsers.size());
+                    } else if (object instanceof Map map) {
+                        Main.getApp().getCurrentGame().setMap(map);
                     }
                 }
             });
@@ -57,11 +76,10 @@ public class NetworkClient {
     }
 
     public void sendMessage(Object message) {
-        System.out.println("sending message: " + message);
         client.sendTCP(message);
 
         try {
-            Thread.sleep(50);
+            Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
             Thread.currentThread().interrupt();

@@ -12,6 +12,9 @@ public class ShippingBin extends Resource{
     private List<ItemType> itemTypes ;
     private int owner;
 
+    public ShippingBin() {
+    }
+
     public int getOwner() {
         return owner;
     }

@@ -16,6 +16,9 @@ public class Tool {
         this.type = type;
     }
 
+    public Tool() {
+    }
+
     public String use(Direction direction) {
         Character character= Main.getApp().getCurrentGame().getCurrentCharacter();
         int newEnergy=character.getEnergy()-type.getEnergyConsumption(level);

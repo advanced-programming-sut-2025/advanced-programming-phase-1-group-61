@@ -117,7 +117,6 @@ public class GameView implements Screen, InputProcessor{
 
     private void runEveryTwoTenths() {
        controller.updateServerGame();
-
     }
 
     @Override

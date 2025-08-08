@@ -135,9 +135,10 @@ public class Game {
     }
 
     public Character getCurrentCharacter() {
-        for (int i = 0; i < allCharacters.size(); i++) {
-            if(i==currentCharacter){
-                return allCharacters.get(i);
+
+        for (Character character : allCharacters) {
+            if(character.getUserId() == Main.getApp().getLoggedInUser().getId()){
+                return character;
             }
         }
         return null;
@@ -719,4 +720,29 @@ public class Game {
     public List<NPC> getNpcList() {
         return npcList;
     }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
+    }
+
+    public void setShops(ArrayList<Shop> shops) {
+        this.shops = shops;
+    }
+
+    public void setNpcList(List<NPC> npcList) {
+        this.npcList = npcList;
+    }
+
+    public void setShippingBins(List<ShippingBin> shippingBins) {
+        this.shippingBins = shippingBins;
+    }
+
+    public void setWorkBenches(ArrayList<WorkBench> workBenches) {
+        this.workBenches = workBenches;
+    }
+
 }

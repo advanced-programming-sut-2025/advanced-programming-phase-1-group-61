@@ -1,6 +1,7 @@
 package network;
 
 import com.esotericsoftware.kryo.Kryo;
+import models.CollisionRect;
 import models.Game;
 import models.Item;
 import models.NPC.NPC;
@@ -154,7 +155,9 @@ public class KryoRegistrations {
         kryo.register(models.CollisionRect.class);
         kryo.register(models.map.Tile[][].class);
         kryo.register(models.map.Tile[].class);
-
+        kryo.register(CollisionRect.class);
+        kryo.register(com.google.gson.internal.LinkedTreeMap.class);
+        kryo.register(java.util.LinkedHashMap.class);
 
     }
 }

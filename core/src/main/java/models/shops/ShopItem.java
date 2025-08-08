@@ -4,12 +4,16 @@ import models.Item;
 import models.enums.ItemType;
 
 public class ShopItem {
-    private final ItemType item;
-    private final int dailyLimit;
-    private final int price;
-    private final String description;
+    private  ItemType item;
+    private  int dailyLimit;
+    private  int price;
+    private  String description;
     private int stock;
-    public ShopItem(ItemType item, int limit, int price,String description) {
+
+    public ShopItem() {
+    }
+
+    public ShopItem(ItemType item, int limit, int price, String description) {
         this.item = item;
         this.dailyLimit = limit;
         this.price = price;

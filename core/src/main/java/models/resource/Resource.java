@@ -5,5 +5,6 @@ public class Resource {
 
     public void draw(){}
 
-
+    public Resource() {
+    }
 }

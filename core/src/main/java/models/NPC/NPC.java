@@ -17,8 +17,8 @@ import java.util.Random;
 
 public class NPC {
 
-    private final NpcInfo info;
-    private final NpcDialog dialogs;
+    private  NpcInfo info;
+    private  NpcDialog dialogs;
     private final ArrayList<NPCFriendships> friendships = new ArrayList<>();
     private boolean firstGiftOfDay=true;
     private int x;
@@ -43,6 +43,9 @@ public class NPC {
         this.dialogueSprite = new Sprite(new Texture(Gdx.files.internal("images/Sprite/chatIcon.png")));
         this.dialogueSprite.setSize(chatIconWidth,chatIconHeight);
         this.dialogueSprite.setPosition(x*AssetManager.getTileSize()+ (float) (64 - chatIconWidth) /2,y*AssetManager.getTileSize()+ 110);
+    }
+
+    public NPC() {
     }
 
     public Sprite getSprite() {

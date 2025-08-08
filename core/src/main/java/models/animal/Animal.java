@@ -15,17 +15,20 @@ import java.util.*;
 public class Animal {
     private int X ;
     private int Y ;
-    private final AnimalType type;
-    private final String name;
+    private  AnimalType type;
+    private  String name;
     protected boolean hunger = true;
     protected String house;
     private int friendship = 0;
     private final List<ItemType> products = new ArrayList<>();
     private boolean isOut = false;
-    private final int price;
+    private int price;
     private boolean isPet = false;
     private boolean outFed = false;
     private boolean collected = false;
+
+    public Animal() {
+    }
 
     public Animal(AnimalType type, String house, String name) {
         this.type = type;
