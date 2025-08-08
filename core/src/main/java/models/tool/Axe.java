@@ -1,5 +1,6 @@
 package models.tool;
 
+import io.github.camera.Main;
 import models.App;
 import models.RandomNumber;
 import models.character.Character;
@@ -20,10 +21,10 @@ public class Axe extends Tool{
 
     @Override
     public String use(Direction direction){
-        Character character= App.getCurrentGame().getCurrentCharacter();
+        Character character= Main.getApp().getCurrentGame().getCurrentCharacter();
         int targetX=character.getX()+direction.getDx();
         int targetY=character.getY()+direction.getDy();
-        Map map=App.getCurrentGame().getMap();
+        Map map=Main.getApp().getCurrentGame().getMap();
         Tile tile = map.getTileByCordinate(targetX , targetY);
         if(targetY<0 || targetX<0 || targetY>=map.getHeightSize() || targetX>=map.getWidthSize())
             return "you cant chop down void \n(pls stop trying to break our game)";
@@ -53,10 +54,10 @@ public class Axe extends Tool{
     }
 
     public String useForSyrup(Direction direction){
-        Character character= App.getCurrentGame().getCurrentCharacter();
+        Character character= Main.getApp().getCurrentGame().getCurrentCharacter();
         int targetX=character.getX()+direction.getDx();
         int targetY=character.getY()+direction.getDy();
-        Map map=App.getCurrentGame().getMap();
+        Map map=Main.getApp().getCurrentGame().getMap();
         Tile tile = map.getTileByCordinate(targetX , targetY);
         if(targetY<0 || targetX<0 || targetY>=map.getHeightSize() || targetX>=map.getWidthSize())
             return "you cant get syrup of void \n(pls stop trying to break our game)";
@@ -97,7 +98,7 @@ public class Axe extends Tool{
     @Override
     public int getConsumptionEnergy() {
         int consume=this.type.getEnergyConsumption(this.level);
-        Character character= App.getCurrentGame().getCurrentCharacter();
+        Character character= Main.getApp().getCurrentGame().getCurrentCharacter();
         if(character.getSkill().getForagingLVL()==4)
             consume=Math.max(0,consume-1);
         return consume;

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import controllers.ShopViewsControllers.FishShopViewController;
+import io.github.camera.Main;
 import models.App;
 import models.building.Shop;
 import models.shops.FishShop;
@@ -35,11 +36,11 @@ public class FishShopView extends ShopView {
         super.show();
         secondController.handleTypeSelectBox();
         for(int i=0; i<shopFishingPoleUpgrades.size(); i++){
-            App.Extract(i,fishingPoleUpgrades);
+            Main.getApp().Extract(i,fishingPoleUpgrades);
             controller.addHoverListenerForShopFishingPoleUpgrades(fishingPoleUpgrades[i],shopFishingPoleUpgrades.get(i));
         }
         for(int i=0; i<shopRecipes.size(); i++){
-            App.Extract(i,recipes);
+            Main.getApp().Extract(i,recipes);
             controller.addHoverListenerForShopRecipes(recipes[i],shopRecipes.get(i));
         }
         setUpUI();

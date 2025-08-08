@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import controllers.ShopViewsControllers.JojaMartViewController;
+import io.github.camera.Main;
 import models.App;
 import models.building.Shop;
 import models.shops.JojaMart;
@@ -50,23 +51,23 @@ public class JojaMartView extends ShopView {
         secondController.handleTypeSelectBox();
 
         for (int i = 0; i < permanentShopItems.length; i++) {
-            App.Extract(i, permanentShopItems);
+            Main.getApp().Extract(i, permanentShopItems);
             controller.addHoverListenerForItems(permanentShopItems[i], shopPermanentItems.get(i));
         }
         for (int i = 0; i < springShopItems.length; i++) {
-            App.Extract(i, springShopItems);
+            Main.getApp().Extract(i, springShopItems);
             controller.addHoverListenerForItems(springShopItems[i], shopSpringItems.get(i));
         }
         for (int i = 0; i < summerShopItems.length; i++) {
-            App.Extract(i, summerShopItems);
+            Main.getApp().Extract(i, summerShopItems);
             controller.addHoverListenerForItems(summerShopItems[i], shopSummerItems.get(i));
         }
         for (int i = 0; i < fallShopItems.length; i++) {
-            App.Extract(i, fallShopItems);
+            Main.getApp().Extract(i, fallShopItems);
             controller.addHoverListenerForItems(fallShopItems[i], shopFallItems.get(i));
         }
         for (int i = 0; i < winterShopItems.length; i++) {
-            App.Extract(i, winterShopItems);
+            Main.getApp().Extract(i, winterShopItems);
             controller.addHoverListenerForItems(winterShopItems[i], shopWinterItems.get(i));
         }
         setUpUI();

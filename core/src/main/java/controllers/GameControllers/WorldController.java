@@ -22,9 +22,9 @@ public class WorldController {
     private static final int VIEW_RADIUS = 12;
 
     public WorldController(OrthographicCamera camera) {
-        this.map = App.getCurrentGame().getMap();
+        this.map = Main.getApp().getCurrentGame().getMap();
         this.camera = camera;
-        this.character = App.getCurrentGame().getCurrentCharacter();
+        this.character = Main.getApp().getCurrentGame().getCurrentCharacter();
     }
 
 
@@ -41,7 +41,7 @@ public class WorldController {
                     int TILE_SIZE = AssetManager.getTileSize();
                     Sprite sprite = tile.getSprite();
                     if(tile.getType().equals(TileType.Grass)){
-                        switch (App.getCurrentGame().getDate().getSeason()){
+                        switch (Main.getApp().getCurrentGame().getDate().getSeason()){
                             case Fall -> sprite = new Sprite(TileType.fallGrass.getTexture());
                             case Spring -> sprite = new Sprite(TileType.Grass.getTexture());
                             case Winter -> sprite = new Sprite(TileType.snowyGrass.getTexture());
@@ -80,7 +80,7 @@ public class WorldController {
         }
 
 
-        for (Shop shop : App.getCurrentGame().getShops()) {
+        for (Shop shop : Main.getApp().getCurrentGame().getShops()) {
             shop.draw();
         }
     }

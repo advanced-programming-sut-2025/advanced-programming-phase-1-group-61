@@ -1,5 +1,6 @@
 package models.tool;
 
+import io.github.camera.Main;
 import models.App;
 import models.character.Character;
 import models.enums.Direction;
@@ -16,7 +17,7 @@ public class Tool {
     }
 
     public String use(Direction direction) {
-        Character character= App.getCurrentGame().getCurrentCharacter();
+        Character character= Main.getApp().getCurrentGame().getCurrentCharacter();
         int newEnergy=character.getEnergy()-type.getEnergyConsumption(level);
         character.setEnergy(newEnergy);
         return "salam";

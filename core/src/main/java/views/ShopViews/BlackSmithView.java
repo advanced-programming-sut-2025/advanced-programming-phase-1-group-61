@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import controllers.ShopViewsControllers.BlackSmithViewController;
+import io.github.camera.Main;
 import models.App;
 import models.AssetManager;
 import models.shops.BlackSmith;
@@ -44,15 +45,15 @@ public class BlackSmithView extends ShopView{
         super.show();
         secondController.handleTypeSelectBox();
         for(int i=0;i<items.length;i++){
-            App.Extract(i, items);
+            Main.getApp().Extract(i, items);
             controller.addHoverListenerForItems(items[i],shopItems.get(i));
         }
         for(int i=0;i<tools.length;i++){
-            App.Extract(i, tools);
+            Main.getApp().Extract(i, tools);
             controller.addHoverListenerForShopTools(tools[i],shopToolUpgrades.get(i));
         }
         for(int i=0;i<trashcans.length;i++){
-            App.Extract(i, trashcans);
+            Main.getApp().Extract(i, trashcans);
             controller.addHoverListenerForShopTrashcans(trashcans[i],shopTrashcanUpgrades.get(i));
         }
         setUpUI();

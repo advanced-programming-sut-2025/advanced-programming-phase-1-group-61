@@ -25,29 +25,29 @@ import java.util.List;
 
 public class App {
 
-    private static int loggedInUser;
-    private static int currentGameId;
+    private int loggedInUser;
+    private int currentGameId;
 
-    private static List<models.User> allUsers = new ArrayList<>();
-    private static ArrayList<models.Game> allGames = new ArrayList<>();
-    private static float musicVolume=1f;
-    private static Screen lastScreenBeforeShop;
+    private List<models.User> allUsers = new ArrayList<>();
+    private ArrayList<models.Game> allGames = new ArrayList<>();
+    private float musicVolume=1f;
+    private Screen lastScreenBeforeShop;
 
 
-    public static models.Game getCurrentGame(){
+    public  models.Game getCurrentGame(){
         return getGameByID(currentGameId);
     }
-    public static void setCurrentGame(int id ){
+    public  void setCurrentGame(int id ){
         currentGameId = id;
     }
-    public static void addGame(models.Game game){
+    public void addGame(models.Game game){
         allGames.add(game);
     }
 
-    public static ArrayList<models.Game> getAllGames() {
+    public  ArrayList<models.Game> getAllGames() {
         return allGames;
     }
-    public static models.Game getGameByID(int id){
+    public  models.Game getGameByID(int id){
         for (models.Game game : allGames) {
             if(game.getId()==id){
                 return game;
@@ -56,7 +56,7 @@ public class App {
         return null;
     }
 
-    public static void saveApp() throws IOException {
+    public  void saveApp() throws IOException {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(models.tool.Tool.class, new models.ToolAdapter())
                 .registerTypeAdapter(models.resource.Resource.class, new models.ResourceAndBuildingAdapter())
@@ -84,7 +84,7 @@ public class App {
         }
     }
 
-    public static void loadApp() {
+    public  void loadApp() {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(models.tool.Tool.class, new models.ToolAdapter())
                 .registerTypeAdapter(models.resource.Resource.class, new models.ResourceAndBuildingAdapter())
@@ -150,10 +150,10 @@ public class App {
         }
     }
 
-    public static void setLoggedInUser(int user){
+    public  void setLoggedInUser(int user){
         loggedInUser = user;
     }
-    public static models.User getLoggedInUser() {
+    public  models.User getLoggedInUser() {
         for (models.User user : allUsers) {
             if(user.getId() == loggedInUser){
                 return user;
@@ -161,29 +161,21 @@ public class App {
         }
         return null;
     }
-    public static List<models.User> getAllUsers() {
+    public  List<models.User> getAllUsers() {
         return allUsers;
     }
 
-    public static void addUserToList(models.User user){
+    public  void addUserToList(models.User user){
         allUsers.add(user);
     }
 
-    public static int getIdByUserName(String username){
-        for (models.User user : allUsers) {
-            if(user.getUsername().equals(username)){
-                return user.getId();
-            }
-        }
-        return 0;
+    public  void setMusicVolume(float musicVolume){
+        this.musicVolume = musicVolume;
     }
-    public static void setMusicVolume(float musicVolume){
-        App.musicVolume = musicVolume;
-    }
-    public static float getMusicVolume(){
+    public  float getMusicVolume(){
         return musicVolume;
     }
-    public static void Extract(int i, ImageButton[] items){
+    public  void Extract(int i, ImageButton[] items){
         ImageButton.ImageButtonStyle style=new ImageButton.ImageButtonStyle();
         Drawable imageUp=new TextureRegionDrawable(AssetManager.getSelectorBubbleDefault());
         Drawable imageOver=new TextureRegionDrawable(AssetManager.getSelectorBubbleHover());
@@ -192,10 +184,10 @@ public class App {
         style.down=imageOver;
         items[i]=new ImageButton(style);
     }
-    public static void setLastScreenBeforeShop(Screen lastScreenBeforeShop){
-        App.lastScreenBeforeShop = lastScreenBeforeShop;
+    public  void setLastScreenBeforeShop(Screen lastScreenBeforeShop){
+        this.lastScreenBeforeShop = lastScreenBeforeShop;
     }
-    public static Screen getLastScreenBeforeShop(){
-        return App.lastScreenBeforeShop;
+    public  Screen getLastScreenBeforeShop(){
+        return this.lastScreenBeforeShop;
     }
 }

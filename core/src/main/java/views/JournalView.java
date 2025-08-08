@@ -73,7 +73,7 @@ public class JournalView implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 Main.getMain().getScreen().dispose();
-                Main.getMain().setScreen(new GameView(new GameMenuController(App.getCurrentGame())));
+                Main.getMain().setScreen(new GameView(new GameMenuController(Main.getApp().getCurrentGame())));
                 System.out.println("Exit button clicked!");
                 return true;
             }

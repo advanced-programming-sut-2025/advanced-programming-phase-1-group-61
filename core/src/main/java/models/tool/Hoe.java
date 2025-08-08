@@ -1,5 +1,6 @@
 package models.tool;
 
+import io.github.camera.Main;
 import models.App;
 import models.character.Character;
 import models.enums.Direction;
@@ -14,8 +15,8 @@ public class Hoe extends Tool{
     }
 
     public String use(Direction direction){
-        Character character = App.getCurrentGame().getCurrentCharacter();
-        Map map = App.getCurrentGame().getMap();
+        Character character = Main.getApp().getCurrentGame().getCurrentCharacter();
+        Map map = Main.getApp().getCurrentGame().getMap();
         int x = character.getX() + direction.getDx();
         int y = character.getY() + direction.getDy();
 

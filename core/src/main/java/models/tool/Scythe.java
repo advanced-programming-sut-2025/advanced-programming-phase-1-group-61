@@ -1,5 +1,6 @@
 package models.tool;
 
+import io.github.camera.Main;
 import models.App;
 import models.character.Character;
 import models.enums.Direction;
@@ -17,10 +18,10 @@ public class Scythe extends Tool{
         super(ToolType.Scythe);
     }
     public String use(Direction direction){
-        Character character= App.getCurrentGame().getCurrentCharacter();
+        Character character= Main.getApp().getCurrentGame().getCurrentCharacter();
         int targetX=character.getX()+direction.getDx();
         int targetY=character.getY()+direction.getDy();
-        Map map=App.getCurrentGame().getMap();
+        Map map=Main.getApp().getCurrentGame().getMap();
         Tile tile = map.getTileByCordinate(targetX , targetY);
         if(targetY<0 || targetX<0 || targetY>=map.getHeightSize() || targetX>=map.getWidthSize())
             return "you cant chop down void \n(pls stop trying to break our game)";

@@ -104,21 +104,21 @@ public class PreGameMenu implements Screen {
         loadGame.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                User user = App.getLoggedInUser();
+                User user = Main.getApp().getLoggedInUser();
                 if (user.getGameId() == 0) {
                    Main.getMain().getScreen().dispose();
                    Main.getMain().setScreen(new NewGameView(new NewGameController()));
                    return;
                 }
-                Game game = App.getGameByID(user.getGameId());
+                Game game = Main.getApp().getGameByID(user.getGameId());
                 if (game == null) {
                     Main.getMain().getScreen().dispose();
                     Main.getMain().setScreen(new NewGameView(new NewGameController()));
                     return;
                 }
-                App.setCurrentGame(user.getGameId());
+                Main.getApp().setCurrentGame(user.getGameId());
                 Main.getMain().getScreen().dispose();
-                Main.getMain().setScreen(new GameView(new GameMenuController(App.getCurrentGame())));
+                Main.getMain().setScreen(new GameView(new GameMenuController(Main.getApp().getCurrentGame())));
 
             }
         });

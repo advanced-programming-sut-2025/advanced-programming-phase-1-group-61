@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import controllers.ShopViewsControllers.CarpenterViewController;
+import io.github.camera.Main;
 import models.App;
 import models.building.Shop;
 import models.shops.Carpenter;
@@ -35,11 +36,11 @@ public class CarpenterView extends ShopView{
         super.show();
         secondController.handleTypeSelectBox();
         for(int i=0;i<shopPermanentItems.size();i++){
-            App.Extract(i,permanentItems);
+            Main.getApp().Extract(i,permanentItems);
             controller.addHoverListenerForItems(permanentItems[i],shopPermanentItems.get(i));
         }
         for(int i=0;i<shopFarmBuildings.size();i++){
-            App.Extract(i,farmBuildings);
+            Main.getApp().Extract(i,farmBuildings);
             controller.addHoverListenerForShopCages(farmBuildings[i],shopFarmBuildings.get(i));
         }
         setUpUI();

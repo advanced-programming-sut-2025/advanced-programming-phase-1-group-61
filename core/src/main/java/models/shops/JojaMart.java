@@ -1,5 +1,6 @@
 package models.shops;
 
+import io.github.camera.Main;
 import models.App;
 import models.building.Shop;
 import models.character.Character;
@@ -186,7 +187,7 @@ public class JojaMart extends Shop {
 
     @Override
     public String purchaseProduct(String product, int count) {
-        Character character=App.getCurrentGame().getCurrentCharacter();
+        Character character= Main.getApp().getCurrentGame().getCurrentCharacter();
         for(ShopItem item : permanentShopItems){
             if(item.getItem().getDisPlayName().equals(product)){
                 if(count> item.getStock()) return "not enough stock!";
@@ -195,7 +196,7 @@ public class JojaMart extends Shop {
                 return "Successfully purchased!";
             }
         }
-        Season season= App.getCurrentGame().getDate().getSeason();
+        Season season= Main.getApp().getCurrentGame().getDate().getSeason();
         if(season.equals(Season.Summer)) {
             for (ShopItem item : summerShopItems) {
                 if (item.getItem().getDisPlayName().equals(product)) {

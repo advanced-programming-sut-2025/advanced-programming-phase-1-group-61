@@ -34,7 +34,7 @@ public class Main extends Game {
         app = new App();
 
 
-        App.loadApp();
+        Main.getApp().loadApp();
     }
 
     @Override
@@ -48,7 +48,7 @@ public class Main extends Game {
     @Override
     public void dispose() {
        try {
-           App.saveApp();
+           Main.getApp().saveApp();
        } catch (IOException e) {
            throw new RuntimeException(e);
        }
@@ -61,5 +61,13 @@ public class Main extends Game {
 
     public static SpriteBatch getBatch() {
         return batch;
+    }
+
+    public static App getApp() {
+        return app;
+    }
+
+    public static void setApp(App app) {
+        Main.app = app;
     }
 }

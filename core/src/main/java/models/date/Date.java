@@ -1,5 +1,6 @@
 package models.date;
 
+import io.github.camera.Main;
 import models.App;
 import models.character.Buff;
 import models.character.Character;
@@ -24,7 +25,7 @@ public class Date {
         if (hour >= 24) {
             changeDay(1);
         }
-        List<Character> characters=App.getCurrentGame().getAllCharacters();
+        List<Character> characters= Main.getApp().getCurrentGame().getAllCharacters();
         for(Character character:characters){
             Buff buff=character.getBuff();
             if(buff!=null){
@@ -69,7 +70,7 @@ public class Date {
             } else if ((dayCounter / 25) % 4 == 3) {
                 changeSeason(Season.Winter);
             }
-            App.getCurrentGame().changeDayActivities();
+            Main.getApp().getCurrentGame().changeDayActivities();
         }
 
     }

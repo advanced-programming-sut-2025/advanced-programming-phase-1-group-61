@@ -1,5 +1,6 @@
 package models.shops;
 
+import io.github.camera.Main;
 import models.App;
 import models.building.Shop;
 import models.character.Character;
@@ -94,7 +95,7 @@ public class Pierre extends Shop {
     public String showAllProducts() {
         StringBuilder builder = new StringBuilder();
         builder.append("year round items:").append("\n");
-        Season season= App.getCurrentGame().getDate().getSeason();
+        Season season= Main.getApp().getCurrentGame().getDate().getSeason();
         for(ShopItem item:yearRoundItems){
             builder.append("Name: ")
                     .append(item.getItem().getDisPlayName())
@@ -228,7 +229,7 @@ public class Pierre extends Shop {
 
     @Override
     public String purchaseProduct(String product, int count) {
-        Character character=App.getCurrentGame().getCurrentCharacter();
+        Character character=Main.getApp().getCurrentGame().getCurrentCharacter();
         for(ShopItem item : yearRoundItems){
             if(item.getItem().getDisPlayName().equals(product)){
                 if(count> item.getStock()) return "not enough stock!";

@@ -1,5 +1,6 @@
 package models.map;
 
+import io.github.camera.Main;
 import models.App;
 import models.Game;
 import models.RandomNumber;
@@ -32,7 +33,7 @@ public class Weather {
         this.state = state;
     }
     public void changeTomorrowWeatherState(){
-        Game game = App.getCurrentGame();
+        Game game = Main.getApp().getCurrentGame();
         Season season = game.getDate().getSeason();
         if(cheatedWeatherState ==null){
             if(season.equals(Season.Winter)){
@@ -70,13 +71,13 @@ public class Weather {
         }
     }
     public void crowAttack(int x, int y) {
-        Tile tile = App.getCurrentGame().getMap().getTileByCordinate(x, y);
+        Tile tile = Main.getApp().getCurrentGame().getMap().getTileByCordinate(x, y);
         if (tile == null) {
             return;
         }
 
         if (tile.getResource() != null && !tile.getType().equals(TileType.GreenHouse) && !tile.getType().equals(TileType.CabinFloor)) {
-            Map map = App.getCurrentGame().getMap();
+            Map map = Main.getApp().getCurrentGame().getMap();
 
 
             int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
@@ -95,7 +96,7 @@ public class Weather {
     }
 
     public void lightning(int x, int y){
-       Tile tile = App.getCurrentGame().getMap().getTileByCordinate(x,y);
+       Tile tile = Main.getApp().getCurrentGame().getMap().getTileByCordinate(x,y);
        if(tile == null){
            return;
        }

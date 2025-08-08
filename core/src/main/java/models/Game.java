@@ -1,5 +1,6 @@
 package models;
 
+import io.github.camera.Main;
 import models.NPC.NPC;
 import models.animal.Animal;
 import models.building.Shop;
@@ -33,7 +34,7 @@ public class Game {
 
 
     public Game(Map map, List<Character> characters) {
-        id = App.getAllGames().size()+1;
+        id = Main.getApp().getAllGames().size()+1;
         this.map = map;
         for (int i = 0; i < map.getTiles().length; i++) {
             for (int j = 0; j < map.getTiles()[0].length; j++) {
@@ -91,7 +92,7 @@ public class Game {
                }
             }
         }
-        List<Character> characters=App.getCurrentGame().getAllCharacters();
+        List<Character> characters=Main.getApp().getCurrentGame().getAllCharacters();
         for(Character character:characters) character.setBuff(null);
         NPC.changeDayActivities();
         if(weatherState.equals(WeatherState.Storm)){
@@ -150,7 +151,7 @@ public class Game {
 
     public String changeTurn() {
         int turn = currentCharacter+1;
-        App.getCurrentGame().getCurrentCharacter().getIteractions().newInteracts();
+        Main.getApp().getCurrentGame().getCurrentCharacter().getIteractions().newInteracts();
         this.currentCharacter = turn % allCharacters.size();
         StringBuilder message =  new StringBuilder(User.getUSerById(allCharacters.get(currentCharacter).getUserId()).getNickName());
 

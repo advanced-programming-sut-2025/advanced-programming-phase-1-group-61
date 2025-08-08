@@ -1,5 +1,6 @@
 package models.shops;
 
+import io.github.camera.Main;
 import models.App;
 import models.building.Shop;
 import models.character.Character;
@@ -84,7 +85,7 @@ public class Carpenter extends Shop {
 
     @Override
     public String purchaseProduct(String product, int count) {
-        Character character=App.getCurrentGame().getCurrentCharacter();
+        Character character= Main.getApp().getCurrentGame().getCurrentCharacter();
         for(ShopItem item : permanentItems) {
             if(item.getItem().getDisPlayName().equals(product)) {
                 if(count>item.getStock()) return "not enough stock!";

@@ -1,5 +1,6 @@
 package models.character;
 
+import io.github.camera.Main;
 import models.App;
 
 public class Buff {
@@ -41,7 +42,7 @@ public class Buff {
         return targetHour;
     }
     public void use(){
-        int currentHour = App.getCurrentGame().getDate().getHour();
+        int currentHour = Main.getApp().getCurrentGame().getDate().getHour();
         targetHour = (currentHour +hours)%22;
         isOnUse=true;
     }

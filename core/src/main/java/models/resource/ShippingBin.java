@@ -1,5 +1,6 @@
 package models.resource;
 
+import io.github.camera.Main;
 import models.App;
 import models.character.Character;
 import models.enums.ItemType;
@@ -24,7 +25,7 @@ public class ShippingBin extends Resource{
         return itemTypes;
     }
     public void removeItemType(ItemType itemType){
-        Character character =App.getCurrentGame().getCharacterByTurnNumber(owner);
+        Character character = Main.getApp().getCurrentGame().getCharacterByTurnNumber(owner);
         character.setMoney(character.getMoney() + itemType.getPrice());
         itemTypes.remove(itemType);
     }

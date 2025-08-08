@@ -182,7 +182,7 @@ public class ShopViewController {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Main.getMain().getScreen().dispose();
-                Main.getMain().setScreen(App.getLastScreenBeforeShop());
+                Main.getMain().setScreen(Main.getApp().getLastScreenBeforeShop());
             }
         });
     }

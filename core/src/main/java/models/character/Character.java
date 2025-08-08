@@ -3,25 +3,19 @@ package models.character;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import models.App;
+import io.github.camera.Main;
 import models.AssetManager;
 import models.CollisionRect;
-import models.Item;
-import models.NPC.NPC;
-import models.NPC.NPCFriendships;
 import models.animal.Animal;
 import models.building.Building;
-import models.building.Shop;
 import models.enums.*;
 
 import models.enums.graphic.BackgroundMusic;
 import models.interactions.Iteractions;
 
 import models.map.Map;
-import models.map.Tile;
 import models.resource.BuildingReference;
 import models.tool.Tool;
-import models.workBench.WorkBench;
 
 import java.util.*;
 
@@ -208,7 +202,7 @@ public class Character {
     public void findPath(int targetX, int targetY){
         lastPath=new ArrayList<>();
         System.gc();
-        Map map= App.getCurrentGame().getMap();
+        Map map= Main.getApp().getCurrentGame().getMap();
         if(map==null) return;
         if(map.getTiles()[targetY][targetX].getType().isCollisionOn()) return;
         Cell targetCell=bfs(targetX,targetY,map);
@@ -250,7 +244,7 @@ public class Character {
     private Cell bfs(int targetX, int targetY,Map map){
         boolean[][] visited=new boolean[map.getHeightSize()][map.getWidthSize()];
         visited[getY()][getX()]=true;
-        Character character=App.getCurrentGame().getCurrentCharacter();
+        Character character=Main.getApp().getCurrentGame().getCurrentCharacter();
         Cell cell=new Cell()
                 .setX(character.getX())
                 .setY(character.getY())

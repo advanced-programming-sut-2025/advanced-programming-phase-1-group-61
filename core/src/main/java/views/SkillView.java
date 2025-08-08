@@ -1,16 +1,15 @@
 package views;
 
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Align;
-import models.App;
+import io.github.camera.Main;
 import models.character.Skill;
 
 public class SkillView extends Dialog {
 
     public SkillView(Skin skin) {
         super("Skills", skin);
-        Skill skill = App.getCurrentGame().getCurrentCharacter().getSkill();
+        Skill skill = Main.getApp().getCurrentGame().getCurrentCharacter().getSkill();
 
         Table content = getContentTable();
         content.pad(50);

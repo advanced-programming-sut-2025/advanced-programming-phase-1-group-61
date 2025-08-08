@@ -1,5 +1,6 @@
 package models.character;
 
+import io.github.camera.Main;
 import models.App;
 import models.Item;
 import models.enums.ItemType;
@@ -16,7 +17,7 @@ public class Trashcan {
         this.type = type;
     }
     public void removeItem(ItemType item, int count ) {
-        Character character=App.getCurrentGame().getCurrentCharacter();
+        Character character= Main.getApp().getCurrentGame().getCurrentCharacter();
         int numOfRemovedItem = character.getInventory().removeItem(item , count);
         character.setMoney((int) (character.getMoney() + (numOfRemovedItem * item.getPrice())*type.getReturnPercentage()));
     }

@@ -1,5 +1,6 @@
 package models.tool;
 
+import io.github.camera.Main;
 import models.App;
 import models.Game;
 import models.RandomNumber;
@@ -20,7 +21,7 @@ public class FishingPole extends Tool{
     }
 
     public String use(Direction direction){
-        Game game =  App.getCurrentGame();
+        Game game =  Main.getApp().getCurrentGame();
         Character character= game.getCurrentCharacter();
         int targetX=character.getX()+direction.getDx();
         int targetY=character.getY()+direction.getDy();
@@ -139,7 +140,7 @@ public class FishingPole extends Tool{
     @Override
     public int getConsumptionEnergy() {
         int consume=this.type.getEnergyConsumption(this.level);
-        Character character= App.getCurrentGame().getCurrentCharacter();
+        Character character= Main.getApp().getCurrentGame().getCurrentCharacter();
         if(character.getSkill().getFishingLVL()==4)
             consume=Math.max(0,consume-1);
         return consume;

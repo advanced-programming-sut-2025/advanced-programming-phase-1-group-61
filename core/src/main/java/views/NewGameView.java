@@ -194,7 +194,7 @@ public class NewGameView implements Screen {
                     }else {
                         controller.startGame();
                         Main.getMain().getScreen().dispose();
-                        Main.getMain().setScreen(new GameView(new GameMenuController(App.getCurrentGame())));
+                        Main.getMain().setScreen(new GameView(new GameMenuController(Main.getApp().getCurrentGame())));
                     }
                 }
             }

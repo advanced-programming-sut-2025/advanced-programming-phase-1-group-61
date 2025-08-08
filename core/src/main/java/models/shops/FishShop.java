@@ -1,5 +1,6 @@
 package models.shops;
 
+import io.github.camera.Main;
 import models.App;
 import models.building.Shop;
 import models.character.Character;
@@ -77,7 +78,7 @@ public class FishShop extends Shop {
 
     @Override
     public String purchaseProduct(String product, int count) {
-        Character character= App.getCurrentGame().getCurrentCharacter();
+        Character character= Main.getApp().getCurrentGame().getCurrentCharacter();
         for(ShopFishingPoleUpgrades pole : fishingPoles){
             if(pole.getDisplayName().equals(product)) {
                 if(pole.getStock()<count) return "not enough stock!";

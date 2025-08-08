@@ -58,14 +58,14 @@ public class GameView implements Screen, InputProcessor{
         stage = new Stage();
 
         inventoryUI = new InventoryUI(AssetManager.getSkin(),
-            App.getCurrentGame().getCurrentCharacter(),
+            Main.getApp().getCurrentGame().getCurrentCharacter(),
             stage);
         inventoryUI.setVisible(false);
         stage.addActor(inventoryUI);
 
         toolbarUI = new ToolbarUI(
             AssetManager.getSkin(),
-            App.getCurrentGame().getCurrentCharacter()
+            Main.getApp().getCurrentGame().getCurrentCharacter()
         );
         toolbarUI.setVisible(true);
         stage.addActor(toolbarUI);
@@ -98,7 +98,7 @@ public class GameView implements Screen, InputProcessor{
             float y = (float)(Math.random() * Gdx.graphics.getHeight());
             particles.add(new Particle(x, y));
         }
-        miniMap = new MiniMap(App.getCurrentGame().getCurrentCharacter());
+        miniMap = new MiniMap(Main.getApp().getCurrentGame().getCurrentCharacter());
         miniMap.setVisible(false);
         stage.addActor(miniMap);
 
@@ -113,7 +113,7 @@ public class GameView implements Screen, InputProcessor{
         Main.getBatch().begin();
         controller.updateGame();
         float delta = Gdx.graphics.getDeltaTime();
-        WeatherState weatherState = App.getCurrentGame().getMap().getWeather().getState();
+        WeatherState weatherState = Main.getApp().getCurrentGame().getMap().getWeather().getState();
 
 
 
@@ -154,7 +154,7 @@ public class GameView implements Screen, InputProcessor{
             }
             spriteBatch.end();
         }
-        models.date.Date date = App.getCurrentGame().getDate();
+        models.date.Date date = Main.getApp().getCurrentGame().getDate();
         int hour = date.getHour();
 
         if (hour >= 20 || hour < 10) {
@@ -180,7 +180,7 @@ public class GameView implements Screen, InputProcessor{
         String timeText = "Hour: " + date.getHour();
         String dayText = "Day: " + date.getDay();
         String seasonText = "Season: " + date.getSeason();
-        String energy = "Energy: "+App.getCurrentGame().getCurrentCharacter().getEnergy();
+        String energy = "Energy: "+Main.getApp().getCurrentGame().getCurrentCharacter().getEnergy();
 
         spriteBatch.begin();
         font.draw(spriteBatch, timeText, 20, Gdx.graphics.getHeight() - 20);
@@ -251,7 +251,7 @@ public class GameView implements Screen, InputProcessor{
     public boolean touchDown(int i, int i1, int i2, int i3) {
         Vector3 worldClick=new Vector3(i,i1,0);
         camera.unproject(worldClick);
-        for(NPC npc:App.getCurrentGame().getNpcList()){
+        for(NPC npc:Main.getApp().getCurrentGame().getNpcList()){
             if(npc.getChatIconBounds().contains(worldClick.x,worldClick.y)){
                 AlertGenerator.showAlert("",npc.getDialog(),stage);
                 return true;
