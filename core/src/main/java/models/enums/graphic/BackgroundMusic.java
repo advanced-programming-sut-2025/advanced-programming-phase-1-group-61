@@ -9,24 +9,22 @@ public enum BackgroundMusic {
     PARADOX("SFX/backgroundMusics/Paradox.mp3","PARADOX"),
     WITHOUT_LOVE("SFX/backgroundMusics/Without Love.mp3","WITHOUT LOVE");
     private final String internalPath;
-    private final Music music;
+//    private final Music music;
     private final String displayName;
     BackgroundMusic(String internalPath,String displayName) {
         this.internalPath = internalPath;
         this.displayName = displayName;
-        music = Gdx.audio.newMusic(Gdx.files.internal(internalPath));
-        music.setLooping(true);
+//        music = Gdx.audio.newMusic(Gdx.files.internal(internalPath));
+//        music.setLooping(true);
         //music.setVolume(App.getMusicVolume());
     }
     public String getInternalPath() {
         return internalPath;
     }
-    public Music getMusic() {
-        return music;
-    }
+
     public void setVolume(float volume) {
         //App.setMusicVolume(volume);
-        music.setVolume(volume);
+//        music.setVolume(volume);
     }
     public String getDisplayName() {
         return displayName;

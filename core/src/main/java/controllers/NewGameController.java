@@ -99,7 +99,7 @@ public class NewGameController {
             user.setGameId(game.getId());
         }
         Main.getApp().addGame(game);
-        Main.getApp().setCurrentGame(game.getId());
+        Main.getApp().setCurrentGame(game);
         return new Result(true, "game started successfully");
     }
 

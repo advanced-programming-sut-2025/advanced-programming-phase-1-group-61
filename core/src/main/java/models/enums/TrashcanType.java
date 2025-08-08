@@ -12,6 +12,7 @@ public enum TrashcanType {
     private final float returnPercentage;
     private final String displayName;
     private final String texturePath;
+    private Texture texture;
     TrashcanType(float returnPercentage, String displayName,String texturePath) {
         this.returnPercentage = returnPercentage;
         this.displayName = displayName;
@@ -33,6 +34,9 @@ public enum TrashcanType {
         };
     }
     public Texture getTexture() {
-        return new Texture(Gdx.files.internal(texturePath));
+        if(texture == null){
+            texture = new Texture(Gdx.files.internal(texturePath));
+        }
+        return texture;
     }
 }

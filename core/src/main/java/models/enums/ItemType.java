@@ -327,8 +327,9 @@ public enum ItemType {
     private final String disPlayName;
     private final int energy;
     private final boolean isEdible;
-    private Texture texture;
+    private String texturePath;
     private final String description;
+    private Texture texture;
 
 
     ItemType(int price, String disPlayName, int energy, boolean isEdible, String internalPath,String description) {
@@ -336,12 +337,7 @@ public enum ItemType {
         this.disPlayName = disPlayName;
         this.energy = energy;
         this.isEdible = isEdible;
-        try {
-            this.texture = new Texture(Gdx.files.internal(internalPath));
-        } catch (Exception e) {
-//            Gdx.app.error("ItemType", "Failed to load texture: " + internalPath, e);
-            this.texture = new Texture("error.png");
-        }
+        this.texturePath = internalPath;
         this.description =description;
     }
 
@@ -393,7 +389,14 @@ public enum ItemType {
     }
 
     public Texture getTexture() {
-       return texture;
+        if (texture == null) {
+            try {
+                texture = new Texture(texturePath);
+            } catch (Exception e) {
+                texture = new Texture(Gdx.files.internal("error.png"));
+            }
+        }
+        return texture;
     }
 
     public String getDescription() {

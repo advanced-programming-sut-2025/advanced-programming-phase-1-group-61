@@ -88,8 +88,8 @@ public class LoginMenu implements Screen {
                 controller.setPassword(password.getText());
                 controller.setUsername(username.getText());
 
-             Result result = controller.login();
-             resultMessage = result.message();
+                Result result = controller.login();
+                resultMessage = result.message();
                 if(result.isSuccessful()){
                     Main.getMain().getScreen().dispose();
                     Main.getMain().setScreen(new PreGameMenu(new PreGameMenuController()));

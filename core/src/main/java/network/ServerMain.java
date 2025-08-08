@@ -8,6 +8,7 @@ import models.Game;
 import models.User;
 import models.character.Character;
 import models.character.InventorySlot;
+import models.shops.Pierre;
 
 
 import java.io.File;
@@ -21,6 +22,7 @@ import java.util.List;
 public class ServerMain {
     private static List<User> allUsers = new ArrayList<>();
     private static ArrayList<models.Game> allGames = new ArrayList<>();
+
 
     public static void main(String[] args) throws Exception {
         Server server = new Server();
@@ -36,11 +38,35 @@ public class ServerMain {
         }));
         server.addListener(new Listener() {
             public void received(Connection connection, Object object) {
-                if (object instanceof Network.HelloMessage msg) {
-                    System.out.println("Received from client: " + msg.text);
-                } else if (object instanceof String s) {
-                    System.out.println("Received from client: "+s);
+                try {
+                    System.out.println("Received: " + object);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+                if (object instanceof Requsets request) {
+                    NetworkRequest requestType = request.getRequestType();
+                    switch (requestType){
+                        case GameRequest -> connection.sendTCP(getGameById(request.getGameId()));
+                        case newGameId -> connection.sendTCP(new Requsets(NetworkRequest.newGameId , generateNewGameId(),0));
+                        case AllUsersRequest -> connection.sendTCP(allUsers);
+                    }
+                } else if (object instanceof Network.updateGame updateGame) {
+                    System.out.println("game updated");
+                    updateGame(updateGame);
+                } else if (object instanceof User newUser) {
+                    boolean found = false;
+                    for (int i = 0; i < allUsers.size(); i++) {
+                        if (allUsers.get(i).getId() == newUser.getId()) {
+                            allUsers.set(i, newUser);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        allUsers.add(newUser);
+                    }
+                }
+
             }
         });
 
@@ -118,4 +144,46 @@ public class ServerMain {
             System.out.println("Error reading files");
         }
     }
+    private static Game getGameById(int id){
+        for (Game game : allGames) {
+            if(game.getId() == id){
+                return game;
+            }
+        }
+        return null;
+    }
+    private static void updateGame(Network.updateGame updatedGame) {
+        Game original = getGameById(updatedGame.getGame().getId());
+        if (original != null) {
+            int id = updatedGame.getUserId();
+            //Character Update
+            original.updateCharacter(id, updatedGame.getGame().getCharacterByID(id));
+            //Date Update
+            original.getDate().setHour(updatedGame.getGame().getDate().getHour());
+            original.getDate().setDayCounter(updatedGame.getGame().getDate().getDayCounter());
+            original.getDate().setDay(updatedGame.getGame().getDate().getDay());
+            original.getDate().setSeason(updatedGame.getGame().getDate().getSeason());
+            original.getDate().setHasASeasonPassed(updatedGame.getGame().getDate().hasASeasonPassed());
+        } else {
+            allGames.add(updatedGame.getGame());
+        }
+    }
+    private static int generateNewGameId() {
+        int id = 1;
+        while (true) {
+            boolean used = false;
+            for (Game game : allGames) {
+                if (game.getId() == id) {
+                    used = true;
+                    break;
+                }
+            }
+            if (!used) {
+                return id;
+            }
+            id++;
+        }
+    }
+
+
 }

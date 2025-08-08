@@ -26,15 +26,17 @@ public class Game {
     private Map map;
     private List<Character> allCharacters;
     private int currentCharacter;
-    private final Date date;
+    private Date date;
     private ArrayList<Shop> shops = new ArrayList<>();
     private List<NPC> npcList = new ArrayList<>();
     private List<ShippingBin> shippingBins = new ArrayList<>();
     private ArrayList<WorkBench> workBenches =new ArrayList<>();
 
+    public Game() {
+    }
 
     public Game(Map map, List<Character> characters) {
-        id = Main.getApp().getAllGames().size()+1;
+        id = Main.getApp().getNewGameId();
         this.map = map;
         for (int i = 0; i < map.getTiles().length; i++) {
             for (int j = 0; j < map.getTiles()[0].length; j++) {
@@ -147,21 +149,6 @@ public class Game {
         } catch (Exception e) {
             return null;
         }
-    }
-
-    public String changeTurn() {
-        int turn = currentCharacter+1;
-        Main.getApp().getCurrentGame().getCurrentCharacter().getIteractions().newInteracts();
-        this.currentCharacter = turn % allCharacters.size();
-        StringBuilder message =  new StringBuilder(User.getUSerById(allCharacters.get(currentCharacter).getUserId()).getNickName());
-
-        if(turn == allCharacters.size()){
-            message.append("\n");
-            message.append("time increased");
-            date.increaseTime(1);
-        }
-
-        return message.toString();
     }
 
     public Date getDate() {
@@ -716,6 +703,18 @@ public class Game {
             }
         }
     }
+
+    public void updateCharacter(int id, Character newCharacter) {
+        for (int i = 0; i < allCharacters.size(); i++) {
+            Character character = allCharacters.get(i);
+            if (character.getUserId() == id) {
+                allCharacters.set(i, newCharacter);
+                return;
+            }
+        }
+    }
+
+
 
     public List<NPC> getNpcList() {
         return npcList;

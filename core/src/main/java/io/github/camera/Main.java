@@ -30,11 +30,10 @@ public class Main extends Game {
         main.setScreen(new MainMenu(new MainMenuController()));
         client = new NetworkClient();
         client.start();
-        client.sendMessage("salam server");
         app = new App();
 
 
-        Main.getApp().loadApp();
+
     }
 
     @Override
@@ -47,11 +46,7 @@ public class Main extends Game {
 
     @Override
     public void dispose() {
-       try {
-           Main.getApp().saveApp();
-       } catch (IOException e) {
-           throw new RuntimeException(e);
-       }
+
         batch.dispose();
     }
 
@@ -69,5 +64,9 @@ public class Main extends Game {
 
     public static void setApp(App app) {
         Main.app = app;
+    }
+
+    public static NetworkClient getClient() {
+        return client;
     }
 }

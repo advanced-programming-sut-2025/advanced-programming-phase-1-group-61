@@ -110,13 +110,13 @@ public class PreGameMenu implements Screen {
                    Main.getMain().setScreen(new NewGameView(new NewGameController()));
                    return;
                 }
-                Game game = Main.getApp().getGameByID(user.getGameId());
+                Game game = Main.getApp().getGameByID(user.getGameId() ,user.getId());
                 if (game == null) {
                     Main.getMain().getScreen().dispose();
                     Main.getMain().setScreen(new NewGameView(new NewGameController()));
                     return;
                 }
-                Main.getApp().setCurrentGame(user.getGameId());
+                Main.getApp().setCurrentGame(game);
                 Main.getMain().getScreen().dispose();
                 Main.getMain().setScreen(new GameView(new GameMenuController(Main.getApp().getCurrentGame())));
 

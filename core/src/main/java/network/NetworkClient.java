@@ -3,10 +3,13 @@ package network;
 
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Listener;
+import io.github.camera.Main;
 import models.Game;
 import models.User;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 
 public class NetworkClient {
     private Client client;
@@ -24,7 +27,22 @@ public class NetworkClient {
 
             client.addListener(new Listener() {
                 public void received (com.esotericsoftware.kryonet.Connection connection, Object object) {
-                    System.out.println("Message received: " + object);
+
+                    if(object instanceof Game game){
+                        Main.getApp().setCurrentGame(game);
+                    } else if (object instanceof Requsets request) {
+                        NetworkRequest requestType = request.getRequestType();
+                        switch (requestType){
+                            case newGameId -> Main.getApp().setNewGameId(request.getGameId());
+                        }
+                    }else if (object instanceof ArrayList<?> list && !list.isEmpty() && list.get(0) instanceof User) {
+                        ArrayList<User> receivedUsers = (ArrayList<User>) list;
+                        for (User user : receivedUsers) {
+                            System.out.println(user.getUsername());
+                        }
+                        Main.getApp().setAllUsers(receivedUsers);
+                        System.out.println("Received users: " + receivedUsers.size());
+                    }
                 }
             });
 
@@ -34,12 +52,20 @@ public class NetworkClient {
     }
 
     private  void registerClasses() {
-        client.getKryo().register(String.class);
-        client.getKryo().register(Game.class);
-        client.getKryo().register(User.class);
+        KryoRegistrations.registerClasses(client.getKryo());
+
     }
 
     public void sendMessage(Object message) {
+        System.out.println("sending message: " + message);
         client.sendTCP(message);
+
+        try {
+            Thread.sleep(100); // 100 میلی‌ثانیه مکث
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Thread.currentThread().interrupt(); // در صورت وقفه، interrupt را دوباره ست کن
+        }
     }
+
 }

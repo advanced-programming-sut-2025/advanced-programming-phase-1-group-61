@@ -49,7 +49,7 @@ public class LoginMenuController {
                 return new Result(false , "failed to keep you logged in");
             }
         }
-        Main.getApp().setLoggedInUser(user.getId());
+        Main.getApp().setLoggedInUser(user);
         return new Result(true , username + " logged in! "+"Redirecting to mainMenu..");
     }
 

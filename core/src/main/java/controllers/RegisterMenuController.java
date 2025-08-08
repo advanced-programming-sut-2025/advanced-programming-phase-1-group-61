@@ -75,7 +75,7 @@ public class RegisterMenuController {
 
         User newUser=new User(username , email , SHA256.toSHA256(password) ,gender,nickname);
         Main.getApp().addUserToList(newUser);
-        Main.getApp().setLoggedInUser(newUser.getId());
+        Main.getApp().setLoggedInUser(newUser);
         return new Result(true , username+" successfully registered!");
     }
 

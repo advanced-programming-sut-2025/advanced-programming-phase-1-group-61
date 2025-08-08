@@ -26,6 +26,7 @@ import models.tool.Axe;
 import models.tool.Tool;
 import models.workBench.ItemKinds;
 import models.workBench.WorkBench;
+import network.Network;
 import views.GameView;
 
 
@@ -61,6 +62,7 @@ public class GameMenuController {
         for (NPC npc : game.getNpcList()) {
             npc.draw();
         }
+        Main.getClient().sendMessage(new Network.updateGame(game , Main.getApp().getLoggedInUser().getId()));
     }
 
     public void addListenersForNpcTable(NPC npc, TextButton gift, TextButton quests, TextButton friendship, TextButton close, Table table){
@@ -131,10 +133,6 @@ public class GameMenuController {
 
 
 
-    public Result changeTurn() {
-        String string = game.changeTurn();
-        return new Result(true, string);
-    }
 
 
     public Result cheatThor(Matcher matcher) {

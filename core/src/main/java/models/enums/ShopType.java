@@ -4,21 +4,25 @@ import com.badlogic.gdx.graphics.Texture;
 
 public enum ShopType {
 
-    Carpenter(new Texture("ShopTextures/Carpenter.png")),
-    FishShop(new Texture("ShopTextures/FishShop.png")),
-    BlackSmith(new Texture("ShopTextures/BlackSmith.png")),
-    JojaMart(new Texture("ShopTextures/JojaMart.png")),
-    Marnie(new Texture("ShopTextures/Marnie.png")),
-    Pierre(new Texture("ShopTextures/Pierre.png")),
-    StarDrop(new Texture("ShopTextures/StarDrop.png"));
+    Carpenter("ShopTextures/Carpenter.png"),
+    FishShop("ShopTextures/FishShop.png"),
+    BlackSmith("ShopTextures/BlackSmith.png"),
+    JojaMart("ShopTextures/JojaMart.png"),
+    Marnie("ShopTextures/Marnie.png"),
+    Pierre("ShopTextures/Pierre.png"),
+    StarDrop("ShopTextures/StarDrop.png");
 
-    private final Texture texture;
+    private Texture texture;
+    private String texturePath;
 
-    ShopType(Texture texture) {
-        this.texture = texture;
+    ShopType(String texture) {
+        this.texturePath = texture;
     }
 
     public Texture getTexture() {
+        if(texture == null){
+            texture = new Texture(texturePath);
+        }
         return texture;
     }
 }

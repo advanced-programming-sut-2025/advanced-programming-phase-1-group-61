@@ -28,6 +28,9 @@ public class User {
         this.gameId = 0;
     }
 
+    public User() {
+    }
+
     public void setQuestion(Question question) {
         this.question=question;
     }

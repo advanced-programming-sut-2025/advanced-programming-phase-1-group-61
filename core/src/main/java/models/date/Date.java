@@ -38,6 +38,23 @@ public class Date {
     public void setHour(int time){
         this.hour=time;
     }
+
+    public void setDay(DaysOfTheWeek day) {
+        this.day = day;
+    }
+
+    public void setSeason(Season season) {
+        this.season = season;
+    }
+
+    public void setDayCounter(int dayCounter) {
+        this.dayCounter = dayCounter;
+    }
+
+    public void setHasASeasonPassed(boolean hasASeasonPassed) {
+        this.hasASeasonPassed = hasASeasonPassed;
+    }
+
     public int getHour(){
         return hour;
     }
