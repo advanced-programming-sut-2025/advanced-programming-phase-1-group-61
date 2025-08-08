@@ -158,6 +158,7 @@ public class KryoRegistrations {
         kryo.register(CollisionRect.class);
         kryo.register(com.google.gson.internal.LinkedTreeMap.class);
         kryo.register(java.util.LinkedHashMap.class);
+        kryo.register(MapUpdate.class);
 
     }
 }

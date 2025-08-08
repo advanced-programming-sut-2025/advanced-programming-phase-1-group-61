@@ -4,7 +4,6 @@ public class Requsets {
     private NetworkRequest requestType;
     private int gameId;
     private int userId;
-
     public Requsets() {}
     public Requsets(NetworkRequest request, int gameId, int userId) {
         this.requestType = request;

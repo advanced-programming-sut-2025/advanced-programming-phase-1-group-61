@@ -22,7 +22,11 @@ import models.AssetManager;
 import models.Game;
 import models.NPC.NPC;
 import models.enums.WeatherState;
+import models.map.Map;
 import models.map.Particle;
+import network.MapUpdate;
+import network.NetworkRequest;
+import network.Requsets;
 
 
 import java.util.ArrayList;
@@ -108,14 +112,35 @@ public class GameView implements Screen, InputProcessor{
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                runEveryTwoTenths();
+                Gdx.app.postRunnable(() -> runEveryFiveTenths());
             }
         }, 0, 0.5f);
 
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                new Thread(() -> {
+                    Main.getClient().sendMessage(
+                        new MapUpdate(Main.getApp().getCurrentGame().getMap(), Main.getApp().getCurrentGame().getId())
+                    );
+                }).start();
+            }
+        }, 0, 1.0f);
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                new Thread(() -> {
+                    Main.getClient().sendMessage(
+                        new Requsets(NetworkRequest.MapUpdateRequest, Main.getApp().getCurrentGame().getId(), 0)
+                    );
+                }).start();
+            }
+        }, 0, 2.0f);
 
     }
 
-    private void runEveryTwoTenths() {
+    private void runEveryFiveTenths() {
        controller.updateServerGame();
     }
 
