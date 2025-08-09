@@ -1,5 +1,6 @@
 package models.shops;
 
+import io.github.camera.Main;
 import models.App;
 import models.building.Shop;
 import models.character.Character;
@@ -9,15 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pierre extends Shop {
-    private final ArrayList<ShopItem> yearRoundItems;
-    private final ArrayList<ShopItem> springItems;
-    private final ArrayList<ShopItem> summerItems;
-    private final ArrayList<ShopItem> fallItems;
-    private final ArrayList<ShopBackpacks> shopBackpacks;
-    private final ArrayList<ShopRecipes> shopRecipes;
-    private final float outOfSeasonCoefficient=1.5f;
+    private  ArrayList<ShopItem> yearRoundItems;
+    private  ArrayList<ShopItem> springItems;
+    private  ArrayList<ShopItem> summerItems;
+    private  ArrayList<ShopItem> fallItems;
+    private  ArrayList<ShopBackpacks> shopBackpacks;
+    private  ArrayList<ShopRecipes> shopRecipes;
+    private  float outOfSeasonCoefficient=1.5f;
 
-    public Pierre( String name, int X, int Y) {
+    public Pierre() {
+    }
+
+    public Pierre(String name, int X, int Y) {
         super( name, X, Y,ShopType.Pierre);
 
         this.owner="Pierre";
@@ -94,7 +98,7 @@ public class Pierre extends Shop {
     public String showAllProducts() {
         StringBuilder builder = new StringBuilder();
         builder.append("year round items:").append("\n");
-        Season season= App.getCurrentGame().getDate().getSeason();
+        Season season= Main.getApp().getCurrentGame().getDate().getSeason();
         for(ShopItem item:yearRoundItems){
             builder.append("Name: ")
                     .append(item.getItem().getDisPlayName())
@@ -228,7 +232,7 @@ public class Pierre extends Shop {
 
     @Override
     public String purchaseProduct(String product, int count) {
-        Character character=App.getCurrentGame().getCurrentCharacter();
+        Character character=Main.getApp().getCurrentGame().getCurrentCharacter();
         for(ShopItem item : yearRoundItems){
             if(item.getItem().getDisPlayName().equals(product)){
                 if(count> item.getStock()) return "not enough stock!";

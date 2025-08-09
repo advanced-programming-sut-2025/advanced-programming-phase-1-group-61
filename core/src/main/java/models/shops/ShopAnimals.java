@@ -4,12 +4,16 @@ import models.enums.AnimalType;
 import models.enums.CageType;
 
 public class ShopAnimals {
-    private final AnimalType animal;
-    private final CageType cageType;
-    private final int limit;
-    private final int price;
-    private final String description;
+    private  AnimalType animal;
+    private CageType cageType;
+    private int limit;
+    private int price;
+    private String description;
     private int stock;
+
+    public ShopAnimals() {
+    }
+
     public ShopAnimals(AnimalType animal, CageType cageType, int limit, int price, String description) {
         this.animal = animal;
         this.limit = limit;

@@ -1,15 +1,19 @@
 package models.interactions;
 
+import io.github.camera.Main;
 import models.App;
 import models.character.Character;
 import models.enums.ItemType;
 import java.util.*;
 
 public class Iteractions {
-    private final List<Interact> Interacts = new ArrayList<>();
+    private  List<Interact> Interacts = new ArrayList<>();
     private List<Interact> newInteracts = new ArrayList<>();
-    private final Map<Integer, Integer> friendships = new HashMap<>();
-    private final Integer owner;
+    private  Map<Integer, Integer> friendships = new HashMap<>();
+    private  Integer owner;
+
+    public Iteractions() {
+    }
 
     public Iteractions(int userId) {
         this.owner = userId;
@@ -30,8 +34,8 @@ public class Iteractions {
 
     public boolean addInteract(String type,String kind, Integer friend, String value, ItemType item1, Integer amount1,
                                ItemType item2, Integer amount2) {
-        Character Friend = App.getCurrentGame().getCharacterByID(friend);
-        Character Owner = App.getCurrentGame().getCurrentCharacter();
+        Character Friend = Main.getApp().getCurrentGame().getCharacterByID(friend);
+        Character Owner = Main.getApp().getCurrentGame().getCurrentCharacter();
         int id = this.Interacts.size()+1;
         switch (type.toLowerCase()) {
             case "massage": {
@@ -45,7 +49,7 @@ public class Iteractions {
             case "gift": {
                 if (Owner.getInventory().getCountOfItem(item1) >= amount1) {
                     Owner.getInventory().removeItem(item1, amount1);
-                    App.getCurrentGame().getCharacterByID(friend).getInventory().addItem(item1, amount1);
+                    Main.getApp().getCurrentGame().getCharacterByID(friend).getInventory().addItem(item1, amount1);
                     Interact interact =new InteractGIFT("gift", this.owner, friend,item1,amount1, value,id);
                     Interacts.add(interact);
                     Friend.getIteractions().addnew(interact);
@@ -167,7 +171,7 @@ public class Iteractions {
             if (interact.getID().equals(gift)) {
                 int amount = (friendships.get(interact.getFriend()) * rate) * 30 + 15;
                 friendships.put(interact.getFriend(), amount);
-                App.getCurrentGame().getCharacterByID(interact.getFriend()).getIteractions().friendships.
+                Main.getApp().getCurrentGame().getCharacterByID(interact.getFriend()).getIteractions().friendships.
                         put(this.owner, amount);
                 return true;
             }
@@ -179,10 +183,10 @@ public class Iteractions {
         if (answer) {
             for (Interact interact : Interacts) {
                 if (interact.getType().equalsIgnoreCase("marriage")) {
-                    App.getCurrentGame().getCharacterByID(owner).getInventory()
+                    Main.getApp().getCurrentGame().getCharacterByID(owner).getInventory()
                             .addItem(((InteractMARRIGE) interact).getItem(),1 );
-                    App.getCurrentGame().getCharacterByID(owner).setPartner(interact.getOwner());
-                    App.getCurrentGame().getCharacterByID(interact.getFriend()).setPartner(this.owner);
+                    Main.getApp().getCurrentGame().getCharacterByID(owner).setPartner(interact.getOwner());
+                    Main.getApp().getCurrentGame().getCharacterByID(interact.getFriend()).setPartner(this.owner);
                 }
             }
         }
@@ -207,8 +211,8 @@ public class Iteractions {
                     return true;
                 }else {
                     InteractTRADE trade = ((InteractTRADE) interact);
-                    Character Owner = App.getCurrentGame().getCharacterByID(owner);
-                    Character Friend = App.getCurrentGame().getCharacterByID(trade.getOwner());
+                    Character Owner = Main.getApp().getCurrentGame().getCharacterByID(owner);
+                    Character Friend = Main.getApp().getCurrentGame().getCharacterByID(trade.getOwner());
                     if(trade.getKind().equalsIgnoreCase("request")){
                         if(Owner.getInventory().getCountOfItem(trade.getItem1())< trade.getAmount1()) return false;
                         trade.setHandeled(true);

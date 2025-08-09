@@ -13,14 +13,20 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.Timer;
 import controllers.GameMenuController;
 import io.github.camera.Main;
 import models.AlertGenerator;
 import models.App;
 import models.AssetManager;
+import models.Game;
 import models.NPC.NPC;
 import models.enums.WeatherState;
+import models.map.Map;
 import models.map.Particle;
+import network.MapUpdate;
+import network.NetworkRequest;
+import network.Requsets;
 
 
 import java.util.ArrayList;
@@ -40,6 +46,8 @@ public class GameView implements Screen, InputProcessor{
     private Texture snowTexture;
     private MiniMap miniMap;
     private boolean miniMapVisible = false;
+    private ToolbarUI toolbarUI;
+
 
 
 
@@ -55,16 +63,28 @@ public class GameView implements Screen, InputProcessor{
     @Override
     public void show() {
         stage = new Stage();
+
         inventoryUI = new InventoryUI(AssetManager.getSkin(),
-            App.getCurrentGame().getCurrentCharacter(),
+            Main.getApp().getCurrentGame().getCurrentCharacter(),
             stage);
         inventoryUI.setVisible(false);
         stage.addActor(inventoryUI);
 
+        toolbarUI = new ToolbarUI(
+            AssetManager.getSkin(),
+            Main.getApp().getCurrentGame().getCurrentCharacter()
+        );
+        toolbarUI.setVisible(true);
+        stage.addActor(toolbarUI);
+        inventoryUI.setToolbarUI(toolbarUI);
+
         InputMultiplexer multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(this);
-        multiplexer.addProcessor(inventoryUI);
         multiplexer.addProcessor(stage);
+        multiplexer.addProcessor(inventoryUI);
+        multiplexer.addProcessor(this);
+
+
+        Gdx.input.setInputProcessor(multiplexer);
 
         Gdx.input.setInputProcessor(multiplexer);
 
@@ -85,14 +105,44 @@ public class GameView implements Screen, InputProcessor{
             float y = (float)(Math.random() * Gdx.graphics.getHeight());
             particles.add(new Particle(x, y));
         }
-        miniMap = new MiniMap(App.getCurrentGame().getCurrentCharacter());
+        miniMap = new MiniMap(Main.getApp().getCurrentGame().getCurrentCharacter());
         miniMap.setVisible(false);
         stage.addActor(miniMap);
 
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                Gdx.app.postRunnable(() -> runEveryFiveTenths());
+            }
+        }, 0, 0.5f);
 
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                new Thread(() -> {
+                    Main.getClient().sendMessage(
+                        new MapUpdate(Main.getApp().getCurrentGame().getMap(), Main.getApp().getCurrentGame().getId())
+                    );
+                }).start();
+            }
+        }, 0, 1.0f);
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                new Thread(() -> {
+                    Main.getClient().sendMessage(
+                        new Requsets(NetworkRequest.MapUpdateRequest, Main.getApp().getCurrentGame().getId(), 0)
+                    );
+                }).start();
+            }
+        }, 0, 2.0f);
 
     }
 
+    private void runEveryFiveTenths() {
+       controller.updateServerGame();
+    }
 
     @Override
     public void render(float v) {
@@ -100,7 +150,7 @@ public class GameView implements Screen, InputProcessor{
         Main.getBatch().begin();
         controller.updateGame();
         float delta = Gdx.graphics.getDeltaTime();
-        WeatherState weatherState = App.getCurrentGame().getMap().getWeather().getState();
+        WeatherState weatherState = controller.getGame().getMap().getWeather().getState();
 
 
 
@@ -110,6 +160,7 @@ public class GameView implements Screen, InputProcessor{
             inventoryVisible = !inventoryVisible;
             inventoryUI.setVisible(inventoryVisible);
             inventoryUI.setInventoryVisible(inventoryVisible);
+            inventoryUI.refreshUI();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
             miniMapVisible = !miniMapVisible;
@@ -118,6 +169,7 @@ public class GameView implements Screen, InputProcessor{
                 miniMap.update();
             }
         }
+
 
 
         Main.getBatch().setProjectionMatrix(camera.combined);
@@ -139,7 +191,7 @@ public class GameView implements Screen, InputProcessor{
             }
             spriteBatch.end();
         }
-        models.date.Date date = App.getCurrentGame().getDate();
+        models.date.Date date = controller.getGame().getDate();
         int hour = date.getHour();
 
         if (hour >= 20 || hour < 10) {
@@ -165,7 +217,7 @@ public class GameView implements Screen, InputProcessor{
         String timeText = "Hour: " + date.getHour();
         String dayText = "Day: " + date.getDay();
         String seasonText = "Season: " + date.getSeason();
-        String energy = "Energy: "+App.getCurrentGame().getCurrentCharacter().getEnergy();
+        String energy = "Energy: "+Main.getApp().getCurrentGame().getCurrentCharacter().getEnergy();
 
         spriteBatch.begin();
         font.draw(spriteBatch, timeText, 20, Gdx.graphics.getHeight() - 20);
@@ -236,7 +288,7 @@ public class GameView implements Screen, InputProcessor{
     public boolean touchDown(int i, int i1, int i2, int i3) {
         Vector3 worldClick=new Vector3(i,i1,0);
         camera.unproject(worldClick);
-        for(NPC npc:App.getCurrentGame().getNpcList()){
+        for(NPC npc:Main.getApp().getCurrentGame().getNpcList()){
             if(npc.getChatIconBounds().contains(worldClick.x,worldClick.y)){
                 AlertGenerator.showAlert("",npc.getDialog(),stage);
                 return true;

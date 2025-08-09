@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import controllers.SettingsMenuController;
+import io.github.camera.Main;
 import models.App;
 import models.AssetManager;
 import models.Game;
@@ -42,7 +43,7 @@ public class SettingsMenu implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        musicVolumeLabel.setText("MUSIC: "+ (int) (App.getMusicVolume() * 100));
+        musicVolumeLabel.setText("MUSIC: "+ (int) (Main.getApp().getMusicVolume() * 100));
         sfxVolumeLabel.setText("SFX: "+ (int) (AssetManager.getUiClicks().getVolume() * 100));
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, 1920, 1080);
@@ -80,7 +81,7 @@ public class SettingsMenu implements Screen {
         back=new TextButton("BACK", AssetManager.getSkin());
         musicPicker=new SelectBox<>(AssetManager.getSkin());
         musicPicker.setItems(BackgroundMusic.getItems());
-        Game game=App.getCurrentGame();
+        Game game=Main.getApp().getCurrentGame();
         if(game!=null) musicPicker.setSelected(game.getCurrentCharacter().getBackgroundMusic().getDisplayName());
         else musicPicker.setSelected(BackgroundMusic.KHARMALE.getDisplayName());
         Table table=new Table();
@@ -89,7 +90,7 @@ public class SettingsMenu implements Screen {
         sfxSlider=new Slider(0f,1f,0.01f,false,AssetManager.getSkin());
         sfxSlider.setValue(AssetManager.getUiClicks().getVolume());
         musicSlider=new Slider(0f,1f,0.01f,false,AssetManager.getSkin());
-        musicSlider.setValue(App.getMusicVolume());
+        musicSlider.setValue(Main.getApp().getMusicVolume());
         table.row();
         table.add(musicVolumeLabel).width(150);
         table.add(musicSlider).width(300);

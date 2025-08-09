@@ -5,14 +5,18 @@ import models.enums.ToolType;
 import models.tool.FishingPole;
 
 public class ShopFishingPoleUpgrades {
-    private final String upgradeName;
-    private final int price;
-    private final int limit;
-    private final int requiredLevel;
+    private  String upgradeName;
+    private  int price;
+    private  int limit;
+    private  int requiredLevel;
     private int stock;
-    private final String description;
-    private final String displayName;
-    public ShopFishingPoleUpgrades(String upgradeName, int price, int limit, int requiredLevel,String description, String displayName) {
+    private  String description;
+    private  String displayName;
+
+    public ShopFishingPoleUpgrades() {
+    }
+
+    public ShopFishingPoleUpgrades(String upgradeName, int price, int limit, int requiredLevel, String description, String displayName) {
         this.upgradeName = upgradeName;
         this.price = price;
         this.limit = limit;

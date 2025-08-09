@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import controllers.ShopViewsControllers.PierreViewController;
+import io.github.camera.Main;
 import models.App;
 import models.building.Shop;
 import models.shops.Pierre;
@@ -57,26 +58,26 @@ public class PierreView extends ShopView {
         super.show();
         secondController.handleTypeSelectBox();
         for(int i=0; i<shopYearRoundItems.size(); i++){
-            App.Extract(i,yearRoundItems);
+            Main.getApp().Extract(i,yearRoundItems);
             controller.addHoverListenerForItems(yearRoundItems[i],shopYearRoundItems.get(i));
         }
         for(int i=0; i<shopSpringItems.size(); i++){
-            App.Extract(i,springItems);
+            Main.getApp().Extract(i,springItems);
             controller.addHoverListenerForItems(springItems[i],shopSpringItems.get(i));
         }
         for(int i=0; i<shopSummerItems.size(); i++){
-            App.Extract(i,summerItems);
+            Main.getApp().Extract(i,summerItems);
             controller.addHoverListenerForItems(summerItems[i],shopSummerItems.get(i));
         }
         for(int i=0; i<shopFallItems.size(); i++){
-            App.Extract(i,fallItems);
+            Main.getApp().Extract(i,fallItems);
             controller.addHoverListenerForItems(fallItems[i],shopFallItems.get(i));
         }
         for(int i=0; i<shopBackpacks.size(); i++){
-            App.Extract(i,backpacks);
+            Main.getApp().Extract(i,backpacks);
         }
         for(int i=0; i<shopRecipes.size(); i++){
-            App.Extract(i,recipes);
+            Main.getApp().Extract(i,recipes);
         }
         setUpUI();
     }

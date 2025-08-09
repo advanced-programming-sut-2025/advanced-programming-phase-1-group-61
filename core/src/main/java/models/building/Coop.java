@@ -9,6 +9,10 @@ import java.util.ArrayList;
 public class Coop extends Building {
     private ArrayList<Animal> animals = new ArrayList<Animal>();
     private CageType cageType ;
+
+    public Coop() {
+    }
+
     public Coop(CageType cageType, String name, int X, int Y) {
         super(name, X, Y);
         this.cageType = cageType;

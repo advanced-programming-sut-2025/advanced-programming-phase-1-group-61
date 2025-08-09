@@ -17,6 +17,9 @@ public class Item {
         this.energy = itemType.getEnergy();
     }
 
+    public Item() {
+    }
+
     public ItemType getItemType() {
         return itemType;
     }

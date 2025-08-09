@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import io.github.camera.Main;
 import models.App;
 import models.character.Character;
 import models.map.Tile;
@@ -24,7 +25,7 @@ public class MiniMap extends Actor {
     }
 
     public void rebuildMapTexture() {
-        Tile[][] tiles = App.getCurrentGame().getMap().getTiles();
+        Tile[][] tiles = Main.getApp().getCurrentGame().getMap().getTiles();
         int width = tiles.length;
         int height = tiles[0].length;
 

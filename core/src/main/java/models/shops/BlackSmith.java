@@ -1,5 +1,6 @@
 package models.shops;
 
+import io.github.camera.Main;
 import models.App;
 import models.building.Shop;
 import models.character.Character;
@@ -13,9 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlackSmith extends Shop {
-    private final ArrayList<ShopItem> items;
-    private final ArrayList<ShopToolUpgrades> toolUpgrades;
-    private final ArrayList<ShopTrashcanUpgrades> trashcanUpgrades;
+    private  ArrayList<ShopItem> items;
+    private  ArrayList<ShopToolUpgrades> toolUpgrades;
+    private  ArrayList<ShopTrashcanUpgrades> trashcanUpgrades;
+
+    public BlackSmith() {
+    }
 
     public BlackSmith(String name, int X, int Y) {
         super( name, X, Y, ShopType.BlackSmith);
@@ -116,7 +120,7 @@ public class BlackSmith extends Shop {
 
     @Override
     public String purchaseProduct(String product,int count) {
-        Character character=App.getCurrentGame().getCurrentCharacter();
+        Character character= Main.getApp().getCurrentGame().getCurrentCharacter();
         for(ShopItem item:items){
             if(item.getItem().getDisPlayName().equals(product)){
                 if(count> item.getStock()) return "not enough stock!";

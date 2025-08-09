@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import controllers.ShopViewsControllers.MarnieViewController;
+import io.github.camera.Main;
 import models.App;
 import models.building.Shop;
 import models.shops.Marnie;
@@ -41,14 +42,14 @@ public class MarnieView extends ShopView {
         super.show();
         secondController.handleTypeSelectBox();
         for(int i=0;i<shopPermanentItems.size();i++){
-            App.Extract(i,permanentItems);
+            Main.getApp().Extract(i,permanentItems);
             controller.addHoverListenerForItems(permanentItems[i],shopPermanentItems.get(i));
         }
         for(int i=0;i<shopPermanentTools.size();i++){
-            App.Extract(i,permanentTools);
+            Main.getApp().Extract(i,permanentTools);
         }
         for (int i=0;i<shopPermanentAnimals.size();i++){
-            App.Extract(i,permanentAnimals);
+            Main.getApp().Extract(i,permanentAnimals);
         }
         setUpUI();
     }

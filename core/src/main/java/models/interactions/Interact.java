@@ -16,6 +16,8 @@ public class Interact {
         this.ID = id;
     }
 
+    public Interact() {
+    }
 
     public String getType() {
         return type;

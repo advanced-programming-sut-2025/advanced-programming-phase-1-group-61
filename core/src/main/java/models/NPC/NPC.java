@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import io.github.camera.Main;
-import models.App;
 import models.AssetManager;
 import models.RandomNumber;
 import models.character.Character;
@@ -18,8 +17,8 @@ import java.util.Random;
 
 public class NPC {
 
-    private final NpcInfo info;
-    private final NpcDialog dialogs;
+    private  NpcInfo info;
+    private  NpcDialog dialogs;
     private final ArrayList<NPCFriendships> friendships = new ArrayList<>();
     private boolean firstGiftOfDay=true;
     private int x;
@@ -27,7 +26,7 @@ public class NPC {
     private final int chatIconWidth=32;
     private final int chatIconHeight=32;
     private transient Sprite sprite;
-    private Sprite dialogueSprite;
+    private transient Sprite dialogueSprite;
 
 
     public NPC(NpcInfo info, NpcDialog dialogs, List<Character> characters, int x, int y) {
@@ -46,6 +45,9 @@ public class NPC {
         this.dialogueSprite.setPosition(x*AssetManager.getTileSize()+ (float) (64 - chatIconWidth) /2,y*AssetManager.getTileSize()+ 110);
     }
 
+    public NPC() {
+    }
+
     public Sprite getSprite() {
         if(sprite == null){
             this.sprite = new Sprite(info.getTexture());
@@ -56,17 +58,23 @@ public class NPC {
     }
     public void draw(){
         getSprite().draw(Main.getBatch());
+        if(dialogueSprite == null){
+            this.dialogueSprite = new Sprite(new Texture(Gdx.files.internal("images/Sprite/chatIcon.png")));
+            this.dialogueSprite.setSize(chatIconWidth,chatIconHeight);
+            this.dialogueSprite.setPosition(x*AssetManager.getTileSize()+ (float) (64 - chatIconWidth) /2,y*AssetManager.getTileSize()+ 110);
+        }
         this.dialogueSprite.draw(Main.getBatch());
     }
     public String getDialog() {
-        Character currentCharacter= App.getCurrentGame().getCurrentCharacter();
+        Character currentCharacter= Main.getApp().getCurrentGame().getCurrentCharacter();
         NPCFriendships friendship=getFriendships(currentCharacter);
         if(friendship==null) return "";
-        WeatherState currentWeather=App.getCurrentGame().getMap().getWeather().getState();
-        Season season=App.getCurrentGame().getDate().getSeason();
+        WeatherState currentWeather=Main.getApp().getCurrentGame().getMap().getWeather().getState();
+        Season season=Main.getApp().getCurrentGame().getDate().getSeason();
         FriendshipLevel level=friendship.getLvl();
         return this.dialogs.getDialogue(season,level,currentWeather);
     }
+
     public boolean isFirstGiftOfDay() {
         return firstGiftOfDay;
     }
@@ -74,7 +82,7 @@ public class NPC {
         this.firstGiftOfDay = firstGiftOfDay;
     }
     public static NPC getNPC(String name) {
-        for(NPC npc : App.getCurrentGame().getNpcList()) {
+        for(NPC npc : Main.getApp().getCurrentGame().getNpcList()) {
             if(npc.info.name().equals(name)) return npc;
         }
         return null;
@@ -96,8 +104,8 @@ public class NPC {
     }
     public static String getNPCFriendshipsDetails(Character character) {
         StringBuilder builder = new StringBuilder();
-        for(int i=0;i< App.getCurrentGame().getNpcList().size();i++) {
-            NPC npc =  App.getCurrentGame().getNpcList().get(i);
+        for(int i=0;i< Main.getApp().getCurrentGame().getNpcList().size();i++) {
+            NPC npc =  Main.getApp().getCurrentGame().getNpcList().get(i);
             for(NPCFriendships friendship:npc.friendships) {
                 if(friendship.getCharacter().getUserId()==character.getUserId()) {
                     builder.append(npc.info.name())
@@ -109,14 +117,14 @@ public class NPC {
                         .append(")")
                         .append("friendship points: ")
                         .append(friendship.getFriendshipPoints());
-                    if(i!= App.getCurrentGame().getNpcList().size()-1) builder.append("\n");
+                    if(i!= Main.getApp().getCurrentGame().getNpcList().size()-1) builder.append("\n");
                 }
             }
         }
         return builder.toString();
     }
     public static void resetFirstTimeInDay(){
-        for(NPC npc :  App.getCurrentGame().getNpcList()) {
+        for(NPC npc :  Main.getApp().getCurrentGame().getNpcList()) {
             npc.setFirstGiftOfDay(true);
         }
     }
@@ -127,7 +135,7 @@ public class NPC {
     }
     public static void changeDayActivities(){
         resetFirstTimeInDay();
-        for(NPC npc :  App.getCurrentGame().getNpcList()) {
+        for(NPC npc :  Main.getApp().getCurrentGame().getNpcList()) {
             for(NPCFriendships friendship : npc.friendships) {
                 if(friendship.getLvl().equals(FriendshipLevel.HIGH)){
                     boolean sendGift= RandomNumber.getRandomNumber() % 2 == 1;
@@ -139,7 +147,7 @@ public class NPC {
     }
     public static String getQuests(Character character) {
         StringBuilder builder = new StringBuilder();
-        for(NPC npc :  App.getCurrentGame().getNpcList()) {
+        for(NPC npc :  Main.getApp().getCurrentGame().getNpcList()) {
             HashMap<ItemType,Integer> requests=npc.info.getRequests();
             for(NPCFriendships friendship : npc.friendships) {
                 if(friendship.getCharacter().getUserId()==character.getUserId()) {
@@ -166,7 +174,7 @@ public class NPC {
         if(questIndex==1)
             if(friendship.getFriendshipLevel()>=1) return true;
         if(questIndex==2)
-            return App.getCurrentGame().getDate().hasASeasonPassed();
+            return Main.getApp().getCurrentGame().getDate().hasASeasonPassed();
         return false;
     }
 

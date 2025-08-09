@@ -1,195 +1,91 @@
 package models;
 
-import com.badlogic.gdx.Screen;
+
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import controllers.PreGameMenuController;
+
 import io.github.camera.Main;
-import models.character.Character;
-import models.character.InventorySlot;
-import views.PreGameMenu;
 
+import network.Network;
+import network.NetworkRequest;
+import network.Requsets;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class App {
 
-    private static int loggedInUser;
-    private static models.User registeredUser;
+    private User loggedInUser;
+    private Game currentGame;
+    private float musicVolume=1f;
+    private int newGameId;
 
-    private static List<models.User> allUsers = new ArrayList<>();
-    private static ArrayList<models.Game> allGames = new ArrayList<>();
-    private static int currentGameId;
-    private static float musicVolume=1f;
-    private static Screen lastScreenBeforeShop;
+    private List<User> allUsers;
 
 
-    public static models.Game getCurrentGame(){
-        return getGameByID(currentGameId);
+    public models.Game getCurrentGame(){
+        return currentGame;
     }
-    public static void setCurrentGame(int id ){
-        currentGameId = id;
-    }
-    public static void addGame(models.Game game){
-        allGames.add(game);
+    public void updateCurrentGame(){
+        Main.getClient().sendMessage(new Requsets(NetworkRequest.GameRequest , currentGame.getId() , loggedInUser.getId()));
     }
 
-    public static ArrayList<models.Game> getAllGames() {
-        return allGames;
-    }
-    public static models.Game getGameByID(int id){
-        for (models.Game game : allGames) {
-            if(game.getId()==id){
-                return game;
-            }
-        }
-        return null;
+
+    public void addGame(models.Game game){
+        Main.getClient().sendMessage(new Network.updateGame(game , loggedInUser.getId()));
     }
 
-    public static void saveApp() throws IOException {
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(models.tool.Tool.class, new models.ToolAdapter())
-                .registerTypeAdapter(models.resource.Resource.class, new models.ResourceAndBuildingAdapter())
-                .registerTypeAdapter(models.building.Shop.class , new models.ShopAdapter())
-                .setPrettyPrinting()
-                .create();
-
-
-
-        try (FileWriter fileWriter = new FileWriter("users.json")) {
-            gson.toJson(allUsers, fileWriter);
-        }
-
-
-        try (FileWriter fileWriter1 = new FileWriter("games.json")) {
-            gson.toJson(allGames, fileWriter1);
-        }
-
-
-        File loggedInUserFile = new File("loggedInUser.json");
-        if (loggedInUserFile.exists()) {
-            try (FileWriter fileWriter2 = new FileWriter(loggedInUserFile.getName())) {
-                gson.toJson(loggedInUser, fileWriter2);
-            }
-        }
-    }
-
-    public static void loadApp() {
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(models.tool.Tool.class, new models.ToolAdapter())
-                .registerTypeAdapter(models.resource.Resource.class, new models.ResourceAndBuildingAdapter())
-                .registerTypeAdapter(models.building.Shop.class , new models.ShopAdapter())
-                .setPrettyPrinting()
-                .create();
-
-
-        File userFile = new File("users.json");
-        File gameFile = new File("games.json");
-        File loggedInUserFile = new File("loggedInUser.json");
-
+    public int getNewGameId() {
+        Main.getClient().sendMessage(new Requsets(NetworkRequest.newGameId, 0, 0));
         try {
-
-            if (userFile.exists()) {
-                try (FileReader fileReader = new FileReader(userFile)) {
-                    Type userListType = new TypeToken<List<models.User>>() {}.getType();
-                    allUsers = gson.fromJson(fileReader, userListType);
-                }
-            }
-
-
-            if (gameFile.exists()) {
-                try (FileReader gameFileReader = new FileReader(gameFile)) {
-                    Type gameListType = new TypeToken<List<models.Game>>() {}.getType();
-                    allGames = gson.fromJson(gameFileReader, gameListType);
-                }
-            }
-            System.out.println("loaded games:"+allGames.size());
-            System.out.println("loaded users:"+allUsers.size());
-
-            if (loggedInUserFile.exists()) {
-                try (FileReader loggedInUserFileReader = new FileReader(loggedInUserFile)) {
-                    Type loggedInUserType = new TypeToken<Integer>() {}.getType();
-                    loggedInUser = gson.fromJson(loggedInUserFileReader, loggedInUserType);
-                    if(gson == null){
-                    }
-                    Main.getMain().getScreen().dispose();
-                    Main.getMain().setScreen(new PreGameMenu(new PreGameMenuController()));
-                    System.out.println("welcome back "+getLoggedInUser().getUsername());
-                }
-            }
-            for (Game game : allGames) {
-                for (Character character : game.getAllCharacters()) {
-                    for (InventorySlot slot : character.getInventory().getSlots()) {
-                        if(slot.getObjectInSlot() !=  null){
-                            if(slot.getTool() != null){
-                                System.out.println("tool saved");
-                                slot.setObjectInSlot(slot.getTool() , 1);
-                            } else if (slot.getItemType() != null) {
-                                slot.setObjectInSlot(slot.getItemType() , slot.getCount());
-                            }
-                        }
-                    }
-                }
-            }
-
-
-
-        } catch (IOException e) {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
             e.printStackTrace();
-            System.out.println("Error reading files");
         }
+        System.out.println("new game: "+newGameId);
+        return newGameId;
     }
 
-    public static void setLoggedInUser(int user){
+    public models.Game getGameByID(int id, int userId) {
+        Main.getClient().sendMessage(new Requsets(NetworkRequest.GameRequest, id, userId));
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("new game:by id"+currentGame);
+        return currentGame;
+    }
+
+
+
+    public  void setLoggedInUser(User user){
         loggedInUser = user;
     }
-    public static models.User getLoggedInUser() {
-        for (models.User user : allUsers) {
-            if(user.getId() == loggedInUser){
-                return user;
-            }
+    public  models.User getLoggedInUser() {
+        return loggedInUser;
+    }
+    public  List<models.User> getAllUsers() {
+        Main.getClient().sendMessage(new Requsets(NetworkRequest.AllUsersRequest , 0 ,0));
+        if(allUsers == null){
+            allUsers = new ArrayList<>();
         }
-        return null;
-    }
-    public static void setRegisteredUser(models.User user){
-        registeredUser = user;
-    }
-    public static models.User getRegisteredUser() {
-        return registeredUser;
-    }
-    public static List<models.User> getAllUsers() {
         return allUsers;
     }
 
-    public static void addUserToList(models.User user){
-        allUsers.add(user);
+    public  void addUserToList(models.User user){
+        Main.getClient().sendMessage(user);
     }
 
-    public static int getIdByUserName(String username){
-        for (models.User user : allUsers) {
-            if(user.getUsername().equals(username)){
-                return user.getId();
-            }
-        }
-        return 0;
+    public  void setMusicVolume(float musicVolume){
+        this.musicVolume = musicVolume;
     }
-    public static void setMusicVolume(float musicVolume){
-        App.musicVolume = musicVolume;
-    }
-    public static float getMusicVolume(){
+    public  float getMusicVolume(){
         return musicVolume;
     }
-    public static void Extract(int i, ImageButton[] items){
+    public  void Extract(int i, ImageButton[] items){
         ImageButton.ImageButtonStyle style=new ImageButton.ImageButtonStyle();
         Drawable imageUp=new TextureRegionDrawable(AssetManager.getSelectorBubbleDefault());
         Drawable imageOver=new TextureRegionDrawable(AssetManager.getSelectorBubbleHover());
@@ -198,10 +94,18 @@ public class App {
         style.down=imageOver;
         items[i]=new ImageButton(style);
     }
-    public static void setLastScreenBeforeShop(Screen lastScreenBeforeShop){
-        App.lastScreenBeforeShop = lastScreenBeforeShop;
+
+    public void setCurrentGame(Game currentGame) {
+        this.currentGame = currentGame;
     }
-    public static Screen getLastScreenBeforeShop(){
-        return App.lastScreenBeforeShop;
+
+    public void setNewGameId(int newGameId) {
+        this.newGameId = newGameId;
     }
+
+    public void setAllUsers(List<User> allUsers) {
+        this.allUsers = allUsers;
+    }
+
+
 }

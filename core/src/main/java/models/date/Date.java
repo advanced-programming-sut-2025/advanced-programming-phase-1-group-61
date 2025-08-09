@@ -1,5 +1,6 @@
 package models.date;
 
+import io.github.camera.Main;
 import models.App;
 import models.character.Buff;
 import models.character.Character;
@@ -19,12 +20,13 @@ public class Date {
         day=DaysOfTheWeek.Sunday;
         season=Season.Spring;
     }
+
     public void increaseTime(int increase) {
         hour += increase;
         if (hour >= 24) {
             changeDay(1);
         }
-        List<Character> characters=App.getCurrentGame().getAllCharacters();
+        List<Character> characters= Main.getApp().getCurrentGame().getAllCharacters();
         for(Character character:characters){
             Buff buff=character.getBuff();
             if(buff!=null){
@@ -37,6 +39,23 @@ public class Date {
     public void setHour(int time){
         this.hour=time;
     }
+
+    public void setDay(DaysOfTheWeek day) {
+        this.day = day;
+    }
+
+    public void setSeason(Season season) {
+        this.season = season;
+    }
+
+    public void setDayCounter(int dayCounter) {
+        this.dayCounter = dayCounter;
+    }
+
+    public void setHasASeasonPassed(boolean hasASeasonPassed) {
+        this.hasASeasonPassed = hasASeasonPassed;
+    }
+
     public int getHour(){
         return hour;
     }
@@ -69,7 +88,7 @@ public class Date {
             } else if ((dayCounter / 25) % 4 == 3) {
                 changeSeason(Season.Winter);
             }
-            App.getCurrentGame().changeDayActivities();
+            Main.getApp().getCurrentGame().changeDayActivities();
         }
 
     }

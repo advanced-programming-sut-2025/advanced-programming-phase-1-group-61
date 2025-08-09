@@ -11,8 +11,10 @@ public class InventorySlot {
     private ItemType itemType;
     private Tool tool;
 
+    public InventorySlot() {
+    }
 
-    public InventorySlot(int count , Object object,int index) {
+    public InventorySlot(int count , Object object, int index) {
         this.count = count;
         this.object = object;
         this.index = index;
@@ -22,6 +24,7 @@ public class InventorySlot {
         } else if (object instanceof Tool) {
             itemType = null;
             tool = (Tool) object;
+
         }
     }
 
@@ -52,9 +55,11 @@ public class InventorySlot {
         if(object instanceof Tool){
             this.tool = (Tool) object;
             itemType = null;
+            this.count = count;
         }else if(object instanceof ItemType) {
             this.itemType = (ItemType) object;
             tool = null;
+            this.count = count;
         }
     }
 
@@ -71,5 +76,11 @@ public class InventorySlot {
         return tool;
     }
 
+    public void setItemType(ItemType itemType) {
+        this.itemType = itemType;
+    }
 
+    public void setTool(Tool tool) {
+        this.tool = tool;
+    }
 }

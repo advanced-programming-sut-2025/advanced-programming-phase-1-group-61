@@ -4,6 +4,10 @@ public class Cell {
     private int x;
     private int y;
     private Cell previousCell;
+
+    public Cell() {
+    }
+
     public int getX() {
         return x;
     }

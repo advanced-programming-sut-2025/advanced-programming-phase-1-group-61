@@ -5,51 +5,51 @@ import com.badlogic.gdx.graphics.Texture;
 
 public enum ItemType {
     Wood(10, "wood", 0, false, "Items/Wood.png","useful for crafting"),
-    HardWood(10, "hard wood", 0, false, "","hard as rock"),
-    Pony(0, "pony", 0, false, "",""),
+    HardWood(10, "hard wood", 0, false, "Crafting/Hardwood.png","hard as rock"),
+    Pony(0, "pony", 0, false, "Crafting/Stone.png",""),
     Stone(20, "stone", 0, false, "Items/Stone.png","its rocks brother"),
-    Iron(20, "iron", 0, false, "","new tech for 2000 years bc"),
+    Iron(20, "iron", 0, false, "Crafting/Iron_Bar.png","new tech for 2000 years bc"),
     Fur(0, "fur", 0, false, "","meow"),
-    Sardine(40, "sardine", 0, false, "",""),
-    DeluxeRetainingSoil(300, "deluxe retaining soil", 0, false, "",""),
-    SpeedGro(123, "speed gro", 0, false, "",""),
-    AppleSapling(335, "apple sapling", 0, false, "",""),
-    CherrySapling(3000, "cherry sapling", 0, false, "",""),
-    ApricotSapling(300, "apricot sapling", 0, false, "",""),
-    Bouquet(100, "bouquet", 0, false, "",""),
-    WineBottle(46, "botri ab shangooli", 0, false, "",""),
-    QualityRetainingSoil(500, "quality retaining soil", 0, false, "",""),
-    Pumpkin(320, "pumpkin", 0, false, "",""),
-    OrangeSapling(120, "orange sapling", 0, false, "",""),
-    BasicRetainingSoil(400, "basic retaining soil", 0, false, "",""),
-    WeddingRing(20000, "wedding ring", 0, false, "",""),
-    PeachSapling(200, "peach sapling", 0, false, "",""),
+    Sardine(40, "sardine", 0, false, "Items/Sardine.png","Fish"),
+    DeluxeRetainingSoil(300, "deluxe retaining soil", 0, false, "Crafting/Deluxe_Retaining_Soil.png",""),
+    SpeedGro(123, "speed gro", 0, false, "Crafting/Deluxe_Speed-Gro.png",""),
+    AppleSapling(335, "apple sapling", 0, false, "Trees/Apple_Stage_1.png",""),
+    CherrySapling(3000, "cherry sapling", 0, false, "Trees/Cherry_Stage_1.png",""),
+    ApricotSapling(300, "apricot sapling", 0, false, "Trees/Apricot_Stage_1.png",""),
+    Bouquet(100, "bouquet", 0, false, "Items/Bouquet.png",""),
+    WineBottle(46, "botri ab shangooli", 0, false, "Items/Wine.png",""),
+    QualityRetainingSoil(500, "quality retaining soil", 0, false, "Crafting/Quality_Retaining_Soil.png",""),
+    Pumpkin(320, "pumpkin", 0, false, "Crafting/Pumpkin.png",""),
+    OrangeSapling(120, "orange sapling", 0, false, "Trees/Orange_Stage_1.png",""),
+    BasicRetainingSoil(400, "basic retaining soil", 0, false, "Crafting/Basic_Retaining_Soil.png",""),
+    WeddingRing(20000, "wedding ring", 0, false, "Items/Wedding_Ring.png",""),
+    PeachSapling(200, "peach sapling", 0, false, "Trees/Peach_Stage_1.png",""),
     IronOre(10, "iron ore", 0, false, "Items/Iron_Ore.png",""),
-    PomegranateSapling(300, "pomegranate sapling", 0, false, "",""),
+    PomegranateSapling(300, "pomegranate sapling", 0, false, "Trees/Pomegranate_Stage_1.png",""),
     CopperOre(5, "copper ore", 0, false, "Items/Copper_Ore.png",""),
     GoldOre(25, "gold ore", 0, false, "Items/Gold_Ore.png",""),
-    Corn(40, "corn", 0, false, "",""),
-    Pickle(20, "pickle", 10, true, "",""),
-    Tomato(30, "tomato", 0, false, "",""),
-    Fiber(100, "fiber", 0, false, "",""),
-    Potato(30, "potato", 0, false, "",""),
-    Blueberry(30, "blueberry", 0, false, "",""),
-    Melon(30, "melon", 0, false, "",""),
-    Apricot(30, "apricot", 0, false, "",""),
-    RedCabbage(400, "red cabbage", 0, false, "",""),
-    Radish(20, "radish", 0, false, "",""),
-    Amaranth(30, "amaranth", 0, false, "",""),
-    Kale(35, "kale", 0, false, "",""),
-    Beet(20, "beet", 0, false, "",""),
-    Parsnip(34, "parsnip", 0, false, "",""),
-    EggPlant(10, "egg plant", 0, false, "",""),
-    Flounder(100, "flounder", 0, false, "",""),
-    MidnightCarp(500, "midnight carp", 0, false, "",""),
-    IridiumOre(100, "iridium ore", 0, false, "",""),
-    BeeHouse(200, "bee house", 0, false, "",""),
-    Wheat(50, "wheat", 0, false, "",""),
-    Gold(20, "gold", 0, false, "",""),
-    Quartz(25, "quartz", 0, false, "",""),
+    Corn(40, "corn", 0, false, "Items/Corn.png",""),
+    Pickle(20, "pickle", 10, true, "Items/Pickles.png",""),
+    Tomato(30, "tomato", 0, false, "Items/Tomato.png",""),
+    Fiber(100, "fiber", 0, false, "Items/Fiber.png",""),
+    Potato(30, "potato", 0, false, "Items/Potato.png",""),
+    Blueberry(30, "blueberry", 0, false, "Items/Blueberry.png",""),
+    Melon(30, "melon", 0, false, "Items/Melon.png",""),
+    Apricot(30, "apricot", 0, false, "Items/Apricot.png",""),
+    RedCabbage(400, "red cabbage", 0, false, "Items/Red_Cabbage.png",""),
+    Radish(20, "radish", 0, false, "Items/Radish.png",""),
+    Amaranth(30, "amaranth", 0, false, "Items/Amaranth.png",""),
+    Kale(35, "kale", 0, false, "Items/Kale.png",""),
+    Beet(20, "beet", 0, false, "Items/Beet.png",""),
+    Parsnip(34, "parsnip", 0, false, "Items/Parsnip.png",""),
+    EggPlant(10, "egg plant", 0, false, "Items/Eggplant.png",""),
+    Flounder(100, "flounder", 0, false, "Items/Flounder.png",""),
+    MidnightCarp(500, "midnight carp", 0, false, "Items/Midnight_Carp.png",""),
+    IridiumOre(100, "iridium ore", 0, false, "Items/Iridium_Ore.png",""),
+    BeeHouse(200, "bee house", 0, false, "Items/Bee_House.png",""),
+    Wheat(50, "wheat", 0, false, "Items/Wheat.png",""),
+    Gold(20, "gold", 0, false, "Items/Gold_Bar.png",""),
+    Quartz(25, "quartz", 0, false, "Items/Quartz.png",""),
     WaterSprinkler(300, "water sprinkler", 0, false, "",""),
     Plant(200, "plant", 0, false, "",""),
     Salmon(75, "salmon", 0, false, "",""),
@@ -327,8 +327,9 @@ public enum ItemType {
     private final String disPlayName;
     private final int energy;
     private final boolean isEdible;
-    private Texture texture;
+    private String texturePath;
     private final String description;
+    private Texture texture;
 
 
     ItemType(int price, String disPlayName, int energy, boolean isEdible, String internalPath,String description) {
@@ -336,12 +337,7 @@ public enum ItemType {
         this.disPlayName = disPlayName;
         this.energy = energy;
         this.isEdible = isEdible;
-        try {
-            this.texture = new Texture(Gdx.files.internal(internalPath));
-        } catch (Exception e) {
-//            Gdx.app.error("ItemType", "Failed to load texture: " + internalPath, e);
-            this.texture = new Texture("error.png");
-        }
+        this.texturePath = internalPath;
         this.description =description;
     }
 
@@ -393,7 +389,14 @@ public enum ItemType {
     }
 
     public Texture getTexture() {
-       return texture;
+        if (texture == null) {
+            try {
+                texture = new Texture(texturePath);
+            } catch (Exception e) {
+                texture = new Texture(Gdx.files.internal("error.png"));
+            }
+        }
+        return texture;
     }
 
     public String getDescription() {

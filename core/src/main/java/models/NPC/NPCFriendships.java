@@ -1,11 +1,12 @@
 package models.NPC;
 
+import io.github.camera.Main;
 import models.App;
 import models.character.Character;
 import models.enums.FriendshipLevel;
 
 public class NPCFriendships {
-    private final int characterId;
+    private int characterId;
     private int friendshipLevel;
     private int friendshipPoints;
     private FriendshipLevel lvl;
@@ -15,8 +16,12 @@ public class NPCFriendships {
         friendshipLevel=0;
         lvl=FriendshipLevel.LOW;
     }
+
+    public NPCFriendships() {
+    }
+
     public Character getCharacter() {
-        return App.getCurrentGame().getCharachterByUserId(characterId);
+        return Main.getApp().getCurrentGame().getCharachterByUserId(characterId);
     }
     public int getFriendshipLevel() {
         return friendshipLevel;
@@ -33,7 +38,7 @@ public class NPCFriendships {
         setFriendshipLevel(this.friendshipPoints/200);
     }
     public boolean equals(NPCFriendships npcfriendships) {
-        return App.getCurrentGame().getCharachterByUserId(characterId).getUserId()
+        return Main.getApp().getCurrentGame().getCharachterByUserId(characterId).getUserId()
                 == npcfriendships.getCharacter().getUserId();
     }
     public FriendshipLevel getLvl() {

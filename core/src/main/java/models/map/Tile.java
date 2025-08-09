@@ -20,6 +20,9 @@ public class Tile {
     private transient Sprite sprite;
     private CollisionRect collisionRect;
 
+    public Tile() {
+    }
+
     public Tile(int x, int y, TileType type, Resource resource, int ownerId) {
         this.x = x;
         this.y = y;

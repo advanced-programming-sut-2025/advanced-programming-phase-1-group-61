@@ -8,4 +8,7 @@ public class InteractFLOWER extends Interact {
         super(type,owner, friend, value,id);
         this.flower = flower;
     }
+
+    public InteractFLOWER() {
+    }
 }

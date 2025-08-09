@@ -1,5 +1,6 @@
 package models.enums;
 
+import io.github.camera.Main;
 import models.App;
 import models.Item;
 import models.RandomNumber;
@@ -61,6 +62,7 @@ public enum CropType {
         this.canBecomeGiant = canBecomeGiant;
         this.source = source;
         this.product = product;
+        this.season = season;
 
     }
 
@@ -122,7 +124,7 @@ public enum CropType {
     }
     public static CropType getCropTypeBySource(ItemType source) {
         if (source.equals(ItemType.MixedSeed)) {
-            Season season = App.getCurrentGame().getDate().getSeason();
+            Season season = Main.getApp().getCurrentGame().getDate().getSeason();
             List<CropType> possibleCrops = new ArrayList<>();
 
             switch (season) {

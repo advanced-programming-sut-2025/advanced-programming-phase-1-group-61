@@ -3,32 +3,26 @@ package controllers.GameControllers;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import io.github.camera.Main;
-import models.App;
 import models.AssetManager;
 import models.building.Shop;
 import models.character.Character;
 import models.enums.TileType;
-import models.map.Map;
 import models.map.Tile;
 import models.resource.Stone;
 import models.resource.Tree;
 
 public class WorldController {
-    private Map map;
+
     private OrthographicCamera camera;
-    private Character character;
-
-
     private static final int VIEW_RADIUS = 12;
 
     public WorldController(OrthographicCamera camera) {
-        this.map = App.getCurrentGame().getMap();
         this.camera = camera;
-        this.character = App.getCurrentGame().getCurrentCharacter();
+
     }
 
-
     public void update() {
+        Character character = Main.getApp().getCurrentGame().getCurrentCharacter();
         int charX = character.getX();
         int charY = character.getY();
 
@@ -36,12 +30,12 @@ public class WorldController {
 
         for (int y = charY - VIEW_RADIUS; y <= charY + VIEW_RADIUS; y++) {
             for (int x = charX - VIEW_RADIUS; x <= charX + VIEW_RADIUS; x++) {
-                Tile tile = map.getTileByCordinate(x, y);
+                Tile tile = Main.getApp().getCurrentGame().getMap().getTileByCordinate(x, y);
                 if (tile != null) {
                     int TILE_SIZE = AssetManager.getTileSize();
                     Sprite sprite = tile.getSprite();
                     if(tile.getType().equals(TileType.Grass)){
-                        switch (App.getCurrentGame().getDate().getSeason()){
+                        switch (Main.getApp().getCurrentGame().getDate().getSeason()){
                             case Fall -> sprite = new Sprite(TileType.fallGrass.getTexture());
                             case Spring -> sprite = new Sprite(TileType.Grass.getTexture());
                             case Winter -> sprite = new Sprite(TileType.snowyGrass.getTexture());
@@ -58,7 +52,7 @@ public class WorldController {
 
         for (int y = charY + VIEW_RADIUS; y >= charY - VIEW_RADIUS; y--){
             for (int x = charX - VIEW_RADIUS; x <= charX + VIEW_RADIUS; x++) {
-                Tile tile = map.getTileByCordinate(x, y);
+                Tile tile = Main.getApp().getCurrentGame().getMap().getTileByCordinate(x, y);
                 if (tile != null && tile.getResource() != null) {
                     if (tile.getResource() instanceof Tree) {
                         ((Tree) tile.getResource()).draw();
@@ -80,8 +74,9 @@ public class WorldController {
         }
 
 
-        for (Shop shop : App.getCurrentGame().getShops()) {
+        for (Shop shop : Main.getApp().getCurrentGame().getShops()) {
             shop.draw();
         }
     }
+
 }

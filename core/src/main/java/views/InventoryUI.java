@@ -18,20 +18,23 @@ import models.map.Tile;
 import models.tool.Axe;
 import models.tool.Tool;
 
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InventoryUI extends Table implements InputProcessor {
 
     private final Character character;
     private final Skin skin;
-    private final DragAndDrop dragAndDrop;
+
     private final Texture errorTexture;
     private final Texture emptySlot;
     private final Texture pickedSlot;
+    private ToolbarUI toolbarUI;
 
     private final List<Table> slotTables = new ArrayList<>();
+    private final Map<Table, Image> slotBackgrounds = new HashMap<>();
     private Table selectedInventorySlot = null;
     private boolean inventoryVisible = false;
 
@@ -42,7 +45,7 @@ public class InventoryUI extends Table implements InputProcessor {
     public InventoryUI(Skin skin, Character character, Stage stage) {
         this.character = character;
         this.skin = skin;
-        this.dragAndDrop = new DragAndDrop();
+
         this.setFillParent(true);
 
         errorTexture = new Texture("error.png");
@@ -54,11 +57,17 @@ public class InventoryUI extends Table implements InputProcessor {
         stage.addActor(this);
     }
 
+    public void setToolbarUI(ToolbarUI toolbarUI) {
+        this.toolbarUI = toolbarUI;
+    }
+
     private void createInventoryUI() {
         this.clear();
         this.top();
 
-        // Buttons section
+        slotTables.clear();
+        slotBackgrounds.clear();
+
         Table buttonsTable = new Table();
         buttonsTable.defaults().pad(5);
 
@@ -75,7 +84,7 @@ public class InventoryUI extends Table implements InputProcessor {
             public void clicked(InputEvent event, float x, float y) {
                 character.setHasGreenHouse(true);
                 repairButton.setVisible(false);
-                for (Tile[] tiles : App.getCurrentGame().getMap().getTiles()) {
+                for (Tile[] tiles : Main.getApp().getCurrentGame().getMap().getTiles()) {
                     for (Tile tile : tiles) {
                         if (tile.getOwnerId() == character.getUserId()) {
                             if (tile.getType().equals(TileType.BrokenGreenHouse)) {
@@ -134,27 +143,60 @@ public class InventoryUI extends Table implements InputProcessor {
         Image background = createImage(emptySlot);
         background.setFillParent(true);
         slot.addActor(background);
-        slot.setUserObject(background);
+        slotBackgrounds.put(slot, background);
+
         if (slotData.getObjectInSlot() != null) {
             Object obj = slotData.getObjectInSlot();
             Texture texture = getTextureForObject(obj);
             Image image = createImage(texture);
-            Label countLabel = new Label(String.valueOf(slotData.getCount()), skin);
+            image.setTouchable(Touchable.enabled);
 
+            Label countLabel = new Label(String.valueOf(slotData.getCount()), skin);
             Stack stack = new Stack();
             stack.add(image);
             stack.add(countLabel);
+            stack.setTouchable(Touchable.enabled);
 
             slot.add(stack).size(64).center();
 
-            addDragSource(image, slotData);
-            addDropTarget(slot, slotData);
         }
+
+
 
         slot.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                setPickedSlot(slot);
+                if (button == 0) {
+                    setPickedSlot(slot);
+
+                    if (slotData.getObjectInSlot() instanceof Tool) {
+                        Tool selectedTool = (Tool) slotData.getObjectInSlot();
+                        character.setCurrentTool(selectedTool);
+                        System.out.println("Current tool set to: " + selectedTool.getType());
+                    } else {
+                        character.setCurrentTool(null);
+                    }
+
+                } else if (button == 1) {
+                    if (selectedInventorySlot != null && selectedInventorySlot != slot) {
+                        InventorySlot sourceSlotData = getSlotDataFromTable(selectedInventorySlot);
+                        InventorySlot targetSlotData = slotData;
+
+                        List<InventorySlot> inventory = character.getInventory().getSlots();
+
+                        int sourceIndex = inventory.indexOf(sourceSlotData);
+                        int targetIndex = inventory.indexOf(targetSlotData);
+
+                        if (sourceIndex != -1 && targetIndex != -1) {
+                            inventory.set(sourceIndex, targetSlotData);
+                            inventory.set(targetIndex, sourceSlotData);
+                        }
+
+                        refreshUI();
+
+                        selectedInventorySlot = null;
+                    }
+                }
                 return true;
             }
         });
@@ -162,49 +204,25 @@ public class InventoryUI extends Table implements InputProcessor {
         return slot;
     }
 
-    private void addDragSource(Image image, InventorySlot slotData) {
-        dragAndDrop.addSource(new DragAndDrop.Source(image) {
-            public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
-                DragAndDrop.Payload payload = new DragAndDrop.Payload();
-                payload.setObject(slotData);
+    private InventorySlot getSlotDataFromTable(Table slotTable) {
 
-                Image dragImage = new Image(image.getDrawable());
-                dragImage.setSize(image.getWidth(), image.getHeight());
-                payload.setDragActor(dragImage);
-
-                return payload;
-            }
-        });
+        int index = slotTables.indexOf(slotTable);
+        if (index != -1 && index < character.getInventory().getSlots().size()) {
+            return character.getInventory().getSlots().get(index);
+        }
+        return null;
     }
 
-    private void addDropTarget(Table targetSlot, InventorySlot targetData) {
-        dragAndDrop.addTarget(new DragAndDrop.Target(targetSlot) {
-            @Override
-            public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                return true;
-            }
 
-            @Override
-            public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                InventorySlot sourceData = (InventorySlot) payload.getObject();
-
-                Object tempObj = targetData.getObjectInSlot();
-                int tempCount = targetData.getCount();
-
-                targetData.setObjectInSlot(sourceData.getObjectInSlot(), sourceData.getCount());
-                sourceData.setObjectInSlot(tempObj, tempCount);
-
-                refreshUI();
-            }
-        });
-    }
 
     private void setPickedSlot(Table selectedSlot) {
         selectedInventorySlot = selectedSlot;
         for (Table slot : slotTables) {
-            Image bg = (Image) slot.getUserObject();
-            TextureRegion region = new TextureRegion(slot == selectedSlot ? pickedSlot : emptySlot);
-            bg.setDrawable(new TextureRegionDrawable(region));
+            Image bg = slotBackgrounds.get(slot);
+            if (bg != null) {
+                TextureRegion region = new TextureRegion(slot == selectedSlot ? pickedSlot : emptySlot);
+                bg.setDrawable(new TextureRegionDrawable(region));
+            }
         }
     }
 
@@ -224,17 +242,31 @@ public class InventoryUI extends Table implements InputProcessor {
         return new Image(new TextureRegionDrawable(new TextureRegion(texture)));
     }
 
-    private void refreshUI() {
+    public void refreshUI() {
         createInventoryUI();
+        toolbarUI.updateSlotsUI();
+        toolbarUI.refreshUI();
     }
 
-    @Override public boolean keyDown(int keycode) { return false; }
-    @Override public boolean keyUp(int i) { return false; }
-    @Override public boolean keyTyped(char c) { return false; }
-    @Override public boolean touchDown(int i, int i1, int i2, int i3) { return false; }
-    @Override public boolean touchUp(int i, int i1, int i2, int i3) { return false; }
-    @Override public boolean touchCancelled(int i, int i1, int i2, int i3) { return false; }
-    @Override public boolean touchDragged(int i, int i1, int i2) { return false; }
-    @Override public boolean mouseMoved(int i, int i1) { return false; }
-    @Override public boolean scrolled(float v, float v1) { return false; }
+    @Override
+    public boolean keyDown(int keycode) { return false; }
+    @Override
+    public boolean keyUp(int i) { return false; }
+    @Override
+    public boolean keyTyped(char c) { return false; }
+    @Override
+    public boolean touchDown(int i, int i1, int i2, int i3) { return false; }
+    @Override
+    public boolean touchUp(int i, int i1, int i2, int i3) { return false; }
+    @Override
+    public boolean touchCancelled(int i, int i1, int i2, int i3) { return false; }
+    @Override
+    public boolean touchDragged(int i, int i1, int i2) { return false; }
+    @Override
+    public boolean mouseMoved(int i, int i1) { return false; }
+    @Override
+    public boolean scrolled(float v, float v1) { return false; }
+
+
+
 }

@@ -1,5 +1,6 @@
 package models.tool;
 
+import io.github.camera.Main;
 import models.App;
 import models.character.Character;
 import models.enums.Direction;
@@ -17,11 +18,12 @@ public class WateringCan extends Tool{
         this.level="primary";
     }
 
+
     public String use(Direction direction){
-        Character character= App.getCurrentGame().getCurrentCharacter();
+        Character character= Main.getApp().getCurrentGame().getCurrentCharacter();
         int targetX=character.getX()+direction.getDx();
         int targetY=character.getY()+direction.getDy();
-        Map map=App.getCurrentGame().getMap();
+        Map map=Main.getApp().getCurrentGame().getMap();
         Tile tile = map.getTileByCordinate(targetX , targetY);
         if(targetY<0 || targetX<0 || targetY>=map.getHeightSize() || targetX>=map.getWidthSize())
             return "you cant water void \n(pls stop trying to break our game)";
@@ -80,7 +82,7 @@ public class WateringCan extends Tool{
     @Override
     public int getConsumptionEnergy() {
         int consume=this.type.getEnergyConsumption(this.level);
-        Character character= App.getCurrentGame().getCurrentCharacter();
+        Character character= Main.getApp().getCurrentGame().getCurrentCharacter();
         if(character.getSkill().getFarmingLVL()==4)
             consume=Math.max(0,consume-1);
         return consume;

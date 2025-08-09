@@ -26,6 +26,10 @@ public class Inventory {
         }
         slots.get(0).setObjectInSlot(new Axe() , 1);
         slots.get(1).setObjectInSlot(new Pickaxe() , 1);
+        slots.get(2).setObjectInSlot(new FishingPole() , 1);
+        slots.get(3).setObjectInSlot(new Scythe(),1);
+        slots.get(4).setObjectInSlot(new Hoe() , 1);
+        slots.get(5).setObjectInSlot(new WateringCan() , 1);
     }
 
     public List<InventorySlot> getSlots() {
@@ -37,7 +41,9 @@ public class Inventory {
             if(slot.getIndex() == index){
                 if(slot.getObjectInSlot() == null){
                     slot.setObjectInSlot(item , count);
+                    return;
                 }
+
             }
         }
     }
@@ -45,6 +51,7 @@ public class Inventory {
         for (InventorySlot slot : slots) {
             if(slot.getObjectInSlot() == null){
                 slot.setObjectInSlot(item , count);
+                return;
             }
         }
     }
@@ -91,9 +98,7 @@ public class Inventory {
     public Trashcan getTrashcan() {
         return trashcan;
     }
-    public void setTrashcan(Trashcan trashcan) {
-        this.trashcan = trashcan;
-    }
+
     public void upgradeFishingPole(String upgradeName){
         for (InventorySlot slot : slots) {
             if(slot.getObjectInSlot() != null){
@@ -106,9 +111,39 @@ public class Inventory {
         }
     }
 
-    public void removeItem(ItemType type , int count){
-       //TODO
+    public int removeItem(ItemType type, int count) {
+        int originalCount = count;
+
+        for (InventorySlot slot : slots) {
+            if (slot.getObjectInSlot() != null) {
+                if (slot.getObjectInSlot() instanceof ItemType) {
+                    ItemType typeInSlot = (ItemType) slot.getObjectInSlot();
+
+                    if (typeInSlot.equals(type)) {
+                        int slotCount = slot.getCount();
+
+                        if (slotCount <= count) {
+                            count -= slotCount;
+                            slot.setObjectInSlot(null, 0);
+                            slot.setItemType(null);
+                            slot.setCount(0);
+                        } else {
+                            slot.setCount(slotCount - count);
+                            count = 0;
+                        }
+
+                        if (count == 0) {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        return originalCount - count;
     }
+
+
 
     public void addCage(CageType cage, int count){
         if(allCages.containsKey(cage)){

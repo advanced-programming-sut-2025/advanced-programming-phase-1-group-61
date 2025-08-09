@@ -1,5 +1,6 @@
 package models.animal;
 
+import io.github.camera.Main;
 import models.App;
 
 import models.Item;
@@ -14,24 +15,27 @@ import java.util.*;
 public class Animal {
     private int X ;
     private int Y ;
-    private final AnimalType type;
-    private final String name;
+    private  AnimalType type;
+    private  String name;
     protected boolean hunger = true;
     protected String house;
     private int friendship = 0;
     private final List<ItemType> products = new ArrayList<>();
     private boolean isOut = false;
-    private final int price;
+    private int price;
     private boolean isPet = false;
     private boolean outFed = false;
     private boolean collected = false;
+
+    public Animal() {
+    }
 
     public Animal(AnimalType type, String house, String name) {
         this.type = type;
         this.house = house;
         this.name = name;
-        this.X = App.getCurrentGame().getCurrentCharacter().getBuilding(house).getX();
-        this.Y = App.getCurrentGame().getCurrentCharacter().getBuilding(house).getY();
+        this.X = Main.getApp().getCurrentGame().getCurrentCharacter().getBuilding(house).getX();
+        this.Y = Main.getApp().getCurrentGame().getCurrentCharacter().getBuilding(house).getY();
         this.price = type.getPrice();
     }
 
@@ -40,7 +44,7 @@ public class Animal {
     }
 
     public static boolean buy(AnimalType Type, String House, String name) {
-        Character Owner = App.getCurrentGame().getCurrentCharacter();
+        Character Owner = Main.getApp().getCurrentGame().getCurrentCharacter();
         Animal animal = new Animal(Type, House, name);
         if (Owner.getBuilding(House).addInput(animal)) {
             Owner.addAnimal(animal, name);
@@ -54,7 +58,7 @@ public class Animal {
     }
 
     public static String getHouse(AnimalType type) {
-        Character owner = App.getCurrentGame().getCurrentCharacter();
+        Character owner = Main.getApp().getCurrentGame().getCurrentCharacter();
         ArrayList<Building> buildings = owner.getBuildings();
         String house = type.getHouse();
         for (Building building : buildings) {
@@ -134,7 +138,7 @@ public class Animal {
     }
 
     public boolean getProducts() {
-        Character Owner = App.getCurrentGame().getCurrentCharacter();
+        Character Owner = Main.getApp().getCurrentGame().getCurrentCharacter();
         if (this.type.getRequired() != null) {
             if (!Owner.getInventory().checkToolInInventory(this.type.getRequired())) {
                 return false;
@@ -151,8 +155,8 @@ public class Animal {
         this.X = x;
         this.Y = y;
         if(House!=null){
-            App.getCurrentGame().getCurrentCharacter().getBuilding(this.house).removeInput(this);
-            App.getCurrentGame().getCurrentCharacter().getBuilding(House).addInput(this);
+            Main.getApp().getCurrentGame().getCurrentCharacter().getBuilding(this.house).removeInput(this);
+            Main.getApp().getCurrentGame().getCurrentCharacter().getBuilding(House).addInput(this);
             this.house = House;
         }
         if (this.isOut != isout) {

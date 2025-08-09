@@ -5,19 +5,20 @@ import com.badlogic.gdx.graphics.Texture;
 
 public enum TrashcanType {
     PRIMARY(0,"Primary","Items/Trash_Can_Copper.png"),
-    COPPER(15,"Copper","Items/Trash_Can_Copper.png"),
-    IRON(30,"Iron","Items/Trash_Can_Steel.png"),
-    GOLDEN(45,"Golden","Items/Trash_Can_Gold.png"),
-    IRIDIUM(60,"Iridium","Items/Trash_Can_Iridium.png"),;
-    private final int returnPercentage;
+    COPPER(0.15f,"Copper","Items/Trash_Can_Copper.png"),
+    IRON(0.30f,"Iron","Items/Trash_Can_Steel.png"),
+    GOLDEN(0.45f,"Golden","Items/Trash_Can_Gold.png"),
+    IRIDIUM(0.60f,"Iridium","Items/Trash_Can_Iridium.png"),;
+    private final float returnPercentage;
     private final String displayName;
     private final String texturePath;
-    TrashcanType(int returnPercentage, String displayName,String texturePath) {
+    private Texture texture;
+    TrashcanType(float returnPercentage, String displayName,String texturePath) {
         this.returnPercentage = returnPercentage;
         this.displayName = displayName;
         this.texturePath = texturePath;
     }
-    public int getReturnPercentage() {
+    public float getReturnPercentage() {
         return returnPercentage;
     }
     public String getDisplayName() {
@@ -33,6 +34,9 @@ public enum TrashcanType {
         };
     }
     public Texture getTexture() {
-        return new Texture(Gdx.files.internal(texturePath));
+        if(texture == null){
+            texture = new Texture(Gdx.files.internal(texturePath));
+        }
+        return texture;
     }
 }

@@ -9,6 +9,8 @@ public class Stone extends Resource{
     private ItemType oreType;
 
 
+    public Stone() {
+    }
 
     public Stone(StoneType type) {
         this.type = type;

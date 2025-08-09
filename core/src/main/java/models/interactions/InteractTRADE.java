@@ -19,6 +19,10 @@ public class InteractTRADE extends Interact{
         this.amount2 = amount2;
         this.kind = kind;
     }
+
+    public InteractTRADE() {
+    }
+
     public ItemType getItem1() {
         return Item1;
     }

@@ -1,5 +1,6 @@
 package models.shops;
 
+import io.github.camera.Main;
 import models.App;
 import models.building.Shop;
 import models.character.Character;
@@ -11,8 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StarDrop extends Shop {
-    private final ArrayList<ShopItem> items;
-    private final ArrayList<ShopCookingRecipes> recipes;
+    private  ArrayList<ShopItem> items;
+    private  ArrayList<ShopCookingRecipes> recipes;
+
+    public StarDrop() {
+    }
 
     public StarDrop(String name, int X, int Y) {
         super(name, X, Y,ShopType.StarDrop);
@@ -91,7 +95,7 @@ public class StarDrop extends Shop {
 
     @Override
     public String purchaseProduct(String product, int count) {
-        Character character= App.getCurrentGame().getCurrentCharacter();
+        Character character= Main.getApp().getCurrentGame().getCurrentCharacter();
         for(ShopItem item:items){
             if(item.getItem().getDisPlayName().equals(product)){
                 if(count> item.getStock()) return "not enough stock!";

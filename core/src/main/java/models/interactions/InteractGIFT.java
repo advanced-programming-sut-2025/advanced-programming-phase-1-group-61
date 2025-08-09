@@ -13,4 +13,6 @@ public class InteractGIFT extends Interact {
         this.Item = item;
     }
 
+    public InteractGIFT() {
+    }
 }

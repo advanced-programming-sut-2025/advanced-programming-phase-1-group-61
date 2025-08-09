@@ -16,6 +16,7 @@ public enum CageType {
     private final String description;
     private final String displayName;
     private final String internalPath;
+    private Texture texture;
     CageType(int width, int height,String description,String displayName,String internalPath) {
         this.width = width;
         this.height = height;
@@ -43,6 +44,9 @@ public enum CageType {
         }
     }
     public Texture getTexture() {
-        return new Texture(internalPath);
+        if(texture == null){
+            texture = new Texture(internalPath);
+        }
+        return texture;
     }
 }

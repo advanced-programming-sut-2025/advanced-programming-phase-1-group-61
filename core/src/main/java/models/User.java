@@ -1,5 +1,6 @@
 package models;
 
+import io.github.camera.Main;
 import models.character.Question;
 import models.enums.Gender;
 import models.enums.graphic.BackgroundMusic;
@@ -22,10 +23,14 @@ public class User {
         this.email = email;
         this.password = password;
         this.gender =gender;
-        numberOfUsers = App.getAllUsers().size();
+        numberOfUsers = Main.getApp().getAllUsers().size();
         this.id = numberOfUsers+1;
         this.gameId = 0;
     }
+
+    public User() {
+    }
+
     public void setQuestion(Question question) {
         this.question=question;
     }
@@ -33,15 +38,17 @@ public class User {
         return question;
     }
     public static User getUserByUsername(String username) {
-        for(User user:App.getAllUsers()){
-            if(user.username.equals(username)){
-                return user;
-            }
-        }
+       if(Main.getApp().getAllUsers() != null){
+           for(User user:Main.getApp().getAllUsers()){
+               if(user.username.equals(username)){
+                   return user;
+               }
+           }
+       }
         return null;
     }
     public static User getUSerById(int id){
-        for (User user : App.getAllUsers()) {
+        for (User user : Main.getApp().getAllUsers()) {
             if(user.getId() == id){
                 return user;
             }
