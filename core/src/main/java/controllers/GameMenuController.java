@@ -22,6 +22,7 @@ import models.workBench.WorkBench;
 import network.Network;
 import views.GameView;
 import views.NPCPages.GiftPageView;
+import views.NPCPages.QuestsPageView;
 
 
 import java.util.Arrays;
@@ -80,6 +81,8 @@ public class GameMenuController {
         quests.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {
                 AssetManager.getUiClicks().play();
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(new QuestsPageView());
             }
         });
         friendship.addListener(new ClickListener(){
