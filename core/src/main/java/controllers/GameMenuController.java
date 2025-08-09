@@ -21,6 +21,7 @@ import models.workBench.ItemKinds;
 import models.workBench.WorkBench;
 import network.Network;
 import views.GameView;
+import views.NPCPages.GiftPageView;
 
 
 import java.util.Arrays;
@@ -68,10 +69,12 @@ public class GameMenuController {
 
 
     public void addListenersForNpcTable(NPC npc, TextButton gift, TextButton quests, TextButton friendship, TextButton close, Table table){
+        GameMenuController controller = new GameMenuController(game);
         gift.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {
                 AssetManager.getUiClicks().play();
-
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(new GiftPageView(npc,controller));
             }
         });
         quests.addListener(new ClickListener(){
