@@ -82,7 +82,7 @@ public class GameMenuController {
             public void clicked(InputEvent event, float x, float y) {
                 AssetManager.getUiClicks().play();
                 Main.getMain().getScreen().dispose();
-                Main.getMain().setScreen(new QuestsPageView());
+                Main.getMain().setScreen(new QuestsPageView(npc));
             }
         });
         friendship.addListener(new ClickListener(){
