@@ -400,4 +400,8 @@ public class Character {
     public void setMoving(boolean moving) {
         isMoving = moving;
     }
+
+    public boolean checkRecipeAvailability(Recipe recipe){
+        return recipes.contains(recipe);
+    }
 }
