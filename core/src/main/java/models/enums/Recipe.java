@@ -73,4 +73,10 @@ public enum Recipe {
             return new Texture(Gdx.files.internal("error.png"));
         }
     }
+    public static boolean checkRecipeAvailability(String name){
+        for(Recipe r : Recipe.values()){
+            if(r.name().equals(name)) return true;
+        }
+        return false;
+    }
 }
