@@ -8,5 +8,6 @@ public enum NetworkRequest {
     MapUpdateRequest,
     UpdateLobbies,
     OnlineClients,
-    KickedFromGame;
+    KickedFromGame,
+    ScoreTableRefresh;
 }

@@ -172,5 +172,7 @@ public class KryoRegistrations {
         kryo.register(VoteType.class);
         kryo.register(GetVote.class);
         kryo.register(Vote.class);
+        kryo.register(Chat.class);
+        kryo.register(ScoreTableRefresh.class);
     }
 }

@@ -22,6 +22,7 @@ public class PreGameMenu implements Screen {
     private TextButton profileMenu;
     private TextButton playerList;
     private TextButton setting;
+    private TextButton scoreTable;
     private Skin skin = AssetManager.getSkin();
 
 
@@ -29,11 +30,12 @@ public class PreGameMenu implements Screen {
         this.controller = controller;
         stage = new Stage();
         logout  = new TextButton("LOGOUT",skin);
-        newGame =  new TextButton("NEW GAME",skin);
+        newGame =  new TextButton("LOBBY",skin);
         loadGame = new TextButton("LOAD GAME",skin);
         profileMenu = new TextButton("PROFILE",skin);
         setting = new TextButton("SETTING",skin);
-        playerList = new TextButton("Player List",skin);
+        playerList = new TextButton("PLAYER LIST",skin);
+        scoreTable = new TextButton("SCORE TABLE",skin);
         controller.setView(this);
     }
 
@@ -50,6 +52,8 @@ public class PreGameMenu implements Screen {
         table.add(playerList.padBottom(20));
         table.row();
         table.add(profileMenu).padBottom(20);
+        table.row();
+        table.add(scoreTable).padBottom(20);
         table.row();
         table.add(setting).padBottom(20);
         table.row();
@@ -109,13 +113,13 @@ public class PreGameMenu implements Screen {
                 User user = Main.getApp().getLoggedInUser();
                 if (user.getGameId() == 0) {
                    Main.getMain().getScreen().dispose();
-                   Main.getMain().setScreen(new NewGameView(new NewGameController()));
+                   Main.getMain().setScreen(new PreLobbyView(new PreLobbyController()));
                    return;
                 }
                 Game game = Main.getApp().getGameByID(user.getGameId() ,user.getId());
                 if (game == null) {
                     Main.getMain().getScreen().dispose();
-                    Main.getMain().setScreen(new NewGameView(new NewGameController()));
+                    Main.getMain().setScreen(new PreLobbyView(new PreLobbyController()));
                     return;
                 }
                 Main.getApp().setCurrentGame(game);
@@ -149,6 +153,13 @@ public class PreGameMenu implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 Main.getMain().getScreen().dispose();
                 Main.getMain().setScreen(new AllPlayersView(new AllPlayersController()));
+            }
+        });
+        scoreTable.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(new ScoreTableView(new ScoreTableController()));
             }
         });
     }

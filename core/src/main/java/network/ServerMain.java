@@ -99,6 +99,9 @@ public class ServerMain {
                         case UpdateLobbies -> {
                             connection.sendTCP(lobbies);
                         }
+                        case ScoreTableRefresh ->{
+                            connection.sendTCP(new ScoreTableRefresh(allUsers , allGames));
+                        }
                     }
                 } else if (object instanceof LobbyRequest request) {
                     for (Lobby lobby : lobbies) {
@@ -199,6 +202,13 @@ public class ServerMain {
                             }
 
                             votes.remove(targetVote);
+                        }
+                    }
+                }else if (object instanceof Chat chat) {
+                    for (Integer userId : chat.getUserIdList()) {
+                        Connection connection1 =  getConnectionById(userId);
+                        if(connection1 != null){
+                            connection1.sendTCP(chat);
                         }
                     }
                 }
@@ -389,6 +399,14 @@ public class ServerMain {
                        return connection;
                    }
                }
+           }
+       }
+       return null;
+   }
+   private static User getUserById(int id){
+       for (User user : allUsers) {
+           if(user.getId() == id){
+               return user;
            }
        }
        return null;

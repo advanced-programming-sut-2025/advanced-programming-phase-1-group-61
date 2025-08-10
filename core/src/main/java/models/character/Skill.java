@@ -39,36 +39,41 @@ public class Skill {
     }
 
     public int getMiningLVL() {
+        if(Main.getApp().getCurrentGame() != null){
         Character character = Main.getApp().getCurrentGame().getCurrentCharacter();
         Buff buff=character.getBuff();
         if(buff != null){
             if(buff.isMiningBuff()) return 4;
-        }
+        }}
         return miningLVL;
     }
 
     public int getForagingLVL() {
+        if(Main.getApp().getCurrentGame() != null){
         Character character = Main.getApp().getCurrentGame().getCurrentCharacter();
         Buff buff=character.getBuff();
         if(buff != null){
             if(buff.isForagingBuff()) return 4;
-        }
+        }}
         return foragingLVL;
     }
     public int getFarmingLVL() {
+        if(Main.getApp().getCurrentGame() != null){
         Character character = Main.getApp().getCurrentGame().getCurrentCharacter();
         Buff buff=character.getBuff();
         if(buff != null){
             if(buff.isFarmingBuff()) return 4;
-        }
+        }}
         return farmingLVL;
     }
     public int getFishingLVL(){
-        Character character = Main.getApp().getCurrentGame().getCurrentCharacter();
-        Buff buff=character.getBuff();
-        if(buff != null){
-            if(buff.isFishingBuff()) return 4;
-        }
+      if(Main.getApp().getCurrentGame() != null){
+          Character character = Main.getApp().getCurrentGame().getCurrentCharacter();
+          Buff buff=character.getBuff();
+          if(buff != null){
+              if(buff.isFishingBuff()) return 4;
+          }
+      }
         return fishingLVL;
     }
 
