@@ -100,8 +100,11 @@ public class NetworkClient {
                         }
                     } else if (object instanceof Chat chat) {
                         if (Main.getMain().getScreen() instanceof GameView view) {
-                            System.out.println("Hello MF");
                             view.addChatMessage(chat.getText(), chat.isPrivate());
+                        }
+                    } else if (object instanceof ScoreTableRefresh refresh) {
+                        if(Main.getMain().getScreen() instanceof ScoreTableView view){
+                            view.getController().refreshGameAndusers(refresh.getAllGames() , refresh.getAllUsers());
                         }
                     }
 

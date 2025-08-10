@@ -99,6 +99,9 @@ public class ServerMain {
                         case UpdateLobbies -> {
                             connection.sendTCP(lobbies);
                         }
+                        case ScoreTableRefresh ->{
+                            connection.sendTCP(new ScoreTableRefresh(allUsers , allGames));
+                        }
                     }
                 } else if (object instanceof LobbyRequest request) {
                     for (Lobby lobby : lobbies) {
