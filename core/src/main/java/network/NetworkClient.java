@@ -10,6 +10,7 @@ import models.Game;
 import models.User;
 import models.character.Character;
 import models.map.Map;
+import network.Lobby.Chat;
 import network.Lobby.GetVote;
 import network.Lobby.Lobby;
 import network.Lobby.VoteType;
@@ -97,8 +98,12 @@ public class NetworkClient {
                                 Main.getApp().setCurrentGame(null);
                             });
                         }
+                    } else if (object instanceof Chat chat) {
+                        if (Main.getMain().getScreen() instanceof GameView view) {
+                            System.out.println("Hello MF");
+                            view.addChatMessage(chat.getText(), chat.isPrivate());
+                        }
                     }
-
 
 
                 }

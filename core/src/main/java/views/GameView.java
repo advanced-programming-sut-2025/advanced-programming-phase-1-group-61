@@ -27,6 +27,7 @@ import models.NPC.NPC;
 import models.enums.WeatherState;
 import models.map.Map;
 import models.map.Particle;
+import network.Lobby.Chat;
 import network.Lobby.Vote;
 import network.Lobby.VoteType;
 import network.Lobby.VotingRequest;
@@ -60,6 +61,8 @@ public class GameView implements Screen, InputProcessor{
     private Label label;
     private String voteLabel;
     private TextButton sendVote;
+    private List<String> chatMessages = new ArrayList<>();
+
 
 
 
@@ -206,6 +209,9 @@ public class GameView implements Screen, InputProcessor{
         if (Gdx.input.isKeyJustPressed(Input.Keys.V)) {
             openVotingCreationPanel();
         }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Y)) {
+            openChatDialog();
+        }
 
 
 
@@ -262,6 +268,17 @@ public class GameView implements Screen, InputProcessor{
         font.draw(spriteBatch, dayText, 20, Gdx.graphics.getHeight() - 50);
         font.draw(spriteBatch, seasonText, 20, Gdx.graphics.getHeight() - 80);
         font.draw(spriteBatch , energy , 20 ,Gdx.graphics.getHeight() -110 );
+        int yOffset = 150;
+        for (String msg : chatMessages) {
+            if (msg.startsWith("[PRIVATE]")) {
+                font.setColor(Color.RED);
+            } else {
+                font.setColor(Color.WHITE);
+            }
+            font.draw(spriteBatch, msg, 20, yOffset);
+            yOffset += 20;
+        }
+        font.setColor(Color.WHITE);
         spriteBatch.end();
 
     }
@@ -355,7 +372,6 @@ public class GameView implements Screen, InputProcessor{
 
     @Override
     public void dispose() {
-//        font.dispose();
     }
 
     public boolean isMiniMapVisible() {
@@ -450,4 +466,67 @@ public class GameView implements Screen, InputProcessor{
         votingTable.setVisible(voting);
         label.setText(votingLabel);
     }
+    private void openChatDialog() {
+        Dialog dialog = new Dialog("Send Chat", skin);
+
+        final TextField messageField = new TextField("", skin);
+        final CheckBox privateCheck = new CheckBox("Private", skin);
+
+        final SelectBox<String> playerSelect = new SelectBox<>(skin);
+        List<String> playerNames = new ArrayList<>();
+        Main.getApp().getCurrentGame().getAllCharacters().forEach(p -> {
+            playerNames.add(p.getUserId() + " - ");
+        });
+        playerSelect.setItems(playerNames.toArray(new String[0]));
+        playerSelect.setVisible(false);
+
+        privateCheck.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                playerSelect.setVisible(privateCheck.isChecked());
+            }
+        });
+
+        TextButton sendButton = new TextButton("Send", skin);
+        sendButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                String text = messageField.getText();
+                boolean isPrivate = privateCheck.isChecked();
+                Chat chat = new Chat(text, isPrivate);
+
+                if (isPrivate) {
+                    String selectedPlayer = playerSelect.getSelected();
+                    int userId = Integer.parseInt(selectedPlayer.split(" - ")[0]);
+                    chat.addUserId(userId);
+                } else {
+                    Main.getApp().getCurrentGame().getAllCharacters().forEach(p -> {
+                        chat.addUserId(p.getUserId());
+                    });
+                }
+
+                Main.getClient().sendMessage(chat);
+                dialog.hide();
+            }
+        });
+
+        dialog.getContentTable().add(new Label("Message:", skin)).row();
+        dialog.getContentTable().add(messageField).width(300).row();
+        dialog.getContentTable().add(privateCheck).row();
+        dialog.getContentTable().add(playerSelect).width(300).row();
+        dialog.getButtonTable().add(sendButton);
+
+        dialog.show(stage);
+    }
+    public void addChatMessage(String message, boolean isPrivate) {
+        if (isPrivate) {
+            message = "[PRIVATE] " + message;
+        }
+        chatMessages.add(message);
+        if (chatMessages.size() > 10) {
+            chatMessages.remove(0);
+        }
+    }
+
+
 }
