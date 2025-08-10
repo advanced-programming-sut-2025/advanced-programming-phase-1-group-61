@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import controllers.MainMenuController;
 import models.App;
 import models.AssetManager;
+import network.Lobby.OfflineRequest;
 import network.NetworkClient;
 import views.MainMenu;
 
@@ -46,7 +47,9 @@ public class Main extends Game {
 
     @Override
     public void dispose() {
-
+        if(Main.getApp().getLoggedInUser() != null){
+            Main.getClient().sendMessage(new OfflineRequest(Main.getApp().getLoggedInUser().getId() ,Main.getApp().getLoggedInUser().getUsername() ));
+        }
         batch.dispose();
     }
 
