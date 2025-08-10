@@ -9,6 +9,7 @@ import models.AssetManager;
 import models.NPC.NPC;
 import models.Result;
 import models.enums.Commands.GameMenuCommands;
+import views.GameView;
 import views.NPCPages.GiftPageView;
 
 import java.util.regex.Matcher;
@@ -25,7 +26,7 @@ public class GiftPageController {
             public void clicked(InputEvent event, float x, float y) {
                 AssetManager.getUiClicks().play();
                 Main.getMain().getScreen().dispose();
-                Main.getMain().setScreen(view.getLastScreen());
+                Main.getMain().setScreen(new GameView(new GameMenuController(Main.getApp().getCurrentGame())));
             }
         });
         view.getSubmit().addListener(new ClickListener() {

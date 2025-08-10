@@ -73,4 +73,93 @@ public enum Recipe {
             return new Texture(Gdx.files.internal("error.png"));
         }
     }
+    public static boolean checkRecipeAvailability(String name){
+        for(Recipe r : Recipe.values()){
+            if(r.name().equals(name)) return true;
+        }
+        return false;
+    }
+    public String getRequiredItems(){
+        StringBuilder builder = new StringBuilder();
+        int i=0;
+        for(ItemType item:getRecipe().keySet()){
+            int count = getRecipe().get(item);
+            builder.append(count)
+                .append(" ")
+                .append(item.getDisPlayName());
+            if(i!= getRecipe().size()-1) builder.append(", ");
+            i++;
+        }
+        return builder.toString();
+    }
+    public ItemType getItemType() {
+        switch (this){
+            case CherryBomb -> {
+                return ItemType.CherryBomb;
+            }
+            case Bomb -> {
+                return ItemType.Bomb;
+            }
+            case MegaBomb -> {
+                return ItemType.MegaBomb;
+            }
+            case Sprinkler -> {
+                return ItemType.Sprinkler;
+            }
+            case QualitySprinkler -> {
+                return ItemType.QualitySprinkler;
+            }
+            case IridiumSprinkler -> {
+                return ItemType.IridiumSprinkler;
+            }
+            case CharcoalKlin -> {
+                return ItemType.CharcoalKlin;
+            }
+            case Furnace -> {
+                return ItemType.Furnace;
+            }
+            case Scarecrow -> {
+                return ItemType.Scarecrow;
+            }
+            case DeluxeScarecrow -> {
+                return ItemType.DeluxeScarecrow;
+            }
+            case BeeHouse -> {
+                return ItemType.BeeHouse;
+            }
+            case CheesePress -> {
+                return ItemType.CheesePress;
+            }
+            case Keg -> {
+                return ItemType.Keg;
+            }
+            case Loom -> {
+                return ItemType.Loom;
+            }
+            case MayonnaiseMachine -> {
+                return ItemType.MayonnaiseMachine;
+            }
+            case OilMaker -> {
+                return ItemType.OilMaker;
+            }
+            case PreservesJar -> {
+                return ItemType.PreservesJar;
+            }
+            case Dehydrator -> {
+                return ItemType.Dehydrator;
+            }
+            case GrassStarter -> {
+                return ItemType.GrassStarter;
+            }
+            case FishSmoker -> {
+                return ItemType.FishSmoker;
+            }
+            case MysticTreeSeed -> {
+                return ItemType.MysticTreeSeed;
+            }
+            default -> {
+                return null;
+            }
+        }
+    }
 }

@@ -1,16 +1,22 @@
 package controllers;
 
-import models.Result;
-import models.SHA256;
-import models.User;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import io.github.camera.Main;
+import models.*;
 import models.enums.Commands.RegisterMenuCommands;
+import views.PreGameMenu;
+import views.ProfileMenu;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ProfileMenuController {
-    public static Result changeUsername(Matcher matcher, User currentUser){
-        String username=matcher.group("username").trim();
+    private final ProfileMenu view;
+    public ProfileMenuController(ProfileMenu view) {
+        this.view = view;
+    }
+    public Result changeUsername(String username, User currentUser){
         if(username.equals(currentUser.getUsername())){
             return new Result(false,"new username must be different!");
         }
@@ -24,8 +30,7 @@ public class ProfileMenuController {
         currentUser.setUsername(username);
         return new Result(true,"username has been changed!");
     }
-    public static Result changeNickname(Matcher matcher, User currentUser){
-        String nickname=matcher.group("nickname").trim();
+    public Result changeNickname(String nickname, User currentUser){
         if(nickname.equals(currentUser.getUsername())){
             return new Result(false,"new nickname must be different!");
         }
@@ -35,8 +40,7 @@ public class ProfileMenuController {
         currentUser.setNickName(nickname);
         return new Result(true,"nickname has been changed!");
     }
-    public static Result changeEmail(Matcher matcher, User currentUser){
-        String email=matcher.group("email").trim();
+    public Result changeEmail(String email, User currentUser){
         if(email.equals(currentUser.getEmail())){
             return new Result(false,"new email must be different!");
         }
@@ -46,9 +50,7 @@ public class ProfileMenuController {
         currentUser.setEmail(email);
         return new Result(true,"email has been changed!");
     }
-    public static Result changePassword(Matcher matcher, User currentUser){
-        String newPassword=matcher.group("newPassword").trim();
-        String oldPassword=matcher.group("oldPassword").trim();
+    public Result changePassword(String newPassword,String oldPassword, User currentUser){
         if(newPassword.equals(oldPassword)){
             return new Result(false,"new password must be different!");
         }
@@ -76,7 +78,7 @@ public class ProfileMenuController {
         currentUser.setPassword(SHA256.toSHA256(newPassword));
         return new Result(true,"password has been changed!");
     }
-    public static Result userInfo(User currentUser){
+    public Result userInfo(User currentUser){
         String username=currentUser.getUsername();
         String nickname=currentUser.getNickName();
         int games=currentUser.getGamesPlayed();
@@ -86,5 +88,97 @@ public class ProfileMenuController {
                 "gamesPlayed: " + games + "\n"
                 + "most money got: " + mostMoneyGot + "\n";
         return new Result(true, builder);
+    }
+    public void addMainTableListeners(){
+        view.getChangeUsername().addListener(new ClickListener(){
+            public void clicked(InputEvent e,float x,float y) {
+                AssetManager.getUiClicks().play();
+                view.setUpUsernameUI();
+            }
+        });
+        view.getChangeNickname().addListener(new ClickListener(){
+            public void clicked(InputEvent e,float x,float y) {
+                AssetManager.getUiClicks().play();
+                view.setUpNicknameUI();
+            }
+        });
+        view.getChangeEmail().addListener(new ClickListener(){
+            public void clicked(InputEvent e,float x,float y) {
+                AssetManager.getUiClicks().play();
+                view.setUpEmailUI();
+            }
+        });
+        view.getChangePassword().addListener(new ClickListener(){
+            public void clicked(InputEvent e,float x,float y) {
+                AssetManager.getUiClicks().play();
+                view.setUpPasswordUI();
+            }
+        });
+        view.getBack().addListener(new ClickListener(){
+            public void clicked(InputEvent e,float x,float y) {
+                AssetManager.getUiClicks().play();
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(new PreGameMenu(new PreGameMenuController()));
+            }
+        });
+        view.getBackToProfile().addListener(new ClickListener(){
+            public void clicked(InputEvent e,float x,float y) {
+                AssetManager.getUiClicks().play();
+                view.setUpMainUI();
+            }
+        });
+    }
+    public void submitUsername(){
+        view.getSubmitUsername().addListener(new ClickListener(){
+            public void clicked(InputEvent e,float x,float y) {
+                AssetManager.getUiClicks().play();
+                Result res=changeUsername(view.getUsernameField().getText(),Main.getApp().getLoggedInUser());
+                AlertGenerator.showAlert(res.isSuccessful()?"Success":"failed",res.message(),view.getStage());
+            }
+        });
+    }
+    public void submitPassword(){
+        view.getSubmitPassword().addListener(new ClickListener(){
+            public void clicked(InputEvent e,float x,float y) {
+                AssetManager.getUiClicks().play();
+                Result res=changePassword(view.getPasswordField().getText(),view.getOldPasswordField().getText(),Main.getApp().getLoggedInUser());
+                AlertGenerator.showAlert(res.isSuccessful()?"Success":"failed",res.message(),view.getStage());
+            }
+        });
+    }
+    public void submitEmail(){
+        view.getSubmitEmail().addListener(new ClickListener(){
+            public void clicked(InputEvent e,float x,float y) {
+                AssetManager.getUiClicks().play();
+                Result res=changeEmail(view.getEmailField().getText(),Main.getApp().getLoggedInUser());
+                AlertGenerator.showAlert(res.isSuccessful()?"Success":"failed",res.message(),view.getStage());
+            }
+        });
+    }
+    public void submitNickname(){
+        view.getSubmitNickname().addListener(new ClickListener(){
+            public void clicked(InputEvent e,float x,float y) {
+                AssetManager.getUiClicks().play();
+                Result res=changeNickname(view.getNicknameField().getText(),Main.getApp().getLoggedInUser());
+                AlertGenerator.showAlert(res.isSuccessful()?"Success":"failed",res.message(),view.getStage());
+            }
+        });
+    }
+    public void userInfo(){
+        view.getUserInfo().addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent e,float x, float y) {
+                AssetManager.getUiClicks().play();
+                AlertGenerator.showAlert("",userInfo(Main.getApp().getLoggedInUser()).message(),view.getStage());
+            }
+        });
+    }
+    public void handle(){
+        addMainTableListeners();
+        submitUsername();
+        submitPassword();
+        submitEmail();
+        submitNickname();
+        userInfo();
     }
 }

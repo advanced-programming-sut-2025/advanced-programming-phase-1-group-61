@@ -415,4 +415,7 @@ public class Character {
         total += skill.getForagingLVL();
         return total;
     }
+    public boolean checkRecipeAvailability(Recipe recipe){
+        return recipes.contains(recipe);
+    }
 }

@@ -18,6 +18,7 @@ import java.util.Random;
 public class NPC {
 
     private  NpcInfo info;
+    private final ArrayList<String> doneQuests = new ArrayList<>();
     private  NpcDialog dialogs;
     private final ArrayList<NPCFriendships> friendships = new ArrayList<>();
     private boolean firstGiftOfDay=true;
@@ -145,28 +146,28 @@ public class NPC {
             }
         }
     }
-    public static String getQuests(Character character) {
+    public String getQuests(Character character) {
         StringBuilder builder = new StringBuilder();
-        for(NPC npc :  Main.getApp().getCurrentGame().getNpcList()) {
-            HashMap<ItemType,Integer> requests=npc.info.getRequests();
-            for(NPCFriendships friendship : npc.friendships) {
+            HashMap<ItemType,Integer> requests=this.info.getRequests();
+            for(NPCFriendships friendship : this.friendships) {
                 if(friendship.getCharacter().getUserId()==character.getUserId()) {
-                    builder.append(npc.info.name()).append("'s active quests:\n");
+                    builder.append(this.info.name()).append("'s active quests:\n");
                     int index=0;
                     for(ItemType item:requests.keySet()) {
                         int count = requests.get(item);
-                        if(npc.checkQuestAvailability(character,friendship,index)) {
+                        if(this.checkQuestAvailability(character,friendship,index)) {
                             builder.append("delivering ")
                                 .append(count)
                                 .append(item.getDisPlayName())
                                 .append("\n");
+                        } else {
+                            builder.append("quest is done!");
                         }
                         index++;
                     }
                     break;
                 }
             }
-        }
         return builder.toString();
     }
     public boolean checkQuestAvailability(Character character,NPCFriendships friendship,int questIndex) {

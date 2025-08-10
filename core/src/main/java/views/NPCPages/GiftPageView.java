@@ -20,11 +20,9 @@ public class GiftPageView implements Screen {
     private final TextButton submit;
     private final TextButton back;
     private final NPC npc;
-    private final Screen lastScreen;
     private final GameMenuController gameMenuController;
-    public GiftPageView(NPC npc, Screen lastScreen,GameMenuController gameMenuController) {
+    public GiftPageView(NPC npc,GameMenuController gameMenuController) {
         this.npc=npc;
-        this.lastScreen=lastScreen;
         this.gameMenuController=gameMenuController;
         stage=new Stage(new FitViewport(1920,1080));
         Gdx.input.setInputProcessor(stage);
@@ -92,9 +90,6 @@ public class GiftPageView implements Screen {
     }
     public NPC getNpc() {
         return npc;
-    }
-    public Screen getLastScreen() {
-        return lastScreen;
     }
     public GameMenuController getGameMenuController() {
         return gameMenuController;
