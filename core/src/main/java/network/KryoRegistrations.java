@@ -27,6 +27,7 @@ import models.tool.*;
 import models.workBench.Inprocess;
 import models.workBench.ItemKinds;
 import models.workBench.WorkBench;
+import network.Lobby.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -159,6 +160,12 @@ public class KryoRegistrations {
         kryo.register(com.google.gson.internal.LinkedTreeMap.class);
         kryo.register(java.util.LinkedHashMap.class);
         kryo.register(MapUpdate.class);
-
+        kryo.register(Lobby.class);
+        kryo.register(LobbyType.class);
+        kryo.register(LobbyPrivacy.class);
+        kryo.register(AddUserLobbyRequest.class);
+        kryo.register(LobbyRequest.class);
+        kryo.register(LeaveLobbyRequest.class);
+        kryo.register(OnlineClientResponse.class);
     }
 }

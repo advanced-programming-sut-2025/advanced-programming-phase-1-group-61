@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import controllers.GameMenuController;
 import io.github.camera.Main;
-import models.App;
 import models.AssetManager;
 import models.enums.ItemType;
 

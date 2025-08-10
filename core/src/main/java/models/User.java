@@ -99,4 +99,5 @@ public class User {
     public void updateGamesPlayed() {
         gamesPlayed++;
     }
+
 }

@@ -57,7 +57,7 @@ public class GameView implements Screen, InputProcessor{
         stage = new Stage();
         this.camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         controller.setView(this,camera);
-
+        System.out.println("game view opened");
     }
 
     @Override

@@ -4,21 +4,32 @@ import com.esotericsoftware.kryonet.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import models.Game;
-import models.User;
+import models.*;
+import models.building.Shop;
 import models.character.Character;
 import models.character.InventorySlot;
-import models.map.Map;
+import models.resource.Resource;
+import models.tool.Tool;
+import network.Lobby.AddUserLobbyRequest;
+import network.Lobby.LeaveLobbyRequest;
+import network.Lobby.Lobby;
+import network.Lobby.LobbyRequest;
 
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class ServerMain {
     private static List<User> allUsers = new ArrayList<>();
     private static ArrayList<Game> allGames = new ArrayList<>();
+    private static  List<Lobby> lobbies = new ArrayList<>();
     private static Server server;
+    private static ScheduledExecutorService scheduler;
+
 
     public static void main(String[] args) throws Exception {
         server = new Server(1024*1024,1024*1024);
@@ -47,7 +58,8 @@ public class ServerMain {
                         case MapUpdateRequest -> connection.sendTCP(getGameById(request.getGameId()).getMap());
                     }
                 } else if (object instanceof Network.updateGame updateGame) {
-                    updateGame(updateGame);
+                    updateGame(updateGame , connection);
+                    connection.sendTCP(getGameById(updateGame.getGame().getId()));
                 } else if (object instanceof User newUser) {
                     boolean found = false;
                     for (int i = 0; i < allUsers.size(); i++) {
@@ -62,6 +74,51 @@ public class ServerMain {
                     }
                 } else if (object instanceof MapUpdate mapUpdate) {
                     getGameById(mapUpdate.getGameId()).setMap(mapUpdate.getMap());
+                } else if (object instanceof Lobby lobby) {
+                    for (int i = 0; i < lobbies.size(); i++) {
+                        if (lobbies.get(i).getId().equals(lobby.getId())) {
+                            lobbies.set(i, lobby);
+                            return;
+                        }
+                    }
+                    lobbies.add(lobby);
+                } else if (object instanceof AddUserLobbyRequest request) {
+                    for (Lobby lobby : lobbies) {
+                        if(lobby.getId().equals(request.getLobbyId())){
+                            if(lobby.getUsers().size() < 5){
+                                lobby.addUser(request.getUser());
+                            }
+                        }
+                    }
+                } else if ( object instanceof NetworkRequest request) {
+                    switch (request){
+                        case UpdateLobbies -> {
+                            connection.sendTCP(lobbies);
+                        }
+                    }
+                } else if (object instanceof LobbyRequest request) {
+                    for (Lobby lobby : lobbies) {
+                        if(lobby.getName().equals(request.getLobbyName()) && lobby.getId().equals(request.getLobbyId())){
+                            connection.sendTCP(lobby);
+                            return;
+                        }
+                    }
+                } else if (object instanceof LeaveLobbyRequest request) {
+                    for (Lobby lobby : lobbies) {
+                        if(lobby.getName().equals(request.getName()) && lobby.getId().equals(request.getLobbyId())){
+                            User leavingUser = null;
+                            for (User user : lobby.getUsers()) {
+                                if(user.getUsername().equals(request.getUser().getUsername())){
+                                    leavingUser = user;
+                                }
+                            }
+                            if(leavingUser != null){
+                                lobby.getUsers().remove(leavingUser);
+                                return;
+                            }
+
+                        }
+                    }
                 }
             }
         });
@@ -70,6 +127,14 @@ public class ServerMain {
         server.start();
         loadApp();
         System.out.println("Server started on ports " + Network.TCP_PORT + "/" + Network.UDP_PORT);
+        scheduler = Executors.newSingleThreadScheduledExecutor();
+        scheduler.scheduleAtFixedRate(() -> {
+            try {
+                myRepeatingFunction();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }, 0, 30, TimeUnit.SECONDS);
 
         new Thread(() -> {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -95,13 +160,29 @@ public class ServerMain {
                 e.printStackTrace();
             }
         }).start();
+
+
+    }
+
+    private static void myRepeatingFunction() {
+        Lobby removingLobby = null;
+        for (Lobby lobby : lobbies) {
+            if(lobby.getUsers().isEmpty()){
+                removingLobby = lobby;
+            }
+        }
+        if(removingLobby != null){
+            lobbies.remove(removingLobby);
+            System.out.println("removed lobby: "+removingLobby.getName());
+        }
+
     }
 
     public static void saveApp() throws IOException {
         Gson gson = new GsonBuilder()
-            .registerTypeAdapter(models.tool.Tool.class, new models.ToolAdapter())
-            .registerTypeAdapter(models.resource.Resource.class, new models.ResourceAndBuildingAdapter())
-            .registerTypeAdapter(models.building.Shop.class, new models.ShopAdapter())
+            .registerTypeAdapter(Tool.class, new ToolAdapter())
+            .registerTypeAdapter(Resource.class, new ResourceAndBuildingAdapter())
+            .registerTypeAdapter(Shop.class, new ShopAdapter())
             .setPrettyPrinting()
             .create();
 
@@ -118,9 +199,9 @@ public class ServerMain {
 
     public static void loadApp() {
         Gson gson = new GsonBuilder()
-            .registerTypeAdapter(models.tool.Tool.class, new models.ToolAdapter())
-            .registerTypeAdapter(models.resource.Resource.class, new models.ResourceAndBuildingAdapter())
-            .registerTypeAdapter(models.building.Shop.class, new models.ShopAdapter())
+            .registerTypeAdapter(Tool.class, new ToolAdapter())
+            .registerTypeAdapter(Resource.class, new ResourceAndBuildingAdapter())
+            .registerTypeAdapter(Shop.class, new ShopAdapter())
             .setPrettyPrinting()
             .create();
 
@@ -174,7 +255,7 @@ public class ServerMain {
         return null;
     }
 
-    private static void updateGame(Network.updateGame updatedGame) {
+    private static void updateGame(Network.updateGame updatedGame , Connection connection) {
         Game original = getGameById(updatedGame.getGame().getId());
         if (original != null) {
             int id = updatedGame.getUserId();

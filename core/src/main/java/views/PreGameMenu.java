@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import controllers.GameMenuController;
 import controllers.NewGameController;
 import controllers.PreGameMenuController;
+import controllers.PreLobbyController;
 import io.github.camera.Main;
 import models.*;
 
@@ -98,7 +99,7 @@ public class PreGameMenu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Main.getMain().getScreen().dispose();
-                Main.getMain().setScreen(new NewGameView(new NewGameController()));
+                Main.getMain().setScreen(new PreLobbyView(new PreLobbyController()));
             }
         });
         loadGame.addListener(new ClickListener(){
