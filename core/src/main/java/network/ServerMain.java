@@ -203,7 +203,7 @@ public class ServerMain {
                     }
                 }else if (object instanceof Chat chat) {
                     for (Integer userId : chat.getUserIdList()) {
-                        Connection connection1 =  getConnectionById(getUserById(userId).getConnectionId());
+                        Connection connection1 =  getConnectionById(userId);
                         if(connection1 != null){
                             connection1.sendTCP(chat);
                         }
