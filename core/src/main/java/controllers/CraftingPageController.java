@@ -39,7 +39,8 @@ public class CraftingPageController {
             }
         });
         button.addListener(new ClickListener(){
-            public void clicked(InputEvent event, float x, float y, int pointer) {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
                 Inventory inventory=character.getInventory();
                 for(ItemType itemType : recipe.getRecipe().keySet()){
                     InventorySlot slot=inventory.getSlotByItem(itemType);
