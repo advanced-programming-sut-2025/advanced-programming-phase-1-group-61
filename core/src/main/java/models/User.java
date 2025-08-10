@@ -3,9 +3,7 @@ package models;
 import io.github.camera.Main;
 import models.character.Question;
 import models.enums.Gender;
-import models.enums.graphic.BackgroundMusic;
 
-import java.util.ArrayList;
 
 public class User {
     private static int numberOfUsers = 0;
@@ -17,6 +15,9 @@ public class User {
     private String nickName;
     private int gamesPlayed=0;
     private Question question;
+    private int connectionId;
+
+
     public User(String username, String email, String password, Gender gender,String nickName) {
         this.nickName = nickName;
         this.username = username;
@@ -98,6 +99,13 @@ public class User {
     }
     public void updateGamesPlayed() {
         gamesPlayed++;
+    }
+    public void setConnectionId(int id) {
+        this.connectionId = id;
+    }
+
+    public int getConnectionId() {
+        return connectionId;
     }
 
 }

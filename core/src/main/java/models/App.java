@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import io.github.camera.Main;
 
+import network.Lobby.OfflineRequest;
 import network.Network;
 import network.NetworkRequest;
 import network.Requsets;
@@ -60,7 +61,16 @@ public class App {
 
 
     public  void setLoggedInUser(User user){
-        loggedInUser = user;
+        if(user != null){
+            loggedInUser = user;
+            Main.getClient().sendMessage(user);
+        }
+    }
+    public void clearApp(){
+        loggedInUser.setConnectionId(0);
+        Main.getClient().sendMessage(new OfflineRequest( loggedInUser.getId() ,loggedInUser.getUsername() ));
+        this.loggedInUser = null;
+        this.currentGame = null;
     }
     public  models.User getLoggedInUser() {
         return loggedInUser;

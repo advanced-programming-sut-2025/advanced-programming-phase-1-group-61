@@ -10,10 +10,7 @@ import models.character.Character;
 import models.character.InventorySlot;
 import models.resource.Resource;
 import models.tool.Tool;
-import network.Lobby.AddUserLobbyRequest;
-import network.Lobby.LeaveLobbyRequest;
-import network.Lobby.Lobby;
-import network.Lobby.LobbyRequest;
+import network.Lobby.*;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -29,6 +26,8 @@ public class ServerMain {
     private static  List<Lobby> lobbies = new ArrayList<>();
     private static Server server;
     private static ScheduledExecutorService scheduler;
+    private static List<VotingGames> votes = new ArrayList<>();
+
 
 
     public static void main(String[] args) throws Exception {
@@ -61,16 +60,21 @@ public class ServerMain {
                     updateGame(updateGame , connection);
                     connection.sendTCP(getGameById(updateGame.getGame().getId()));
                 } else if (object instanceof User newUser) {
+                    newUser.setConnectionId(connection.getID());
                     boolean found = false;
                     for (int i = 0; i < allUsers.size(); i++) {
                         if (allUsers.get(i).getId() == newUser.getId()) {
                             allUsers.set(i, newUser);
+                            allUsers.get(i).setConnectionId(connection.getID());
                             found = true;
                             break;
                         }
                     }
                     if (!found) {
                         allUsers.add(newUser);
+                    }
+                    for (User user : allUsers) {
+                        System.out.println(user.getUsername()+" "+user.getConnectionId());
                     }
                 } else if (object instanceof MapUpdate mapUpdate) {
                     getGameById(mapUpdate.getGameId()).setMap(mapUpdate.getMap());
@@ -119,7 +123,87 @@ public class ServerMain {
 
                         }
                     }
+                } else if (object instanceof OfflineRequest request) {
+                    User user = getUserByIdAndName(request.getName(), request.getId());
+                    if (user != null) {
+                        user.setConnectionId(0);
+                        System.out.println("User " + user.getUsername() + " is now marked as offline.");
+                    }
+                } else if (object instanceof VotingRequest request) {
+                    VotingGames votingGames = new VotingGames(request.getUserId() , request.getType() , request.getGameId() , 0);
+                    String userName = "";
+                    for (User user : allUsers) {
+                        if(user.getId() == request.getUserId()){
+                            userName = user.getUsername();
+                        }
+                    }
+
+                    for (Character character : getGameById(request.getGameId()).getAllCharacters()) {
+                      int userid = character.getUserId();
+                        for (User user : allUsers) {
+                            if(user.getId() == userid){
+                                for (Connection serverConnection : server.getConnections()) {
+                                    if(serverConnection.getID() == user.getConnectionId()){
+                                        serverConnection.sendTCP(new GetVote(request.getType() , userName));
+                                        votingGames.setVotesNeeded(votingGames.getVotesNeeded() + 1);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if(votingGames.getVotesNeeded() >0){
+                        votes.add(votingGames);
+                    }
+                }else if (object instanceof Vote vote) {
+                    VotingGames targetVote = votes.stream().filter(vg -> vg.getGameId() == vote.getGameId()).findFirst().orElse(null);
+
+                    if (targetVote != null) {
+                        if ("Yes".equalsIgnoreCase(vote.getVote())) {
+                            targetVote.setVotesAccepted(targetVote.getVotesAccepted() + 1);
+                        } else if ("No".equalsIgnoreCase(vote.getVote())) {
+                            targetVote.setVotesDeclined(targetVote.getVotesDeclined() + 1);
+                        }
+                        Game game = getGameById(targetVote.getGameId());
+                        if (targetVote.getVotesAccepted() > Math.ceil(targetVote.getVotesNeeded() / 2.0)) {
+
+                            if (targetVote.getType() == VoteType.ForceTerminate) {
+                                if (game != null) {
+                                    for (Character character : game.getAllCharacters()) {
+                                        for (User user : allUsers) {
+                                            if (user.getId() == character.getUserId()) {
+                                                user.setGameId(0);
+                                                for (Connection conn : server.getConnections()) {
+                                                    if (conn.getID() == user.getConnectionId()) {
+                                                        conn.sendTCP(NetworkRequest.KickedFromGame);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                allGames.removeIf(g -> g.getId() == targetVote.getGameId());
+                                System.out.println("Game " + targetVote.getGameId() + " terminated by vote.");
+                            }
+                            else if (targetVote.getType() == VoteType.KickPlayer) {
+                                if (game != null) {
+                                    game.getAllCharacters().removeIf(ch -> ch.getUserId() == targetVote.getUserId());
+                                    System.out.println("User " + targetVote.getUserId() + " kicked from game " + targetVote.getGameId());
+                                    for (User user : allUsers) {
+                                       if(targetVote.getUserId() == user.getId()){
+                                           user.setGameId(0);
+                                       }
+                                    }
+                                    Connection connection1 = getConnectionById(targetVote.getUserId());
+                                    connection1.sendTCP(NetworkRequest.KickedFromGame);
+                                }
+                            }
+
+                            votes.remove(targetVote);
+                        }
+                    }
                 }
+
+
             }
         });
 
@@ -289,4 +373,24 @@ public class ServerMain {
             id++;
         }
     }
+    private static User getUserByIdAndName(String name , int id){
+        for (User user : allUsers) {
+            if(user.getUsername().equals(name) && user.getId() == id){
+                return user;
+            }
+        }
+        return null;
+    }
+   private static Connection getConnectionById(int id){
+       for (User user : allUsers) {
+           if(user.getId() == id){
+               for (Connection connection : server.getConnections()) {
+                   if(user.getConnectionId() == connection.getID()){
+                       return connection;
+                   }
+               }
+           }
+       }
+       return null;
+   }
 }

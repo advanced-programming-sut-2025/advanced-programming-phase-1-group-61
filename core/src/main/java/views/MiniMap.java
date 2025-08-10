@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import io.github.camera.Main;
-import models.App;
 import models.character.Character;
 import models.map.Tile;
 import models.enums.TileType;

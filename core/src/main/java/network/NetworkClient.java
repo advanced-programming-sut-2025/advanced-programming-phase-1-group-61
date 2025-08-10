@@ -1,16 +1,19 @@
 package network;
 
 
+import com.badlogic.gdx.Gdx;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Listener;
+import controllers.PreGameMenuController;
 import io.github.camera.Main;
 import models.Game;
 import models.User;
 import models.character.Character;
 import models.map.Map;
+import network.Lobby.GetVote;
 import network.Lobby.Lobby;
-import views.LobbyView;
-import views.PreLobbyView;
+import network.Lobby.VoteType;
+import views.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,11 +61,7 @@ public class NetworkClient {
                         }
                     }else if (object instanceof ArrayList<?> list && !list.isEmpty() && list.get(0) instanceof User) {
                         ArrayList<User> receivedUsers = (ArrayList<User>) list;
-                        for (User user : receivedUsers) {
-                            System.out.println(user.getUsername());
-                        }
                         Main.getApp().setAllUsers(receivedUsers);
-                        System.out.println("Received users: " + receivedUsers.size());
                     } else if (object instanceof Map map) {
                         Main.getApp().getCurrentGame().setMap(map);
                     } else if (object instanceof ArrayList<?> list && !list.isEmpty() && list.get(0) instanceof Lobby) {
@@ -70,6 +69,10 @@ public class NetworkClient {
                             @SuppressWarnings("unchecked")
                             List<Lobby> lobbies = (List<Lobby>) list;
                             view.getController().setAllLobbies(lobbies);
+                        } else if (Main.getMain().getScreen() instanceof AllPlayersView view) {
+                            @SuppressWarnings("unchecked")
+                            List<Lobby> lobbies = (List<Lobby>) list;
+                            view.getController().setLobbies(lobbies);
                         }
                     } else if (object instanceof Lobby lobby) {
                       try {
@@ -78,8 +81,24 @@ public class NetworkClient {
                       } catch (Exception e) {
 
                       }
-
+                    } else if (object instanceof GetVote vote) {
+                        if(Main.getMain().getScreen() instanceof GameView view){
+                            if(vote.getType().equals(VoteType.KickPlayer)){
+                                view.setVoting(true , "Kick player: "+vote.getUserName());
+                            }else {
+                                view.setVoting(true ,"Force Terminate");
+                            }
+                        }
+                    } else if (object instanceof NetworkRequest r) {
+                        if (r == NetworkRequest.KickedFromGame) {
+                            Gdx.app.postRunnable(() -> {
+                                Main.getMain().getScreen().dispose();
+                                Main.getMain().setScreen(new PreGameMenu(new PreGameMenuController()));
+                                Main.getApp().setCurrentGame(null);
+                            });
+                        }
                     }
+
 
 
                 }
