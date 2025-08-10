@@ -25,7 +25,6 @@ public class Game {
     private int id;
     private Map map;
     private List<Character> allCharacters;
-    private int currentCharacter;
     private Date date;
     private ArrayList<Shop> shops = new ArrayList<>();
     private List<NPC> npcList = new ArrayList<>();

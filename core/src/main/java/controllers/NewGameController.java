@@ -73,7 +73,6 @@ public class NewGameController {
     }
 
     public Result startGame( ) {
-
         List<models.character.Character> characterList = new ArrayList<>();
         for (User user : userList) {
             models.character.Character character = new models.character.Character(user.getId());

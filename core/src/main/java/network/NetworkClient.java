@@ -8,9 +8,13 @@ import models.Game;
 import models.User;
 import models.character.Character;
 import models.map.Map;
+import network.Lobby.Lobby;
+import views.LobbyView;
+import views.PreLobbyView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class NetworkClient {
@@ -61,7 +65,23 @@ public class NetworkClient {
                         System.out.println("Received users: " + receivedUsers.size());
                     } else if (object instanceof Map map) {
                         Main.getApp().getCurrentGame().setMap(map);
+                    } else if (object instanceof ArrayList<?> list && !list.isEmpty() && list.get(0) instanceof Lobby) {
+                        if (Main.getMain().getScreen() instanceof PreLobbyView view) {
+                            @SuppressWarnings("unchecked")
+                            List<Lobby> lobbies = (List<Lobby>) list;
+                            view.getController().setAllLobbies(lobbies);
+                        }
+                    } else if (object instanceof Lobby lobby) {
+                      try {
+                          LobbyView view = (LobbyView) Main.getMain().getScreen();
+                          view.getController().setLobby(lobby);
+                      } catch (Exception e) {
+
+                      }
+
                     }
+
+
                 }
             });
 

@@ -61,9 +61,7 @@ public class GameMenuController {
             Main.getClient().sendMessage(
                 new Network.updateGame(game, Main.getApp().getLoggedInUser().getId())
             );
-            Gdx.app.postRunnable(() -> Main.getApp().updateCurrentGame());
         }).start();
-        this.game = Main.getApp().getCurrentGame();
     }
 
 

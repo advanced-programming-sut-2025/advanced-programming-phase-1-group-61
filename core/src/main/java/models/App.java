@@ -28,9 +28,7 @@ public class App {
     public models.Game getCurrentGame(){
         return currentGame;
     }
-    public void updateCurrentGame(){
-        Main.getClient().sendMessage(new Requsets(NetworkRequest.GameRequest , currentGame.getId() , loggedInUser.getId()));
-    }
+
 
 
     public void addGame(models.Game game){
