@@ -48,6 +48,7 @@ public class Character {
     private transient Animation<TextureRegion> currentAnimation;
     private boolean isMoving = false;
     private ItemType currentItem ;
+    private int numOfQuest;
 
     private Buff buff=null;
     private int money;
@@ -76,6 +77,7 @@ public class Character {
         this.hasGreenHouse = false;
         this.direction = Direction.RIGHT;
         this.currentItem = null;
+        this.numOfQuest = 0;
     }
 
     public Character() {
@@ -401,6 +403,18 @@ public class Character {
         isMoving = moving;
     }
 
+    public int getNumberOfQuest() {
+        return numOfQuest;
+    }
+    public int getSkillLevel(){
+        int total =0;
+        total += skill.getFishingLVL();
+        total += skill.getFarmingLVL();
+        total+= skill.getMiningLVL();
+        total += skill.getForagingLVL();
+        total += skill.getForagingLVL();
+        return total;
+    }
     public boolean checkRecipeAvailability(Recipe recipe){
         return recipes.contains(recipe);
     }

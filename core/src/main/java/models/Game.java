@@ -134,7 +134,6 @@ public class Game {
     }
 
     public Character getCurrentCharacter() {
-
         for (Character character : allCharacters) {
             if(character.getUserId() == Main.getApp().getLoggedInUser().getId()){
                 return character;

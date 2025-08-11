@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import controllers.CraftingPageController;
 import controllers.GameMenuController;
@@ -26,6 +27,7 @@ public class CraftingPageView implements Screen, InputProcessor {
     private final Label price;
     private final Label locked;
     private final ImageButton[] craftButtons;
+    private final TextButton back;
     public CraftingPageView() {
         stage=new Stage(new FitViewport(1920,1080));
         Gdx.input.setInputProcessor(stage);
@@ -36,13 +38,14 @@ public class CraftingPageView implements Screen, InputProcessor {
         craftName=new Label("", AssetManager.getSkin());
         locked=new Label("", AssetManager.getSkin());
         craftButtons=new ImageButton[Recipe.values().length];
+        back = new TextButton("Leave",AssetManager.getSkin());
     }
     @Override
     public void show() {
         mainTable.setFillParent(true);
-        mainTable.defaults().center().pad(10);
+        mainTable.center().pad(10);
         detailsTable.setFillParent(true);
-        detailsTable.defaults().top().left().pad(10);
+        detailsTable.top().left().pad(10);
         for(int i=0;i<Recipe.values().length;i++) {
             Main.getApp().Extract(i,craftButtons);
         }

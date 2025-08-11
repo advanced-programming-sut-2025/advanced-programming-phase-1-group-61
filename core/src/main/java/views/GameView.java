@@ -9,9 +9,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.Timer;
 import controllers.GameMenuController;
@@ -24,6 +27,10 @@ import models.NPC.NPC;
 import models.enums.WeatherState;
 import models.map.Map;
 import models.map.Particle;
+import network.Lobby.Chat;
+import network.Lobby.Vote;
+import network.Lobby.VoteType;
+import network.Lobby.VotingRequest;
 import network.MapUpdate;
 import network.NetworkRequest;
 import network.Requsets;
@@ -47,6 +54,14 @@ public class GameView implements Screen, InputProcessor{
     private MiniMap miniMap;
     private boolean miniMapVisible = false;
     private ToolbarUI toolbarUI;
+    private boolean voting = false;
+    private Table votingTable;
+    private SelectBox<String> votes;
+    private Skin skin;
+    private Label label;
+    private String voteLabel;
+    private TextButton sendVote;
+    private List<String> chatMessages = new ArrayList<>();
 
 
 
@@ -58,10 +73,23 @@ public class GameView implements Screen, InputProcessor{
         this.camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         controller.setView(this,camera);
         System.out.println("game view opened");
+        skin = AssetManager.getSkin();
+        voteLabel ="";
+        sendVote = new TextButton("Send",skin);
     }
+
 
     @Override
     public void show() {
+        votingTable = new Table();
+        votingTable.setFillParent(true);
+        votes = new SelectBox<>(skin);
+        votes.setItems("Yes","No");
+        votingTable.add(votes).row();
+        votingTable.setVisible(voting);
+        label = new Label(voteLabel,skin);
+        votingTable.add(label).row();
+        votingTable.add(sendVote);
         stage = new Stage();
 
         inventoryUI = new InventoryUI(AssetManager.getSkin(),
@@ -69,6 +97,7 @@ public class GameView implements Screen, InputProcessor{
             stage);
         inventoryUI.setVisible(false);
         stage.addActor(inventoryUI);
+        stage.addActor(votingTable);
 
         toolbarUI = new ToolbarUI(
             AssetManager.getSkin(),
@@ -137,8 +166,16 @@ public class GameView implements Screen, InputProcessor{
                 }).start();
             }
         }, 0, 2.0f);
-
+        sendVote.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                voting = false;
+                Main.getClient().sendMessage(new Vote(Main.getApp().getCurrentGame().getId(),votes.getSelected()));
+                votingTable.setVisible(voting);
+            }
+        });
     }
+
 
     private void runEveryFiveTenths() {
        controller.updateServerGame();
@@ -168,6 +205,16 @@ public class GameView implements Screen, InputProcessor{
             if (miniMapVisible){
                 miniMap.update();
             }
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.V)) {
+            openVotingCreationPanel();
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Y)) {
+            openChatDialog();
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.B)){
+            Main.getMain().getScreen().dispose();
+            Main.getMain().setScreen(new CraftingPageView());
         }
 
 
@@ -224,8 +271,86 @@ public class GameView implements Screen, InputProcessor{
         font.draw(spriteBatch, dayText, 20, Gdx.graphics.getHeight() - 50);
         font.draw(spriteBatch, seasonText, 20, Gdx.graphics.getHeight() - 80);
         font.draw(spriteBatch , energy , 20 ,Gdx.graphics.getHeight() -110 );
+        int yOffset = 150;
+        for (String msg : chatMessages) {
+            if (msg.startsWith("[PRIVATE]")) {
+                font.setColor(Color.RED);
+            } else {
+                font.setColor(Color.WHITE);
+            }
+            font.draw(spriteBatch, msg, 20, yOffset);
+            yOffset += 20;
+        }
+        font.setColor(Color.WHITE);
         spriteBatch.end();
 
+    }
+    private void openVotingCreationPanel() {
+
+        Dialog dialog = new Dialog("Start Voting", skin);
+
+
+        SelectBox<String> voteTypeSelect = new SelectBox<>(skin);
+        voteTypeSelect.setItems("ForceTerminate", "KickPlayer");
+
+
+        SelectBox<String> playerSelect = new SelectBox<>(skin);
+        List<String> playerNames = new ArrayList<>();
+        Main.getApp().getCurrentGame().getAllCharacters().forEach(p -> {
+            playerNames.add(" (ID:" + p.getUserId() + ")");
+        });
+        playerSelect.setItems(playerNames.toArray(new String[0]));
+        playerSelect.setVisible(false);
+
+        voteTypeSelect.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                boolean isKick = voteTypeSelect.getSelected().equals("KickPlayer");
+                playerSelect.setVisible(isKick);
+            }
+        });
+
+
+        TextButton sendButton = new TextButton("Send Vote", skin);
+        sendButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                VoteType type = VoteType.valueOf(voteTypeSelect.getSelected());
+                int userId = 0;
+
+                if (type == VoteType.KickPlayer) {
+                    String selectedPlayer = playerSelect.getSelected();
+                    userId = extractIdFromName(selectedPlayer);
+                }
+
+                Main.getClient().sendMessage(
+                    new VotingRequest(Main.getApp().getCurrentGame().getId(), type, userId)
+                );
+
+                dialog.hide();
+            }
+        });
+
+
+        dialog.getContentTable().add(new Label("Vote Type:", skin)).row();
+        dialog.getContentTable().add(voteTypeSelect).row();
+        dialog.getContentTable().add(new Label("Select Player:", skin)).row();
+        dialog.getContentTable().add(playerSelect).row();
+
+        dialog.getButtonTable().add(sendButton);
+
+        dialog.show(stage);
+    }
+
+
+    private int extractIdFromName(String text) {
+        try {
+            int start = text.indexOf("ID:") + 3;
+            int end = text.indexOf(")", start);
+            return Integer.parseInt(text.substring(start, end));
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     @Override
@@ -250,7 +375,6 @@ public class GameView implements Screen, InputProcessor{
 
     @Override
     public void dispose() {
-        font.dispose();
     }
 
     public boolean isMiniMapVisible() {
@@ -339,4 +463,73 @@ public class GameView implements Screen, InputProcessor{
     public Stage getStage() {
         return stage;
     }
+
+    public void setVoting(boolean voting , String votingLabel) {
+        this.voting = voting;
+        votingTable.setVisible(voting);
+        label.setText(votingLabel);
+    }
+    private void openChatDialog() {
+        Dialog dialog = new Dialog("Send Chat", skin);
+
+        final TextField messageField = new TextField("", skin);
+        final CheckBox privateCheck = new CheckBox("Private", skin);
+
+        final SelectBox<String> playerSelect = new SelectBox<>(skin);
+        List<String> playerNames = new ArrayList<>();
+        Main.getApp().getCurrentGame().getAllCharacters().forEach(p -> {
+            playerNames.add(p.getUserId() + " - ");
+        });
+        playerSelect.setItems(playerNames.toArray(new String[0]));
+        playerSelect.setVisible(false);
+
+        privateCheck.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                playerSelect.setVisible(privateCheck.isChecked());
+            }
+        });
+
+        TextButton sendButton = new TextButton("Send", skin);
+        sendButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                String text = messageField.getText();
+                boolean isPrivate = privateCheck.isChecked();
+                Chat chat = new Chat(text, isPrivate);
+
+                if (isPrivate) {
+                    String selectedPlayer = playerSelect.getSelected();
+                    int userId = Integer.parseInt(selectedPlayer.split(" - ")[0]);
+                    chat.addUserId(userId);
+                } else {
+                    Main.getApp().getCurrentGame().getAllCharacters().forEach(p -> {
+                        chat.addUserId(p.getUserId());
+                    });
+                }
+
+                Main.getClient().sendMessage(chat);
+                dialog.hide();
+            }
+        });
+
+        dialog.getContentTable().add(new Label("Message:", skin)).row();
+        dialog.getContentTable().add(messageField).width(300).row();
+        dialog.getContentTable().add(privateCheck).row();
+        dialog.getContentTable().add(playerSelect).width(300).row();
+        dialog.getButtonTable().add(sendButton);
+
+        dialog.show(stage);
+    }
+    public void addChatMessage(String message, boolean isPrivate) {
+        if (isPrivate) {
+            message = "[PRIVATE] " + message;
+        }
+        chatMessages.add(message);
+        if (chatMessages.size() > 10) {
+            chatMessages.remove(0);
+        }
+    }
+
+
 }

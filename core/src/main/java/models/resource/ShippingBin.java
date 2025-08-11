@@ -10,25 +10,16 @@ import java.util.List;
 
 public class ShippingBin extends Resource{
     private List<ItemType> itemTypes ;
-    private int owner;
 
     public ShippingBin() {
-    }
-
-    public int getOwner() {
-        return owner;
-    }
-
-    public ShippingBin(int owner) {
         this.itemTypes = new ArrayList<>();
-        this.owner = owner;
     }
 
     public List<ItemType> getItemTypes() {
         return itemTypes;
     }
     public void removeItemType(ItemType itemType){
-        Character character = Main.getApp().getCurrentGame().getCharacterByTurnNumber(owner);
+        Character character = Main.getApp().getCurrentGame().getCurrentCharacter();
         character.setMoney(character.getMoney() + itemType.getPrice());
         itemTypes.remove(itemType);
     }

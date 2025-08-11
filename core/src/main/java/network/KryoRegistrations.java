@@ -167,5 +167,12 @@ public class KryoRegistrations {
         kryo.register(LobbyRequest.class);
         kryo.register(LeaveLobbyRequest.class);
         kryo.register(OnlineClientResponse.class);
+        kryo.register(OfflineRequest.class);
+        kryo.register(VotingRequest.class);
+        kryo.register(VoteType.class);
+        kryo.register(GetVote.class);
+        kryo.register(Vote.class);
+        kryo.register(Chat.class);
+        kryo.register(ScoreTableRefresh.class);
     }
 }
