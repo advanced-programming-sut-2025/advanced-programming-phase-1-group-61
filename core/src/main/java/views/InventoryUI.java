@@ -1,5 +1,6 @@
 package views;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -198,6 +199,29 @@ public class InventoryUI extends Table implements InputProcessor {
                     }
                 }
                 return true;
+            }
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (keycode == Input.Keys.N && selectedInventorySlot != null) {
+                    System.out.println("salam");
+                    InventorySlot slotData = getSlotDataFromTable(selectedInventorySlot);
+
+                    if (slotData != null && slotData.getObjectInSlot() instanceof ItemType) {
+                        ItemType itemType = (ItemType) slotData.getObjectInSlot();
+                        int count = slotData.getCount();
+
+                        Main.getApp()
+                            .getCurrentGame()
+                            .getCurrentCharacter()
+                            .getInventory()
+                            .getTrashcan()
+                            .removeItem(itemType, count);
+
+                        refreshUI();
+                        return true;
+                    }
+                }
+                return false;
             }
         });
 

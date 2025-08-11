@@ -212,7 +212,10 @@ public class GameView implements Screen, InputProcessor{
         if (Gdx.input.isKeyJustPressed(Input.Keys.Y)) {
             openChatDialog();
         }
-
+        if(Gdx.input.isKeyPressed(Input.Keys.B)){
+            Main.getMain().getScreen().dispose();
+            Main.getMain().setScreen(new CraftingPageView());
+        }
 
 
 
