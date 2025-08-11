@@ -134,7 +134,7 @@ public class ShopViewController {
 
         button.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                buy(pole.getUpgradeName());
+                buy(pole.getDisplayName());
             }
         });
     }
