@@ -24,5 +24,6 @@ public class Trashcan {
         Character character= Main.getApp().getCurrentGame().getCurrentCharacter();
         int numOfRemovedItem = character.getInventory().removeItem(item , count);
         character.setMoney((int) (character.getMoney() + (numOfRemovedItem * item.getPrice())*type.getReturnPercentage()));
+        System.out.println("pool dar shodi");
     }
 }

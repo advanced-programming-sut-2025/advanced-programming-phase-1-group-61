@@ -114,6 +114,15 @@ public class App {
     public void setAllUsers(List<User> allUsers) {
         this.allUsers = allUsers;
     }
+    public void ExtractCooking(int i, ImageButton[] items) {
+        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
+        Drawable imageUp = new TextureRegionDrawable(AssetManager.getSelectorBubbleDefault());
+        Drawable imageOver = new TextureRegionDrawable(AssetManager.getSelectorBubbleHover());
+        style.up = imageUp;
+        style.over = imageOver;
+        style.down = imageOver;
+        items[i] = new ImageButton(style);
+    }
 
 
 }

@@ -8,6 +8,7 @@ import models.building.Shop;
 import models.character.Character;
 import models.enums.TileType;
 import models.map.Tile;
+import models.resource.Crop;
 import models.resource.Stone;
 import models.resource.Tree;
 
@@ -66,6 +67,27 @@ public class WorldController {
                             TILE_SIZE / 2,
                             TILE_SIZE / 2
                         );
+                    } else if (tile.getResource() instanceof Crop crop) {
+                        int TILE_SIZE = AssetManager.getTileSize();
+                        if(crop.getDaysTillNextHarvest() > 0){
+                            Main.getBatch().draw(
+                                crop.getType().getSource().getTexture(),
+                                x * TILE_SIZE+ TILE_SIZE / 4,
+                                y * TILE_SIZE+ TILE_SIZE / 4,
+                                TILE_SIZE / 2,
+                                TILE_SIZE / 2
+
+                            );
+                        }else {
+                            Main.getBatch().draw(
+                                crop.getType().getProduct().getTexture(),
+                                x * TILE_SIZE+ TILE_SIZE / 4,
+                                y * TILE_SIZE+ TILE_SIZE / 4,
+                                TILE_SIZE / 2,
+                                TILE_SIZE / 2
+
+                            );
+                        }
                     }
                 }if(tile != null && tile.getItem() != null){
                     Main.getBatch().draw(tile.getItem().getItemType().getTexture() ,tile.getX() ,tile.getY());

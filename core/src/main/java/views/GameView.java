@@ -24,6 +24,7 @@ import models.App;
 import models.AssetManager;
 import models.Game;
 import models.NPC.NPC;
+import models.character.Buff;
 import models.enums.WeatherState;
 import models.map.Map;
 import models.map.Particle;
@@ -196,7 +197,6 @@ public class GameView implements Screen, InputProcessor{
         if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
             inventoryVisible = !inventoryVisible;
             inventoryUI.setVisible(inventoryVisible);
-            inventoryUI.setInventoryVisible(inventoryVisible);
             inventoryUI.refreshUI();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
@@ -215,6 +215,14 @@ public class GameView implements Screen, InputProcessor{
         if(Gdx.input.isKeyPressed(Input.Keys.B)){
             Main.getMain().getScreen().dispose();
             Main.getMain().setScreen(new CraftingPageView());
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
+            Main.getMain().getScreen().dispose();
+            Main.getMain().setScreen(new SettingsMenu());
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.C)){
+            Main.getMain().getScreen().dispose();
+            Main.getMain().setScreen(new CookingPageView());
         }
 
 
@@ -265,12 +273,19 @@ public class GameView implements Screen, InputProcessor{
         String dayText = "Day: " + date.getDay();
         String seasonText = "Season: " + date.getSeason();
         String energy = "Energy: "+Main.getApp().getCurrentGame().getCurrentCharacter().getEnergy();
+        Buff buff = Main.getApp().getCurrentGame().getCurrentCharacter().getBuff();
+        String buffString = "";
+        if(buff != null){
+           buffString  = "Buff: " + buff.getEnergyIncrease();
+        }
+
 
         spriteBatch.begin();
         font.draw(spriteBatch, timeText, 20, Gdx.graphics.getHeight() - 20);
         font.draw(spriteBatch, dayText, 20, Gdx.graphics.getHeight() - 50);
         font.draw(spriteBatch, seasonText, 20, Gdx.graphics.getHeight() - 80);
         font.draw(spriteBatch , energy , 20 ,Gdx.graphics.getHeight() -110 );
+        font.draw(spriteBatch , buffString, 20 ,Gdx.graphics.getHeight() -140 );
         int yOffset = 150;
         for (String msg : chatMessages) {
             if (msg.startsWith("[PRIVATE]")) {
