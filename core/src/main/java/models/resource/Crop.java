@@ -18,7 +18,6 @@ public class Crop extends Resource{
     }
 
     public Crop(CropType type) {
-
         this.type = type;
         this.cropStage = 1;
         this.cropAge = 0;

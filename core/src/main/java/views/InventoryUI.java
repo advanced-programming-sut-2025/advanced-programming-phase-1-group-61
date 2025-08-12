@@ -1,6 +1,8 @@
 package views;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,13 +12,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import io.github.camera.Main;
-import models.App;
 import models.character.Character;
 import models.character.InventorySlot;
 import models.enums.ItemType;
 import models.enums.TileType;
 import models.map.Tile;
-import models.tool.Axe;
 import models.tool.Tool;
 
 import java.util.ArrayList;
@@ -37,16 +37,10 @@ public class InventoryUI extends Table implements InputProcessor {
     private final List<Table> slotTables = new ArrayList<>();
     private final Map<Table, Image> slotBackgrounds = new HashMap<>();
     private Table selectedInventorySlot = null;
-    private boolean inventoryVisible = false;
-
-    public void setInventoryVisible(boolean inventoryVisible) {
-        this.inventoryVisible = inventoryVisible;
-    }
 
     public InventoryUI(Skin skin, Character character, Stage stage) {
         this.character = character;
         this.skin = skin;
-
         this.setFillParent(true);
 
         errorTexture = new Texture("error.png");
@@ -54,8 +48,12 @@ public class InventoryUI extends Table implements InputProcessor {
         pickedSlot = new Texture("pickedSlot.png");
 
         createInventoryUI();
-
         stage.addActor(this);
+
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(stage);
+        multiplexer.addProcessor(this);
+        Gdx.input.setInputProcessor(multiplexer);
     }
 
     public void setToolbarUI(ToolbarUI toolbarUI) {
@@ -69,6 +67,7 @@ public class InventoryUI extends Table implements InputProcessor {
         slotTables.clear();
         slotBackgrounds.clear();
 
+        // --- Buttons row ---
         Table buttonsTable = new Table();
         buttonsTable.defaults().pad(5);
 
@@ -121,6 +120,7 @@ public class InventoryUI extends Table implements InputProcessor {
 
         this.add(buttonsTable).padTop(10).row();
 
+        // --- Inventory slots ---
         Table slotsTable = new Table();
         int columns = 5;
 
@@ -150,41 +150,32 @@ public class InventoryUI extends Table implements InputProcessor {
             Object obj = slotData.getObjectInSlot();
             Texture texture = getTextureForObject(obj);
             Image image = createImage(texture);
-            image.setTouchable(Touchable.enabled);
 
             Label countLabel = new Label(String.valueOf(slotData.getCount()), skin);
             Stack stack = new Stack();
             stack.add(image);
             stack.add(countLabel);
-            stack.setTouchable(Touchable.enabled);
 
             slot.add(stack).size(64).center();
-
         }
-
-
 
         slot.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (button == 0) {
+                if (button == 0) { // Left click
                     setPickedSlot(slot);
-
                     if (slotData.getObjectInSlot() instanceof Tool) {
-                        Tool selectedTool = (Tool) slotData.getObjectInSlot();
-                        character.setCurrentTool(selectedTool);
-                        System.out.println("Current tool set to: " + selectedTool.getType());
+                        character.setCurrentTool((Tool) slotData.getObjectInSlot());
+                        System.out.println("Current tool set to: " + ((Tool) slotData.getObjectInSlot()).getType());
                     } else {
                         character.setCurrentTool(null);
                     }
-
-                } else if (button == 1) {
+                } else if (button == 1) { // Right click swap
                     if (selectedInventorySlot != null && selectedInventorySlot != slot) {
                         InventorySlot sourceSlotData = getSlotDataFromTable(selectedInventorySlot);
                         InventorySlot targetSlotData = slotData;
 
                         List<InventorySlot> inventory = character.getInventory().getSlots();
-
                         int sourceIndex = inventory.indexOf(sourceSlotData);
                         int targetIndex = inventory.indexOf(targetSlotData);
 
@@ -192,36 +183,11 @@ public class InventoryUI extends Table implements InputProcessor {
                             inventory.set(sourceIndex, targetSlotData);
                             inventory.set(targetIndex, sourceSlotData);
                         }
-
                         refreshUI();
-
                         selectedInventorySlot = null;
                     }
                 }
                 return true;
-            }
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                if (keycode == Input.Keys.N && selectedInventorySlot != null) {
-                    System.out.println("salam");
-                    InventorySlot slotData = getSlotDataFromTable(selectedInventorySlot);
-
-                    if (slotData != null && slotData.getObjectInSlot() instanceof ItemType) {
-                        ItemType itemType = (ItemType) slotData.getObjectInSlot();
-                        int count = slotData.getCount();
-
-                        Main.getApp()
-                            .getCurrentGame()
-                            .getCurrentCharacter()
-                            .getInventory()
-                            .getTrashcan()
-                            .removeItem(itemType, count);
-
-                        refreshUI();
-                        return true;
-                    }
-                }
-                return false;
             }
         });
 
@@ -229,15 +195,12 @@ public class InventoryUI extends Table implements InputProcessor {
     }
 
     private InventorySlot getSlotDataFromTable(Table slotTable) {
-
         int index = slotTables.indexOf(slotTable);
         if (index != -1 && index < character.getInventory().getSlots().size()) {
             return character.getInventory().getSlots().get(index);
         }
         return null;
     }
-
-
 
     private void setPickedSlot(Table selectedSlot) {
         selectedInventorySlot = selectedSlot;
@@ -256,7 +219,6 @@ public class InventoryUI extends Table implements InputProcessor {
         } else if (obj instanceof Tool) {
             return ((Tool) obj).getType().getTextureForLevel(((Tool) obj).getLevel());
         } else {
-            System.out.println(obj.toString());
             return errorTexture;
         }
     }
@@ -268,29 +230,45 @@ public class InventoryUI extends Table implements InputProcessor {
 
     public void refreshUI() {
         createInventoryUI();
-        toolbarUI.updateSlotsUI();
-        toolbarUI.refreshUI();
+        if (toolbarUI != null) {
+            toolbarUI.updateSlotsUI();
+            toolbarUI.refreshUI();
+        }
     }
 
+    // --- InputProcessor methods ---
     @Override
-    public boolean keyDown(int keycode) { return false; }
-    @Override
-    public boolean keyUp(int i) { return false; }
-    @Override
-    public boolean keyTyped(char c) { return false; }
-    @Override
-    public boolean touchDown(int i, int i1, int i2, int i3) { return false; }
-    @Override
-    public boolean touchUp(int i, int i1, int i2, int i3) { return false; }
-    @Override
-    public boolean touchCancelled(int i, int i1, int i2, int i3) { return false; }
-    @Override
-    public boolean touchDragged(int i, int i1, int i2) { return false; }
-    @Override
-    public boolean mouseMoved(int i, int i1) { return false; }
-    @Override
-    public boolean scrolled(float v, float v1) { return false; }
+    public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.N && selectedInventorySlot != null) {
+            InventorySlot slotData = getSlotDataFromTable(selectedInventorySlot);
 
+            if (slotData != null && slotData.getObjectInSlot() instanceof ItemType) {
+                ItemType itemType = (ItemType) slotData.getObjectInSlot();
+                int count = slotData.getCount();
 
+                Main.getApp()
+                    .getCurrentGame()
+                    .getCurrentCharacter()
+                    .getInventory()
+                    .getTrashcan()
+                    .removeItem(itemType, count);
 
+                System.out.println("Removed " + count + "x " + itemType);
+                refreshUI();
+                return true;
+            } else {
+                System.out.println("No removable item selected!");
+            }
+        }
+        return false;
+    }
+
+    @Override public boolean keyUp(int i) { return false; }
+    @Override public boolean keyTyped(char c) { return false; }
+    @Override public boolean touchDown(int i, int i1, int i2, int i3) { return false; }
+    @Override public boolean touchUp(int i, int i1, int i2, int i3) { return false; }
+    @Override public boolean touchCancelled(int i, int i1, int i2, int i3) { return false; }
+    @Override public boolean touchDragged(int i, int i1, int i2) { return false; }
+    @Override public boolean mouseMoved(int i, int i1) { return false; }
+    @Override public boolean scrolled(float v, float v1) { return false; }
 }

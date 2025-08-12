@@ -174,6 +174,12 @@ public class PlayerController {
                    return;
                 }
 
+                CookingRecipes recipes = CookingRecipes.getCookingRecipes(player.getCurrentItem());
+                if(recipes != null){
+                    player.getInventory().removeItem(item, 1);
+                    Main.getApp().getCurrentGame().getCurrentCharacter().setBuff(recipes.getBuff());
+                }
+
             }
         }
 
@@ -183,7 +189,7 @@ public class PlayerController {
         if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
             Main.getApp().getCurrentGame().getDate().increaseTime(1);
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.B)){
+        if(Gdx.input.isKeyPressed(Input.Keys.P)){
             Main.getApp().getCurrentGame().getMap().getWeather().lightning(player.getX() + 5, player.getY());
 
             thunderX = player.getX() + 5;
@@ -237,10 +243,12 @@ public class PlayerController {
                 shopTile = tile.getType();
 
 
-                if ((tile.isCollisionOn() || tile.getResource() != null)
+                if (tile.isCollisionOn()
+                    && (tile.getResource() != null || !(tile.getResource() instanceof Crop))
                     && tile.getCollisionRect().collidesWith(futureRect)) {
                     collisionDetected = true;
                 }
+
             }
         }
         if (shopDetected && shopCooldown>=5) {

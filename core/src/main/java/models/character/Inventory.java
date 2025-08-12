@@ -30,6 +30,7 @@ public class Inventory {
         slots.get(3).setObjectInSlot(new Scythe(),1);
         slots.get(4).setObjectInSlot(new Hoe() , 1);
         slots.get(5).setObjectInSlot(new WateringCan() , 1);
+        slots.get(6).setObjectInSlot(ItemType.CarrotSeed , 10);
     }
 
     public List<InventorySlot> getSlots() {
