@@ -30,7 +30,7 @@ public class CraftingPageView implements Screen, InputProcessor {
     private final TextButton back;
     public CraftingPageView() {
         stage=new Stage(new FitViewport(1920,1080));
-        Gdx.input.setInputProcessor(stage);
+        Gdx.input.setInputProcessor(this);
         mainTable=new Table();
         detailsTable=new Table();
         requiredItems=new Label("", AssetManager.getSkin());
