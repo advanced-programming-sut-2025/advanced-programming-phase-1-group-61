@@ -18,7 +18,6 @@ import java.util.Random;
 public class NPC {
 
     private  NpcInfo info;
-    private final ArrayList<String> doneQuests = new ArrayList<>();
     private  NpcDialog dialogs;
     private final ArrayList<NPCFriendships> friendships = new ArrayList<>();
     private boolean firstGiftOfDay=true;

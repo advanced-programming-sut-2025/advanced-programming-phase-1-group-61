@@ -34,6 +34,7 @@ public class Inventory {
         slots.get(7).setObjectInSlot(ItemType.Furnace , 2);
         slots.get(8).setObjectInSlot(ItemType.IronOre , 10);
         slots.get(9).setObjectInSlot(ItemType.Coal , 2);
+        slots.get(10).setObjectInSlot(ItemType.Barn , 1);
     }
 
     public List<InventorySlot> getSlots() {
@@ -53,6 +54,10 @@ public class Inventory {
     }
     public void addItem(ItemType item, int count){
         for (InventorySlot slot : slots) {
+            if(slot.getObjectInSlot() instanceof ItemType && slot.getCount() < 10){
+                slot.setObjectInSlot(item , count);
+                return;
+            }
             if(slot.getObjectInSlot() == null){
                 slot.setObjectInSlot(item , count);
                 return;

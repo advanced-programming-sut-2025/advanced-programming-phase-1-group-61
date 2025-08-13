@@ -33,7 +33,6 @@ public class Character {
     private  Skill skill;
     private Tool currentTool;
     private java.util.Map<String,Animal> animals = new HashMap<>();
-    private ArrayList<Building> buildings =new ArrayList<>();
     private ArrayList<Recipe> recipes=new ArrayList<>();
     private ArrayList<CookingRecipes> cookingRecipes = new ArrayList<>();
     private ArrayList<Cell> lastPath;
@@ -200,9 +199,7 @@ public class Character {
     public java.util.Map<String,Animal>getAnimals() {
         return animals;
     }
-    public ArrayList<Building> getBuildings() {
-        return buildings;
-    }
+
     public void addAnimal(Animal animal, String name) {
         if(!animals.containsKey(name)){
             animals.put(name,animal);
@@ -210,13 +207,7 @@ public class Character {
             System.out.println("Name is already taken");
         }
     }
-    public void pet(String name){
-        if (!animals.containsKey(name)) {
-            System.out.println("You do not have "+name+" pet youre own animals");
-            return;
-        }
-            animals.get(name).pet(this.x,this.y);
-    }
+
 
     public void findPath(int targetX, int targetY){
         lastPath=new ArrayList<>();
@@ -297,12 +288,7 @@ public class Character {
         return null;
     }
 
-    public Building getBuilding(String name){
-        for (Building building : buildings) {
-            if(building.getName().equals(name)) return building;
-        }
-        return null;
-    }
+
 
     public int sellAnimal(String name){
         if(animals.containsKey(name)){
