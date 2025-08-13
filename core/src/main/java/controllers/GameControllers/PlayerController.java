@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import io.github.camera.Main;
 import models.*;
+import models.building.Building;
 import models.character.Character;
 import models.character.InventorySlot;
 import models.enums.*;
@@ -18,6 +19,7 @@ import models.resource.Crop;
 import models.resource.Tree;
 import models.shops.*;
 import models.workBench.WorkBench;
+import views.AnimalView;
 import views.GameView;
 import views.InventoryUI;
 import views.ShopViews.*;
@@ -126,6 +128,9 @@ public class PlayerController {
                     Main.getMain().getScreen().dispose();
                     Main.getMain().setScreen(new WorkBenchView());
                     return;
+                } else if (tile.getResource() instanceof Building ) {
+                    Main.getMain().getScreen().dispose();
+                    Main.getMain().setScreen(new AnimalView());
                 }
             }
         }
@@ -192,9 +197,18 @@ public class PlayerController {
                     if(tile.getResource() == null){
                         player.getInventory().removeItem(item, 1);
                         tile.setResource(new WorkBench(workBenchType));
+                        return;
                     }
                 }
-
+                if(player.getCurrentItem().equals(ItemType.Coop)){
+                    if(tile.getResource() == null){
+                        tile.setResource(new Building(CageType.Coop));
+                    }
+                } else if (player.getCurrentItem().equals(ItemType.Barn)) {
+                    if(tile.getResource() == null){
+                        tile.setResource(new Building(CageType.Barn));
+                    }
+                }
             }
 
         }
@@ -261,7 +275,7 @@ public class PlayerController {
 
                 if (tile.isCollisionOn() || tile.getResource() != null ) {
                     collisionDetected = true;
-                    if(tile.getResource() instanceof Crop || tile.getResource() instanceof WorkBench){
+                    if(tile.getResource() instanceof Crop || tile.getResource() instanceof WorkBench||tile.getResource() instanceof Building){
                         collisionDetected = false;
                     }
                 }

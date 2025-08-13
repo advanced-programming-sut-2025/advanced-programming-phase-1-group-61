@@ -7,7 +7,6 @@ import com.google.gson.reflect.TypeToken;
 import models.*;
 import models.building.Shop;
 import models.character.Character;
-import models.character.FriendShip;
 import models.character.InventorySlot;
 import models.resource.Resource;
 import models.tool.Tool;
