@@ -32,7 +32,7 @@ public class GiftPageController {
         view.getSubmit().addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 AssetManager.getUiClicks().play();
-                String giftCommand="gift NPC"+npc.getInfo().name()+" -i "+view.getItemName().getText();
+                String giftCommand="gift NPC "+npc.getInfo().name()+" -i "+view.getItemName().getText();
                 Matcher matcher=GameMenuCommands.GIFT_NPC.getMatcher(giftCommand);
                 if(matcher==null){
                     AlertGenerator.showAlert("","ridi dash!",view.getStage());
