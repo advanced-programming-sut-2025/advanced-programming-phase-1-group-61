@@ -310,7 +310,7 @@ public enum ItemType {
     QualitySprinkler(0, "quality sprinkler", 0, false, "",""),
     IridiumSprinkler(0, "iridium sprinkler", 0, false, "",""),
     CharcoalKlin(0, "charcoal klin", 0, false, "",""),
-    Furnace(0, "furnace", 0, false, "",""),
+    Furnace(0, "furnace", 0, false, "WorkBench/Furnace_On.png",""),
     Scarecrow(0, "scarecrow", 0, false, "",""),
     DeluxeScarecrow(0, "deluxe scarecrow", 0, false, "",""),
     CheesePress(0, "cheese press", 0, false, "",""),
