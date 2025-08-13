@@ -17,9 +17,11 @@ import models.map.Tile;
 import models.resource.Crop;
 import models.resource.Tree;
 import models.shops.*;
+import models.workBench.WorkBench;
 import views.GameView;
 import views.InventoryUI;
 import views.ShopViews.*;
+import views.WorkBenchView;
 
 public class PlayerController {
     private Character player;
@@ -30,7 +32,6 @@ public class PlayerController {
     private int thunderFrameIndex = 0;
     private boolean thunderActive = false;
     private float thunderX, thunderY;
-    private InventoryUI inventoryUI;
 
 
 
@@ -49,10 +50,6 @@ public class PlayerController {
     }
 
 
-
-    public void setInventoryUI(InventoryUI inventoryUI) {
-        this.inventoryUI = inventoryUI;
-    }
 
     public void update() {
         camera.position.set(
@@ -122,6 +119,16 @@ public class PlayerController {
             player.setDirection(Direction.LEFT);
             dx -= 1;
         }
+        if(Gdx.input.isKeyPressed(Input.Keys.E)){
+            Tile tile = Main.getApp().getCurrentGame().getMap().getTileByCordinate(player.getX() , player.getY());
+            if(tile.getResource() != null){
+                if(tile.getResource() instanceof WorkBench workBench){
+                    Main.getMain().getScreen().dispose();
+                    Main.getMain().setScreen(new WorkBenchView());
+                    return;
+                }
+            }
+        }
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             if (player.getCurrentTool() != null) {
                 Vector3 worldClick = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
@@ -178,9 +185,18 @@ public class PlayerController {
                 if(recipes != null){
                     player.getInventory().removeItem(item, 1);
                     Main.getApp().getCurrentGame().getCurrentCharacter().setBuff(recipes.getBuff());
+                    return;
+                }
+                WorkBenchType workBenchType = WorkBenchType.getByWorkBenchItem(player.getCurrentItem());
+                if(workBenchType != null){
+                    if(tile.getResource() == null){
+                        player.getInventory().removeItem(item, 1);
+                        tile.setResource(new WorkBench(workBenchType));
+                    }
                 }
 
             }
+
         }
 
 
@@ -243,12 +259,12 @@ public class PlayerController {
                 shopTile = tile.getType();
 
 
-                if (tile.isCollisionOn()
-                    && (tile.getResource() != null || !(tile.getResource() instanceof Crop))
-                    && tile.getCollisionRect().collidesWith(futureRect)) {
+                if (tile.isCollisionOn() || tile.getResource() != null ) {
                     collisionDetected = true;
+                    if(tile.getResource() instanceof Crop || tile.getResource() instanceof WorkBench){
+                        collisionDetected = false;
+                    }
                 }
-
             }
         }
         if (shopDetected && shopCooldown>=5) {

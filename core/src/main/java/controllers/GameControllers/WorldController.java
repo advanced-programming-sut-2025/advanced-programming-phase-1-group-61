@@ -11,6 +11,7 @@ import models.map.Tile;
 import models.resource.Crop;
 import models.resource.Stone;
 import models.resource.Tree;
+import models.workBench.WorkBench;
 
 public class WorldController {
 
@@ -88,6 +89,15 @@ public class WorldController {
 
                             );
                         }
+                    } else if (tile.getResource() instanceof WorkBench workBench) {
+                        int TILE_SIZE = AssetManager.getTileSize();
+                        Main.getBatch().draw(
+                            workBench.getType().getTexture(),
+                            x * TILE_SIZE + TILE_SIZE / 4,
+                            y * TILE_SIZE + TILE_SIZE / 4,
+                            TILE_SIZE / 2,
+                            TILE_SIZE / 2
+                        );
                     }
                 }if(tile != null && tile.getItem() != null){
                     Main.getBatch().draw(tile.getItem().getItemType().getTexture() ,tile.getX() ,tile.getY());
