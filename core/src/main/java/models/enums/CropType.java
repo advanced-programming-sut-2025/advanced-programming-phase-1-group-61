@@ -54,6 +54,7 @@ public enum CropType {
     private boolean canBecomeGiant;
     private ItemType product , source;
     private Season season;
+    private String internalTexturePath;
 
 
     CropType( int[] stages, int reGrowthTime, boolean canBecomeGiant,ItemType product,ItemType source,Season season) {

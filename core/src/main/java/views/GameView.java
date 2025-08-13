@@ -24,6 +24,8 @@ import models.App;
 import models.AssetManager;
 import models.Game;
 import models.NPC.NPC;
+import models.character.Buff;
+import models.enums.ItemType;
 import models.enums.WeatherState;
 import models.map.Map;
 import models.map.Particle;
@@ -39,6 +41,7 @@ import network.Requsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 public class GameView implements Screen, InputProcessor{
     private GameMenuController controller;
     private Stage stage;
@@ -72,7 +75,6 @@ public class GameView implements Screen, InputProcessor{
         stage = new Stage();
         this.camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         controller.setView(this,camera);
-        System.out.println("game view opened");
         skin = AssetManager.getSkin();
         voteLabel ="";
         sendVote = new TextButton("Send",skin);
@@ -196,7 +198,6 @@ public class GameView implements Screen, InputProcessor{
         if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
             inventoryVisible = !inventoryVisible;
             inventoryUI.setVisible(inventoryVisible);
-            inventoryUI.setInventoryVisible(inventoryVisible);
             inventoryUI.refreshUI();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
@@ -216,7 +217,18 @@ public class GameView implements Screen, InputProcessor{
             Main.getMain().getScreen().dispose();
             Main.getMain().setScreen(new CraftingPageView());
         }
-
+        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
+            Main.getMain().getScreen().dispose();
+            Main.getMain().setScreen(new SettingsMenu());
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.C)){
+            Main.getMain().getScreen().dispose();
+            Main.getMain().setScreen(new CookingPageView());
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.F)){
+            Main.getMain().getScreen().dispose();
+            Main.getMain().setScreen(new FriendShipView());
+        }
 
 
         Main.getBatch().setProjectionMatrix(camera.combined);
@@ -265,12 +277,19 @@ public class GameView implements Screen, InputProcessor{
         String dayText = "Day: " + date.getDay();
         String seasonText = "Season: " + date.getSeason();
         String energy = "Energy: "+Main.getApp().getCurrentGame().getCurrentCharacter().getEnergy();
+        Buff buff = Main.getApp().getCurrentGame().getCurrentCharacter().getBuff();
+        String buffString = "";
+        if(buff != null){
+           buffString  = "Buff: " + buff.getEnergyIncrease();
+        }
+
 
         spriteBatch.begin();
         font.draw(spriteBatch, timeText, 20, Gdx.graphics.getHeight() - 20);
         font.draw(spriteBatch, dayText, 20, Gdx.graphics.getHeight() - 50);
         font.draw(spriteBatch, seasonText, 20, Gdx.graphics.getHeight() - 80);
         font.draw(spriteBatch , energy , 20 ,Gdx.graphics.getHeight() -110 );
+        font.draw(spriteBatch , buffString, 20 ,Gdx.graphics.getHeight() -140 );
         int yOffset = 150;
         for (String msg : chatMessages) {
             if (msg.startsWith("[PRIVATE]")) {
@@ -530,6 +549,33 @@ public class GameView implements Screen, InputProcessor{
             chatMessages.remove(0);
         }
     }
+    public void showGiftNotification(String text , ItemType gift) {
+        Label.LabelStyle style = new Label.LabelStyle();
+        style.font = AssetManager.getFont();
+        if(gift.equals(ItemType.BlueJazz)){
+            style.fontColor = Color.BLUE;
+        }else {
+            style.fontColor = com.badlogic.gdx.graphics.Color.YELLOW;
+        }
+
+        final Label giftLabel = new Label(text, style);
+        giftLabel.setPosition(
+            (stage.getWidth() - giftLabel.getWidth()) / 2,
+            stage.getHeight() - 100
+        );
+
+        stage.addActor(giftLabel);
+
+
+        giftLabel.addAction(
+            sequence(
+                delay(5f),
+                fadeOut(1f),
+                removeActor()
+            )
+        );
+    }
+
 
 
 }

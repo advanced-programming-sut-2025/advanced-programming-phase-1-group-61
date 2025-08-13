@@ -38,8 +38,8 @@ public class GiftPageView implements Screen {
         table.setFillParent(true);
         table.center();
         table.add(itemName).width(500).height(80).row();
-        table.add(submit).width(300).height(60);
-        table.add(back).width(300).height(60);
+        table.add(submit).width(300).height(60).row();
+        table.add(back).width(300).height(60).row();
         stage.addActor(table);
     }
 

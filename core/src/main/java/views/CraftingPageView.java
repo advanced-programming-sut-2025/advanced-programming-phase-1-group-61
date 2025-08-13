@@ -43,9 +43,9 @@ public class CraftingPageView implements Screen, InputProcessor {
     @Override
     public void show() {
         mainTable.setFillParent(true);
-        mainTable.center().pad(10);
+        mainTable.defaults().center().pad(10);
         detailsTable.setFillParent(true);
-        detailsTable.top().left().pad(10);
+        detailsTable.defaults().top().left().pad(10);
         for(int i=0;i<Recipe.values().length;i++) {
             Main.getApp().Extract(i,craftButtons);
         }

@@ -9,6 +9,8 @@ import io.github.camera.Main;
 import models.Game;
 import models.User;
 import models.character.Character;
+import models.character.FriendShip;
+import models.enums.ItemType;
 import models.map.Map;
 import network.Lobby.Chat;
 import network.Lobby.GetVote;
@@ -105,6 +107,25 @@ public class NetworkClient {
                     } else if (object instanceof ScoreTableRefresh refresh) {
                         if(Main.getMain().getScreen() instanceof ScoreTableView view){
                             view.getController().refreshGameAndusers(refresh.getAllGames() , refresh.getAllUsers());
+                        }
+                    } else if (object instanceof GiftSent gift) {
+                        Main.getApp().getCurrentGame().getCurrentCharacter().getInventory().addItem(gift.getGift() , 1);
+                        for (FriendShip friendShip : Main.getApp().getCurrentGame().getCurrentCharacter().getFriendShipList()) {
+                            if(friendShip.getUserID() == gift.getSenderUserId()){
+                                if(gift.getGift() == ItemType.BlueJazz){
+                                    friendShip.setFriendShipXp(friendShip.getFriendShipXp() + 10);
+                                }
+                                friendShip.setFriendShipXp(friendShip.getFriendShipXp() + 10);
+                                friendShip.addGift(gift.getGift());
+                            }
+                        }
+
+                        if(Main.getMain().getScreen() instanceof GameView view){
+                            if(gift.getGift() == ItemType.BlueJazz){
+                                view.showGiftNotification("Wow you received a flower from:"+gift.getSenderUserId() , gift.getGift());
+                            }else {
+                                view.showGiftNotification("Wow you received a gift from:"+gift.getSenderUserId() , gift.getGift());
+                            }
                         }
                     }
 
