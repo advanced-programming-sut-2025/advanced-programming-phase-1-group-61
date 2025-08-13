@@ -357,22 +357,7 @@ public enum ItemType {
         return isEdible;
     }
 
-    public static boolean isItem(String itemName) {
-        try {
-            ItemType.valueOf(itemName);
-            return true;
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-    }
 
-    public static ItemType getItembyname(String itemName) {
-        if (itemName == null || itemName.isEmpty()) return null;
-        for (ItemType type : ItemType.values()) {
-            if (type.name().equalsIgnoreCase(itemName.toLowerCase())) return type;
-        }
-        return null;
-    }
 
 
     public static ItemType getItemType(String type) {
