@@ -18,7 +18,6 @@ import java.util.Random;
 public class NPC {
 
     private  NpcInfo info;
-    private final ArrayList<String> doneQuests = new ArrayList<>();
     private  NpcDialog dialogs;
     private final ArrayList<NPCFriendships> friendships = new ArrayList<>();
     private boolean firstGiftOfDay=true;
@@ -28,6 +27,7 @@ public class NPC {
     private final int chatIconHeight=32;
     private transient Sprite sprite;
     private transient Sprite dialogueSprite;
+    private final ArrayList<Boolean> doneQuests = new ArrayList<>();
 
 
     public NPC(NpcInfo info, NpcDialog dialogs, List<Character> characters, int x, int y) {
@@ -161,7 +161,7 @@ public class NPC {
                                 .append(item.getDisPlayName())
                                 .append("\n");
                         } else {
-                            builder.append("quest is done!");
+                            builder.append("quest is done!").append("\n");
                         }
                         index++;
                     }

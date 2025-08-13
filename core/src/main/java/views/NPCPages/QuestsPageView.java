@@ -33,6 +33,7 @@ public class QuestsPageView implements Screen {
         table.center();
         table.add(info).row();
         table.add(backToGame).width(300).height(60).row();
+        stage.addActor(table);
         controller.addListeners();
     }
 
