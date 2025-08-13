@@ -13,6 +13,8 @@ import models.*;
 import models.animal.Animal;
 import models.character.Character;
 import models.NPC.NPC;
+import models.character.Inventory;
+import models.character.InventorySlot;
 import models.enums.*;
 import models.map.Weather;
 import models.tool.Axe;
@@ -121,6 +123,12 @@ public class GameMenuController {
         }
         Character character =game.getCurrentCharacter();
         game.changeDayActivities();
+        Inventory inventory=character.getInventory();
+        InventorySlot slot=inventory.getSlotByItem(item);
+        if(slot==null){
+            return new Result(false,"you don't have this item!");
+        }
+        slot.setCount(slot.getCount()-1);
         if (npc.isFirstGiftOfDay()) {
             npc.setFirstGiftOfDay(false);
             if (found) {
