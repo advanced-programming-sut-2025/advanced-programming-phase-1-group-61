@@ -43,9 +43,9 @@ public class CraftingPageView implements Screen, InputProcessor {
     @Override
     public void show() {
         mainTable.setFillParent(true);
-        mainTable.center().pad(10);
+        mainTable.defaults().center().pad(10);
         detailsTable.setFillParent(true);
-        detailsTable.top().left().pad(10);
+        detailsTable.defaults().top().left().pad(10);
         for(int i=0;i<Recipe.values().length;i++) {
             Main.getApp().Extract(i,craftButtons);
         }
@@ -56,14 +56,6 @@ public class CraftingPageView implements Screen, InputProcessor {
     public void render(float v) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getBatch().begin();
-        for(int i=0;i<Recipe.values().length;i++) {
-            float width = 64;
-            float height = 64;
-            ImageButton button=craftButtons[i];
-            stage.getBatch().draw(Recipe.values()[i].getTexture(),
-                button.getX() + (button.getWidth() - width) / 2,
-                button.getY() + (button.getHeight() - height) / 2, width, height);
-        }
         stage.getBatch().end();
         stage.act(v);
         stage.draw();

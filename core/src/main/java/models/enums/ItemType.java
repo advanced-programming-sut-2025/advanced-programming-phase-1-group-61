@@ -54,15 +54,15 @@ public enum ItemType {
     Plant(200, "plant", 0, false, "",""),
     Salmon(75, "salmon", 0, false, "",""),
     Diamond(750, "diamond", 0, false, "",""),
-    BlueJazz(50, "blue jazz", 45, true, "",""),
-    Carrot(35, "carrot", 75, true, "",""),
+    BlueJazz(50, "blue jazz", 45, true, "Crops/Blue_Jazz.png",""),
+    Carrot(35, "carrot", 75, true, "Crops/Carrot.png",""),
     Fish(400, "fish", 0, false, "",""),
     JojaCola(0, "joja cola", 0, false, "",""),
     Sugar(0, "sugar", 0, false, "",""),
     WheatFlour(0, "wheat flour", 0, false, "",""),
     Rice(0, "rice", 0, false, "",""),
-    CauliFlower(175, "cauli flower", 75, false, "",""),
-    CoffeeBean(15, "coffee bean", 0, false, "",""),
+    CauliFlower(175, "cauli flower", 75, false, "Crops/Cauliflower.png",""),
+    CoffeeBean(15, "coffee bean", 0, false, "Crops/Coffee_Bean.png",""),
     CommonMushroom(40, "common mushroom", 38, true, "",""),
     Daffodil(30, "daffodil", 0, false, "",""),
     Dandelion(40, "dandelion", 25, true, "",""),
@@ -99,11 +99,11 @@ public enum ItemType {
     PrismaticShard(2000, "prismatic shard", 0, false, "",""),
     Copper(5, "copper", 0, false, "",""),
     Iridium(100, "iridium", 0, false, "",""),
-    JazzSeed(0, "jazz seed", 0, false, "",""),
-    CarrotSeed(0, "carrot seed", 0, false, "",""),
-    CauliflowerSeed(0, "cauliflower seed", 0, false, "",""),
-    GarlicSeed(0, "garlic seed", 0, false, "",""),
-    BeanStarter(0, "bean starter", 0, false, "",""),
+    JazzSeed(0, "jazz seed", 0, false, "Crops/Jazz_Seeds.png",""),
+    CarrotSeed(0, "carrot seed", 0, false, "Crops/Carrot_Seeds.png",""),
+    CauliflowerSeed(0, "cauliflower seed", 0, false, "Crops/Cauliflower_Seeds.png",""),
+    GarlicSeed(0, "garlic seed", 0, false, "Crops/Garlic_Seeds.png",""),
+    BeanStarter(0, "bean starter", 0, false, "Crops/Bean_Starter.png",""),
     KaleSeed(0, "kale seed", 0, false, "",""),
     ParsnipSeed(0, "parsnip seed", 0, false, "",""),
     PotatoSeed(0, "potato seed", 0, false, "",""),
@@ -216,8 +216,8 @@ public enum ItemType {
     MysticSyrup(1000, "mystic syrup", 500, true, "",""),
     Shad(60, "shad", 0, false, "",""),
     Discus(120, "blue discus", 0, false, "",""),
-    Garlic(20, "garlic", 10, true, "",""),
-    GreenBean(20, "greenBeen", 10, true, "",""),
+    Garlic(20, "garlic", 10, true, "Crops/Garlic.png",""),
+    GreenBean(20, "greenBeen", 10, true, "Crops/Green_Bean.png",""),
     Rhubarb(20, "Rhubarb", 20, true, "",""),
     Strawberry(20, "Strawberry", 20, true, "",""),
     Tulip(20, "Tulip", 20, true, "",""),
@@ -310,7 +310,7 @@ public enum ItemType {
     QualitySprinkler(0, "quality sprinkler", 0, false, "",""),
     IridiumSprinkler(0, "iridium sprinkler", 0, false, "",""),
     CharcoalKlin(0, "charcoal klin", 0, false, "",""),
-    Furnace(0, "furnace", 0, false, "",""),
+    Furnace(0, "furnace", 0, false, "WorkBench/Furnace_On.png",""),
     Scarecrow(0, "scarecrow", 0, false, "",""),
     DeluxeScarecrow(0, "deluxe scarecrow", 0, false, "",""),
     CheesePress(0, "cheese press", 0, false, "",""),
@@ -357,22 +357,7 @@ public enum ItemType {
         return isEdible;
     }
 
-    public static boolean isItem(String itemName) {
-        try {
-            ItemType.valueOf(itemName);
-            return true;
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-    }
 
-    public static ItemType getItembyname(String itemName) {
-        if (itemName == null || itemName.isEmpty()) return null;
-        for (ItemType type : ItemType.values()) {
-            if (type.name().equalsIgnoreCase(itemName.toLowerCase())) return type;
-        }
-        return null;
-    }
 
 
     public static ItemType getItemType(String type) {

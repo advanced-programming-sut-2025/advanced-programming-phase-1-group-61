@@ -26,6 +26,7 @@ import models.shops.*;
 import models.tool.*;
 import models.workBench.Inprocess;
 import models.workBench.ItemKinds;
+import models.workBench.RecipeInfo;
 import models.workBench.WorkBench;
 import network.Lobby.*;
 
@@ -174,5 +175,8 @@ public class KryoRegistrations {
         kryo.register(Vote.class);
         kryo.register(Chat.class);
         kryo.register(ScoreTableRefresh.class);
+        kryo.register(RecipeInfo.class);
+        kryo.register(FriendShip.class);
+        kryo.register(GiftSent.class);
     }
 }

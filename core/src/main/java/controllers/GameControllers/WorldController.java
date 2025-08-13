@@ -8,8 +8,10 @@ import models.building.Shop;
 import models.character.Character;
 import models.enums.TileType;
 import models.map.Tile;
+import models.resource.Crop;
 import models.resource.Stone;
 import models.resource.Tree;
+import models.workBench.WorkBench;
 
 public class WorldController {
 
@@ -61,6 +63,36 @@ public class WorldController {
                         int TILE_SIZE = AssetManager.getTileSize();
                         Main.getBatch().draw(
                             stone.getType().getTexture(),
+                            x * TILE_SIZE + TILE_SIZE / 4,
+                            y * TILE_SIZE + TILE_SIZE / 4,
+                            TILE_SIZE / 2,
+                            TILE_SIZE / 2
+                        );
+                    } else if (tile.getResource() instanceof Crop crop) {
+                        int TILE_SIZE = AssetManager.getTileSize();
+                        if(crop.getDaysTillNextHarvest() > 0){
+                            Main.getBatch().draw(
+                                crop.getType().getSource().getTexture(),
+                                x * TILE_SIZE+ TILE_SIZE / 4,
+                                y * TILE_SIZE+ TILE_SIZE / 4,
+                                TILE_SIZE / 2,
+                                TILE_SIZE / 2
+
+                            );
+                        }else {
+                            Main.getBatch().draw(
+                                crop.getType().getProduct().getTexture(),
+                                x * TILE_SIZE+ TILE_SIZE / 4,
+                                y * TILE_SIZE+ TILE_SIZE / 4,
+                                TILE_SIZE / 2,
+                                TILE_SIZE / 2
+
+                            );
+                        }
+                    } else if (tile.getResource() instanceof WorkBench workBench) {
+                        int TILE_SIZE = AssetManager.getTileSize();
+                        Main.getBatch().draw(
+                            workBench.getType().getTexture(),
                             x * TILE_SIZE + TILE_SIZE / 4,
                             y * TILE_SIZE + TILE_SIZE / 4,
                             TILE_SIZE / 2,

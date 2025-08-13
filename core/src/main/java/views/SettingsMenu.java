@@ -4,9 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import controllers.GameMenuController;
+import controllers.PreGameMenuController;
 import controllers.SettingsMenuController;
 import io.github.camera.Main;
 import models.App;
@@ -32,11 +36,24 @@ public class SettingsMenu implements Screen {
         controller.handleMusicSlider();
         controller.setupListeners();
         controller.handleSelectBox();
+        back=new TextButton("BACK", AssetManager.getSkin());
     }
 
     @Override
     public void show() {
         background=AssetManager.getMainMenuBackground();
+        back.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(Main.getApp().getCurrentGame() != null){
+                    Main.getMain().getScreen().dispose();
+                    Main.getMain().setScreen(new GameView(new GameMenuController(Main.getApp().getCurrentGame())));
+                }else {
+                    Main.getMain().getScreen().dispose();
+                    Main.getMain().setScreen(new PreGameMenu(new PreGameMenuController()));
+                }
+            }
+        });
     }
 
     @Override
@@ -78,7 +95,7 @@ public class SettingsMenu implements Screen {
     }
 
     private void setUpUI(){
-        back=new TextButton("BACK", AssetManager.getSkin());
+
         musicPicker=new SelectBox<>(AssetManager.getSkin());
         musicPicker.setItems(BackgroundMusic.getItems());
         Game game=Main.getApp().getCurrentGame();

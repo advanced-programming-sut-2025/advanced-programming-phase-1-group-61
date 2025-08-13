@@ -9,124 +9,124 @@ import java.util.Map;
 public enum CookingRecipes {
     FriedEgg("fried egg", 35, 50, null, new HashMap<>() {{
         put(ItemType.Egg, 1);
-    }}, "starter"),
+    }}, "starter" , ItemType.FriedEgg),
 
     BakedFish("baked fish", 100, 75, null, new HashMap<>() {{
         put(ItemType.Sardine, 1);
         put(ItemType.Salmon, 1);
         put(ItemType.Wheat, 1);
-    }}, "starter"),
+    }}, "starter",ItemType.BackedFish),
 
     Salad("salad", 110, 113, null, new HashMap<>() {{
         put(ItemType.Leek, 1);
         put(ItemType.Dandelion, 1);
-    }}, "starter"),
+    }}, "starter",ItemType.Salad),
 
     Omelet("omelet", 125, 100, null, new HashMap<>() {{
         put(ItemType.Egg, 1);
         put(ItemType.Milk, 1);
-    }}, "stardrop saloon"),
+    }}, "stardrop saloon",ItemType.Omelet),
 
     PumpkinPie("pumpkin pie", 385, 225, null, new HashMap<>() {{
         put(ItemType.Pumpkin, 1);
         put(ItemType.WheatFlour, 1);
         put(ItemType.Milk, 1);
         put(ItemType.Sugar, 1);
-    }}, "stardrop saloon"),
+    }}, "stardrop saloon",ItemType.PumpkinPie),
 
     Spaghetti("spaghetti", 120, 75, null, new HashMap<>() {{
         put(ItemType.WheatFlour, 1);
         put(ItemType.Tomato, 1);
-    }}, "stardrop saloon"),
+    }}, "stardrop saloon",ItemType.Spaghetti),
 
     Pizza("pizza", 300, 150, null, new HashMap<>() {{
         put(ItemType.WheatFlour, 1);
         put(ItemType.Tomato, 1);
         put(ItemType.Cheese, 1);
-    }}, "stardrop saloon"),
+    }}, "stardrop saloon",ItemType.Pizza),
 
     Tortilla("tortilla", 50, 50, null, new HashMap<>() {{
         put(ItemType.Corn, 1);
-    }}, "stardrop saloon"),
+    }}, "stardrop saloon",ItemType.Tortilla),
 
     MakiRoll("maki roll", 220, 100, null, new HashMap<>() {{
         put(ItemType.Fish, 1);
         put(ItemType.Rice, 1);
         put(ItemType.Fiber, 1);
-    }}, "stardrop saloon"),
+    }}, "stardrop saloon" , ItemType.MakiRoll),
 
     TripleShotEspresso("triple shot espresso", 450, 200, new Buff(100, 5, false, false, false, false), new HashMap<>() {{
         put(ItemType.Coffee, 3);
-    }}, "stardrop saloon"),
+    }}, "stardrop saloon",ItemType.TripleShotEspresso),
 
     Cookie("cookie", 140, 90, null, new HashMap<>() {{
         put(ItemType.WheatFlour, 1);
         put(ItemType.Sugar, 1);
         put(ItemType.Egg, 1);
-    }}, "stardrop saloon"),
+    }}, "stardrop saloon",ItemType.Cookie),
 
     HashBrowns("hash browns", 120, 90, new Buff(0, 5, true, false, false, false), new HashMap<>() {{
         put(ItemType.Potato, 1);
         put(ItemType.Oil, 1);
-    }}, "stardrop saloon"),
+    }}, "stardrop saloon",ItemType.HashBrowns),
 
     Pancakes("pancakes", 80, 90, new Buff(0, 11, false, false, true, false), new HashMap<>() {{
         put(ItemType.WheatFlour, 1);
         put(ItemType.Egg, 1);
-    }}, "stardrop saloon"),
+    }}, "stardrop saloon",ItemType.Pancakes),
 
     FruitSalad("fruit salad", 450, 263, null, new HashMap<>() {{
         put(ItemType.Blueberry, 1);
         put(ItemType.Melon, 1);
         put(ItemType.Apricot, 1);
-    }}, "stardrop saloon"),
+    }}, "stardrop saloon",ItemType.FruitSalad),
 
     RedPlate("red plate", 400, 240, new Buff(50, 3, false, false, false, false), new HashMap<>() {{
         put(ItemType.RedCabbage, 1);
         put(ItemType.Radish, 1);
-    }}, "stardrop saloon"),
+    }}, "stardrop saloon" , ItemType.RedPlate),
 
     Bread("bread", 60, 50, null, new HashMap<>() {{
         put(ItemType.WheatFlour, 1);
-    }}, "stardrop saloon"),
+    }}, "stardrop saloon",ItemType.Bread),
 
     SalmonDinner("salmon dinner", 300, 125, null, new HashMap<>() {{
         put(ItemType.Salmon, 1);
         put(ItemType.Amaranth, 1);
         put(ItemType.Kale, 1);
-    }}, "leah reward"),
+    }}, "leah reward",ItemType.SalmonDinner),
 
     VegetableMedley("vegetable medley", 120, 165, null, new HashMap<>() {{
         put(ItemType.Tomato, 1);
         put(ItemType.Beet, 1);
-    }}, "forging level2"),
+    }}, "forging level2" , ItemType.VegetableMedley),
 
     FarmersLunch("farmer's lunch", 150, 200, new Buff(0, 5, true, false, false, false), new HashMap<>() {{
         put(ItemType.Omelet, 1);
         put(ItemType.Parsnip, 1);
-    }}, "farming level1"),
+    }}, "farming level1",ItemType.FarmersLunch),
 
     SurvivalBurger("survival burger", 180, 125, new Buff(0, 5, false, false, true, false), new HashMap<>() {{
         put(ItemType.Bread, 1);
         put(ItemType.Carrot, 1);
         put(ItemType.EggPlant, 1);
-    }}, "forging level3"),
+    }}, "forging level3",ItemType.SurvivalBurger),
 
     DishOTheSea("dish o' the sea", 220, 150, new Buff(0, 5, false, false, false, true), new HashMap<>() {{
         put(ItemType.Sardine, 2);
         put(ItemType.HashBrowns, 1);
-    }}, "farming level2"),
+    }}, "farming level2",ItemType.DishOTheSea),
 
     SeaFormPudding("seafoam pudding", 300, 175, new Buff(0, 10, false, false, false, true), new HashMap<>() {{
         put(ItemType.Flounder, 1);
         put(ItemType.MidnightCarp, 1);
-    }}, "fishing level3"),
+    }}, "fishing level3",ItemType.SeaFormPudding),
 
     MinersTreat("miner's treat", 200, 125, new Buff(0, 5, false, true, false, false), new HashMap<>() {{
         put(ItemType.Carrot, 2);
         put(ItemType.Sugar, 1);
         put(ItemType.Milk, 1);
-    }}, "mining level1");
+    }}, "mining level1",ItemType.MinersTreat);
 
     private final String name;
     private final int sellPrice;
@@ -134,14 +134,16 @@ public enum CookingRecipes {
     private final Map<ItemType, Integer> ingredients;
     private final Buff buff;
     private final String source;
+    private final ItemType food;
 
-    CookingRecipes(String name, int sellPrice, int energy, Buff buff, Map<ItemType, Integer> ingredients, String source) {
+    CookingRecipes(String name, int sellPrice, int energy, Buff buff, Map<ItemType, Integer> ingredients, String source,ItemType food) {
         this.name = name;
         this.sellPrice = sellPrice;
         this.energy = energy;
         this.ingredients = ingredients;
         this.buff = buff;
         this.source = source;
+        this.food = food;
     }
 
     public String getName() { return name; }
@@ -161,11 +163,21 @@ public enum CookingRecipes {
         return message.toString();
     }
 
-    public static CookingRecipes getCookingRecipes(String type) {
-        try {
-            return CookingRecipes.valueOf(type);
-        } catch (IllegalArgumentException e) {
-            return null;
+    public static CookingRecipes getCookingRecipes(ItemType type) {
+        if (type == null) return null;
+        for (CookingRecipes recipe : CookingRecipes.values()) {
+            if (recipe.getFood() == type) {
+                return recipe;
+            }
         }
+        return null;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public ItemType getFood() {
+        return food;
     }
 }

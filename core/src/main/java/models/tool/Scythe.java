@@ -28,7 +28,7 @@ public class Scythe extends Tool{
         Resource resource = tile.getResource();
         if(resource instanceof Crop){
             Crop crop =(Crop) resource;
-            if(crop.getDaysTillNextHarvest() ==0){
+            if(crop.getDaysTillNextHarvest() >=0){
                character.getInventory().addItem(crop.getType().getProduct(),1);
                character.getInventory().addItem(crop.getType().getSource(), 1);
                 if(crop.getType().getReGrowthTime() <=0){
