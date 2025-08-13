@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import models.*;
 import models.building.Shop;
 import models.character.Character;
+import models.character.FriendShip;
 import models.character.InventorySlot;
 import models.resource.Resource;
 import models.tool.Tool;
@@ -211,6 +212,11 @@ public class ServerMain {
                             connection1.sendTCP(chat);
                         }
                     }
+                } else if (object instanceof  GiftSent gift) {
+                    Connection connection1 = getConnectionById(getUserById(gift.getReceiveUserId()).getConnectionId());
+                    if(connection1 != null){
+                        connection1.sendTCP(gift);
+                    }
                 }
 
 
@@ -411,4 +417,5 @@ public class ServerMain {
        }
        return null;
    }
+
 }

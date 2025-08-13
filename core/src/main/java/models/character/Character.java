@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import io.github.camera.Main;
+import models.App;
 import models.AssetManager;
 import models.CollisionRect;
 import models.animal.Animal;
@@ -49,6 +50,19 @@ public class Character {
     private boolean isMoving = false;
     private ItemType currentItem ;
     private int numOfQuest;
+    private List<FriendShip> friendShipList;
+
+    public List<FriendShip> getFriendShipList() {
+        if(friendShipList == null){
+            friendShipList = new ArrayList<>();
+            for (Character character : Main.getApp().getCurrentGame().getAllCharacters()) {
+                if(character.getUserId() != userId){
+                    friendShipList.add(new FriendShip(character.getUserId()));
+                }
+            }
+        }
+        return friendShipList;
+    }
 
     private Buff buff=null;
     private int money;
@@ -418,4 +432,5 @@ public class Character {
     public boolean checkRecipeAvailability(Recipe recipe){
         return recipes.contains(recipe);
     }
+
 }

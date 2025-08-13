@@ -25,6 +25,7 @@ import models.AssetManager;
 import models.Game;
 import models.NPC.NPC;
 import models.character.Buff;
+import models.enums.ItemType;
 import models.enums.WeatherState;
 import models.map.Map;
 import models.map.Particle;
@@ -40,6 +41,7 @@ import network.Requsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 public class GameView implements Screen, InputProcessor{
     private GameMenuController controller;
     private Stage stage;
@@ -223,7 +225,10 @@ public class GameView implements Screen, InputProcessor{
             Main.getMain().getScreen().dispose();
             Main.getMain().setScreen(new CookingPageView());
         }
-
+        if(Gdx.input.isKeyPressed(Input.Keys.F)){
+            Main.getMain().getScreen().dispose();
+            Main.getMain().setScreen(new FriendShipView());
+        }
 
 
         Main.getBatch().setProjectionMatrix(camera.combined);
@@ -544,6 +549,33 @@ public class GameView implements Screen, InputProcessor{
             chatMessages.remove(0);
         }
     }
+    public void showGiftNotification(String text , ItemType gift) {
+        Label.LabelStyle style = new Label.LabelStyle();
+        style.font = AssetManager.getFont();
+        if(gift.equals(ItemType.BlueJazz)){
+            style.fontColor = Color.BLUE;
+        }else {
+            style.fontColor = com.badlogic.gdx.graphics.Color.YELLOW;
+        }
+
+        final Label giftLabel = new Label(text, style);
+        giftLabel.setPosition(
+            (stage.getWidth() - giftLabel.getWidth()) / 2,
+            stage.getHeight() - 100
+        );
+
+        stage.addActor(giftLabel);
+
+
+        giftLabel.addAction(
+            sequence(
+                delay(5f),
+                fadeOut(1f),
+                removeActor()
+            )
+        );
+    }
+
 
 
 }

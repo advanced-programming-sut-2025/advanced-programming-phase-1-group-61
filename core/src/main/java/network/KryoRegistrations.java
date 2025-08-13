@@ -176,5 +176,7 @@ public class KryoRegistrations {
         kryo.register(Chat.class);
         kryo.register(ScoreTableRefresh.class);
         kryo.register(RecipeInfo.class);
+        kryo.register(FriendShip.class);
+        kryo.register(GiftSent.class);
     }
 }

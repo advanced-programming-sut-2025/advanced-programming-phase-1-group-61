@@ -127,7 +127,6 @@ public class Animal {
                 if (0.5 < quality && quality <= 0.7) itemType=itemType.getKind("Silver");
                 else if (0.7 < quality && quality <= 0.9) itemType=itemType.getKind("Gold");
                 else if (0.9 < quality) itemType=itemType.getKind("Irid");
-                Item item = new Item(itemType);
                 products.add(itemType);
             }
 
@@ -151,25 +150,7 @@ public class Animal {
         return true;
     }
 
-    public void shepherd(int x, int y, boolean isout,String House) {
-        this.X = x;
-        this.Y = y;
-        if(House!=null){
-            Main.getApp().getCurrentGame().getCurrentCharacter().getBuilding(this.house).removeInput(this);
-            Main.getApp().getCurrentGame().getCurrentCharacter().getBuilding(House).addInput(this);
-            this.house = House;
-        }
-        if (this.isOut != isout) {
-            if (isout)  {
-                friendship += 8;
-                if (friendship > 1000) {
-                    friendship = 1000;
-                }
-                this.outFed= true;
-            }
-            this.isOut = isout;
-        }
-    }
+
 
 
     public void move() {
