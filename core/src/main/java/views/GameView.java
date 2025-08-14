@@ -282,6 +282,7 @@ public class GameView implements Screen, InputProcessor{
         if(buff != null){
            buffString  = "Buff: " + buff.getEnergyIncrease();
         }
+        String money = "Money: "+Main.getApp().getCurrentGame().getCurrentCharacter().getMoney();
 
 
         spriteBatch.begin();
@@ -289,7 +290,8 @@ public class GameView implements Screen, InputProcessor{
         font.draw(spriteBatch, dayText, 20, Gdx.graphics.getHeight() - 50);
         font.draw(spriteBatch, seasonText, 20, Gdx.graphics.getHeight() - 80);
         font.draw(spriteBatch , energy , 20 ,Gdx.graphics.getHeight() -110 );
-        font.draw(spriteBatch , buffString, 20 ,Gdx.graphics.getHeight() -140 );
+        font.draw(spriteBatch , money, 20 ,Gdx.graphics.getHeight() -140 );
+        font.draw(spriteBatch , buffString, 20 ,Gdx.graphics.getHeight() -170 );
         int yOffset = 150;
         for (String msg : chatMessages) {
             if (msg.startsWith("[PRIVATE]")) {

@@ -108,6 +108,7 @@ public class Game {
         for (Character character : allCharacters) {
             character.setFainted(false);
             character.setEnergy(150);
+            character.getShippingBin().changeDayActivity();
         }
         if(count >= 16){
             map.getWeather().crowAttack(RandomNumber.getRandomNumberWithBoundaries(0,70 ),
@@ -118,9 +119,6 @@ public class Game {
         }
     }
 
-    public List<ShippingBin> getShippingBins() {
-        return shippingBins;
-    }
 
     public Character getCharacterByID(int id) {
         for(Character character:allCharacters) {

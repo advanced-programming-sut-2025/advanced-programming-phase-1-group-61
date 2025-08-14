@@ -31,7 +31,7 @@ public class ServerMain {
 
 
     public static void main(String[] args) throws Exception {
-        server = new Server(1024*1024,1024*1024);
+        server = new Server(2048*1024,2048*1024);
         Network.register(server);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -216,6 +216,8 @@ public class ServerMain {
                     if(connection1 != null){
                         connection1.sendTCP(gift);
                     }
+                } else if (object instanceof  GameStartRequest request) {
+                    startGame(request.getGameId() , request.getUserId() , request.getLobbyId());
                 }
 
 
@@ -416,5 +418,17 @@ public class ServerMain {
        }
        return null;
    }
-
+    private static  void startGame(int gameId , int userId , String lobbyId){
+        getUserById(userId).setGameId(gameId);
+        for (Lobby lobby : lobbies) {
+            if(lobby.getId().equals(lobbyId)){
+                for (User user : lobby.getUsers()) {
+                    if(user.getId() == userId){
+                        user.setGameId(gameId);
+                    }
+                }
+                return;
+            }
+        }
+    }
 }
