@@ -19,12 +19,15 @@ public class ShippingBin extends Resource{
         return itemTypes;
     }
     public void removeItemType(ItemType itemType){
-        Character character = Main.getApp().getCurrentGame().getCurrentCharacter();
-        character.setMoney(character.getMoney() + itemType.getPrice());
+
+        Main.getApp().getCurrentGame().getCurrentCharacter().setMoney(
+            Main.getApp().getCurrentGame().getCurrentCharacter().getMoney() + itemType.getPrice());
         itemTypes.remove(itemType);
     }
     public void changeDayActivity(){
-        for (ItemType type : itemTypes) {
+        List<ItemType> itemsToRemove = new ArrayList<>();
+        itemsToRemove.addAll(itemTypes);
+        for (ItemType type : itemsToRemove) {
             removeItemType(type);
         }
     }

@@ -131,7 +131,8 @@ public class PreGameMenu implements Screen {
         profileMenu.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //TODO
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(new ProfileMenu());
             }
         });
         profileMenu.addListener(new ClickListener(){

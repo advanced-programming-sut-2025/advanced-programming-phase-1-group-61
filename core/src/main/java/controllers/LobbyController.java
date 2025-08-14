@@ -9,6 +9,7 @@ import models.User;
 import models.character.Character;
 import models.map.Map;
 import models.map.MapCreator.MapBuilder;
+import network.Lobby.GameStartRequest;
 import network.Lobby.LeaveLobbyRequest;
 import network.Lobby.Lobby;
 import network.Lobby.LobbyRequest;
@@ -71,7 +72,7 @@ public class LobbyController {
         Game game = new Game(map, characterList);
         for (User user : lobby.getUsers()) {
             user.setGameId(game.getId());
-            Main.getClient().sendMessage(user);
+            Main.getClient().sendMessage(new GameStartRequest(user.getId(),game.getId(),lobby.getId()));
         }
         Main.getApp().addGame(game);
         Main.getApp().setCurrentGame(game);

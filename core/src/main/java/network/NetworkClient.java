@@ -27,7 +27,7 @@ public class NetworkClient {
     private Client client;
 
     public  void start() {
-        client = new Client(1024 * 1024, 1024 * 1024);
+        client = new Client(2048 * 1024, 2048 * 1024);
         client.start();
 
 
