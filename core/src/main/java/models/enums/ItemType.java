@@ -366,6 +366,11 @@ public enum ItemType {
         try {
             return ItemType.valueOf(type);
         } catch (IllegalArgumentException e) {
+            for(ItemType itemType : ItemType.values()) {
+                if(itemType.getDisPlayName().equals(type)) {
+                    return itemType;
+                }
+            }
             return null;
         }
     }
