@@ -85,7 +85,7 @@ public class LobbyView implements Screen {
         for (int i = 0; i < players.size(); i++) {
             User p = players.get(i);
             if(p.getGameId() != 0){
-                controller.startGameByGameId(p.getGameId());
+//                controller.startGameByGameId(p.getGameId());
             }
 
             Label nameLabel = new Label(p.getUsername(), skin);

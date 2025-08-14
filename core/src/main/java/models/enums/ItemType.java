@@ -280,7 +280,7 @@ public enum ItemType {
     Glacierfish(1000, "Glacierfish", 0, false, "",""),
     Angler(900, "Angler", 0, false, "",""),
     Crimsonfish(1500, "Crimsonfish", 0, false, "",""),
-    FriedEgg(35, "fried egg", 50, true, "",""),
+    FriedEgg(35, "fried egg", 50, true, "Crops/Green_Bean.png",""),
     BackedFish(100, "backed fish", 75, true, "",""),
     Salad(110, "salad", 113, true, "",""),
     Omelet(125, "omelet", 100, false, "",""),

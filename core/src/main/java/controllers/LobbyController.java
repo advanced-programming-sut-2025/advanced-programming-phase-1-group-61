@@ -72,7 +72,7 @@ public class LobbyController {
         Game game = new Game(map, characterList);
         for (User user : lobby.getUsers()) {
             user.setGameId(game.getId());
-            Main.getClient().sendMessage(new GameStartRequest(user.getId(),game.getId(),lobby.getId()));
+            Main.getClient().sendMessage(user);
         }
         Main.getApp().addGame(game);
         Main.getApp().setCurrentGame(game);
