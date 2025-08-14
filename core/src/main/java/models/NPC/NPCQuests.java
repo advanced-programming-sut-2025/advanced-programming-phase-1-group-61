@@ -21,9 +21,9 @@ public class NPCQuests {
     }
     public boolean checkQuestAvailability(int questIndex) {
         if(questIndex>=0 && questIndex<requests.size()){
-            return requests.get(questIndex).getCount() != 0;
+            return requests.get(questIndex).isDone();
         }
-        return true;
+        return false;
     }
     public ArrayList<ItemWithCount> getRequests() {
         return requests;
