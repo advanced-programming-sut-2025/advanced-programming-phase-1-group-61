@@ -30,6 +30,12 @@ public class QuestsPageController {
                 Main.getMain().setScreen(new GameView(new GameMenuController(Main.getApp().getCurrentGame())));
             }
         });
+        view.getDoQuests().addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y) {
+                AssetManager.getUiClicks().play();
+                view.setUpDoQuestsPage();
+            }
+        });
         view.getTakeQuests().addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {
                 AssetManager.getUiClicks().play();
