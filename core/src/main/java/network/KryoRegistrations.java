@@ -182,5 +182,6 @@ public class KryoRegistrations {
         kryo.register(NPCFriendships.class);
         kryo.register(ItemWithCount.class);
         kryo.register(FriendshipLevel.class);
+        kryo.register(GameStartRequest.class);
     }
 }
