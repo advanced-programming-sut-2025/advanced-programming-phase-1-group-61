@@ -31,7 +31,7 @@ public class ServerMain {
 
 
     public static void main(String[] args) throws Exception {
-        server = new Server(1024*1024,1024*1024);
+        server = new Server(2048*1024,2048*1024);
         Network.register(server);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {

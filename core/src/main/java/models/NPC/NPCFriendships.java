@@ -10,6 +10,7 @@ public class NPCFriendships {
     private int friendshipLevel;
     private int friendshipPoints;
     private FriendshipLevel lvl;
+
     public NPCFriendships(int userId) {
         this.characterId = userId;
         friendshipPoints=0;

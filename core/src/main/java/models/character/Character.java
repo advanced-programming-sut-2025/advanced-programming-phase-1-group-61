@@ -16,6 +16,7 @@ import models.interactions.Iteractions;
 
 import models.map.Map;
 import models.resource.BuildingReference;
+import models.resource.ShippingBin;
 import models.tool.Tool;
 
 import java.util.*;
@@ -50,6 +51,7 @@ public class Character {
     private ItemType currentItem ;
     private int numOfQuest;
     private List<FriendShip> friendShipList;
+    private ShippingBin shippingBin;
 
     public List<FriendShip> getFriendShipList() {
         if(friendShipList == null){
@@ -91,6 +93,7 @@ public class Character {
         this.direction = Direction.RIGHT;
         this.currentItem = null;
         this.numOfQuest = 0;
+        this.shippingBin = new ShippingBin();
     }
 
     public Character() {
@@ -419,4 +422,7 @@ public class Character {
         return recipes.contains(recipe);
     }
 
+    public ShippingBin getShippingBin() {
+        return shippingBin;
+    }
 }

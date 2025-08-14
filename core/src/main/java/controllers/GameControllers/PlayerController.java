@@ -212,6 +212,13 @@ public class PlayerController {
             }
 
         }
+        if(Gdx.input.isKeyPressed(Input.Keys.O)){
+            if(player.getCurrentItem()!= null){
+                player.getShippingBin().addItemType(player.getCurrentItem());
+                player.getInventory().removeItem(player.getCurrentItem() , 1);
+            }
+
+        }
 
 
         boolean isActuallyMoving = dx != 0 || dy != 0;
