@@ -23,8 +23,8 @@ public class QuestsPageView implements Screen {
     private final NPC npc;
     private final Stage stage;
     private final TextButton backToGame;
-    private final Label info;
     private final TextButton takeQuests;
+    private final TextButton doQuests;
     private final TextField item;
     private final TextField count;
     private final TextButton submit;
@@ -35,8 +35,8 @@ public class QuestsPageView implements Screen {
         stage=new Stage(new FitViewport(1920, 1080));
         Gdx.input.setInputProcessor(stage);
         backToGame=new TextButton("BACK", AssetManager.getSkin());
-        info=new Label(npc.getQuests(Main.getApp().getCurrentGame().getCurrentCharacter()), AssetManager.getSkin());
         takeQuests =new TextButton("Take Quests", AssetManager.getSkin());
+        doQuests =new TextButton("Do Quests", AssetManager.getSkin());
         item=new TextField("", AssetManager.getSkin());
         item.setMessageText("enter the item for taking the quest");
         count=new TextField("", AssetManager.getSkin());
@@ -62,9 +62,9 @@ public class QuestsPageView implements Screen {
         Table table=new Table();
         table.setFillParent(true);
         table.center();
-        table.add(info).row();
         table.add(backToGame).width(300).height(60).row();
         table.add(takeQuests).width(300).height(60).row();
+        table.add(doQuests).width(300).height(60).row();
         stage.addActor(table);
     }
 
@@ -112,7 +112,6 @@ public class QuestsPageView implements Screen {
         Table table=new Table();
         table.setFillParent(true);
         table.center();
-        NPCQuests quests=npc.getNpcQuests();
         for (TextButton questButton : questButtons) {
             table.add(questButton).width(300).height(60).row();
         }
@@ -149,5 +148,8 @@ public class QuestsPageView implements Screen {
     }
     public Stage getStage(){
         return stage;
+    }
+    public TextButton getDoQuests() {
+        return doQuests;
     }
 }

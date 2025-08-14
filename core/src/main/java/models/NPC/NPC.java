@@ -146,38 +146,6 @@ public class NPC {
             }
         }
     }
-    public String getQuests(Character character) {
-        StringBuilder builder = new StringBuilder();
-            HashMap<ItemType,Integer> requests=this.info.getRequests();
-            for(NPCFriendships friendship : this.friendships) {
-                if(friendship.getCharacter().getUserId()==character.getUserId()) {
-                    builder.append(this.info.name()).append("'s active quests:\n");
-                    int index=0;
-                    for(ItemType item:requests.keySet()) {
-                        int count = requests.get(item);
-                        if(this.checkQuestAvailability(character,friendship,index)) {
-                            builder.append("delivering ")
-                                .append(count)
-                                .append(item.getDisPlayName())
-                                .append("\n");
-                        } else {
-                            builder.append("quest is done!").append("\n");
-                        }
-                        index++;
-                    }
-                    break;
-                }
-            }
-        return builder.toString();
-    }
-    public boolean checkQuestAvailability(Character character,NPCFriendships friendship,int questIndex) {
-        if(questIndex==0) return true;
-        if(questIndex==1)
-            if(friendship.getFriendshipLevel()>=1) return true;
-        if(questIndex==2)
-            return Main.getApp().getCurrentGame().getDate().hasASeasonPassed();
-        return false;
-    }
 
     public String checkCharacterEnoughItems(Character character,int questIndex,NPCFriendships friendship) {
         HashMap<ItemType,Integer> requests=this.info.getRequests();
