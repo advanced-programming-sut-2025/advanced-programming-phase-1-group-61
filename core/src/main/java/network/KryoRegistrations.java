@@ -4,8 +4,10 @@ import com.esotericsoftware.kryo.Kryo;
 import models.CollisionRect;
 import models.Game;
 import models.Item;
+import models.NPC.ItemWithCount;
 import models.NPC.NPC;
 import models.NPC.NPCFriendships;
+import models.NPC.NPCQuests;
 import models.User;
 import models.animal.Animal;
 import models.building.*;
@@ -176,5 +178,9 @@ public class KryoRegistrations {
         kryo.register(RecipeInfo.class);
         kryo.register(FriendShip.class);
         kryo.register(GiftSent.class);
+        kryo.register(NPCQuests.class);
+        kryo.register(NPCFriendships.class);
+        kryo.register(ItemWithCount.class);
+        kryo.register(FriendshipLevel.class);
     }
 }

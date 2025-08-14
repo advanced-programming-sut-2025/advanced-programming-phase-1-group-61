@@ -9,6 +9,10 @@ import java.util.HashMap;
 public class NPCQuests {
     private final ArrayList<ItemWithCount> requests=new ArrayList<>();
     private final ArrayList<ItemWithCount> rewards=new ArrayList<>();
+
+    public NPCQuests() {
+    }
+
     public NPCQuests(NpcInfo info) {
         HashMap<ItemType,Integer> q=info.getRequests();
         HashMap<ItemType,Integer> r=info.getRewards();

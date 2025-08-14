@@ -13,6 +13,10 @@ public class ItemWithCount {
         this.item = item;
         this.count = count;
     }
+
+    public ItemWithCount() {
+    }
+
     public ItemType getItem() {
         return item;
     }
