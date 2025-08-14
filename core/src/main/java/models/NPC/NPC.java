@@ -13,12 +13,10 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 public class NPC {
 
     private  NpcInfo info;
-    private final ArrayList<String> doneQuests = new ArrayList<>();
     private  NpcDialog dialogs;
     private final ArrayList<NPCFriendships> friendships = new ArrayList<>();
     private boolean firstGiftOfDay=true;
@@ -28,6 +26,7 @@ public class NPC {
     private final int chatIconHeight=32;
     private transient Sprite sprite;
     private transient Sprite dialogueSprite;
+    private NPCQuests quests;
 
 
     public NPC(NpcInfo info, NpcDialog dialogs, List<Character> characters, int x, int y) {
@@ -44,6 +43,7 @@ public class NPC {
         this.dialogueSprite = new Sprite(new Texture(Gdx.files.internal("images/Sprite/chatIcon.png")));
         this.dialogueSprite.setSize(chatIconWidth,chatIconHeight);
         this.dialogueSprite.setPosition(x*AssetManager.getTileSize()+ (float) (64 - chatIconWidth) /2,y*AssetManager.getTileSize()+ 110);
+        quests = new NPCQuests(info);
     }
 
     public NPC() {
@@ -161,7 +161,7 @@ public class NPC {
                                 .append(item.getDisPlayName())
                                 .append("\n");
                         } else {
-                            builder.append("quest is done!");
+                            builder.append("quest is done!").append("\n");
                         }
                         index++;
                     }
@@ -209,5 +209,8 @@ public class NPC {
             y*AssetManager.getTileSize()+ 110,
             chatIconWidth,
             chatIconHeight);
+    }
+    public NPCQuests getNpcQuests() {
+        return quests;
     }
 }
