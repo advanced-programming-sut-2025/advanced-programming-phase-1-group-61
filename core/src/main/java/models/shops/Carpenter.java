@@ -35,38 +35,14 @@ public class Carpenter extends Shop {
             barnMap.put(ItemType.Stone, 150);
             this.farmBuildings.add(new ShopCages(CageType.Barn, 1, 6000, barnMap));
 
-            HashMap<ItemType, Integer> bigBarnMap = new HashMap<>();
-            bigBarnMap.put(ItemType.Wood, 450);
-            bigBarnMap.put(ItemType.Stone, 200);
-            this.farmBuildings.add(new ShopCages(CageType.BigBarn, 1, 12000, bigBarnMap));
 
-            HashMap<ItemType, Integer> deluxeBarnMap = new HashMap<>();
-            deluxeBarnMap.put(ItemType.Wood, 550);
-            deluxeBarnMap.put(ItemType.Stone, 300);
-            this.farmBuildings.add(new ShopCages(CageType.DeluxeBarn, 1, 25000, deluxeBarnMap));
 
             HashMap<ItemType, Integer> coopMap = new HashMap<>();
             coopMap.put(ItemType.Wood, 300);
             coopMap.put(ItemType.Stone, 100);
             this.farmBuildings.add(new ShopCages(CageType.Coop, 1, 4000, coopMap));
 
-            HashMap<ItemType, Integer> bigCoopMap = new HashMap<>();
-            bigCoopMap.put(ItemType.Wood, 4000);
-            bigCoopMap.put(ItemType.Stone, 150);
-            this.farmBuildings.add(new ShopCages(CageType.BigCoop, 1, 10000, bigCoopMap));
 
-            HashMap<ItemType, Integer> deluxeCoopMap = new HashMap<>();
-            deluxeCoopMap.put(ItemType.Wood, 500);
-            deluxeCoopMap.put(ItemType.Stone, 200);
-            this.farmBuildings.add(new ShopCages(CageType.DeluxCoop, 1, 20000, deluxeCoopMap));
-
-            HashMap<ItemType, Integer> wellMap = new HashMap<>();
-            wellMap.put(ItemType.Stone, 75);
-            this.farmBuildings.add(new ShopCages(CageType.Well, 1, 1000, wellMap));
-
-            HashMap<ItemType, Integer> shippingBinMap = new HashMap<>();
-            shippingBinMap.put(ItemType.Wood, 150);
-            this.farmBuildings.add(new ShopCages(CageType.ShippingBin, 1, 250, shippingBinMap));
         }
 
     }

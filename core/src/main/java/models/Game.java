@@ -3,6 +3,7 @@ package models;
 import io.github.camera.Main;
 import models.NPC.NPC;
 import models.animal.Animal;
+import models.building.Building;
 import models.building.Shop;
 import models.character.Character;
 import models.date.Date;
@@ -90,6 +91,10 @@ public class Game {
                    count++;
                } else if (resource instanceof Tree tree) {
                    tree.dayCycleForTrees();
+               } else if (resource instanceof Building b) {
+                   for (Animal animal : b.getAnimalList()) {
+                       animal.changeDayActivity();
+                   }
                }
             }
         }
@@ -103,9 +108,6 @@ public class Game {
         for (Character character : allCharacters) {
             character.setFainted(false);
             character.setEnergy(150);
-            for (Animal animal : character.getAnimals().values()) {
-                animal.dayEND();
-            }
         }
         if(count >= 16){
             map.getWeather().crowAttack(RandomNumber.getRandomNumberWithBoundaries(0,70 ),

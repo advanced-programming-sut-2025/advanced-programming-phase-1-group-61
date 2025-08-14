@@ -1,48 +1,37 @@
 package models.building;
 
+import models.animal.Animal;
+import models.enums.CageType;
 import models.resource.Resource;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Building extends Resource{
-    protected int X;
-    protected int Y;
-    protected int space= 0;
-
-
-    protected int size;
-    protected String name;
-    protected String baseType;
-    public Building( String name , int X, int Y) {
-        this.name = name;
-        this.X = X;
-        this.Y = Y;
+    private CageType type;
+    private List<Animal>  animalList ;
+    public Building( ) {
     }
 
-    public Building() {
+    public Building(CageType type) {
+        this.type = type;
+        this.animalList = new ArrayList<>();
     }
 
-    public int getSize(){
-        return size;
+    public List<Animal> getAnimalList() {
+        return animalList;
     }
-    public String getBaseType(){
-        return baseType;
+    public void addAnimal(Animal animal){
+        if(type.getSize() >= animalList.size()){
+            animalList.add(animal);
+        }
     }
-    public String getName(){
-        return name;
+
+    public CageType getType() {
+        return type;
     }
-    public int getSpace(){
-        return space;
-    }
-    public boolean addInput(Object input){
-        return false;
-    }
-    public void removeInput(Object input){
-    }
-    public int getX(){
-        return X;
-    }
-    public int getY(){
-        return Y;
-    }
-    public void draw(){
+
+    public void setAnimalList(List<Animal> animalList) {
+        this.animalList = animalList;
     }
 }

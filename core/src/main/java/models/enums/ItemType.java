@@ -321,7 +321,9 @@ public enum ItemType {
     PreservesJar(0, "preserves jar", 0, false, "",""),
     Dehydrator(0, "dehydrator", 0, false, "",""),
     GrassStarter(0, "grass starter", 0, false, "",""),
-    FishSmoker(0, "fish smoker", 0, false, "","");
+    FishSmoker(0, "fish smoker", 0, false, "",""),
+    Coop(0 , "Coop" , 0 , false , "Items/Cages.png",""),
+    Barn(0 , "Barn" , 0 , false , "Items/Cages.png" , "");
 
     private final int price;
     private final String disPlayName;

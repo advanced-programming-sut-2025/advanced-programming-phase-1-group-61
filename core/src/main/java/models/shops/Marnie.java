@@ -29,13 +29,7 @@ public class Marnie extends Shop {
         ));
         permanentAnimals = new ArrayList<>(List.of(
                 new ShopAnimals(AnimalType.HEN, CageType.Coop,2,800,"Well cared-for chickens lay eggs every day. Lives in the coop."),
-                new ShopAnimals(AnimalType.COW, CageType.Barn,2,1500,"Can be milked daily. A milk pail is required to harvest the milk. Lives in the barn."),
-                new ShopAnimals(AnimalType.GOAT, CageType.BigBarn,2,1400,"Happy provide goat milk every other day. A milk pail is required to harvest the milk. Lives in the barn."),
-                new ShopAnimals(AnimalType.DUCK, CageType.BigCoop,2,1200,"Happy lay duck eggs every other day. Lives in the coop."),
-                new ShopAnimals(AnimalType.SHEEP, CageType.DeluxeBarn,2,8000,"Can be shorn for wool. A pair of shears is required to harvest the wool. Lives in the barn."),
-                new ShopAnimals(AnimalType.RABBIT, CageType.DeluxCoop,2,8000,"These are wooly rabbits! They shed precious wool every few days. Lives in the coop."),
-                new ShopAnimals(AnimalType.DINOSAUR, CageType.BigCoop,2,14000,"The Dinosaur is a farm animal that lives in a Big Coop"),
-                new ShopAnimals(AnimalType.PIG, CageType.DeluxeBarn,2,16000,"These pigs are trained to find truffles! Lives in the barn.")
+                new ShopAnimals(AnimalType.COW, CageType.Barn,2,1500,"Can be milked daily. A milk pail is required to harvest the milk. Lives in the barn.")
         ));
     }
 
@@ -138,11 +132,9 @@ public class Marnie extends Shop {
             if(animal.getAnimal().getDisplayName().equals(product)){
                 if(count> animal.getStock()) return "not enough stock!";
                 AnimalType type=animal.getAnimal();
-                String house=Animal.getHouse(type);
                 String animalName="bought animal";
-                if(house==null) return "no empty house for this animal";
                 if(character.getMoney()<animal.getPrice()) return "not enough money!";
-                if(Animal.buy(type,house,animalName)) {
+                if(Animal.buy(type,animalName)) {
                     animal.setStock(animal.getStock() - count);
                     return "Successfully purchased!";
                 }

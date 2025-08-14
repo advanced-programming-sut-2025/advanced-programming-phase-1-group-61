@@ -49,9 +49,7 @@ public class KryoRegistrations {
         kryo.register(BackpackType.class);
         kryo.register(Integer.class);
         kryo.register(Animal.class);
-        kryo.register(Barn.class);
         kryo.register(Building.class);
-        kryo.register(Coop.class);
         kryo.register(Greenhouse.class);
         kryo.register(Shop.class);
         kryo.register(Buff.class);

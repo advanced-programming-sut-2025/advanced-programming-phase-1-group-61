@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import io.github.camera.Main;
 import models.AssetManager;
+import models.building.Building;
 import models.building.Shop;
 import models.character.Character;
 import models.enums.TileType;
@@ -97,6 +98,15 @@ public class WorldController {
                             y * TILE_SIZE + TILE_SIZE / 4,
                             TILE_SIZE / 2,
                             TILE_SIZE / 2
+                        );
+                    } else if (tile.getResource() instanceof Building b) {
+                        int TILE_SIZE = AssetManager.getTileSize();
+                        Main.getBatch().draw(
+                            b.getType().getTexture(),
+                            x * TILE_SIZE ,
+                            y * TILE_SIZE ,
+                            TILE_SIZE  ,
+                            TILE_SIZE
                         );
                     }
                 }if(tile != null && tile.getItem() != null){
