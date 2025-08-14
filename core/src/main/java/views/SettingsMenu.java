@@ -37,6 +37,7 @@ public class SettingsMenu implements Screen {
         controller.setupListeners();
         controller.handleSelectBox();
         back=new TextButton("BACK", AssetManager.getSkin());
+        stage.addActor(back);
     }
 
     @Override
